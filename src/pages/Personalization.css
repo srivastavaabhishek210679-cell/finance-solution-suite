@@ -1,0 +1,493 @@
+.personalization-page {
+  min-height: 100vh;
+  background: #0f172a;
+  padding: 2rem;
+}
+
+.personalization-header {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  color: #10b981;
+}
+
+.title-section h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+.title-section p {
+  color: #94a3b8;
+  margin: 0.25rem 0 0 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Success Message */
+.success-message {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tabs */
+.personalization-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: #1e293b;
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  overflow-x: auto;
+}
+
+.personalization-tabs button {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.personalization-tabs button:hover {
+  background: #0f172a;
+  color: #f3f4f6;
+}
+
+.personalization-tabs button.active {
+  background: #3b82f6;
+  color: white;
+}
+
+/* Content */
+.personalization-content {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.settings-section h2 {
+  color: #f3f4f6;
+  font-size: 1.25rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.section-description {
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+}
+
+.setting-item {
+  margin-bottom: 1.5rem;
+}
+
+.setting-item label {
+  display: block;
+  color: #cbd5e1;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.setting-item select,
+.setting-item input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #f3f4f6;
+  font-size: 0.9375rem;
+}
+
+.setting-item select:focus,
+.setting-item input[type="text"]:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.checkbox-item label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.checkbox-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Widgets Grid */
+.widgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.widget-card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.widget-card input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+.available-widgets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.add-widget-btn {
+  padding: 0.5rem 1rem;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #3b82f6;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-widget-btn:hover {
+  background: #334155;
+}
+
+/* Favorites List */
+.favorites-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.favorite-item {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.favorite-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pin-icon {
+  font-size: 1.25rem;
+  opacity: 0.5;
+}
+
+.pin-icon.pinned {
+  opacity: 1;
+}
+
+.favorite-info strong {
+  color: #f3f4f6;
+  margin-right: 0.5rem;
+}
+
+.domain-badge {
+  background: #334155;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.favorite-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.favorite-actions button {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.favorite-actions button:hover {
+  background: #334155;
+}
+
+/* Notifications */
+.notification-group {
+  display: grid;
+  gap: 1rem;
+}
+
+.notification-item {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.notification-item input[type="checkbox"] {
+  margin-top: 4px;
+  width: 20px;
+  height: 20px;
+}
+
+.notification-item strong {
+  color: #f3f4f6;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.notification-item p {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Theme Options */
+.theme-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.theme-option {
+  cursor: pointer;
+}
+
+.theme-option input {
+  display: none;
+}
+
+.theme-preview {
+  padding: 3rem 1rem;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.dark-theme {
+  background: #0f172a;
+  color: #f3f4f6;
+}
+
+.light-theme {
+  background: #f3f4f6;
+  color: #0f172a;
+}
+
+.theme-option input:checked + .theme-preview {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Color Options */
+.color-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.color-option {
+  cursor: pointer;
+}
+
+.color-option input {
+  display: none;
+}
+
+.color-preview {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.color-option input:checked + .color-preview {
+  border-color: #f3f4f6;
+  box-shadow: 0 0 0 3px rgba(243, 244, 246, 0.2);
+}
+
+/* Font Size Options */
+.font-size-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.size-option {
+  cursor: pointer;
+}
+
+.size-option input {
+  display: none;
+}
+
+.size-option span {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  background: #0f172a;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  color: #cbd5e1;
+  transition: all 0.2s;
+}
+
+.size-option input:checked + span {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  color: white;
+}
+
+/* Chart Style Options */
+.chart-style-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.chart-option {
+  cursor: pointer;
+}
+
+.chart-option input {
+  display: none;
+}
+
+.chart-option span {
+  display: block;
+  padding: 0.75rem 1rem;
+  background: #0f172a;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  color: #cbd5e1;
+  transition: all 0.2s;
+}
+
+.chart-option input:checked + span {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+/* Buttons */
+.btn-primary {
+  padding: 0.625rem 1.25rem;
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-secondary {
+  padding: 0.625rem 1.25rem;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #f3f4f6;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background: #334155;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .personalization-page {
+    padding: 1rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
