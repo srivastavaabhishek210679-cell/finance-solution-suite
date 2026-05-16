@@ -570,16 +570,16 @@
 
 /* Mobile Responsive Sidebar */
 @media (max-width: 768px) {
-  .sidebar-container {
+  .sidebar {
     position: fixed;
-    left: -280px; /* Hide sidebar off-screen */
+    left: -320px; /* Hide sidebar off-screen */
     top: 0;
     bottom: 0;
     z-index: 1000;
     transition: left 0.3s ease;
   }
 
-  .sidebar-container.mobile-open {
+  .sidebar.mobile-open {
     left: 0; /* Show when menu is open */
   }
 
@@ -601,8 +601,8 @@
 }
 
 @media (max-width: 480px) {
-  .sidebar-container {
-    width: 240px;
-    left: -240px;
+  .sidebar {
+    width: 280px;
+    left: -280px;
   }
 }
