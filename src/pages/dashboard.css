@@ -1,4 +1,8 @@
-/* Professional Enterprise Dashboard Styles */
+/* ========================================
+   PROFESSIONAL ENTERPRISE DASHBOARD STYLES
+   ======================================== */
+
+/* Main Content Area */
 .dashboard-main-content {
   flex: 1;
   overflow-y: auto;
@@ -29,7 +33,9 @@
   color: #64748b;
 }
 
-/* Stats Overview Cards */
+/* ========================================
+   STATS OVERVIEW CARDS
+   ======================================== */
 .stats-overview-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -135,7 +141,9 @@
   color: #64748b;
 }
 
-/* Category Filter Pills */
+/* ========================================
+   CATEGORY FILTER PILLS
+   ======================================== */
 .category-filters {
   display: flex;
   gap: 0.75rem;
@@ -166,7 +174,9 @@
   color: #0a1628;
 }
 
-/* Domain Cards Grid */
+/* ========================================
+   DOMAIN CARDS GRID
+   ======================================== */
 .domain-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -253,7 +263,9 @@
   color: #ef4444;
 }
 
-/* 🆕 NEW: Report List Styles - FIXED VERSION */
+/* ========================================
+   REPORT LIST STYLES
+   ======================================== */
 .domain-reports-section {
   margin-top: 1rem;
   padding-top: 1rem;
@@ -328,7 +340,9 @@
   border-color: #14B8A6;
 }
 
-/* Charts Section */
+/* ========================================
+   CHARTS SECTION
+   ======================================== */
 .charts-section {
   margin-top: 2rem;
 }
@@ -372,7 +386,9 @@
   margin-bottom: 1.25rem;
 }
 
-/* Access Matrix Table */
+/* ========================================
+   ACCESS MATRIX TABLE
+   ======================================== */
 .access-matrix-section {
   margin-top: 2rem;
   background: #1e293b;
@@ -430,28 +446,286 @@
   color: #475569;
 }
 
-/* Responsive */
+/* ========================================
+   MOBILE RESPONSIVE STYLES
+   ======================================== */
+
+/* Tablets and smaller laptops (1200px and below) */
 @media (max-width: 1200px) {
   .charts-grid {
     grid-template-columns: 1fr;
   }
+  
+  .domain-cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
 }
 
+/* Tablets Portrait (992px and below) */
+@media (max-width: 992px) {
+  .dashboard-main-content {
+    padding: 1.5rem;
+  }
+  
+  .stats-overview-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .domain-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Landscape and Tablets Portrait (768px and below) */
 @media (max-width: 768px) {
   .dashboard-main-content {
     padding: 1rem;
   }
-
+  
+  /* Header */
+  .dashboard-page-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  /* Stats Grid - Stack vertically on mobile */
   .stats-overview-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
-
-  .domain-cards-grid {
-    grid-template-columns: 1fr;
+  
+  .stat-overview-card {
+    padding: 1.25rem;
   }
-
+  
+  .stat-card-value {
+    font-size: 2rem;
+  }
+  
+  /* Category Filters - Horizontal Scroll */
   .category-filters {
     overflow-x: auto;
     flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .category-filters::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .category-pill {
+    flex-shrink: 0;
+    padding: 0.5rem 1rem;
+    font-size: 0.813rem;
+  }
+  
+  /* Domain Cards */
+  .domain-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .domain-card {
+    padding: 1.25rem;
+  }
+  
+  .domain-card-title {
+    font-size: 1rem;
+  }
+  
+  .domain-metrics {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  
+  .metric-value {
+    font-size: 1.25rem;
+  }
+  
+  .metric-label {
+    font-size: 0.65rem;
+  }
+  
+  /* Report List Items - Better touch targets */
+  .report-list-item {
+    padding: 1rem;
+    font-size: 0.875rem;
+    min-height: 48px; /* Touch-friendly minimum */
+  }
+  
+  /* Charts */
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-card {
+    padding: 1rem;
+  }
+  
+  /* Access Matrix - Horizontal Scroll */
+  .access-matrix-section {
+    padding: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .matrix-table {
+    min-width: 600px;
+  }
+  
+  .matrix-table thead th,
+  .matrix-table tbody td {
+    padding: 0.75rem;
+    font-size: 0.813rem;
+  }
+  
+  /* Section Headers */
+  .section-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Mobile Portrait (480px and below) */
+@media (max-width: 480px) {
+  .dashboard-main-content {
+    padding: 0.75rem;
+  }
+  
+  .dashboard-page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .dashboard-page-header p {
+    font-size: 0.875rem;
+  }
+  
+  .stat-card-value {
+    font-size: 1.75rem;
+  }
+  
+  .stat-card-subtitle {
+    font-size: 0.813rem;
+  }
+  
+  .category-pill {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.75rem;
+  }
+  
+  .domain-card {
+    padding: 1rem;
+  }
+  
+  .domain-card-title {
+    font-size: 0.938rem;
+  }
+  
+  .domain-metrics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 1.125rem;
+  }
+  
+  .metric-label {
+    font-size: 0.625rem;
+  }
+  
+  .report-list-item {
+    padding: 0.875rem;
+    font-size: 0.813rem;
+  }
+  
+  .view-all-reports-btn {
+    padding: 0.625rem;
+    font-size: 0.75rem;
+  }
+  
+  .section-title {
+    font-size: 1.125rem;
+  }
+  
+  .chart-card-title {
+    font-size: 1rem;
+  }
+}
+
+/* Touch-friendly interactions for mobile devices */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch targets for better accessibility */
+  .category-pill,
+  .report-list-item,
+  .view-all-reports-btn {
+    min-height: 44px; /* Apple's recommended minimum touch target */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .stat-overview-card:hover,
+  .domain-card:hover,
+  .chart-card:hover {
+    transform: none;
+  }
+  
+  /* Better tap feedback with active states */
+  .category-pill:active,
+  .report-list-item:active,
+  .view-all-reports-btn:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+    transition: all 0.1s ease;
+  }
+  
+  .domain-card:active {
+    transform: scale(0.99);
+  }
+}
+
+/* Landscape orientation specific fixes */
+@media (max-height: 500px) and (orientation: landscape) {
+  .dashboard-main-content {
+    padding: 0.5rem;
+  }
+  
+  .dashboard-page-header {
+    margin-bottom: 1rem;
+  }
+  
+  .stats-overview-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .stat-overview-card {
+    padding: 1rem;
+  }
+  
+  .stat-card-value {
+    font-size: 1.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .dashboard-main-content {
+    background: white;
+    padding: 1rem;
+  }
+  
+  .stat-overview-card,
+  .domain-card,
+  .chart-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  .category-filters {
+    display: none;
   }
 }
