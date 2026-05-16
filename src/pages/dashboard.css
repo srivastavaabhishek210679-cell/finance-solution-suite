@@ -1,4 +1,5 @@
 /* ========================================
+/* ========================================
    CRITICAL MOBILE LAYOUT FIX
    ======================================== */
 * {
@@ -9,19 +10,48 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
-.app-container {
-  display: flex;
-  width: 100%;
-  overflow-x: hidden;
+/* Override Tailwind classes on mobile */
+@media (max-width: 768px) {
+  /* Force flex-col on outer container */
+  .h-screen.flex.flex-col {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Force flex-col on sidebar/main wrapper */
+  .flex.flex-1.overflow-hidden {
+    flex-direction: column !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Hide sidebar completely */
+  aside,
+  .sidebar {
+    display: none !important;
+  }
+
+  /* Main content full width */
+  main.flex-1,
+  .flex-1.overflow-auto {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .dashboard-main-content {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+  }
 }
 
 /* MOBILE LAYOUT - Force show navigation, hide sidebar */
