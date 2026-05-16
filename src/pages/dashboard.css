@@ -1,6 +1,43 @@
 /* ========================================
    PROFESSIONAL ENTERPRISE DASHBOARD STYLES
    ======================================== */
+   /* Mobile Layout Fix - CRITICAL */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Container Wrapper */
+.app-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Make main content area full width on mobile */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .dashboard-main-content {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}
 
 /* Main Content Area */
 .dashboard-main-content {
