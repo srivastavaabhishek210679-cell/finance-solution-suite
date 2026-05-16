@@ -1,6 +1,56 @@
 /* ========================================
    PROFESSIONAL ENTERPRISE DASHBOARD STYLES
    ======================================== */
+   /* ========================================
+   CRITICAL MOBILE LAYOUT FIX
+   ======================================== */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.app-container {
+  display: flex;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* FORCE HIDE SIDEBAR ON MOBILE */
+@media (max-width: 768px) {
+  .sidebar-container,
+  .sidebar,
+  aside {
+    display: none !important; /* Force hide on mobile */
+  }
+
+  .app-container {
+    flex-direction: column;
+  }
+
+  .dashboard-main-content,
+  .main-content,
+  main {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+}
+   
+   
+   
+   
    /* Mobile Layout Fix - CRITICAL */
 * {
   box-sizing: border-box;
