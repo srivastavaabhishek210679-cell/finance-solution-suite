@@ -453,7 +453,7 @@ Compliance: ${report.complianceStatus}
             </svg>
             <div className="text-sm text-yellow-200">
               <strong>Note:</strong> This is demo data. Connect to backend API at{' '}
-              <code className="bg-yellow-900/30 px-1 py-0.5 rounded">http://localhost:3000/api/v1</code>
+              <code className="bg-yellow-900/30 px-1 py-0.5 rounded">/*http://localhost:3000/api/v1</code>*/{import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'}
               {' '}to fetch real-time report data and enable full functionality.
             </div>
           </div>

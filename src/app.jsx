@@ -16,6 +16,7 @@ import Accessibility from './pages/Accessibility'
 import ProtectedRoute from './components/ProtectedRoute'
 import DataUpload from './pages/DataUpload';
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard';
+import PredictiveAnalytics from './pages/PredictiveAnalytics'
 
 function App() {
   const { user } = useAuth()
@@ -140,6 +141,7 @@ function App() {
 	  <Route path="/upload-data" element={<DataUpload />} />
 	  <Route path="/kpi-dashboard" element={<AdvancedKPIDashboard />} />
 	  <Route path="/analytics" element={<Analytics />} />
+	  <Route path="/predictive-analytics" element={<ProtectedRoute><PredictiveAnalytics /></ProtectedRoute>} />
     </Routes>
   )
 }

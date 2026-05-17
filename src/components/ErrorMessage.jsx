@@ -37,7 +37,8 @@ function ErrorMessage({ error, onRetry }) {
           <div className="mt-4 text-sm text-red-300">
             <p>Make sure your backend is running at:</p>
             <code className="bg-red-900/30 px-2 py-1 rounded mt-1 inline-block">
-              http://localhost:3000/api/v1
+              /*http://localhost:3000/api/v1*/
+			  {import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'}
             </code>
           </div>
         </div>

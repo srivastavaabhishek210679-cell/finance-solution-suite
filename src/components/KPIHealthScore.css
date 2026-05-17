@@ -1,0 +1,148 @@
+/* ─────────────────────────────────────────────────────────────
+   KPIHealthScore.css
+───────────────────────────────────────────────────────────── */
+
+.khs-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.khs-card:hover { border-color: #475569; }
+
+.khs-clickable {
+  cursor: pointer;
+}
+.khs-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.khs-clickable:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* ── TOP ROW ─────────────────────────────────────────────── */
+.khs-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.khs-icon {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.khs-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.khs-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.khs-domain {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.khs-status {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── MIDDLE ROW ──────────────────────────────────────────── */
+.khs-middle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.khs-value-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.khs-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #f1f5f9;
+  line-height: 1;
+}
+
+.khs-change {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ── GAUGE ───────────────────────────────────────────────── */
+.khs-gauge-wrap {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.khs-gauge-wrap svg { display: block; }
+
+.khs-gauge-label {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ── BAR ROW ─────────────────────────────────────────────── */
+.khs-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.khs-bar {
+  flex: 1;
+  height: 5px;
+  background: #334155;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.khs-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.khs-bar-label {
+  font-size: 10px;
+  color: #64748b;
+  white-space: nowrap;
+}
