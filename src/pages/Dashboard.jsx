@@ -417,8 +417,7 @@ function Dashboard() {
                   showDetails={true}
                   compact={false}
                 />
-				// Add button next to your other feature buttons:
-                  <button className="feature-btn" onClick={() => navigate('/predictive-analytics')}>
+				  <button className="feature-btn" onClick={() => navigate('/predictive-analytics')}>
                   <Brain size={16} /> Predictive AI
                  </button>
 
