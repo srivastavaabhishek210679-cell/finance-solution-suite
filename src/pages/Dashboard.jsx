@@ -400,12 +400,7 @@ function Dashboard() {
                 )}
               </div>
 
-              <div className="flex items-center gap-2.5">
-                {/* Digital Clock */}
-                <div className="flex items-center gap-1.5 bg-gray-700 px-2.5 py-1.5 rounded border border-gray-600">
-                  <Clock size={13} className="text-teal-400" />
-                  <span className="text-xs font-mono font-semibold text-teal-400">{formatTime(currentTime)}</span>
-                </div>
+              <div className="flex items-center gap-2">
 
                 {/* Real-Time Indicator */}
                 <RealTimeIndicator
@@ -417,13 +412,20 @@ function Dashboard() {
                   showDetails={true}
                   compact={false}
                 />
-				  <button className="feature-btn" onClick={() => navigate('/predictive-analytics')}>
-                  <Brain size={16} /> Predictive AI
-                 </button>
 
+                {/* Predictive AI Button */}
+                <button
+                  onClick={() => navigate('/predictive-analytics')}
+                  className="bg-violet-600 hover:bg-violet-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+                >
+                  <Brain size={14} />
+                  <span>Predictive AI</span>
+                </button>
+
+                {/* Backend Toggle */}
                 <button
                   onClick={toggleBackend}
-                  className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                  className={`px-4 py-1.5 rounded text-xs font-medium transition-colors ${
                     useBackend ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-700 hover:bg-gray-600'
                   }`}
                 >
@@ -437,40 +439,53 @@ function Dashboard() {
 
                 {useBackend && (
                   <>
-                    <button onClick={refresh} disabled={loading} className="bg-gray-700 hover:bg-gray-600 px-2.5 py-1.5 rounded">
+                    {/* Refresh */}
+                    <button onClick={refresh} disabled={loading} className="bg-gray-700 hover:bg-gray-600 px-2.5 py-1.5 rounded transition-colors">
                       <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                       </svg>
                     </button>
 
-                    <button onClick={openCreateModal} className="bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5">
+                    {/* New Report */}
+                    <button onClick={openCreateModal} className="bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors">
                       <span className="text-sm">+</span>
                       <span>New Report</span>
                     </button>
                   </>
                 )}
 
-                <button onClick={showDashboard} className={`px-4 py-1.5 rounded text-xs font-medium ${
+                {/* Dashboard */}
+                <button onClick={showDashboard} className={`px-4 py-1.5 rounded text-xs font-medium transition-colors ${
                   currentView === 'dashboard' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
                 }`}>
                   Dashboard
                 </button>
-                <button 
-                  onClick={() => navigate('/upload-data')} 
-                  className="bg-teal-600 hover:bg-teal-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5"
-                >
-                 <Upload size={14} />
-                 <span>Upload Data</span>
-                 </button>
-                
-                <button 
-                  onClick={() => navigate('/kpi-dashboard')} 
-                  className="bg-cyan-600 hover:bg-cyan-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5"
-                >
-                 <BarChart3 size={14} />
-                 <span>KPI Dashboard</span>
-                 </button>
 
+                {/* Upload Data */}
+                <button
+                  onClick={() => navigate('/upload-data')}
+                  className="bg-teal-600 hover:bg-teal-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+                >
+                  <Upload size={14} />
+                  <span>Upload Data</span>
+                </button>
+
+                {/* KPI Dashboard */}
+                <button
+                  onClick={() => navigate('/kpi-dashboard')}
+                  className="bg-cyan-600 hover:bg-cyan-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+                >
+                  <BarChart3 size={14} />
+                  <span>KPI Dashboard</span>
+                </button>
+
+                {/* Digital Clock — far right before avatar */}
+                <div className="flex items-center gap-1.5 bg-gray-700 px-2.5 py-1.5 rounded border border-gray-600">
+                  <Clock size={13} className="text-teal-400" />
+                  <span className="text-xs font-mono font-semibold text-teal-400">{formatTime(currentTime)}</span>
+                </div>
+
+                {/* User Avatar */}
                 <div className="relative">
                   <button onClick={() => setShowUserMenu(!showUserMenu)} className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded">
                     <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-xs">
