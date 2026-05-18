@@ -21,7 +21,7 @@ import { useSimulatedRealTime } from '../hooks/useRealTime'
 import RealTimeIndicator from '../components/RealTimeIndicator'
 import RealTimeAlerts, { RealTimeAlertTypes, showRealTimeAlert } from '../components/RealTimeAlerts'
 import { REPORTS_DATA, DOMAINS } from '../data/reportsData'
-import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload,Brain } from 'lucide-react'
+import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload, Brain, GitBranch } from 'lucide-react'
 import './dashboard.css'
 
 
