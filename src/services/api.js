@@ -288,4 +288,29 @@ export const analyticsAPI = {
     api.get('/analytics/compliance-status'),
 };
 
+
+// KPI Scorecards API
+export const kpiAPI = {
+  getAll: (params) =>
+    api.get('/kpi-scorecards', { params }),
+
+  getById: (id) =>
+    api.get(`/kpi-scorecards/${id}`),
+};
+
+// Report Run History API
+export const reportRunAPI = {
+  getAll: (params) =>
+    api.get('/report-run-history', { params }),
+
+  getByReportId: (reportId) =>
+    api.get(`/report-run-history/${reportId}`),
+};
+
+// Audit Logs API
+export const auditLogsAPI = {
+  getAll: (params) =>
+    api.get('/audit-logs', { params }),
+};
+
 export default api;
