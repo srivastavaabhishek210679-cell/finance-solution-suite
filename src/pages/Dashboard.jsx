@@ -21,7 +21,7 @@ import { useSimulatedRealTime } from '../hooks/useRealTime'
 import RealTimeIndicator from '../components/RealTimeIndicator'
 import RealTimeAlerts, { RealTimeAlertTypes, showRealTimeAlert } from '../components/RealTimeAlerts'
 import { REPORTS_DATA, DOMAINS } from '../data/reportsData'
-import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload, Brain, GitBranch } from 'lucide-react'
+import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload,Brain } from 'lucide-react'
 import './dashboard.css'
 
 
@@ -288,7 +288,7 @@ function Dashboard() {
     <>
       <Navigation />
       <RealTimeAlerts position="top-right" maxAlerts={5} />
-      <div className="h-screen flex flex-col bg-gray-900 text-white">
+      <div className="h-screen flex flex-col bg-gray-900 text-white" style={{overflowX:'hidden',width:'100%'}}>
 
         {/* Toast */}
         {toast && (
@@ -308,7 +308,7 @@ function Dashboard() {
 
         {/* ── HEADER ─────────────────────────────────────────────── */}
         <header style={{background:'#1e293b',borderBottom:'1px solid #334155',flexShrink:0}}>
-          <div style={{padding:'0 16px',height:52,display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
+          <div style={{padding:'0 16px',height:52,display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,overflow:'hidden'}}>
 
             {/* LEFT */}
             <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
@@ -320,17 +320,11 @@ function Dashboard() {
             </div>
 
             {/* RIGHT */}
-            <div style={{display:'flex',alignItems:'center',gap:4}}>
+            <div style={{display:'flex',alignItems:'center',gap:4,overflowX:'auto',flexShrink:1,scrollbarWidth:'none',msOverflowStyle:'none'}}>
               <RealTimeIndicator isConnected={realtime.isActive} connectionType="polling" lastUpdate={realtime.lastUpdate} updateCount={realtime.updateCount} onRefresh={realtime.refresh} showDetails={false} compact={true}/>
               <div style={{width:1,height:20,background:'#334155',margin:'0 4px'}}/>
               <button onClick={()=>navigate('/predictive-analytics')} style={btnStyle('#7c3aed')}>
                 <Brain size={13}/><span>Predictive AI</span>
-              </button>
-              <button onClick={()=>navigate('/ai-copilot')} style={btnStyle('#8b5cf6')}>
-                <Brain size={13}/><span>AI Copilot</span>
-              </button>
-              <button onClick={()=>navigate('/workflow-automation')} style={btnStyle('#059669')}>
-                <GitBranch size={13}/><span>Workflows</span>
               </button>
               <button onClick={toggleBackend} style={btnStyle(useBackend?'#15803d':'#374151')}>
                 <div style={{width:6,height:6,borderRadius:'50%',background:isUsingBackend?'#86efac':'#6b7280',boxShadow:isUsingBackend?'0 0 4px #86efac':'none'}}/>
