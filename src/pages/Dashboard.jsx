@@ -21,7 +21,7 @@ import { useSimulatedRealTime } from '../hooks/useRealTime'
 import RealTimeIndicator from '../components/RealTimeIndicator'
 import RealTimeAlerts, { RealTimeAlertTypes, showRealTimeAlert } from '../components/RealTimeAlerts'
 import { REPORTS_DATA, DOMAINS } from '../data/reportsData'
-import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload,Brain } from 'lucide-react'
+import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload, Brain, GitBranch } from 'lucide-react'
 import './dashboard.css'
 
 
@@ -325,6 +325,12 @@ function Dashboard() {
               <div style={{width:1,height:20,background:'#334155',margin:'0 4px'}}/>
               <button onClick={()=>navigate('/predictive-analytics')} style={btnStyle('#7c3aed')}>
                 <Brain size={13}/><span>Predictive AI</span>
+              </button>
+              <button onClick={()=>navigate('/ai-copilot')} style={btnStyle('#8b5cf6')}>
+                <Brain size={13}/><span>AI Copilot</span>
+              </button>
+              <button onClick={()=>navigate('/workflow-automation')} style={btnStyle('#059669')}>
+                <GitBranch size={13}/><span>Workflows</span>
               </button>
               <button onClick={toggleBackend} style={btnStyle(useBackend?'#15803d':'#374151')}>
                 <div style={{width:6,height:6,borderRadius:'50%',background:isUsingBackend?'#86efac':'#6b7280',boxShadow:isUsingBackend?'0 0 4px #86efac':'none'}}/>

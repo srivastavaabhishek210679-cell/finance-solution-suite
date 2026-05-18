@@ -18,7 +18,9 @@ import {
   Search,
   X,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  GitBranch,
+  Brain
 } from 'lucide-react'
 import './Sidebar.css'
 
@@ -121,17 +123,18 @@ function Sidebar() {
     { path: '/analytics', icon: BarChart3, label: 'Analytics' },
   ]
 
-  // New feature menu items
   const featureMenuItems = [
-    { path: '/chatbot', icon: MessageCircle, label: 'AI Assistant', badge: 'AI', badgeColor: '#8b5cf6' },
-    { path: '/customers', icon: Users, label: 'Customers' },
-    { path: '/tenants', icon: Building2, label: 'Multi-Tenant', adminOnly: true },
-    { path: '/ai-insights', icon: Sparkles, label: 'AI Insights', badge: 'New', badgeColor: '#10b981' },
-    { path: '/collaboration', icon: Share2, label: 'Collaboration' },
-    { path: '/reviews', icon: Star, label: 'Reviews & Ratings' },
-    { path: '/personalization', icon: Settings, label: 'Personalization' },
-    { path: '/modules', icon: Package, label: 'Module Manager', adminOnly: true },
-    { path: '/accessibility', icon: Eye, label: 'Accessibility' },
+    { path: '/chatbot',              icon: MessageCircle, label: 'AI Assistant',         badge: 'AI',  badgeColor: '#8b5cf6' },
+    { path: '/ai-copilot',           icon: Brain,         label: 'AI Copilot',           badge: 'New', badgeColor: '#8b5cf6' },
+    { path: '/workflow-automation',  icon: GitBranch,     label: 'Workflow Automation',  badge: 'New', badgeColor: '#10b981' },
+    { path: '/customers',            icon: Users,         label: 'Customers' },
+    { path: '/tenants',              icon: Building2,     label: 'Multi-Tenant',         adminOnly: true },
+    { path: '/ai-insights',          icon: Sparkles,      label: 'AI Insights',          badge: 'New', badgeColor: '#10b981' },
+    { path: '/collaboration',        icon: Share2,        label: 'Collaboration' },
+    { path: '/reviews',              icon: Star,          label: 'Reviews & Ratings' },
+    { path: '/personalization',      icon: Settings,      label: 'Personalization' },
+    { path: '/modules',              icon: Package,       label: 'Module Manager',       adminOnly: true },
+    { path: '/accessibility',        icon: Eye,           label: 'Accessibility' },
   ]
 
   const getDomainData = (domainName) => {
