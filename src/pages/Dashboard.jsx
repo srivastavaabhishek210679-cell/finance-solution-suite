@@ -345,26 +345,6 @@ function Dashboard() {
     ? domainCounts 
     : domainCounts.filter(d => d.domain === selectedCategory)
 
-  // ── Shared button style helpers ──────────────────────────────
-  const btnStyle = (bg, bgHover) => ({
-    display: 'inline-flex', alignItems: 'center', gap: 5,
-    height: 30, padding: '0 12px',
-    background: bg, border: '1px solid rgba(255,255,255,0.08)',
-    borderRadius: 6, color: '#f1f5f9',
-    fontSize: 12, fontWeight: 500,
-    cursor: 'pointer', whiteSpace: 'nowrap',
-    transition: 'filter 0.15s',
-    '--bg-hover': bgHover,
-  })
-
-  const iconBtnStyle = {
-    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-    height: 30, width: 30,
-    background: '#1e293b', border: '1px solid rgba(255,255,255,0.08)',
-    borderRadius: 6, color: '#94a3b8',
-    cursor: 'pointer', transition: 'background 0.15s',
-  }
-
   return (
     <>
       <Navigation />
@@ -406,100 +386,113 @@ function Dashboard() {
           report={reportToDelete}
         />
 
-        {/* ── Top Header ── */}
-        <header style={{ background: '#1e293b', borderBottom: '1px solid #334155', flexShrink: 0 }}>
-          <div style={{ padding: '0 16px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-
-            {/* LEFT — Brand */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-              <button onClick={showDashboard} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                <span style={{ fontSize: 15, fontWeight: 700, color: '#60a5fa', letterSpacing: '-0.3px' }}>Enterprise Finance Platform</span>
-              </button>
-              <span style={{ fontSize: 11, color: '#475569', whiteSpace: 'nowrap' }}>{reports.length} Reports · {DOMAINS.length} Domains</span>
-              {isUsingBackend && (
-                <span style={{ fontSize: 10, background: '#14532d', color: '#86efac', padding: '2px 7px', borderRadius: 4, fontWeight: 600, letterSpacing: '0.3px' }}>LIVE</span>
-              )}
-            </div>
-
-            {/* RIGHT — Uniform button toolbar */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-
-              {/* Real-Time Indicator — compact */}
-              <RealTimeIndicator
-                isConnected={realtime.isActive}
-                connectionType="polling"
-                lastUpdate={realtime.lastUpdate}
-                updateCount={realtime.updateCount}
-                onRefresh={realtime.refresh}
-                showDetails={false}
-                compact={true}
-              />
-
-              {/* ── Divider ── */}
-              <div style={{ width: 1, height: 20, background: '#334155', margin: '0 4px' }} />
-
-              {/* Predictive AI */}
-              <button onClick={() => navigate('/predictive-analytics')} style={btnStyle('#7c3aed', '#6d28d9')}>
-                <Brain size={13} /><span>Predictive AI</span>
-              </button>
-
-              {/* Backend Toggle */}
-              <button onClick={toggleBackend} style={btnStyle(useBackend ? '#15803d' : '#374151', useBackend ? '#166534' : '#1f2937')}>
-                <div style={{ width: 6, height: 6, borderRadius: '50%', background: isUsingBackend ? '#86efac' : '#6b7280', boxShadow: isUsingBackend ? '0 0 4px #86efac' : 'none' }} />
-                <span>{useBackend ? 'Backend: ON' : 'Backend: OFF'}</span>
-              </button>
-
-              {useBackend && (
-                <>
-                  {/* Refresh */}
-                  <button onClick={refresh} disabled={loading} title="Refresh" style={{ ...iconBtnStyle, background: '#1e293b' }}>
-                    <svg className={loading ? 'animate-spin' : ''} width={14} height={14} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                  </button>
-
-                  {/* New Report */}
-                  <button onClick={openCreateModal} style={btnStyle('#1d4ed8', '#1e40af')}>
-                    <span style={{ fontSize: 14, lineHeight: 1 }}>+</span><span>New Report</span>
-                  </button>
-                </>
-              )}
-
-              {/* ── Divider ── */}
-              <div style={{ width: 1, height: 20, background: '#334155', margin: '0 4px' }} />
-
-              {/* Dashboard */}
-              <button onClick={showDashboard} style={btnStyle(currentView === 'dashboard' ? '#1d4ed8' : '#1e293b', currentView === 'dashboard' ? '#1e40af' : '#273548')}>
-                <BarChart3 size={13} /><span>Dashboard</span>
-              </button>
-
-              {/* Upload Data */}
-              <button onClick={() => navigate('/upload-data')} style={btnStyle('#0f766e', '#0d6460')}>
-                <Upload size={13} /><span>Upload Data</span>
-              </button>
-
-              {/* KPI Dashboard */}
-              <button onClick={() => navigate('/kpi-dashboard')} style={btnStyle('#0e7490', '#0c6880')}>
-                <BarChart3 size={13} /><span>KPI</span>
-              </button>
-
-              {/* ── Divider ── */}
-              <div style={{ width: 1, height: 20, background: '#334155', margin: '0 4px' }} />
-
-              {/* Clock */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#0f172a', border: '1px solid #334155', borderRadius: 6, padding: '0 10px', height: 30 }}>
-                <Clock size={12} style={{ color: '#2dd4bf' }} />
-                <span style={{ fontSize: 12, fontFamily: 'monospace', fontWeight: 700, color: '#2dd4bf', letterSpacing: '0.5px' }}>{formatTime(currentTime)}</span>
+        {/* Top Header - Compact & Aligned */}
+        <header className="bg-gray-800 border-b border-gray-700 flex-shrink-0">
+          <div className="px-4 py-2.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <button onClick={showDashboard} className="hover:opacity-80 transition-opacity">
+                  <h1 className="text-lg font-bold text-blue-400">Enterprise Finance Platform</h1>
+                </button>
+                <span className="text-xs text-gray-400">{reports.length} Reports • {DOMAINS.length} Domains</span>
+                {isUsingBackend && (
+                  <span className="text-[10px] bg-green-900 text-green-200 px-1.5 py-0.5 rounded font-medium">Live Data</span>
+                )}
               </div>
 
-              {/* User Avatar */}
-              <div className="relative">
-                <button onClick={() => setShowUserMenu(!showUserMenu)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#0f172a', border: '1px solid #334155', borderRadius: 6, padding: '0 10px', height: 30, cursor: 'pointer' }}>
-                  <div style={{ width: 20, height: 20, background: '#2563eb', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 10 }}>
-                    {user?.firstName?.charAt(0) || user?.email?.charAt(0).toUpperCase()}
-                  </div>
-                  <span style={{ fontSize: 12, color: '#94a3b8', fontWeight: 500 }}>{user?.firstName || user?.email}</span>
+              <div className="flex items-center gap-2">
+
+                {/* Real-Time Indicator */}
+                <RealTimeIndicator
+                  isConnected={realtime.isActive}
+                  connectionType="polling"
+                  lastUpdate={realtime.lastUpdate}
+                  updateCount={realtime.updateCount}
+                  onRefresh={realtime.refresh}
+                  showDetails={true}
+                  compact={false}
+                />
+
+                {/* Predictive AI Button */}
+                <button
+                  onClick={() => navigate('/predictive-analytics')}
+                  className="bg-violet-600 hover:bg-violet-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+                >
+                  <Brain size={14} />
+                  <span>Predictive AI</span>
                 </button>
+
+                {/* Backend Toggle */}
+                <button
+                  onClick={toggleBackend}
+                  className={`px-4 py-1.5 rounded text-xs font-medium transition-colors ${
+                    useBackend ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-700 hover:bg-gray-600'
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <div className={`w-1.5 h-1.5 rounded-full ${
+                      isUsingBackend ? 'bg-green-300 animate-pulse' : 'bg-gray-400'
+                    }`}></div>
+                    <span>{useBackend ? 'Backend: ON' : 'Backend: OFF'}</span>
+                  </div>
+                </button>
+
+                {useBackend && (
+                  <>
+                    {/* Refresh */}
+                    <button onClick={refresh} disabled={loading} className="bg-gray-700 hover:bg-gray-600 px-2.5 py-1.5 rounded transition-colors">
+                      <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </button>
+
+                    {/* New Report */}
+                    <button onClick={openCreateModal} className="bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors">
+                      <span className="text-sm">+</span>
+                      <span>New Report</span>
+                    </button>
+                  </>
+                )}
+
+                {/* Dashboard */}
+                <button onClick={showDashboard} className={`px-4 py-1.5 rounded text-xs font-medium transition-colors ${
+                  currentView === 'dashboard' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
+                }`}>
+                  Dashboard
+                </button>
+
+                {/* Upload Data */}
+                <button
+                  onClick={() => navigate('/upload-data')}
+                  className="bg-teal-600 hover:bg-teal-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+                >
+                  <Upload size={14} />
+                  <span>Upload Data</span>
+                </button>
+
+                {/* KPI Dashboard */}
+                <button
+                  onClick={() => navigate('/kpi-dashboard')}
+                  className="bg-cyan-600 hover:bg-cyan-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+                >
+                  <BarChart3 size={14} />
+                  <span>KPI Dashboard</span>
+                </button>
+
+                {/* Digital Clock — far right before avatar */}
+                <div className="flex items-center gap-1.5 bg-gray-700 px-2.5 py-1.5 rounded border border-gray-600">
+                  <Clock size={13} className="text-teal-400" />
+                  <span className="text-xs font-mono font-semibold text-teal-400">{formatTime(currentTime)}</span>
+                </div>
+
+                {/* User Avatar */}
+                <div className="relative">
+                  <button onClick={() => setShowUserMenu(!showUserMenu)} className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded">
+                    <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-xs">
+                      {user?.firstName?.charAt(0) || user?.email?.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="text-xs">{user?.firstName || user?.email}</span>
+                  </button>
 
                   {showUserMenu && (
                     <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
@@ -513,6 +506,7 @@ function Dashboard() {
                     </div>
                   )}
                 </div>
+              </div>
             </div>
           </div>
         </header>
@@ -535,282 +529,204 @@ function Dashboard() {
                 isBackendMode={useBackend}
               />
             ) : (
-              <div className="dashboard-main-content">
-                <div className="dashboard-content-wrapper">
-                  {/* Page Header */}
-                  <div className="dashboard-page-header">
-                    <h1>Dashboard Overview</h1>
-                    <p>Real-Time Intelligence Platform • {reports.length} reports across {activeDomains} domains</p>
+              <div className="dm-page">
+
+                {/* ── PAGE HEADER */}
+                <div className="dm-page-header">
+                  <div className="dm-page-header-left">
+                    <div className="dm-page-icon"><BarChart3 size={20} /></div>
+                    <div>
+                      <h1 className="dm-page-title">Dashboard Overview</h1>
+                      <p className="dm-page-subtitle">
+                        Real-Time Intelligence Platform &nbsp;·&nbsp;
+                        <span className="dm-highlight">{reports.length} reports</span> across&nbsp;
+                        <span className="dm-highlight">{activeDomains} domains</span>
+                      </p>
+                    </div>
                   </div>
+                  <div className="dm-page-header-right">
+                    {Object.keys(activeFilters).length > 0 && (
+                      <div className="dm-filter-counter">
+                        <CheckCircle size={13} />
+                        <span>Showing <strong>{totalReports}</strong> of {reports.length}</span>
+                        <span className="dm-filter-badge">{Object.keys(activeFilters).length} filter{Object.keys(activeFilters).length !== 1 ? 's' : ''}</span>
+                      </div>
+                    )}
+                    <div className="dm-live-status">
+                      <span className={`dm-live-dot ${isUsingBackend ? 'live' : 'static'}`} />
+                      <span>{isUsingBackend ? 'Live data' : 'Static data'}</span>
+                    </div>
+                  </div>
+                </div>
 
-                  {/* Advanced Filter Panel */}
-                  <FilterPanel
-                    activeFilters={activeFilters}
-                    onFilterChange={handleFilterChange}
-                    onReset={handleResetFilters}
-                  />
+                {/* ── PLATFORM STATS */}
+                <div className="dm-stats-grid">
+                  <div className="dm-stat-card" style={{'--ac':'#3b82f6'}}>
+                    <div className="dm-stat-top">
+                      <div className="dm-stat-icon" style={{background:'#3b82f620',color:'#3b82f6'}}><FileText size={16}/></div>
+                      <span className="dm-stat-change positive"><TrendingUp size={11}/> 12.5%</span>
+                    </div>
+                    <div className="dm-stat-value">{totalReports}</div>
+                    <div className="dm-stat-label">Total Reports</div>
+                    <div className="dm-stat-sub">{Object.keys(activeFilters).length > 0 ? 'Filtered results' : 'Active across all domains'}</div>
+                    <div className="dm-stat-bar"><div className="dm-stat-bar-fill" style={{width:'100%',background:'#3b82f6'}}/></div>
+                  </div>
+                  <div className="dm-stat-card" style={{'--ac':'#ef4444'}}>
+                    <div className="dm-stat-top">
+                      <div className="dm-stat-icon" style={{background:'#ef444420',color:'#ef4444'}}><CheckCircle size={16}/></div>
+                      <span className="dm-stat-change positive"><TrendingUp size={11}/> 5.2%</span>
+                    </div>
+                    <div className="dm-stat-value">{requiredReports}</div>
+                    <div className="dm-stat-label">Required Compliance</div>
+                    <div className="dm-stat-sub">Mandatory reports</div>
+                    <div className="dm-stat-bar"><div className="dm-stat-bar-fill" style={{width:totalReports?`${(requiredReports/totalReports*100).toFixed(0)}%`:'0%',background:'#ef4444'}}/></div>
+                  </div>
+                  <div className="dm-stat-card" style={{'--ac':'#10b981'}}>
+                    <div className="dm-stat-top">
+                      <div className="dm-stat-icon" style={{background:'#10b98120',color:'#10b981'}}><BarChart3 size={16}/></div>
+                      <span className="dm-stat-change positive"><TrendingUp size={11}/> 8.1%</span>
+                    </div>
+                    <div className="dm-stat-value">{activeDomains}</div>
+                    <div className="dm-stat-label">Active Domains</div>
+                    <div className="dm-stat-sub">Business functions covered</div>
+                    <div className="dm-stat-bar"><div className="dm-stat-bar-fill" style={{width:`${(activeDomains/13*100).toFixed(0)}%`,background:'#10b981'}}/></div>
+                  </div>
+                  <div className="dm-stat-card" style={{'--ac':'#8b5cf6'}}>
+                    <div className="dm-stat-top">
+                      <div className="dm-stat-icon" style={{background:'#8b5cf620',color:'#8b5cf6'}}><TrendingUp size={16}/></div>
+                      <span className="dm-stat-change positive"><TrendingUp size={11}/> 15.7%</span>
+                    </div>
+                    <div className="dm-stat-value">{optionalReports}</div>
+                    <div className="dm-stat-label">Optional Reports</div>
+                    <div className="dm-stat-sub">Supplementary insights</div>
+                    <div className="dm-stat-bar"><div className="dm-stat-bar-fill" style={{width:totalReports?`${(optionalReports/totalReports*100).toFixed(0)}%`:'0%',background:'#8b5cf6'}}/></div>
+                  </div>
+                </div>
 
-                  {/* Advanced KPI Dashboard */}
+                {/* ── FILTERS */}
+                <div className="dm-section">
+                  <div className="dm-section-label"><span className="dm-section-line"/><span>Advanced Filters</span><span className="dm-section-line"/></div>
+                  <FilterPanel activeFilters={activeFilters} onFilterChange={handleFilterChange} onReset={handleResetFilters} />
+                </div>
+
+                {/* ── KPI PANEL */}
+                <div className="dm-section">
+                  <div className="dm-section-label"><span className="dm-section-line"/><span>KPI Dashboard</span><span className="dm-section-line"/></div>
                   <KPIPanel reports={displayReports} />
+                </div>
 
-                  {/* Advanced Charts with Drill-Down */}
+                {/* ── CHARTS */}
+                <div className="dm-section">
+                  <div className="dm-section-label"><span className="dm-section-line"/><span>Analytics &amp; Charts</span><span className="dm-section-line"/></div>
                   <AdvancedCharts reports={displayReports} />
+                </div>
 
-                  {/* Advanced Tables with Pivot, Sort, Filter */}
+                {/* ── TABLE */}
+                <div className="dm-section">
+                  <div className="dm-section-label"><span className="dm-section-line"/><span>Report Explorer</span><span className="dm-section-line"/></div>
                   <AdvancedTable reports={displayReports} />
+                </div>
 
-                  {/* Export & Import System */}
+                {/* ── EXPORT */}
+                <div className="dm-section">
+                  <div className="dm-section-label"><span className="dm-section-line"/><span>Export &amp; Import</span><span className="dm-section-line"/></div>
                   <ExportImport reports={displayReports} />
-				  
-				  {/* Compliance Calendar */}
+                </div>
+
+                {/* ── COMPLIANCE CALENDAR */}
+                <div className="dm-section">
+                  <div className="dm-section-label"><span className="dm-section-line"/><span>Compliance Calendar</span><span className="dm-section-line"/></div>
                   <ComplianceCalendar />
-				  
-				  {/*Inside your component:*/}
-                  <DomainDashboard domain="Healthcare" reports={reports} />
-                  <DomainDashboard domain="Telecom" reports={reports} />
-                  <DomainDashboard domain="Banking" reports={reports} />
+                </div>
+
+                {/* ── INDUSTRY DASHBOARDS */}
+                <div className="dm-section">
+                  <div className="dm-section-label"><span className="dm-section-line"/><span>Industry Dashboards</span><span className="dm-section-line"/></div>
+                  <DomainDashboard domain="Healthcare"    reports={reports} />
+                  <DomainDashboard domain="Telecom"       reports={reports} />
+                  <DomainDashboard domain="Banking"       reports={reports} />
                   <DomainDashboard domain="Manufacturing" reports={reports} />
+                </div>
 
-                  {/* Filter Results Counter */}
-                  {Object.keys(activeFilters).length > 0 && (
-                    <div style={{
-                      background: '#1e293b',
-                      border: '1px solid #334155',
-                      borderRadius: '6px',
-                      padding: '0.75rem 1rem',
-                      marginBottom: '1rem',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}>
-                      <span style={{ color: '#14b8a6', fontSize: '0.875rem', fontWeight: 600 }}>
-                        📊 Showing {totalReports} of {reports.length} reports
-                      </span>
-                      <span style={{ color: '#64748b', fontSize: '0.75rem' }}>
-                        {Object.keys(activeFilters).length} filter{Object.keys(activeFilters).length !== 1 ? 's' : ''} active
-                      </span>
-                    </div>
-                  )}
+                {/* ── DOMAIN EXPLORER */}
+                <div className="dm-section">
+                  <div className="dm-section-label"><span className="dm-section-line"/><span>Domain Explorer</span><span className="dm-section-line"/></div>
 
-                  {/* Stats Overview */}
-                  <div className="stats-overview-grid">
-                    <div className="stat-overview-card" style={{ '--accent-color': '#3B82F6' }}>
-                      <div className="stat-card-header">
-                        <span className="stat-card-label">Total Reports</span>
-                      </div>
-                      <div className="stat-card-value">{totalReports}</div>
-                      <div className="stat-card-subtitle">
-                        {Object.keys(activeFilters).length > 0 ? 'Filtered results' : 'Active across all domains'}
-                      </div>
-                      <div className="stat-card-change">
-                        <span className="change-indicator positive">
-                          <TrendingUp size={16} />
-                          <span>12.5%</span>
-                        </span>
-                        <span className="change-label">vs last month</span>
-                      </div>
-                    </div>
-
-                    <div className="stat-overview-card" style={{ '--accent-color': '#EF4444' }}>
-                      <div className="stat-card-header">
-                        <span className="stat-card-label">Required Compliance</span>
-                      </div>
-                      <div className="stat-card-value">{requiredReports}</div>
-                      <div className="stat-card-subtitle">Mandatory reports</div>
-                      <div className="stat-card-change">
-                        <span className="change-indicator positive">
-                          <TrendingUp size={16} />
-                          <span>5.2%</span>
-                        </span>
-                        <span className="change-label">compliance rate</span>
-                      </div>
-                    </div>
-
-                    <div className="stat-overview-card" style={{ '--accent-color': '#10B981' }}>
-                      <div className="stat-card-header">
-                        <span className="stat-card-label">Active Domains</span>
-                      </div>
-                      <div className="stat-card-value">{activeDomains}</div>
-                      <div className="stat-card-subtitle">Business functions</div>
-                      <div className="stat-card-change">
-                        <span className="change-indicator positive">
-                          <TrendingUp size={16} />
-                          <span>8.1%</span>
-                        </span>
-                        <span className="change-label">coverage increase</span>
-                      </div>
-                    </div>
-
-                    <div className="stat-overview-card" style={{ '--accent-color': '#8B5CF6' }}>
-                      <div className="stat-card-header">
-                        <span className="stat-card-label">Optional Reports</span>
-                      </div>
-                      <div className="stat-card-value">{optionalReports}</div>
-                      <div className="stat-card-subtitle">Supplementary insights</div>
-                      <div className="stat-card-change">
-                        <span className="change-indicator positive">
-                          <TrendingUp size={16} />
-                          <span>15.7%</span>
-                        </span>
-                        <span className="change-label">adoption rate</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Category Filters */}
-                  <div className="category-filters">
-                    <button
-                      className={`category-pill ${selectedCategory === 'All' ? 'active' : ''}`}
-                      onClick={() => setSelectedCategory('All')}
-                    >
-                      All Domains
+                  <div className="dm-domain-tabs">
+                    <button className={`dm-domain-tab ${selectedCategory==='All'?'active':''}`} onClick={()=>setSelectedCategory('All')}>
+                      All Domains <span className="dm-tab-count">{reports.length}</span>
                     </button>
-                    {DOMAINS.map(domain => (
-                      <button
-                        key={domain}
-                        className={`category-pill ${selectedCategory === domain ? 'active' : ''}`}
-                        onClick={() => setSelectedCategory(domain)}
-                      >
-                        {domain}
-                      </button>
-                    ))}
+                    {DOMAINS.map(domain=>{
+                      const cnt=reports.filter(r=>r.domain===domain).length
+                      return(
+                        <button key={domain} className={`dm-domain-tab ${selectedCategory===domain?'active':''}`} onClick={()=>setSelectedCategory(domain)}>
+                          {domain} <span className="dm-tab-count">{cnt}</span>
+                        </button>
+                      )
+                    })}
                   </div>
 
-                  {/* Domain Cards */}
-                  <div className="domain-cards-grid">
-                    {filteredDomains.map(({ domain, count, percentage }) => (
-                      <div key={domain} className="domain-card">
-                        <div className="domain-card-header">
-                          <div>
-                            <div className="domain-card-title">{domain}</div>
-                            <div className="domain-card-category">Business Function</div>
-                          </div>
-                        </div>
-                        <div className="domain-metrics">
-                          <div className="metric-item">
-                            <span className="metric-value">{count}</span>
-                            <span className="metric-label">Reports</span>
-                            <div className="metric-change up">↑ 8.2%</div>
-                          </div>
-                          <div className="metric-item">
-                            <span className="metric-value">{percentage}%</span>
-                            <span className="metric-label">of Total</span>
-                            <div className="metric-change up">↑ 2.1%</div>
-                          </div>
-                          <div className="metric-item">
-                            <span className="metric-value">{Math.floor(count * 0.7)}</span>
-                            <span className="metric-label">Active</span>
-                            <div className="metric-change up">↑ 5.4%</div>
-                          </div>
-                        </div>
-
-                        {/* Clickable Reports */}
-                        {displayReports.filter(r => r.domain === domain).slice(0, 5).length > 0 && (
-                          <div style={{
-                            marginTop: '1rem',
-                            paddingTop: '1rem',
-                            borderTop: '1px solid #334155'
-                          }}>
-                            <div style={{
-                              fontSize: '0.75rem',
-                              color: '#64748b',
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.05em',
-                              fontWeight: 600,
-                              marginBottom: '0.75rem'
-                            }}>
-                              Recent Reports
+                  <div className="dm-domain-grid">
+                    {filteredDomains.map(({domain,count,percentage})=>{
+                      const DCOLORS={Finance:'#14b8a6',HR:'#3b82f6',Operations:'#f59e0b',Sales:'#8b5cf6',IT:'#06b6d4',Healthcare:'#ec4899',Telecom:'#14b8a6',Retail:'#f97316',Energy:'#eab308',Manufacturing:'#6366f1',Banking:'#22c55e',Education:'#a855f7',General:'#64748b'}
+                      const DEMOJI={Finance:'💰',HR:'👥',Operations:'⚙️',Sales:'📊',IT:'💻',Healthcare:'🏥',Telecom:'📡',Retail:'🛒',Energy:'⚡',Manufacturing:'🏭',Banking:'🏦',Education:'🎓',General:'📋'}
+                      const color=DCOLORS[domain]||'#64748b'
+                      const emoji=DEMOJI[domain]||'📋'
+                      const domainReports=displayReports.filter(r=>r.domain===domain)
+                      return(
+                        <div key={domain} className="dm-domain-card" style={{'--dc':color}}>
+                          <div className="dm-dc-header">
+                            <div className="dm-dc-icon" style={{background:`${color}22`}}><span style={{fontSize:18}}>{emoji}</span></div>
+                            <div className="dm-dc-title-wrap">
+                              <div className="dm-dc-title">{domain}</div>
+                              <div className="dm-dc-sub">Business Function</div>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                              {displayReports.filter(r => r.domain === domain).slice(0, 5).map(report => (
-                                <button
-                                  type="button"
-                                  key={report.id || report.report_id}
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                      e.preventDefault()  // ⭐ ADD THIS
-                                      console.log('🔍 Button clicked!')
-                                    handleReportSelect(report)
-                                  }}
-                                  style={{
-                                    padding: '0.75rem',
-                                    background: '#0f172a',
-                                    border: '1px solid #334155',
-                                    borderRadius: '6px',
-                                    color: '#f1f5f9',
-                                    fontSize: '0.875rem',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    width: '100%',
-                                    textAlign: 'left'
-                                  }}
-                                  onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = '#1e293b'
-                                    e.currentTarget.style.borderColor = '#14B8A6'
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = '#0f172a'
-                                    e.currentTarget.style.borderColor = '#334155'
-                                  }}
-                                >
-                                  <span style={{
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    flex: 1
-                                  }}>
-                                    {report.name}
-                                  </span>
-                                  <FileText size={16} style={{ color: '#14B8A6', flexShrink: 0, marginLeft: '0.5rem' }} />
+                            <div className="dm-dc-badge" style={{background:`${color}20`,color}}>{count}</div>
+                          </div>
+                          <div className="dm-dc-metrics">
+                            <div className="dm-dc-metric"><span className="dm-dc-metric-val">{count}</span><span className="dm-dc-metric-lbl">Reports</span></div>
+                            <div className="dm-dc-divider"/>
+                            <div className="dm-dc-metric"><span className="dm-dc-metric-val">{percentage}%</span><span className="dm-dc-metric-lbl">of Total</span></div>
+                            <div className="dm-dc-divider"/>
+                            <div className="dm-dc-metric"><span className="dm-dc-metric-val">{Math.floor(count*0.7)}</span><span className="dm-dc-metric-lbl">Active</span></div>
+                          </div>
+                          <div className="dm-dc-progress-wrap">
+                            <div className="dm-dc-progress"><div className="dm-dc-progress-fill" style={{width:`${percentage}%`,background:color}}/></div>
+                            <span className="dm-dc-progress-pct" style={{color}}>{percentage}%</span>
+                          </div>
+                          {domainReports.slice(0,5).length>0&&(
+                            <div className="dm-dc-reports">
+                              <div className="dm-dc-reports-label">Recent Reports</div>
+                              <div className="dm-dc-reports-list">
+                                {domainReports.slice(0,5).map(report=>(
+                                  <button type="button" key={report.id||report.report_id} className="dm-dc-report-row" style={{'--dc':color}}
+                                    onClick={e=>{e.stopPropagation();e.preventDefault();handleReportSelect(report)}}>
+                                    <FileText size={12} style={{color,flexShrink:0}}/>
+                                    <span className="dm-dc-report-name">{report.name}</span>
+                                    <span className="dm-dc-report-freq">{report.frequency}</span>
+                                  </button>
+                                ))}
+                              </div>
+                              {count>5&&(
+                                <button type="button" className="dm-dc-view-all" style={{color}}
+                                  onClick={e=>{e.stopPropagation();setSelectedCategory(domain)}}>
+                                  View all {count} {domain} reports →
                                 </button>
-                              ))}
+                              )}
                             </div>
-                            {count > 5 && (
-                              <button
-                               type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  setSelectedCategory(domain)
-                                }}
-                                style={{
-                                  marginTop: '0.75rem',
-                                  width: '100%',
-                                  padding: '0.5rem',
-                                  background: 'transparent',
-                                  border: '1px solid #334155',
-                                  borderRadius: '6px',
-                                  color: '#14B8A6',
-                                  fontSize: '0.75rem',
-                                  cursor: 'pointer',
-                                  fontWeight: 600,
-                                  transition: 'all 0.2s'
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.background = 'rgba(20, 184, 166, 0.1)'
-                                  e.currentTarget.style.borderColor = '#14B8A6'
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.background = 'transparent'
-                                  e.currentTarget.style.borderColor = '#334155'
-                                }}
-                              >
-                                View All {count} Reports
-                              </button>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                          )}
+                        </div>
+                      )
+                    })}
                   </div>
 
-                  {/* Pagination */}
-                  {isUsingBackend && pagination && (
-                    <Pagination pagination={pagination} onPageChange={handlePageChange} loading={loading} />
+                  {isUsingBackend&&pagination&&(
+                    <div className="dm-pagination-wrap">
+                      <Pagination pagination={pagination} onPageChange={handlePageChange} loading={loading}/>
+                    </div>
                   )}
                 </div>
+
               </div>
             )}
           </main>
