@@ -269,11 +269,11 @@ function Dashboard() {
 
   // ── Shared button style helpers ─────────────────────────────
   const btnStyle = (bg) => ({
-    display: 'inline-flex', alignItems: 'center', gap: 5,
-    height: 30, padding: '0 12px',
+    display: 'inline-flex', alignItems: 'center', gap: 4,
+    height: 28, padding: '0 8px',
     background: bg, border: '1px solid rgba(255,255,255,0.08)',
     borderRadius: 6, color: '#f1f5f9',
-    fontSize: 12, fontWeight: 500,
+    fontSize: 11, fontWeight: 500,
     cursor: 'pointer', whiteSpace: 'nowrap',
     transition: 'filter 0.15s',
   })
@@ -320,49 +320,55 @@ function Dashboard() {
             </div>
 
             {/* RIGHT */}
-            <div style={{display:'flex',alignItems:'center',gap:4,overflowX:'auto',flexShrink:1,scrollbarWidth:'none',msOverflowStyle:'none'}}>
+            <div style={{display:'flex',alignItems:'center',gap:3,overflow:'hidden',flexShrink:1}}>
               <RealTimeIndicator isConnected={realtime.isActive} connectionType="polling" lastUpdate={realtime.lastUpdate} updateCount={realtime.updateCount} onRefresh={realtime.refresh} showDetails={false} compact={true}/>
-              <div style={{width:1,height:20,background:'#334155',margin:'0 4px'}}/>
+              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
               <button onClick={()=>navigate('/predictive-analytics')} style={btnStyle('#7c3aed')}>
-                <Brain size={13}/><span>Predictive AI</span>
+                <Brain size={12}/><span>Predict</span>
+              </button>
+              <button onClick={()=>navigate('/ai-copilot')} style={btnStyle('#8b5cf6')}>
+                <Brain size={12}/><span>Copilot</span>
+              </button>
+              <button onClick={()=>navigate('/workflow-automation')} style={btnStyle('#059669')}>
+                <GitBranch size={12}/><span>Workflows</span>
               </button>
               <button onClick={toggleBackend} style={btnStyle(useBackend?'#15803d':'#374151')}>
-                <div style={{width:6,height:6,borderRadius:'50%',background:isUsingBackend?'#86efac':'#6b7280',boxShadow:isUsingBackend?'0 0 4px #86efac':'none'}}/>
-                <span>{useBackend?'Backend: ON':'Backend: OFF'}</span>
+                <div style={{width:5,height:5,borderRadius:'50%',background:isUsingBackend?'#86efac':'#6b7280',boxShadow:isUsingBackend?'0 0 4px #86efac':'none'}}/>
+                <span>{useBackend?'ON':'OFF'}</span>
               </button>
               {useBackend&&(
                 <>
-                  <button onClick={refresh} disabled={loading} title="Refresh" style={iconBtnStyle}>
-                    <svg className={loading?'animate-spin':''} width={14} height={14} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <button onClick={refresh} disabled={loading} title="Refresh" style={{...iconBtnStyle,width:28,height:28}}>
+                    <svg className={loading?'animate-spin':''} width={13} height={13} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                     </svg>
                   </button>
                   <button onClick={openCreateModal} style={btnStyle('#1d4ed8')}>
-                    <span style={{fontSize:14,lineHeight:1}}>+</span><span>New Report</span>
+                    <span style={{fontSize:13,lineHeight:1}}>+</span><span>New</span>
                   </button>
                 </>
               )}
-              <div style={{width:1,height:20,background:'#334155',margin:'0 4px'}}/>
+              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
               <button onClick={showDashboard} style={btnStyle(currentView==='dashboard'?'#1d4ed8':'#1e293b')}>
-                <BarChart3 size={13}/><span>Dashboard</span>
+                <BarChart3 size={12}/><span>View</span>
               </button>
               <button onClick={()=>navigate('/upload-data')} style={btnStyle('#0f766e')}>
-                <Upload size={13}/><span>Upload Data</span>
+                <Upload size={12}/><span>Upload</span>
               </button>
               <button onClick={()=>navigate('/kpi-dashboard')} style={btnStyle('#0e7490')}>
-                <BarChart3 size={13}/><span>KPI</span>
+                <BarChart3 size={12}/><span>KPI</span>
               </button>
-              <div style={{width:1,height:20,background:'#334155',margin:'0 4px'}}/>
-              <div style={{display:'flex',alignItems:'center',gap:5,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 10px',height:30}}>
-                <Clock size={12} style={{color:'#2dd4bf'}}/>
-                <span style={{fontSize:12,fontFamily:'monospace',fontWeight:700,color:'#2dd4bf',letterSpacing:'0.5px'}}>{formatTime(currentTime)}</span>
+              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
+              <div style={{display:'flex',alignItems:'center',gap:4,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 8px',height:28}}>
+                <Clock size={11} style={{color:'#2dd4bf'}}/>
+                <span style={{fontSize:11,fontFamily:'monospace',fontWeight:700,color:'#2dd4bf',letterSpacing:'0.5px'}}>{formatTime(currentTime)}</span>
               </div>
               <div className="relative">
-                <button onClick={()=>setShowUserMenu(!showUserMenu)} style={{display:'flex',alignItems:'center',gap:7,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 10px',height:30,cursor:'pointer'}}>
-                  <div style={{width:20,height:20,background:'#2563eb',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:700,fontSize:10}}>
+                <button onClick={()=>setShowUserMenu(!showUserMenu)} style={{display:'flex',alignItems:'center',gap:5,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 8px',height:28,cursor:'pointer'}}>
+                  <div style={{width:18,height:18,background:'#2563eb',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:700,fontSize:9}}>
                     {user?.firstName?.charAt(0)||user?.email?.charAt(0)?.toUpperCase()}
                   </div>
-                  <span style={{fontSize:12,color:'#94a3b8',fontWeight:500}}>{user?.firstName||user?.email}</span>
+                  <span style={{fontSize:11,color:'#94a3b8',fontWeight:500}}>{user?.firstName||user?.email}</span>
                 </button>
                 {showUserMenu&&(
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
