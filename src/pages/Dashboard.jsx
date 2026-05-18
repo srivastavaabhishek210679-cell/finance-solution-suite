@@ -71,6 +71,201 @@ function Dashboard() {
     }, 1000)
     return () => clearInterval(timer)
   }, [])
+  const formatTime = (date) => {
+    const h = String(date.getHours()).padStart(2,'0')
+    const m = String(date.getMinutes()).padStart(2,'0')
+    const s = String(date.getSeconds()).padStart(2,'0')
+    return `${h}:${m}:${s}`
+  }
+
+  const {
+    reports: backendReports,
+    pagination,
+    loading,
+    error,
+    createReport,
+    updateReport,
+    deleteReport,
+    refresh,
+    fetchReports
+  } = useReports()
+
+  const reports = useBackend && !loading && !error ? backendReports : REPORTS_DATA
+
+  const transformedReports = reports.map(report => ({
+    ...report,
+    domain: report.domain || (report.domain_id ? DOMAIN_ID_MAP[report.domain_id] : null)
+  }))
+
+  const isUsingBackend = useBackend && !loading && !error && backendReports.length > 0
+
+  useEffect(() => {
+    if (useBackend) {
+      fetchReports(1, 100)
+    }
+  }, [])
+
+  const realtime = useSimulatedRealTime({
+    interval: 5000,
+    dataGenerator: () => ({
+      timestamp: new Date().toISOString(),
+      totalReports: reports.length,
+      activeUsers: Math.floor(Math.random() * 50) + 200,
+      systemLoad: (Math.random() * 30 + 40).toFixed(1)
+    }),
+    autoStart: false
+  })
+
+  const lastAlertTime = useRef(0)
+  useEffect(() => {
+    if (realtime.data && realtime.updateCount > 0) {
+      const now = Date.now()
+      if (now - lastAlertTime.current > 60000) {
+        RealTimeAlertTypes.dataUpdated()
+        lastAlertTime.current = now
+      }
+    }
+  }, [realtime.updateCount])
+
+  const previousReportCount = useRef(0)
+  useEffect(() => {
+    if (useBackend && backendReports.length > 0) {
+      const currentCount = backendReports.length
+      if (previousReportCount.current > 0 && currentCount > previousReportCount.current) {
+        RealTimeAlertTypes.newReport('New compliance report added')
+      }
+      previousReportCount.current = currentCount
+    }
+  }, [backendReports.length, useBackend])
+
+  const [filteredReports, setFilteredReports] = useState([])
+
+  const handleFilterChange = (filters) => {
+    setActiveFilters(filters)
+    let filtered = [...transformedReports]
+    if (filters.frequency && filters.frequency.length > 0)
+      filtered = filtered.filter(r => filters.frequency.includes(r.frequency))
+    if (filters.domains && filters.domains.length > 0)
+      filtered = filtered.filter(r => filters.domains.includes(r.domain))
+    if (filters.compliance && filters.compliance.length > 0)
+      filtered = filtered.filter(r => filters.compliance.includes(r.complianceStatus || r.compliance_status))
+    if (filters.automation && filters.automation.length > 0)
+      filtered = filtered.filter(r => filters.automation.includes(r.automationStatus || 'Manual'))
+    if (filters.regions && filters.regions.length > 0)
+      filtered = filtered.filter(r => r.region && filters.regions.includes(r.region))
+    if (filters.riskLevel && filters.riskLevel.length > 0)
+      filtered = filtered.filter(r => r.riskLevel && filters.riskLevel.includes(r.riskLevel))
+    if (filters.roles && filters.roles.length > 0)
+      filtered = filtered.filter(r => r.roles && r.roles.some(role => filters.roles.includes(role)))
+    if (filters.dateRange) {
+      if (filters.dateRange.from)
+        filtered = filtered.filter(r => new Date(r.createdAt || r.created_at || r.lastSubmitted) >= new Date(filters.dateRange.from))
+      if (filters.dateRange.to)
+        filtered = filtered.filter(r => new Date(r.createdAt || r.created_at || r.lastSubmitted) <= new Date(filters.dateRange.to))
+    }
+    setFilteredReports(filtered)
+  }
+
+  const handleResetFilters = () => {
+    setActiveFilters({})
+    setFilteredReports([])
+  }
+
+  const displayReports = Object.keys(activeFilters).length > 0 ? filteredReports : transformedReports
+
+  const handlePageChange = (newPage) => {
+    fetchReports(newPage, 100)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
+  }
+
+  const handleReportSelect = (report) => {
+    setSelectedReport(report)
+    setCurrentView('detail')
+  }
+
+  const showDashboard = () => {
+    setSelectedReport(null)
+    setCurrentView('dashboard')
+  }
+
+  const openCreateModal = () => {
+    setModalMode('create')
+    setReportToEdit(null)
+    setIsModalOpen(true)
+  }
+
+  const openEditModal = (report) => {
+    setModalMode('edit')
+    setReportToEdit(report)
+    setIsModalOpen(true)
+  }
+
+  const openDeleteModal = (report) => {
+    setReportToDelete(report)
+    setIsDeleteModalOpen(true)
+  }
+
+  const handleSaveReport = async (formData) => {
+    try {
+      if (modalMode === 'create') {
+        await createReport(formData)
+        showToast('Report created successfully!')
+        RealTimeAlertTypes.newReport(formData.name || 'New Report')
+      } else {
+        await updateReport(reportToEdit.id, formData)
+        showToast('Report updated successfully!')
+        RealTimeAlertTypes.reportUpdated(formData.name || 'Report')
+        if (selectedReport?.id === reportToEdit.id) {
+          setSelectedReport({ ...reportToEdit, ...formData })
+        }
+      }
+      setIsModalOpen(false)
+    } catch (err) {
+      showRealTimeAlert({ type: 'error', title: 'Error', message: err.message || 'Failed to save report', duration: 5000 })
+      throw new Error(err.message || 'Failed to save report')
+    }
+  }
+
+  const handleDeleteReport = async () => {
+    try {
+      await deleteReport(reportToDelete.id)
+      showToast('Report deleted successfully!', 'success')
+      if (selectedReport?.id === reportToDelete.id) showDashboard()
+      setIsDeleteModalOpen(false)
+    } catch (err) {
+      showToast('Failed to delete report', 'error')
+      throw err
+    }
+  }
+
+  const toggleBackend = () => {
+    setUseBackend(!useBackend)
+    if (!useBackend) refresh()
+  }
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/login')
+  }
+
+  const totalReports    = displayReports.length
+  const requiredReports = displayReports.filter(r => r.complianceStatus === 'Required' || r.compliance_status === 'Required').length
+  const optionalReports = displayReports.filter(r => r.complianceStatus === 'Optional' || r.compliance_status === 'Optional').length
+  const activeDomains   = DOMAINS.length
+  const domainCounts    = DOMAINS.map(domain => ({
+    domain,
+    count: displayReports.filter(r => r.domain === domain).length,
+    percentage: totalReports > 0 ? ((displayReports.filter(r => r.domain === domain).length / totalReports) * 100).toFixed(1) : 0
+  }))
+  const filteredDomains = selectedCategory === 'All'
+    ? domainCounts
+    : domainCounts.filter(d => d.domain === selectedCategory)
+
 
   // ── Shared button style helpers ─────────────────────────────
   const btnStyle = (bg) => ({
