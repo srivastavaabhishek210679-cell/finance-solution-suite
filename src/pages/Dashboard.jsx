@@ -69,6 +69,9 @@ function Dashboard() {
     const timer = setInterval(() => {
       setCurrentTime(new Date())
     }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+
   // ── Shared button style helpers ─────────────────────────────
   const btnStyle = (bg) => ({
     display: 'inline-flex', alignItems: 'center', gap: 5,
