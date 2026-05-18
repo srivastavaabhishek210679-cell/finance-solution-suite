@@ -69,301 +69,35 @@ function Dashboard() {
     const timer = setInterval(() => {
       setCurrentTime(new Date())
     }, 1000)
-    return () => clearInterval(timer)
-  }, [])
-
-  const formatTime = (date) => {
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    const seconds = String(date.getSeconds()).padStart(2, '0')
-    return `${hours}:${minutes}:${seconds}`
-  }
-
-  const {
-    reports: backendReports,
-    pagination,
-    loading,
-    error,
-    createReport,
-    updateReport,
-    deleteReport,
-    refresh,
-    fetchReports
-  } = useReports()
-
-  const reports = useBackend && !loading && !error ? backendReports : REPORTS_DATA
-  
-  // Transform reports to add domain property from domain_id
-  const transformedReports = reports.map(report => ({
-    ...report,
-    domain: report.domain || (report.domain_id ? DOMAIN_ID_MAP[report.domain_id] : null)
-  }))
-  
-  const isUsingBackend = useBackend && !loading && !error && backendReports.length > 0
-
-  // Initial fetch with higher limit to show reports from all domains
-  useEffect(() => {
-    if (useBackend) {
-      fetchReports(1, 100) // Fetch first 100 reports to cover all 13 domains
-    }
-  }, []) // Empty dependency array = runs once on mount
-
-  // Real-Time Updates - Optimized
-  const realtime = useSimulatedRealTime({
-    interval: 5000, // Update every 5 seconds
-    dataGenerator: () => ({
-      timestamp: new Date().toISOString(),
-      totalReports: reports.length,
-      activeUsers: Math.floor(Math.random() * 50) + 200,
-      systemLoad: (Math.random() * 30 + 40).toFixed(1)
-    }),
-    autoStart: false
+  // ── Shared button style helpers ─────────────────────────────
+  const btnStyle = (bg) => ({
+    display: 'inline-flex', alignItems: 'center', gap: 5,
+    height: 30, padding: '0 12px',
+    background: bg, border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 6, color: '#f1f5f9',
+    fontSize: 12, fontWeight: 500,
+    cursor: 'pointer', whiteSpace: 'nowrap',
+    transition: 'filter 0.15s',
   })
-
-  // Debounced alert system - only show alerts every 60 seconds
-  const lastAlertTime = useRef(0)
-  
-  useEffect(() => {
-    if (realtime.data && realtime.updateCount > 0) {
-      const now = Date.now()
-      // Show update alert every 60 seconds instead of every 5 seconds
-      if (now - lastAlertTime.current > 60000) {
-        RealTimeAlertTypes.dataUpdated()
-        lastAlertTime.current = now
-      }
-    }
-  }, [realtime.updateCount])
-
-  // Monitor backend reports for NEW reports only (not every update)
-  const previousReportCount = useRef(0)
-  
-  useEffect(() => {
-    if (useBackend && backendReports.length > 0) {
-      const currentCount = backendReports.length
-      
-      // Only alert if count actually increased (new report)
-      if (previousReportCount.current > 0 && currentCount > previousReportCount.current) {
-        RealTimeAlertTypes.newReport('New compliance report added')
-      }
-      
-      previousReportCount.current = currentCount
-    }
-  }, [backendReports.length, useBackend])  // Only watch length, not entire array
-
-  // Advanced Filter Handler
-  const handleFilterChange = (filters) => {
-    setActiveFilters(filters)
-    
-    let filtered = [...transformedReports]
-    
-    // Filter by frequency
-    if (filters.frequency && filters.frequency.length > 0) {
-      filtered = filtered.filter(r => 
-        filters.frequency.includes(r.frequency)
-      )
-    }
-    
-    // Filter by domains
-    if (filters.domains && filters.domains.length > 0) {
-      filtered = filtered.filter(r => 
-        filters.domains.includes(r.domain)
-      )
-    }
-    
-    // Filter by compliance
-    if (filters.compliance && filters.compliance.length > 0) {
-      filtered = filtered.filter(r => 
-        filters.compliance.includes(r.complianceStatus || r.compliance_status)
-      )
-    }
-    
-    // Filter by automation
-    if (filters.automation && filters.automation.length > 0) {
-      filtered = filtered.filter(r => 
-        filters.automation.includes(r.automationStatus || 'Manual')
-      )
-    }
-    
-    // Filter by regions
-    if (filters.regions && filters.regions.length > 0) {
-      filtered = filtered.filter(r => 
-        r.region && filters.regions.includes(r.region)
-      )
-    }
-    
-    // Filter by risk level
-    if (filters.riskLevel && filters.riskLevel.length > 0) {
-      filtered = filtered.filter(r => 
-        r.riskLevel && filters.riskLevel.includes(r.riskLevel)
-      )
-    }
-    
-    // Filter by roles
-    if (filters.roles && filters.roles.length > 0) {
-      filtered = filtered.filter(r => 
-        r.roles && r.roles.some(role => filters.roles.includes(role))
-      )
-    }
-    
-    // Filter by date range
-    if (filters.dateRange) {
-      if (filters.dateRange.from) {
-        filtered = filtered.filter(r => {
-          const reportDate = new Date(r.createdAt || r.created_at || r.lastSubmitted)
-          return reportDate >= new Date(filters.dateRange.from)
-        })
-      }
-      if (filters.dateRange.to) {
-        filtered = filtered.filter(r => {
-          const reportDate = new Date(r.createdAt || r.created_at || r.lastSubmitted)
-          return reportDate <= new Date(filters.dateRange.to)
-        })
-      }
-    }
-    
-    setFilteredReports(filtered)
+  const iconBtnStyle = {
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+    height: 30, width: 30,
+    background: '#1e293b', border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 6, color: '#94a3b8', cursor: 'pointer',
   }
-
-  const handleResetFilters = () => {
-    setActiveFilters({})
-    setFilteredReports([])
-  }
-
-  // Use filtered reports when filters are active
-  const displayReports = Object.keys(activeFilters).length > 0 ? filteredReports : transformedReports
-
-  const handlePageChange = (newPage) => {
-    fetchReports(newPage, 100) // Match initial fetch limit
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type })
-    setTimeout(() => setToast(null), 3000)
-  }
-
-  //const handleReportSelect = (report) => {
-    //setSelectedReport(report)
-    //setCurrentView('detail')
-  //}
-
-  const handleReportSelect = (report) => {
-  console.log('🔍 Report clicked:', report.name)
-  console.log('🔍 Setting currentView to: detail')
-  setSelectedReport(report)
-  setCurrentView('detail')
-  console.log('🔍 After setState calls')
-  }
-
-  const showDashboard = () => {
-    setSelectedReport(null)
-    setCurrentView('dashboard')
-  }
-
-  const openCreateModal = () => {
-    setModalMode('create')
-    setReportToEdit(null)
-    setIsModalOpen(true)
-  }
-
-  const openEditModal = (report) => {
-    setModalMode('edit')
-    setReportToEdit(report)
-    setIsModalOpen(true)
-  }
-
-  const openDeleteModal = (report) => {
-    setReportToDelete(report)
-    setIsDeleteModalOpen(true)
-  }
-
-  const handleSaveReport = async (formData) => {
-    try {
-      if (modalMode === 'create') {
-        await createReport(formData)
-        showToast('Report created successfully!')
-        RealTimeAlertTypes.newReport(formData.name || 'New Report')
-      } else {
-        await updateReport(reportToEdit.id, formData)
-        showToast('Report updated successfully!')
-        RealTimeAlertTypes.reportUpdated(formData.name || 'Report')
-        if (selectedReport?.id === reportToEdit.id) {
-          setSelectedReport({ ...reportToEdit, ...formData })
-        }
-      }
-      setIsModalOpen(false)
-    } catch (err) {
-      showRealTimeAlert({
-        type: 'error',
-        title: 'Error',
-        message: err.message || 'Failed to save report',
-        duration: 5000
-      })
-      throw new Error(err.message || 'Failed to save report')
-    }
-  }
-
-  const handleDeleteReport = async () => {
-    try {
-      await deleteReport(reportToDelete.id)
-      showToast('Report deleted successfully!', 'success')
-      if (selectedReport?.id === reportToDelete.id) {
-        showDashboard()
-      }
-      setIsDeleteModalOpen(false)
-    } catch (err) {
-      showToast('Failed to delete report', 'error')
-      throw err
-    }
-  }
-
-  const toggleBackend = () => {
-    setUseBackend(!useBackend)
-    if (!useBackend) {
-      refresh()
-    }
-  }
-
-  const handleLogout = async () => {
-    await logout()
-    navigate('/login')
-  }
-
-  // Calculate comprehensive stats (use displayReports for filtered stats)
-  const totalReports = displayReports.length
-  const requiredReports = displayReports.filter(r => r.complianceStatus === 'Required' || r.compliance_status === 'Required').length
-  const optionalReports = displayReports.filter(r => r.complianceStatus === 'Optional' || r.compliance_status === 'Optional').length
-  const activeDomains = DOMAINS.length
-  
-  const domainCounts = DOMAINS.map(domain => ({
-    domain,
-    count: displayReports.filter(r => r.domain === domain).length,
-    percentage: totalReports > 0 ? ((displayReports.filter(r => r.domain === domain).length / totalReports) * 100).toFixed(1) : 0
-  }))
-
-  const filteredDomains = selectedCategory === 'All' 
-    ? domainCounts 
-    : domainCounts.filter(d => d.domain === selectedCategory)
 
   return (
     <>
       <Navigation />
       <RealTimeAlerts position="top-right" maxAlerts={5} />
       <div className="h-screen flex flex-col bg-gray-900 text-white">
-        {/* Toast Notification */}
+
+        {/* Toast */}
         {toast && (
           <div className="fixed top-20 right-4 z-50 animate-fade-in">
-            <div className={`rounded-lg px-6 py-3 shadow-lg ${
-              toast.type === 'success'
-                ? 'bg-green-600 border border-green-500'
-                : 'bg-red-600 border border-red-500'
-            }`}>
+            <div className={`rounded-lg px-6 py-3 shadow-lg ${toast.type==='success'?'bg-green-600 border border-green-500':'bg-red-600 border border-red-500'}`}>
               <div className="flex items-center gap-2 text-white">
-                {toast.type === 'success' ? (
-                  <CheckCircle size={20} />
-                ) : (
-                  <AlertTriangle size={20} />
-                )}
+                {toast.type==='success' ? <CheckCircle size={20}/> : <AlertTriangle size={20}/>}
                 <span>{toast.message}</span>
               </div>
             </div>
@@ -371,151 +105,87 @@ function Dashboard() {
         )}
 
         {/* Modals */}
-        <ReportModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSave={handleSaveReport}
-          report={reportToEdit}
-          mode={modalMode}
-        />
+        <ReportModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} onSave={handleSaveReport} report={reportToEdit} mode={modalMode}/>
+        <DeleteConfirmModal isOpen={isDeleteModalOpen} onClose={()=>setIsDeleteModalOpen(false)} onConfirm={handleDeleteReport} report={reportToDelete}/>
 
-        <DeleteConfirmModal
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onConfirm={handleDeleteReport}
-          report={reportToDelete}
-        />
+        {/* ── HEADER ─────────────────────────────────────────────── */}
+        <header style={{background:'#1e293b',borderBottom:'1px solid #334155',flexShrink:0}}>
+          <div style={{padding:'0 16px',height:52,display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
 
-        {/* Top Header - Compact & Aligned */}
-        <header className="bg-gray-800 border-b border-gray-700 flex-shrink-0">
-          <div className="px-4 py-2.5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <button onClick={showDashboard} className="hover:opacity-80 transition-opacity">
-                  <h1 className="text-lg font-bold text-blue-400">Enterprise Finance Platform</h1>
-                </button>
-                <span className="text-xs text-gray-400">{reports.length} Reports • {DOMAINS.length} Domains</span>
-                {isUsingBackend && (
-                  <span className="text-[10px] bg-green-900 text-green-200 px-1.5 py-0.5 rounded font-medium">Live Data</span>
-                )}
-              </div>
+            {/* LEFT */}
+            <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
+              <button onClick={showDashboard} style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
+                <span style={{fontSize:15,fontWeight:700,color:'#60a5fa',letterSpacing:'-0.3px'}}>Enterprise Finance Platform</span>
+              </button>
+              <span style={{fontSize:11,color:'#475569',whiteSpace:'nowrap'}}>{reports.length} Reports · {DOMAINS.length} Domains</span>
+              {isUsingBackend&&<span style={{fontSize:10,background:'#14532d',color:'#86efac',padding:'2px 7px',borderRadius:4,fontWeight:600,letterSpacing:'0.3px'}}>LIVE</span>}
+            </div>
 
-              <div className="flex items-center gap-2">
-
-                {/* Real-Time Indicator */}
-                <RealTimeIndicator
-                  isConnected={realtime.isActive}
-                  connectionType="polling"
-                  lastUpdate={realtime.lastUpdate}
-                  updateCount={realtime.updateCount}
-                  onRefresh={realtime.refresh}
-                  showDetails={true}
-                  compact={false}
-                />
-
-                {/* Predictive AI Button */}
-                <button
-                  onClick={() => navigate('/predictive-analytics')}
-                  className="bg-violet-600 hover:bg-violet-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
-                >
-                  <Brain size={14} />
-                  <span>Predictive AI</span>
-                </button>
-
-                {/* Backend Toggle */}
-                <button
-                  onClick={toggleBackend}
-                  className={`px-4 py-1.5 rounded text-xs font-medium transition-colors ${
-                    useBackend ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-700 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <div className={`w-1.5 h-1.5 rounded-full ${
-                      isUsingBackend ? 'bg-green-300 animate-pulse' : 'bg-gray-400'
-                    }`}></div>
-                    <span>{useBackend ? 'Backend: ON' : 'Backend: OFF'}</span>
-                  </div>
-                </button>
-
-                {useBackend && (
-                  <>
-                    {/* Refresh */}
-                    <button onClick={refresh} disabled={loading} className="bg-gray-700 hover:bg-gray-600 px-2.5 py-1.5 rounded transition-colors">
-                      <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
-                    </button>
-
-                    {/* New Report */}
-                    <button onClick={openCreateModal} className="bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors">
-                      <span className="text-sm">+</span>
-                      <span>New Report</span>
-                    </button>
-                  </>
-                )}
-
-                {/* Dashboard */}
-                <button onClick={showDashboard} className={`px-4 py-1.5 rounded text-xs font-medium transition-colors ${
-                  currentView === 'dashboard' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
-                }`}>
-                  Dashboard
-                </button>
-
-                {/* Upload Data */}
-                <button
-                  onClick={() => navigate('/upload-data')}
-                  className="bg-teal-600 hover:bg-teal-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
-                >
-                  <Upload size={14} />
-                  <span>Upload Data</span>
-                </button>
-
-                {/* KPI Dashboard */}
-                <button
-                  onClick={() => navigate('/kpi-dashboard')}
-                  className="bg-cyan-600 hover:bg-cyan-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
-                >
-                  <BarChart3 size={14} />
-                  <span>KPI Dashboard</span>
-                </button>
-
-                {/* Digital Clock — far right before avatar */}
-                <div className="flex items-center gap-1.5 bg-gray-700 px-2.5 py-1.5 rounded border border-gray-600">
-                  <Clock size={13} className="text-teal-400" />
-                  <span className="text-xs font-mono font-semibold text-teal-400">{formatTime(currentTime)}</span>
-                </div>
-
-                {/* User Avatar */}
-                <div className="relative">
-                  <button onClick={() => setShowUserMenu(!showUserMenu)} className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded">
-                    <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-xs">
-                      {user?.firstName?.charAt(0) || user?.email?.charAt(0).toUpperCase()}
-                    </div>
-                    <span className="text-xs">{user?.firstName || user?.email}</span>
+            {/* RIGHT */}
+            <div style={{display:'flex',alignItems:'center',gap:4}}>
+              <RealTimeIndicator isConnected={realtime.isActive} connectionType="polling" lastUpdate={realtime.lastUpdate} updateCount={realtime.updateCount} onRefresh={realtime.refresh} showDetails={false} compact={true}/>
+              <div style={{width:1,height:20,background:'#334155',margin:'0 4px'}}/>
+              <button onClick={()=>navigate('/predictive-analytics')} style={btnStyle('#7c3aed')}>
+                <Brain size={13}/><span>Predictive AI</span>
+              </button>
+              <button onClick={toggleBackend} style={btnStyle(useBackend?'#15803d':'#374151')}>
+                <div style={{width:6,height:6,borderRadius:'50%',background:isUsingBackend?'#86efac':'#6b7280',boxShadow:isUsingBackend?'0 0 4px #86efac':'none'}}/>
+                <span>{useBackend?'Backend: ON':'Backend: OFF'}</span>
+              </button>
+              {useBackend&&(
+                <>
+                  <button onClick={refresh} disabled={loading} title="Refresh" style={iconBtnStyle}>
+                    <svg className={loading?'animate-spin':''} width={14} height={14} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
                   </button>
-
-                  {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
-                      <div className="px-4 py-3 border-b border-gray-700">
-                        <p className="text-sm text-gray-400">Signed in as</p>
-                        <p className="text-sm font-medium text-white truncate">{user?.email}</p>
-                      </div>
-                      <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700">
-                        Sign Out
-                      </button>
+                  <button onClick={openCreateModal} style={btnStyle('#1d4ed8')}>
+                    <span style={{fontSize:14,lineHeight:1}}>+</span><span>New Report</span>
+                  </button>
+                </>
+              )}
+              <div style={{width:1,height:20,background:'#334155',margin:'0 4px'}}/>
+              <button onClick={showDashboard} style={btnStyle(currentView==='dashboard'?'#1d4ed8':'#1e293b')}>
+                <BarChart3 size={13}/><span>Dashboard</span>
+              </button>
+              <button onClick={()=>navigate('/upload-data')} style={btnStyle('#0f766e')}>
+                <Upload size={13}/><span>Upload Data</span>
+              </button>
+              <button onClick={()=>navigate('/kpi-dashboard')} style={btnStyle('#0e7490')}>
+                <BarChart3 size={13}/><span>KPI</span>
+              </button>
+              <div style={{width:1,height:20,background:'#334155',margin:'0 4px'}}/>
+              <div style={{display:'flex',alignItems:'center',gap:5,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 10px',height:30}}>
+                <Clock size={12} style={{color:'#2dd4bf'}}/>
+                <span style={{fontSize:12,fontFamily:'monospace',fontWeight:700,color:'#2dd4bf',letterSpacing:'0.5px'}}>{formatTime(currentTime)}</span>
+              </div>
+              <div className="relative">
+                <button onClick={()=>setShowUserMenu(!showUserMenu)} style={{display:'flex',alignItems:'center',gap:7,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 10px',height:30,cursor:'pointer'}}>
+                  <div style={{width:20,height:20,background:'#2563eb',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:700,fontSize:10}}>
+                    {user?.firstName?.charAt(0)||user?.email?.charAt(0)?.toUpperCase()}
+                  </div>
+                  <span style={{fontSize:12,color:'#94a3b8',fontWeight:500}}>{user?.firstName||user?.email}</span>
+                </button>
+                {showUserMenu&&(
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
+                    <div className="px-4 py-3 border-b border-gray-700">
+                      <p className="text-sm text-gray-400">Signed in as</p>
+                      <p className="text-sm font-medium text-white truncate">{user?.email}</p>
                     </div>
-                  )}
-                </div>
+                    <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700">Sign Out</button>
+                  </div>
+                )}
               </div>
             </div>
+
           </div>
         </header>
 
         {/* Main Layout */}
         <div className="flex flex-1 overflow-hidden">
-          <Sidebar onReportSelect={handleReportSelect} selectedReportId={selectedReport?.id} reports={displayReports} />
-
+          <Sidebar onReportSelect={handleReportSelect} selectedReportId={selectedReport?.id} reports={displayReports}/>
           <main className="flex-1 overflow-auto">
+
             {loading && useBackend ? (
               <Loading message="Loading reports from backend..." />
             ) : error && useBackend ? (
