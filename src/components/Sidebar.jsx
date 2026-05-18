@@ -140,13 +140,13 @@ function Sidebar() {
 
   return (
     <aside className="sidebar">
-      {/* Logo/Brand */}
+      {/* Brand */}
       <div className="sidebar-header">
         <div className="sidebar-brand">
-          <FileText className="brand-icon" />
+          <FileText className="brand-icon" size={16} />
           <div>
             <h2 className="brand-title">Finance Dashboard</h2>
-            <p className="brand-subtitle">500 Reports • 13 Domains</p>
+            <p className="brand-subtitle">500 Reports · 13 Domains</p>
           </div>
         </div>
       </div>

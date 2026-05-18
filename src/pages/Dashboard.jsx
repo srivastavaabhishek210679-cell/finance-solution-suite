@@ -345,6 +345,26 @@ function Dashboard() {
     ? domainCounts 
     : domainCounts.filter(d => d.domain === selectedCategory)
 
+  // ── Shared button style helpers ──────────────────────────────
+  const btnStyle = (bg, bgHover) => ({
+    display: 'inline-flex', alignItems: 'center', gap: 5,
+    height: 30, padding: '0 12px',
+    background: bg, border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 6, color: '#f1f5f9',
+    fontSize: 12, fontWeight: 500,
+    cursor: 'pointer', whiteSpace: 'nowrap',
+    transition: 'filter 0.15s',
+    '--bg-hover': bgHover,
+  })
+
+  const iconBtnStyle = {
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+    height: 30, width: 30,
+    background: '#1e293b', border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 6, color: '#94a3b8',
+    cursor: 'pointer', transition: 'background 0.15s',
+  }
+
   return (
     <>
       <Navigation />
@@ -386,113 +406,100 @@ function Dashboard() {
           report={reportToDelete}
         />
 
-        {/* Top Header - Compact & Aligned */}
-        <header className="bg-gray-800 border-b border-gray-700 flex-shrink-0">
-          <div className="px-4 py-2.5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <button onClick={showDashboard} className="hover:opacity-80 transition-opacity">
-                  <h1 className="text-lg font-bold text-blue-400">Enterprise Finance Platform</h1>
-                </button>
-                <span className="text-xs text-gray-400">{reports.length} Reports • {DOMAINS.length} Domains</span>
-                {isUsingBackend && (
-                  <span className="text-[10px] bg-green-900 text-green-200 px-1.5 py-0.5 rounded font-medium">Live Data</span>
-                )}
+        {/* ── Top Header ── */}
+        <header style={{ background: '#1e293b', borderBottom: '1px solid #334155', flexShrink: 0 }}>
+          <div style={{ padding: '0 16px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+
+            {/* LEFT — Brand */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+              <button onClick={showDashboard} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                <span style={{ fontSize: 15, fontWeight: 700, color: '#60a5fa', letterSpacing: '-0.3px' }}>Enterprise Finance Platform</span>
+              </button>
+              <span style={{ fontSize: 11, color: '#475569', whiteSpace: 'nowrap' }}>{reports.length} Reports · {DOMAINS.length} Domains</span>
+              {isUsingBackend && (
+                <span style={{ fontSize: 10, background: '#14532d', color: '#86efac', padding: '2px 7px', borderRadius: 4, fontWeight: 600, letterSpacing: '0.3px' }}>LIVE</span>
+              )}
+            </div>
+
+            {/* RIGHT — Uniform button toolbar */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+
+              {/* Real-Time Indicator — compact */}
+              <RealTimeIndicator
+                isConnected={realtime.isActive}
+                connectionType="polling"
+                lastUpdate={realtime.lastUpdate}
+                updateCount={realtime.updateCount}
+                onRefresh={realtime.refresh}
+                showDetails={false}
+                compact={true}
+              />
+
+              {/* ── Divider ── */}
+              <div style={{ width: 1, height: 20, background: '#334155', margin: '0 4px' }} />
+
+              {/* Predictive AI */}
+              <button onClick={() => navigate('/predictive-analytics')} style={btnStyle('#7c3aed', '#6d28d9')}>
+                <Brain size={13} /><span>Predictive AI</span>
+              </button>
+
+              {/* Backend Toggle */}
+              <button onClick={toggleBackend} style={btnStyle(useBackend ? '#15803d' : '#374151', useBackend ? '#166534' : '#1f2937')}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: isUsingBackend ? '#86efac' : '#6b7280', boxShadow: isUsingBackend ? '0 0 4px #86efac' : 'none' }} />
+                <span>{useBackend ? 'Backend: ON' : 'Backend: OFF'}</span>
+              </button>
+
+              {useBackend && (
+                <>
+                  {/* Refresh */}
+                  <button onClick={refresh} disabled={loading} title="Refresh" style={{ ...iconBtnStyle, background: '#1e293b' }}>
+                    <svg className={loading ? 'animate-spin' : ''} width={14} height={14} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                  </button>
+
+                  {/* New Report */}
+                  <button onClick={openCreateModal} style={btnStyle('#1d4ed8', '#1e40af')}>
+                    <span style={{ fontSize: 14, lineHeight: 1 }}>+</span><span>New Report</span>
+                  </button>
+                </>
+              )}
+
+              {/* ── Divider ── */}
+              <div style={{ width: 1, height: 20, background: '#334155', margin: '0 4px' }} />
+
+              {/* Dashboard */}
+              <button onClick={showDashboard} style={btnStyle(currentView === 'dashboard' ? '#1d4ed8' : '#1e293b', currentView === 'dashboard' ? '#1e40af' : '#273548')}>
+                <BarChart3 size={13} /><span>Dashboard</span>
+              </button>
+
+              {/* Upload Data */}
+              <button onClick={() => navigate('/upload-data')} style={btnStyle('#0f766e', '#0d6460')}>
+                <Upload size={13} /><span>Upload Data</span>
+              </button>
+
+              {/* KPI Dashboard */}
+              <button onClick={() => navigate('/kpi-dashboard')} style={btnStyle('#0e7490', '#0c6880')}>
+                <BarChart3 size={13} /><span>KPI</span>
+              </button>
+
+              {/* ── Divider ── */}
+              <div style={{ width: 1, height: 20, background: '#334155', margin: '0 4px' }} />
+
+              {/* Clock */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#0f172a', border: '1px solid #334155', borderRadius: 6, padding: '0 10px', height: 30 }}>
+                <Clock size={12} style={{ color: '#2dd4bf' }} />
+                <span style={{ fontSize: 12, fontFamily: 'monospace', fontWeight: 700, color: '#2dd4bf', letterSpacing: '0.5px' }}>{formatTime(currentTime)}</span>
               </div>
 
-              <div className="flex items-center gap-2">
-
-                {/* Real-Time Indicator */}
-                <RealTimeIndicator
-                  isConnected={realtime.isActive}
-                  connectionType="polling"
-                  lastUpdate={realtime.lastUpdate}
-                  updateCount={realtime.updateCount}
-                  onRefresh={realtime.refresh}
-                  showDetails={true}
-                  compact={false}
-                />
-
-                {/* Predictive AI Button */}
-                <button
-                  onClick={() => navigate('/predictive-analytics')}
-                  className="bg-violet-600 hover:bg-violet-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
-                >
-                  <Brain size={14} />
-                  <span>Predictive AI</span>
-                </button>
-
-                {/* Backend Toggle */}
-                <button
-                  onClick={toggleBackend}
-                  className={`px-4 py-1.5 rounded text-xs font-medium transition-colors ${
-                    useBackend ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-700 hover:bg-gray-600'
-                  }`}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <div className={`w-1.5 h-1.5 rounded-full ${
-                      isUsingBackend ? 'bg-green-300 animate-pulse' : 'bg-gray-400'
-                    }`}></div>
-                    <span>{useBackend ? 'Backend: ON' : 'Backend: OFF'}</span>
+              {/* User Avatar */}
+              <div className="relative">
+                <button onClick={() => setShowUserMenu(!showUserMenu)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#0f172a', border: '1px solid #334155', borderRadius: 6, padding: '0 10px', height: 30, cursor: 'pointer' }}>
+                  <div style={{ width: 20, height: 20, background: '#2563eb', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 10 }}>
+                    {user?.firstName?.charAt(0) || user?.email?.charAt(0).toUpperCase()}
                   </div>
+                  <span style={{ fontSize: 12, color: '#94a3b8', fontWeight: 500 }}>{user?.firstName || user?.email}</span>
                 </button>
-
-                {useBackend && (
-                  <>
-                    {/* Refresh */}
-                    <button onClick={refresh} disabled={loading} className="bg-gray-700 hover:bg-gray-600 px-2.5 py-1.5 rounded transition-colors">
-                      <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
-                    </button>
-
-                    {/* New Report */}
-                    <button onClick={openCreateModal} className="bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors">
-                      <span className="text-sm">+</span>
-                      <span>New Report</span>
-                    </button>
-                  </>
-                )}
-
-                {/* Dashboard */}
-                <button onClick={showDashboard} className={`px-4 py-1.5 rounded text-xs font-medium transition-colors ${
-                  currentView === 'dashboard' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
-                }`}>
-                  Dashboard
-                </button>
-
-                {/* Upload Data */}
-                <button
-                  onClick={() => navigate('/upload-data')}
-                  className="bg-teal-600 hover:bg-teal-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
-                >
-                  <Upload size={14} />
-                  <span>Upload Data</span>
-                </button>
-
-                {/* KPI Dashboard */}
-                <button
-                  onClick={() => navigate('/kpi-dashboard')}
-                  className="bg-cyan-600 hover:bg-cyan-700 px-4 py-1.5 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
-                >
-                  <BarChart3 size={14} />
-                  <span>KPI Dashboard</span>
-                </button>
-
-                {/* Digital Clock — far right before avatar */}
-                <div className="flex items-center gap-1.5 bg-gray-700 px-2.5 py-1.5 rounded border border-gray-600">
-                  <Clock size={13} className="text-teal-400" />
-                  <span className="text-xs font-mono font-semibold text-teal-400">{formatTime(currentTime)}</span>
-                </div>
-
-                {/* User Avatar */}
-                <div className="relative">
-                  <button onClick={() => setShowUserMenu(!showUserMenu)} className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded">
-                    <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-xs">
-                      {user?.firstName?.charAt(0) || user?.email?.charAt(0).toUpperCase()}
-                    </div>
-                    <span className="text-xs">{user?.firstName || user?.email}</span>
-                  </button>
 
                   {showUserMenu && (
                     <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
@@ -506,7 +513,6 @@ function Dashboard() {
                     </div>
                   )}
                 </div>
-              </div>
             </div>
           </div>
         </header>
