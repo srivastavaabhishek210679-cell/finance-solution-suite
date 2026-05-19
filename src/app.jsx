@@ -21,6 +21,7 @@ import AICopilot           from './pages/AICopilot'
 import WorkflowAutomation  from './pages/WorkflowAutomation'
 import ExecutiveReporting  from './pages/ExecutiveReporting'
 import IntegrationEcosystem from './pages/IntegrationEcosystem'
+import Monetization         from './pages/Monetization'
 
 function App() {
   const { user } = useAuth()
@@ -55,6 +56,7 @@ function App() {
       <Route path="/workflow-automation"  element={<ProtectedRoute><WorkflowAutomation /></ProtectedRoute>} />
       <Route path="/executive-reporting"    element={<ProtectedRoute><ExecutiveReporting /></ProtectedRoute>} />
       <Route path="/integration-ecosystem" element={<ProtectedRoute><IntegrationEcosystem /></ProtectedRoute>} />
+      <Route path="/monetization"          element={<ProtectedRoute><Monetization /></ProtectedRoute>} />
 
       {/* ── Default ───────────────────────────────────────── */}
       <Route path="/" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />

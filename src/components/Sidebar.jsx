@@ -21,7 +21,8 @@ import {
   AlertCircle,
   GitBranch,
   Brain,
-  Link2
+  Link2,
+  CreditCard
 } from 'lucide-react'
 import './Sidebar.css'
 
@@ -130,6 +131,7 @@ function Sidebar() {
     { path: '/workflow-automation',   icon: GitBranch,     label: 'Workflow Automation',  badge: 'New', badgeColor: '#10b981' },
     { path: '/executive-reporting',   icon: BarChart3,     label: 'Executive Reports',    badge: 'New', badgeColor: '#0f766e' },
     { path: '/integration-ecosystem', icon: Link2,         label: 'Integrations',         badge: 'New', badgeColor: '#0e7490' },
+    { path: '/monetization',          icon: CreditCard,    label: 'Billing & Plans',      badge: 'New', badgeColor: '#7c3aed' },
     { path: '/customers',            icon: Users,         label: 'Customers' },
     { path: '/tenants',              icon: Building2,     label: 'Multi-Tenant',         adminOnly: true },
     { path: '/ai-insights',          icon: Sparkles,      label: 'AI Insights',          badge: 'New', badgeColor: '#10b981' },
