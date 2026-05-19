@@ -21,7 +21,7 @@ import { useSimulatedRealTime } from '../hooks/useRealTime'
 import RealTimeIndicator from '../components/RealTimeIndicator'
 import RealTimeAlerts, { RealTimeAlertTypes, showRealTimeAlert } from '../components/RealTimeAlerts'
 import { REPORTS_DATA, DOMAINS } from '../data/reportsData'
-import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload, Brain, GitBranch } from 'lucide-react'
+import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload, Brain, GitBranch, Link2 } from 'lucide-react'
 import './dashboard.css'
 
 
@@ -334,6 +334,9 @@ function Dashboard() {
               </button>
               <button onClick={()=>navigate('/executive-reporting')} style={btnStyle('#0f766e')}>
                 <BarChart3 size={12}/><span>Reports</span>
+              </button>
+              <button onClick={()=>navigate('/integration-ecosystem')} style={btnStyle('#0e7490')}>
+                <Link2 size={12}/><span>Integrations</span>
               </button>
               <button onClick={toggleBackend} style={btnStyle(useBackend?'#15803d':'#374151')}>
                 <div style={{width:5,height:5,borderRadius:'50%',background:isUsingBackend?'#86efac':'#6b7280',boxShadow:isUsingBackend?'0 0 4px #86efac':'none'}}/>

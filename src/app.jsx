@@ -20,6 +20,7 @@ import PredictiveAnalytics from './pages/PredictiveAnalytics'
 import AICopilot           from './pages/AICopilot'
 import WorkflowAutomation  from './pages/WorkflowAutomation'
 import ExecutiveReporting  from './pages/ExecutiveReporting'
+import IntegrationEcosystem from './pages/IntegrationEcosystem'
 
 function App() {
   const { user } = useAuth()
@@ -52,7 +53,8 @@ function App() {
       <Route path="/predictive-analytics" element={<ProtectedRoute><PredictiveAnalytics /></ProtectedRoute>} />
       <Route path="/ai-copilot"           element={<ProtectedRoute><AICopilot /></ProtectedRoute>} />
       <Route path="/workflow-automation"  element={<ProtectedRoute><WorkflowAutomation /></ProtectedRoute>} />
-      <Route path="/executive-reporting"  element={<ProtectedRoute><ExecutiveReporting /></ProtectedRoute>} />
+      <Route path="/executive-reporting"    element={<ProtectedRoute><ExecutiveReporting /></ProtectedRoute>} />
+      <Route path="/integration-ecosystem" element={<ProtectedRoute><IntegrationEcosystem /></ProtectedRoute>} />
 
       {/* ── Default ───────────────────────────────────────── */}
       <Route path="/" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />

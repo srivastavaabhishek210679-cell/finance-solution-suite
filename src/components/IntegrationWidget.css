@@ -1,0 +1,43 @@
+/* IntegrationWidget.css */
+.iw-root {
+  background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+  padding: 16px; display: flex; flex-direction: column; gap: 12px;
+  cursor: pointer; transition: all 0.2s;
+}
+.iw-root:hover { border-color: #3b82f640; box-shadow: 0 4px 16px rgba(59,130,246,0.1); transform: translateY(-1px); }
+
+.iw-header { display: flex; align-items: center; justify-content: space-between; }
+.iw-header-left { display: flex; align-items: center; gap: 10px; }
+
+.iw-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg,#3b82f620,#14b8a620);
+  border: 1px solid #3b82f640; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; color: #3b82f6;
+}
+.iw-title    { font-size: 13px; font-weight: 700; color: #f1f5f9; }
+.iw-subtitle { font-size: 10px; color: #64748b; }
+
+.iw-stats    { display: flex; align-items: center; background: #0f172a; border: 1px solid #334155; border-radius: 8px; overflow: hidden; }
+.iw-stat     { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 10px 8px; gap: 2px; }
+.iw-stat-val { font-size: 20px; font-weight: 800; line-height: 1; }
+.iw-stat-lbl { font-size: 10px; color: #64748b; }
+.iw-divider  { width: 1px; height: 32px; background: #334155; flex-shrink: 0; }
+
+.iw-connectors { display: flex; flex-wrap: wrap; gap: 6px; }
+.iw-connector-dot {
+  display: flex; align-items: center; gap: 3px;
+  padding: 3px 6px; background: #0f172a; border: 1px solid #334155; border-radius: 6px;
+}
+.iw-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.iw-health-section { display: flex; flex-direction: column; gap: 5px; }
+.iw-health-label   { display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+.iw-health-bar     { height: 5px; background: #334155; border-radius: 3px; overflow: hidden; }
+.iw-health-fill    { height: 100%; background: linear-gradient(90deg,#3b82f6,#14b8a6); border-radius: 3px; transition: width 0.6s ease; }
+
+.iw-alert {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 10px; background: #ef444415; border: 1px solid #ef444430;
+  border-radius: 7px; font-size: 11px; color: #ef4444;
+}

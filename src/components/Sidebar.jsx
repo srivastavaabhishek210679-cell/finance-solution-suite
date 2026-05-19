@@ -20,7 +20,8 @@ import {
   CheckCircle,
   AlertCircle,
   GitBranch,
-  Brain
+  Brain,
+  Link2
 } from 'lucide-react'
 import './Sidebar.css'
 
@@ -124,10 +125,11 @@ function Sidebar() {
   ]
 
   const featureMenuItems = [
-    { path: '/chatbot',              icon: MessageCircle, label: 'AI Assistant',         badge: 'AI',  badgeColor: '#8b5cf6' },
-    { path: '/ai-copilot',           icon: Brain,         label: 'AI Copilot',           badge: 'New', badgeColor: '#8b5cf6' },
-    { path: '/workflow-automation',  icon: GitBranch,     label: 'Workflow Automation',  badge: 'New', badgeColor: '#10b981' },
-    { path: '/executive-reporting',  icon: BarChart3,     label: 'Executive Reports',    badge: 'New', badgeColor: '#0f766e' },
+    { path: '/chatbot',               icon: MessageCircle, label: 'AI Assistant',         badge: 'AI',  badgeColor: '#8b5cf6' },
+    { path: '/ai-copilot',            icon: Brain,         label: 'AI Copilot',           badge: 'New', badgeColor: '#8b5cf6' },
+    { path: '/workflow-automation',   icon: GitBranch,     label: 'Workflow Automation',  badge: 'New', badgeColor: '#10b981' },
+    { path: '/executive-reporting',   icon: BarChart3,     label: 'Executive Reports',    badge: 'New', badgeColor: '#0f766e' },
+    { path: '/integration-ecosystem', icon: Link2,         label: 'Integrations',         badge: 'New', badgeColor: '#0e7490' },
     { path: '/customers',            icon: Users,         label: 'Customers' },
     { path: '/tenants',              icon: Building2,     label: 'Multi-Tenant',         adminOnly: true },
     { path: '/ai-insights',          icon: Sparkles,      label: 'AI Insights',          badge: 'New', badgeColor: '#10b981' },
