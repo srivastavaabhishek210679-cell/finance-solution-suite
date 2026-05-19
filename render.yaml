@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: finance-frontend
+    env: static
+    buildCommand: npm install && chmod +x node_modules/.bin/* && npx vite build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
