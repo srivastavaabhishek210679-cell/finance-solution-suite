@@ -345,7 +345,7 @@ function Dashboard() {
                     />
                     {/* Dropdown */}
                     <div style={{
-                      position:'absolute', top:'calc(100% + 6px)', right:0,
+                      position:'fixed', top:58, right:16,
                       width:220, background:'#1e293b', border:'1px solid #334155',
                       borderRadius:10, boxShadow:'0 8px 32px rgba(0,0,0,0.4)',
                       zIndex:50, overflow:'hidden',
