@@ -332,6 +332,9 @@ function Dashboard() {
               <button onClick={()=>navigate('/workflow-automation')} style={btnStyle('#059669')}>
                 <GitBranch size={12}/><span>Workflows</span>
               </button>
+              <button onClick={()=>navigate('/executive-reporting')} style={btnStyle('#0f766e')}>
+                <BarChart3 size={12}/><span>Reports</span>
+              </button>
               <button onClick={toggleBackend} style={btnStyle(useBackend?'#15803d':'#374151')}>
                 <div style={{width:5,height:5,borderRadius:'50%',background:isUsingBackend?'#86efac':'#6b7280',boxShadow:isUsingBackend?'0 0 4px #86efac':'none'}}/>
                 <span>{useBackend?'ON':'OFF'}</span>

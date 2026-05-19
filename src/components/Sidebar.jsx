@@ -127,6 +127,7 @@ function Sidebar() {
     { path: '/chatbot',              icon: MessageCircle, label: 'AI Assistant',         badge: 'AI',  badgeColor: '#8b5cf6' },
     { path: '/ai-copilot',           icon: Brain,         label: 'AI Copilot',           badge: 'New', badgeColor: '#8b5cf6' },
     { path: '/workflow-automation',  icon: GitBranch,     label: 'Workflow Automation',  badge: 'New', badgeColor: '#10b981' },
+    { path: '/executive-reporting',  icon: BarChart3,     label: 'Executive Reports',    badge: 'New', badgeColor: '#0f766e' },
     { path: '/customers',            icon: Users,         label: 'Customers' },
     { path: '/tenants',              icon: Building2,     label: 'Multi-Tenant',         adminOnly: true },
     { path: '/ai-insights',          icon: Sparkles,      label: 'AI Insights',          badge: 'New', badgeColor: '#10b981' },
