@@ -21,7 +21,7 @@ import { useSimulatedRealTime } from '../hooks/useRealTime'
 import RealTimeIndicator from '../components/RealTimeIndicator'
 import RealTimeAlerts, { RealTimeAlertTypes, showRealTimeAlert } from '../components/RealTimeAlerts'
 import { REPORTS_DATA, DOMAINS } from '../data/reportsData'
-import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload, Brain, GitBranch, Link2, CreditCard } from 'lucide-react'
+import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload, Brain, GitBranch, Link2, CreditCard, Menu, X } from 'lucide-react'
 import './dashboard.css'
 
 
@@ -55,7 +55,8 @@ function Dashboard() {
   const [reportToDelete, setReportToDelete] = useState(null)
   const [useBackend, setUseBackend] = useState(true)
   const [toast, setToast] = useState(null)
-  const [showUserMenu, setShowUserMenu] = useState(false)
+  const [showUserMenu,    setShowUserMenu]    = useState(false)
+  const [showHamburger,   setShowHamburger]   = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [currentTime, setCurrentTime] = useState(new Date())
   
@@ -323,24 +324,69 @@ function Dashboard() {
             <div style={{display:'flex',alignItems:'center',gap:3,overflow:'hidden',flexShrink:1}}>
               <RealTimeIndicator isConnected={realtime.isActive} connectionType="polling" lastUpdate={realtime.lastUpdate} updateCount={realtime.updateCount} onRefresh={realtime.refresh} showDetails={false} compact={true}/>
               <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
-              <button onClick={()=>navigate('/predictive-analytics')} style={btnStyle('#7c3aed')}>
-                <Brain size={12}/><span>Predict</span>
-              </button>
-              <button onClick={()=>navigate('/ai-copilot')} style={btnStyle('#8b5cf6')}>
-                <Brain size={12}/><span>Copilot</span>
-              </button>
-              <button onClick={()=>navigate('/workflow-automation')} style={btnStyle('#059669')}>
-                <GitBranch size={12}/><span>Workflows</span>
-              </button>
-              <button onClick={()=>navigate('/executive-reporting')} style={btnStyle('#0f766e')}>
-                <BarChart3 size={12}/><span>Reports</span>
-              </button>
-              <button onClick={()=>navigate('/integration-ecosystem')} style={btnStyle('#0e7490')}>
-                <Link2 size={12}/><span>Integrations</span>
-              </button>
-              <button onClick={()=>navigate('/monetization')} style={btnStyle('#7c3aed')}>
-                <CreditCard size={12}/><span>Billing</span>
-              </button>
+
+              {/* ── Hamburger Menu ──────────────────────────── */}
+              <div style={{position:'relative'}}>
+                <button
+                  onClick={()=>setShowHamburger(!showHamburger)}
+                  style={{...btnStyle('#1e293b'), border:'1px solid #334155', gap:5}}
+                  title="Features Menu"
+                >
+                  {showHamburger ? <X size={13}/> : <Menu size={13}/>}
+                  <span>Menu</span>
+                </button>
+
+                {showHamburger && (
+                  <>
+                    {/* Backdrop */}
+                    <div
+                      style={{position:'fixed',inset:0,zIndex:40}}
+                      onClick={()=>setShowHamburger(false)}
+                    />
+                    {/* Dropdown */}
+                    <div style={{
+                      position:'absolute', top:'calc(100% + 6px)', right:0,
+                      width:220, background:'#1e293b', border:'1px solid #334155',
+                      borderRadius:10, boxShadow:'0 8px 32px rgba(0,0,0,0.4)',
+                      zIndex:50, overflow:'hidden',
+                    }}>
+                      <div style={{padding:'8px 12px', fontSize:10, fontWeight:700, color:'#64748b', textTransform:'uppercase', letterSpacing:'0.5px', borderBottom:'1px solid #334155'}}>
+                        Feature Pages
+                      </div>
+                      {[
+                        { label:'Predictive Analytics', icon:Brain,       color:'#7c3aed', path:'/predictive-analytics'  },
+                        { label:'AI Copilot',            icon:Brain,       color:'#8b5cf6', path:'/ai-copilot'            },
+                        { label:'Workflow Automation',   icon:GitBranch,   color:'#059669', path:'/workflow-automation'   },
+                        { label:'Executive Reports',     icon:BarChart3,   color:'#0f766e', path:'/executive-reporting'   },
+                        { label:'Integrations',          icon:Link2,       color:'#0e7490', path:'/integration-ecosystem' },
+                        { label:'Billing & Plans',       icon:CreditCard,  color:'#7c3aed', path:'/monetization'          },
+                      ].map((item, i) => {
+                        const Icon = item.icon
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => { navigate(item.path); setShowHamburger(false) }}
+                            style={{
+                              display:'flex', alignItems:'center', gap:10,
+                              width:'100%', padding:'9px 14px',
+                              background:'none', border:'none', cursor:'pointer',
+                              borderBottom: i < 5 ? '1px solid #1e293b' : 'none',
+                              transition:'background 0.15s',
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.background='#334155'}
+                            onMouseLeave={e => e.currentTarget.style.background='none'}
+                          >
+                            <div style={{width:26,height:26,borderRadius:6,background:`${item.color}25`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                              <Icon size={13} style={{color:item.color}}/>
+                            </div>
+                            <span style={{fontSize:12,fontWeight:600,color:'#f1f5f9'}}>{item.label}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </>
+                )}
+              </div>
               <button onClick={toggleBackend} style={btnStyle(useBackend?'#15803d':'#374151')}>
                 <div style={{width:5,height:5,borderRadius:'50%',background:isUsingBackend?'#86efac':'#6b7280',boxShadow:isUsingBackend?'0 0 4px #86efac':'none'}}/>
                 <span>{useBackend?'ON':'OFF'}</span>
