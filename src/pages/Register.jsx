@@ -41,10 +41,12 @@ function Register() {
 
     try {
       await register({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
+        first_name: formData.firstName,
+        last_name:  formData.lastName,
+        email:      formData.email,
+        password:   formData.password,
+        tenant_id:  1,
+        role_id:    1,
       })
       navigate('/dashboard')
     } catch (err) {
