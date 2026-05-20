@@ -323,7 +323,7 @@ function Dashboard() {
             {/* RIGHT */}
             <div style={{display:'flex',alignItems:'center',gap:3,overflow:'hidden',flexShrink:1}}>
               <RealTimeIndicator isConnected={realtime.isActive} connectionType="polling" lastUpdate={realtime.lastUpdate} updateCount={realtime.updateCount} onRefresh={realtime.refresh} showDetails={false} compact={true}/>
-              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>{/* Notification Bell */}<NotificationPanel />
+              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/><NotificationPanel />
 
               {/* â”€â”€ Hamburger Menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
               <div style={{position:'relative'}}>
@@ -403,7 +403,7 @@ function Dashboard() {
                   </button>
                 </>
               )}
-              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>{/* Notification Bell */}<NotificationPanel />
+              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
               <button onClick={showDashboard} style={btnStyle(currentView==='dashboard'?'#1d4ed8':'#1e293b')}>
                 <BarChart3 size={12}/><span>View</span>
               </button>
@@ -413,7 +413,7 @@ function Dashboard() {
               <button onClick={()=>navigate('/kpi-dashboard')} style={btnStyle('#0e7490')}>
                 <BarChart3 size={12}/><span>KPI</span>
               </button>
-              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>{/* Notification Bell */}<NotificationPanel />
+              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
               <div style={{display:'flex',alignItems:'center',gap:4,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 8px',height:28}}>
                 <Clock size={11} style={{color:'#2dd4bf'}}/>
                 <span style={{fontSize:11,fontFamily:'monospace',fontWeight:700,color:'#2dd4bf',letterSpacing:'0.5px'}}>{formatTime(currentTime)}</span>
@@ -666,3 +666,6 @@ function Dashboard() {
 }
 
 export default Dashboard
+
+
+
