@@ -323,7 +323,7 @@ function Dashboard() {
             {/* RIGHT */}
             <div style={{display:'flex',alignItems:'center',gap:3,overflow:'hidden',flexShrink:1}}>
               <RealTimeIndicator isConnected={realtime.isActive} connectionType="polling" lastUpdate={realtime.lastUpdate} updateCount={realtime.updateCount} onRefresh={realtime.refresh} showDetails={false} compact={true}/>
-              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/><NotificationPanel />
+              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
 
               {/* â”€â”€ Hamburger Menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
               <div style={{position:'relative'}}>
@@ -438,7 +438,7 @@ function Dashboard() {
             </div>
 
           </div>
-        </header>
+        <NotificationPanel /></header>
 
         {/* Main Layout */}
         <div className="flex flex-1 overflow-hidden">
@@ -666,6 +666,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
