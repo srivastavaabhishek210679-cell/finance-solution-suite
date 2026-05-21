@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ArrowLeft, Zap, Play, Pause, Plus, Trash2, Edit3,
@@ -8,6 +8,7 @@ import {
   TrendingUp, Activity, Settings, ArrowRight
 } from 'lucide-react'
 import './WorkflowAutomation.css'
+import { useWorkflows } from '../hooks/useWorkflows'
 
 // ─────────────────────────────────────────────────────────────
 // MOCK DATA — workflows, approvals, history
@@ -120,29 +121,75 @@ const priorityColor = { critical:'#ef4444', high:'#f97316', medium:'#f59e0b', lo
 function WorkflowAutomation() {
   const navigate = useNavigate()
 
+  // ── Live data hook ──────────────────────────────────────
+  const {
+    workflows: liveWorkflows,
+    summary,
+    loading: liveLoading,
+    toggleWorkflow: apiToggle,
+    refresh: liveRefresh,
+  } = useWorkflows()
+
+  // Normalize API shape → component shape
+  const normalizeWf = (w) => ({
+    id:         w.workflow_id,
+    name:       w.name,
+    status:     w.status || 'active',
+    category:   w.category || 'General',
+    priority:   'medium',
+    trigger: {
+      type:  w.trigger_type || 'manual',
+      value: w.schedule_cron
+        ? `Cron: ${w.schedule_cron}`
+        : w.trigger_type === 'trigger' ? 'On trigger' : 'On event',
+    },
+    actions:      ['Automated action step'],
+    lastRun:      w.last_run_at  ? new Date(w.last_run_at).toLocaleString()  : 'Never',
+    nextRun:      w.next_run_at  ? new Date(w.next_run_at).toLocaleString()  : (w.status === 'paused' ? 'Paused' : 'On trigger'),
+    runsTotal:    w.run_count    || 0,
+    runsSuccess:  w.success_count || 0,
+    createdBy:    'System',
+    createdAt:    w.created_at ? w.created_at.slice(0, 10) : '',
+  })
+
+  const isLive = liveWorkflows && liveWorkflows.length > 0
+
   const [activeTab,    setActiveTab]    = useState('overview')
   const [workflows,    setWorkflows]    = useState(INITIAL_WORKFLOWS)
+
+  // Sync live data into state once loaded
+  useEffect(() => {
+    if (isLive) {
+      setWorkflows(liveWorkflows.map(normalizeWf))
+    }
+  }, [liveWorkflows]) // eslint-disable-line
   const [approvals,    setApprovals]    = useState(PENDING_APPROVALS)
   const [builder,      setBuilder]      = useState(BUILDER_INIT)
   const [histFilter,   setHistFilter]   = useState('All')
   const [wfFilter,     setWfFilter]     = useState('All')
   const [buildSaved,   setBuildSaved]   = useState(false)
 
-  // Stats
+  // Stats — use live summary when available, fall back to computed
   const stats = {
-    total:   workflows.length,
-    active:  workflows.filter(w => w.status === 'active').length,
-    paused:  workflows.filter(w => w.status === 'paused').length,
+    total:   summary?.totalWorkflows  ?? workflows.length,
+    active:  summary?.activeWorkflows ?? workflows.filter(w => w.status === 'active').length,
+    paused:  summary?.pausedWorkflows ?? workflows.filter(w => w.status === 'paused').length,
     pending: approvals.length,
-    success: EXECUTION_HISTORY.filter(h => h.status === 'success').length,
-    failed:  EXECUTION_HISTORY.filter(h => h.status === 'failed').length,
+    success: summary?.successfulRuns  ?? EXECUTION_HISTORY.filter(h => h.status === 'success').length,
+    failed:  summary?.failedRuns      ?? EXECUTION_HISTORY.filter(h => h.status === 'failed').length,
   }
 
-  // Toggle workflow status
+  // Toggle workflow status — optimistic update + API call
   const toggleStatus = (id) => {
     setWorkflows(prev => prev.map(w =>
       w.id === id ? { ...w, status: w.status === 'active' ? 'paused' : 'active' } : w
     ))
+    if (isLive) apiToggle(id).catch(() => {
+      // revert on failure
+      setWorkflows(prev => prev.map(w =>
+        w.id === id ? { ...w, status: w.status === 'active' ? 'paused' : 'active' } : w
+      ))
+    })
   }
 
   // Delete workflow
@@ -206,6 +253,11 @@ function WorkflowAutomation() {
         </div>
         <div className="wfa-header-right">
           <span className="wfa-live-badge"><Activity size={11}/> {stats.active} active</span>
+          {isLive && (
+            <span style={{ fontSize:10, padding:'2px 7px', borderRadius:10, background:'#10b98122', color:'#10b981', fontWeight:600, letterSpacing:'0.04em' }}>
+              ● LIVE
+            </span>
+          )}
           <button className="wfa-new-btn" onClick={() => setActiveTab('builder')}>
             <Plus size={13}/> New Workflow
           </button>
