@@ -110,8 +110,7 @@ function Login() {
                 />
                 <span className="ml-2 text-sm text-gray-300">Remember me</span>
               </label>
-              <a href="#" className="text-sm text-blue-400 hover:text-blue-300">
-                Forgot password?
+              <a href="/forgot-password" className="text-sm text-blue-400 hover:text-blue-300">Forgot password?
               </a>
             </div>
 
@@ -187,4 +186,5 @@ function Login() {
 }
 
 export default Login
+
 
