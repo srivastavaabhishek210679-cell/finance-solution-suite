@@ -1,0 +1,125 @@
+/* ── Shimmer animation ────────────────────────────────────────────────────── */
+@keyframes sk-shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.sk-pulse {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    #1e293b 25%,
+    #2d3f55 50%,
+    #1e293b 75%
+  );
+  background-size: 1200px 100%;
+  animation: sk-shimmer 1.6s ease-in-out infinite;
+}
+
+/* ── Stat / KPI card ─────────────────────────────────────────────────────── */
+.sk-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sk-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Table row ────────────────────────────────────────────────────────────── */
+.sk-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #1e293b;
+}
+
+/* ── Notification item ────────────────────────────────────────────────────── */
+.sk-notif {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #1e293b;
+  align-items: flex-start;
+}
+
+.sk-notif-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+/* ── Connector card ───────────────────────────────────────────────────────── */
+.sk-connector {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-top: 3px solid #334155;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sk-connector-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sk-connector-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sk-connector-stats {
+  display: flex;
+  gap: 16px;
+}
+
+.sk-connector-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sk-connector-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid #334155;
+}
+
+/* ── Workflow card ────────────────────────────────────────────────────────── */
+.sk-workflow {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sk-workflow-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.sk-workflow-meta {
+  display: flex;
+  gap: 16px;
+}

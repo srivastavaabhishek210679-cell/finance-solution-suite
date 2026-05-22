@@ -8,6 +8,7 @@ import {
   TrendingUp, Activity, Settings, ArrowRight
 } from 'lucide-react'
 import './WorkflowAutomation.css'
+import { SkeletonCard, SkeletonWorkflow } from '../components/Skeleton'
 import { useWorkflows } from '../hooks/useWorkflows'
 
 // ─────────────────────────────────────────────────────────────
@@ -650,3 +651,4 @@ function WorkflowAutomation() {
 }
 
 export default WorkflowAutomation
+

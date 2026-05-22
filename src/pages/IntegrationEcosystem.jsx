@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import './IntegrationEcosystem.css'
 import { useIntegrations } from '../hooks/useIntegrations'
+import { SkeletonCard, SkeletonConnector } from '../components/Skeleton'
 
 const ERP_CONNECTORS = [
   { id:'sap',      name:'SAP S/4HANA',           vendor:'SAP',       logo:'🟡', category:'ERP',  status:'connected',    lastSync:'2026-05-19 14:30', syncFreq:'Every 2h', records:124500, health:98, version:'2023.1',    modules:['Finance','Controlling','Materials Management','Sales'] },
@@ -140,7 +141,7 @@ export default function IntegrationEcosystem() {
   const {
     integrations: liveIntegrations,
     summary:      liveSummary,
-    triggerSync:  apiSync,
+    loading: liveLoading, triggerSync: apiSync,
     isLive,
   } = useIntegrations()
 
@@ -351,7 +352,9 @@ export default function IntegrationEcosystem() {
             </div>
           </div>
           <div className="ie-connectors-grid">
-            {(activeTab==='erp'?ERP_CONNECTORS:activeTab==='crm'?CRM_CONNECTORS:HRMS_CONNECTORS).map(conn => {
+      {liveLoading
+        ? Array(3).fill(0).map((_, i) => <SkeletonConnector key={i} />)
+        : (activeTab==='erp'?ERP_CONNECTORS:activeTab==='crm'?CRM_CONNECTORS:HRMS_CONNECTORS).map(conn => {
               const live = connectors.find(c=>c.id===conn.id)||conn
               return <ConnectorCard key={conn.id} conn={live} onConnect={handleConnect} onDisconnect={handleDisconnect} onSync={handleSync} onConfigure={handleConfigure}/>
             })}
@@ -477,3 +480,6 @@ export default function IntegrationEcosystem() {
     </div>
   )
 }
+
+
+

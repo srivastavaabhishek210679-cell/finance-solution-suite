@@ -1,24 +1,24 @@
 import { useState, useRef, useEffect } from 'react'
-import { Bell, X, Check, CheckCheck, AlertTriangle, 
+import { Bell, X, Check, CheckCheck, AlertTriangle,
          Info, CheckCircle, Zap, RefreshCw } from 'lucide-react'
 import { useNotifications } from '../hooks/useNotifications'
+import { SkeletonNotification } from './Skeleton'
 import './NotificationPanel.css'
 
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // Helpers
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 const getIcon = (notif) => {
-  const msg = (notif.message || '').toLowerCase()
-  const ttl = (notif.title  || '').toLowerCase()
-  if (ttl.includes('risk') || ttl.includes('alert'))      return { Icon: AlertTriangle, color: '#ef4444' }
+  const ttl = (notif.title || '').toLowerCase()
+  if (ttl.includes('risk')    || ttl.includes('alert'))    return { Icon: AlertTriangle, color: '#ef4444' }
   if (ttl.includes('complet') || ttl.includes('approved')) return { Icon: CheckCircle,   color: '#10b981' }
-  if (ttl.includes('workflow') || ttl.includes('sync'))    return { Icon: Zap,           color: '#3b82f6' }
-  if (ttl.includes('deadline') || ttl.includes('due'))     return { Icon: AlertTriangle, color: '#f59e0b' }
+  if (ttl.includes('workflow')|| ttl.includes('sync'))     return { Icon: Zap,           color: '#3b82f6' }
+  if (ttl.includes('deadline')|| ttl.includes('due'))      return { Icon: AlertTriangle, color: '#f59e0b' }
   return { Icon: Info, color: '#6366f1' }
 }
 
 const timeAgo = (dateStr) => {
-  const diff = Date.now() - new Date(dateStr).getTime()
+  const diff  = Date.now() - new Date(dateStr).getTime()
   const mins  = Math.floor(diff / 60000)
   const hours = Math.floor(diff / 3600000)
   const days  = Math.floor(diff / 86400000)
@@ -28,9 +28,9 @@ const timeAgo = (dateStr) => {
   return `${days}d ago`
 }
 
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // NotificationPanel
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 export default function NotificationPanel() {
   const [open, setOpen] = useState(false)
   const [tab,  setTab]  = useState('all')
@@ -56,7 +56,7 @@ export default function NotificationPanel() {
   return (
     <div className="notif-wrapper" ref={panelRef}>
 
-      {/* ── Bell Button ── */}
+      {/* Bell Button */}
       <button className="notif-bell" onClick={() => setOpen(o => !o)}>
         <Bell size={20} />
         {unreadCount > 0 && (
@@ -64,7 +64,7 @@ export default function NotificationPanel() {
         )}
       </button>
 
-      {/* ── Panel ── */}
+      {/* Panel */}
       {open && (
         <div className="notif-panel">
 
@@ -92,16 +92,10 @@ export default function NotificationPanel() {
 
           {/* Tabs */}
           <div className="notif-tabs">
-            <button
-              className={`notif-tab ${tab === 'all' ? 'active' : ''}`}
-              onClick={() => setTab('all')}
-            >
+            <button className={`notif-tab ${tab==='all'?'active':''}`} onClick={() => setTab('all')}>
               All <span className="notif-tab-count">{notifications.length}</span>
             </button>
-            <button
-              className={`notif-tab ${tab === 'unread' ? 'active' : ''}`}
-              onClick={() => setTab('unread')}
-            >
+            <button className={`notif-tab ${tab==='unread'?'active':''}`} onClick={() => setTab('unread')}>
               Unread <span className="notif-tab-count">{unreadCount}</span>
             </button>
           </div>
@@ -109,10 +103,13 @@ export default function NotificationPanel() {
           {/* List */}
           <div className="notif-list">
             {loading ? (
-              <div className="notif-empty">
-                <RefreshCw size={20} className="notif-spin" />
-                <span>Loading...</span>
-              </div>
+              // ── Skeleton loading state ──────────────────────────────────
+              <>
+                <SkeletonNotification />
+                <SkeletonNotification />
+                <SkeletonNotification />
+                <SkeletonNotification />
+              </>
             ) : displayed.length === 0 ? (
               <div className="notif-empty">
                 <Bell size={24} />
@@ -161,6 +158,7 @@ export default function NotificationPanel() {
             </span>
             <span>{notifications.length} total</span>
           </div>
+
         </div>
       )}
     </div>
