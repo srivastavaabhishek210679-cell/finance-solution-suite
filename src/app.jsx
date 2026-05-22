@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 import Login                from './pages/Login'
 import Register             from './pages/Register'
+import ForgotPassword       from './pages/ForgotPassword'
+import ResetPassword        from './pages/ResetPassword'
 import Dashboard            from './pages/Dashboard'
 import Analytics            from './pages/Analytics'
 import MultiTenant          from './pages/MultiTenant'
@@ -24,7 +26,7 @@ import IntegrationEcosystem from './pages/IntegrationEcosystem'
 import Monetization         from './pages/Monetization'
 import ErrorBoundary        from './components/ErrorBoundary'
 
-// ── Helper: wrap a page in ProtectedRoute + ErrorBoundary ────────────────────
+// Helper: wrap page in ProtectedRoute + ErrorBoundary
 function Protected({ children, pageName }) {
   return (
     <ProtectedRoute>
@@ -41,33 +43,35 @@ function App() {
   return (
     <Routes>
       {/* ── Public routes ──────────────────────────────────────────────── */}
-      <Route path="/login"    element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
-      <Route path="/register" element={user ? <Navigate to="/dashboard" replace /> : <Register />} />
+      <Route path="/login"           element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
+      <Route path="/register"        element={user ? <Navigate to="/dashboard" replace /> : <Register />} />
+      <Route path="/forgot-password" element={user ? <Navigate to="/dashboard" replace /> : <ForgotPassword />} />
+      <Route path="/reset-password"  element={user ? <Navigate to="/dashboard" replace /> : <ResetPassword />} />
 
       {/* ── Protected routes ───────────────────────────────────────────── */}
-      <Route path="/dashboard"           element={<Protected pageName="Dashboard">           <Dashboard />            </Protected>} />
-      <Route path="/analytics"           element={<Protected pageName="Analytics">           <Analytics />            </Protected>} />
-      <Route path="/tenants"             element={<Protected pageName="Multi-Tenant">        <MultiTenant />          </Protected>} />
-      <Route path="/customers"           element={<Protected pageName="Customer Management"> <CustomerManagement />   </Protected>} />
-      <Route path="/chatbot"             element={<Protected pageName="AI Assistant">        <ChatbotAssistant />     </Protected>} />
-      <Route path="/ai-insights"         element={<Protected pageName="AI Insights">         <AIInsights />           </Protected>} />
-      <Route path="/personalization"     element={<Protected pageName="Personalization">     <Personalization />      </Protected>} />
-      <Route path="/collaboration"       element={<Protected pageName="Collaboration">       <Collaboration />        </Protected>} />
-      <Route path="/reviews"             element={<Protected pageName="Reviews">             <ReviewsRatings />       </Protected>} />
-      <Route path="/modules"             element={<Protected pageName="Module Manager">      <ModuleManager />        </Protected>} />
-      <Route path="/accessibility"       element={<Protected pageName="Accessibility">       <Accessibility />        </Protected>} />
-      <Route path="/upload-data"         element={<Protected pageName="Data Upload">         <DataUpload />           </Protected>} />
-      <Route path="/kpi-dashboard"       element={<Protected pageName="KPI Dashboard">       <AdvancedKPIDashboard /> </Protected>} />
-      <Route path="/predictive-analytics"element={<Protected pageName="Predictive AI">       <PredictiveAnalytics />  </Protected>} />
-      <Route path="/ai-copilot"          element={<Protected pageName="AI Copilot">          <AICopilot />            </Protected>} />
-      <Route path="/workflow-automation" element={<Protected pageName="Workflow Automation">  <WorkflowAutomation />   </Protected>} />
-      <Route path="/executive-reporting" element={<Protected pageName="Executive Reporting">  <ExecutiveReporting />   </Protected>} />
-      <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"><IntegrationEcosystem /></Protected>} />
-      <Route path="/monetization"        element={<Protected pageName="Billing & Plans">     <Monetization />         </Protected>} />
+      <Route path="/dashboard"             element={<Protected pageName="Dashboard">            <Dashboard />            </Protected>} />
+      <Route path="/analytics"             element={<Protected pageName="Analytics">            <Analytics />            </Protected>} />
+      <Route path="/tenants"               element={<Protected pageName="Multi-Tenant">         <MultiTenant />          </Protected>} />
+      <Route path="/customers"             element={<Protected pageName="Customer Management">  <CustomerManagement />   </Protected>} />
+      <Route path="/chatbot"               element={<Protected pageName="AI Assistant">         <ChatbotAssistant />     </Protected>} />
+      <Route path="/ai-insights"           element={<Protected pageName="AI Insights">          <AIInsights />           </Protected>} />
+      <Route path="/personalization"       element={<Protected pageName="Personalization">      <Personalization />      </Protected>} />
+      <Route path="/collaboration"         element={<Protected pageName="Collaboration">        <Collaboration />        </Protected>} />
+      <Route path="/reviews"               element={<Protected pageName="Reviews">              <ReviewsRatings />       </Protected>} />
+      <Route path="/modules"               element={<Protected pageName="Module Manager">       <ModuleManager />        </Protected>} />
+      <Route path="/accessibility"         element={<Protected pageName="Accessibility">        <Accessibility />        </Protected>} />
+      <Route path="/upload-data"           element={<Protected pageName="Data Upload">          <DataUpload />           </Protected>} />
+      <Route path="/kpi-dashboard"         element={<Protected pageName="KPI Dashboard">        <AdvancedKPIDashboard /> </Protected>} />
+      <Route path="/predictive-analytics"  element={<Protected pageName="Predictive AI">        <PredictiveAnalytics />  </Protected>} />
+      <Route path="/ai-copilot"            element={<Protected pageName="AI Copilot">           <AICopilot />            </Protected>} />
+      <Route path="/workflow-automation"   element={<Protected pageName="Workflow Automation">   <WorkflowAutomation />   </Protected>} />
+      <Route path="/executive-reporting"   element={<Protected pageName="Executive Reporting">   <ExecutiveReporting />   </Protected>} />
+      <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"> <IntegrationEcosystem /> </Protected>} />
+      <Route path="/monetization"          element={<Protected pageName="Billing & Plans">      <Monetization />         </Protected>} />
 
       {/* ── Fallback ───────────────────────────────────────────────────── */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/"  element={<Navigate to="/dashboard" replace />} />
+      <Route path="*"  element={<Navigate to="/dashboard" replace />} />
     </Routes>
   )
 }

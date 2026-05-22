@@ -160,6 +160,13 @@ function Login() {
               </p>
             </div>
           </div>
+          {/* Forgot Password Link */}
+          <div className="mt-3 text-center">
+            <a href="/forgot-password" className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              Forgot your password?
+            </a>
+          </div>
+
 
           {/* Register Link */}
           <div className="mt-6 text-center">
@@ -180,3 +187,4 @@ function Login() {
 }
 
 export default Login
+
