@@ -1,0 +1,97 @@
+/* ── Root ─────────────────────────────────────────────────────────────────── */
+.aeb-root {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 10px 14px;
+  animation: aeb-slide-in 0.2s ease;
+}
+
+@keyframes aeb-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Top banner — full width, sits above page content */
+.aeb-top {
+  width: 100%;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  padding: 10px 20px;
+}
+
+/* Inline — sits within a content area */
+.aeb-inline {
+  margin: 12px 0;
+}
+
+/* ── Icon ─────────────────────────────────────────────────────────────────── */
+.aeb-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────────────── */
+.aeb-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.aeb-title {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.aeb-message {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* ── Actions ──────────────────────────────────────────────────────────────── */
+.aeb-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.aeb-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.aeb-retry:hover { opacity: 0.75; }
+
+.aeb-dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #475569;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.aeb-dismiss:hover { color: #94a3b8; }
