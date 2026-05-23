@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react'
 
-const SENTRY_DSN = 'https://9c43e7b65eb7cddca2c022bf06135134@o4511439760916480.ingest.us.sentry.io/4511439778217984'
+const SENTRY_DSN = 'https://9c43e7b65eb7cddca2c022bf06135134@o4511439760916480.ingest.us.sentry.io/4511439766683648'
 const ENV       = import.meta.env.MODE || 'production'
 
 Sentry.init({
@@ -80,3 +80,4 @@ export function trackEvent(name, data = {}) {
 
 export { Sentry }
 export default Sentry
+
