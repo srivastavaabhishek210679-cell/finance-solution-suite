@@ -4,6 +4,7 @@ import Login                from './pages/Login'
 import Register             from './pages/Register'
 import ForgotPassword       from './pages/ForgotPassword'
 import ResetPassword        from './pages/ResetPassword'
+import Onboarding           from './pages/Onboarding'
 import Dashboard            from './pages/Dashboard'
 import Analytics            from './pages/Analytics'
 import MultiTenant          from './pages/MultiTenant'
@@ -26,7 +27,6 @@ import IntegrationEcosystem from './pages/IntegrationEcosystem'
 import Monetization         from './pages/Monetization'
 import ErrorBoundary        from './components/ErrorBoundary'
 
-// Helper: wrap page in ProtectedRoute + ErrorBoundary
 function Protected({ children, pageName }) {
   return (
     <ProtectedRoute>
@@ -42,13 +42,17 @@ function App() {
 
   return (
     <Routes>
-      {/* ── Public routes ──────────────────────────────────────────────── */}
       <Route path="/login"           element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
       <Route path="/register"        element={user ? <Navigate to="/dashboard" replace /> : <Register />} />
       <Route path="/forgot-password" element={user ? <Navigate to="/dashboard" replace /> : <ForgotPassword />} />
       <Route path="/reset-password"  element={user ? <Navigate to="/dashboard" replace /> : <ResetPassword />} />
 
-      {/* ── Protected routes ───────────────────────────────────────────── */}
+      <Route path="/onboarding" element={
+        <ProtectedRoute>
+          <ErrorBoundary pageName="Onboarding"><Onboarding /></ErrorBoundary>
+        </ProtectedRoute>
+      } />
+
       <Route path="/dashboard"             element={<Protected pageName="Dashboard">            <Dashboard />            </Protected>} />
       <Route path="/analytics"             element={<Protected pageName="Analytics">            <Analytics />            </Protected>} />
       <Route path="/tenants"               element={<Protected pageName="Multi-Tenant">         <MultiTenant />          </Protected>} />
@@ -69,7 +73,6 @@ function App() {
       <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"> <IntegrationEcosystem /> </Protected>} />
       <Route path="/monetization"          element={<Protected pageName="Billing & Plans">      <Monetization />         </Protected>} />
 
-      {/* ── Fallback ───────────────────────────────────────────────────── */}
       <Route path="/"  element={<Navigate to="/dashboard" replace />} />
       <Route path="*"  element={<Navigate to="/dashboard" replace />} />
     </Routes>
