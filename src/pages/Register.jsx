@@ -59,20 +59,20 @@ function Register() {
       // Auto-login with returned token
       if (data.data?.token) {
         localStorage.setItem('token',              data.data.token)
-        localStorage.setItem('auth_token',         data.data.token)
+        localStorage.setItem('token',         data.data.token)
         if (data.data.refreshToken) {
           localStorage.setItem('auth_refresh_token', data.data.refreshToken)
         }
         // Store user info
         if (data.data.user) {
-          localStorage.setItem('auth_user', JSON.stringify(data.data.user))
+          localStorage.setItem('user', JSON.stringify(data.data.user))
         }
 
         // Redirect to onboarding for new accounts
         if (data.data.onboarding) {
-          navigate('/onboarding')
+          window.location.href = '/onboarding'
         } else {
-          navigate('/dashboard')
+          window.location.href = '/dashboard'
         }
       } else {
         // Legacy flow — redirect to login
@@ -216,3 +216,5 @@ function Register() {
 }
 
 export default Register
+
+
