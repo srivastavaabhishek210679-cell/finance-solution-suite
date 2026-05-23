@@ -73,7 +73,7 @@ function ReportModal({ isOpen, onClose, onSave, report, mode = 'create' }) {
       setSaving(true)
       // Map domain name to domain_id
       const DOMAIN_MAP = { 'HR':2,'Operations':3,'Sales':4,'IT':5,'Healthcare':6,'Banking':7,'Telecom':8,'Retail':9,'Energy':10,'Manufacturing':11,'Education':12,'General':13,'Finance':13,'Tax':13,'Audit':13,'Risk':13,'Treasury':13,'Legal':13,'Marketing':13,'Supply Chain':13,'ESG':13 }
-      const payload = { domain_id: DOMAIN_MAP[formData.domain] || 13, name: formData.name, description: formData.description, frequency: formData.frequency, compliance_status: formData.complianceStatus, stakeholders: formData.stakeholders }
+      const payload = { domain_id: DOMAIN_MAP[formData.domain] || 13, name: formData.name, description: formData.description, frequency: formData.frequency, compliance_status: formData.complianceStatus, stakeholders: JSON.stringify(formData.stakeholders) }
       delete payload.domain
       await onSave(payload)
       onClose()
@@ -254,5 +254,6 @@ function ReportModal({ isOpen, onClose, onSave, report, mode = 'create' }) {
 }
 
 export default ReportModal
+
 
 
