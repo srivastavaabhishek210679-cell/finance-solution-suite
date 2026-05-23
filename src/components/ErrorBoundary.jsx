@@ -1,15 +1,12 @@
 import { Component } from 'react'
+import * as Sentry from '@sentry/react'
 import './ErrorBoundary.css'
 
-// ── Fallback UI ───────────────────────────────────────────────────────────────
-function ErrorFallback({ error, errorInfo, onReset, pageName }) {
+function ErrorFallback({ error, errorInfo, onReset, pageName, eventId }) {
   const isDev = import.meta.env.DEV
-
   return (
     <div className="eb-root">
       <div className="eb-card">
-
-        {/* Icon */}
         <div className="eb-icon-wrap">
           <svg className="eb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round"
@@ -17,33 +14,29 @@ function ErrorFallback({ error, errorInfo, onReset, pageName }) {
             />
           </svg>
         </div>
-
-        {/* Title */}
         <h2 className="eb-title">Something went wrong</h2>
         <p className="eb-subtitle">
-          {pageName
-            ? `The ${pageName} page ran into an unexpected error.`
-            : 'This page ran into an unexpected error.'}
-          {' '}Your data is safe — this is a display issue only.
+          {pageName ? `The ${pageName} page ran into an unexpected error.` : 'This page ran into an unexpected error.'}
+          {' '}Your data is safe.
         </p>
-
-        {/* Error message */}
         {error?.message && (
           <div className="eb-error-msg">
             <span className="eb-error-label">Error</span>
             <span className="eb-error-text">{error.message}</span>
           </div>
         )}
-
-        {/* Dev — stack trace */}
+        {eventId && (
+          <div className="eb-error-msg">
+            <span className="eb-error-label">Ref</span>
+            <span className="eb-error-text" style={{ fontFamily:'monospace', fontSize:11 }}>{eventId}</span>
+          </div>
+        )}
         {isDev && errorInfo?.componentStack && (
           <details className="eb-stack">
             <summary>Component stack (dev only)</summary>
             <pre>{errorInfo.componentStack}</pre>
           </details>
         )}
-
-        {/* Actions */}
         <div className="eb-actions">
           <button className="eb-btn-primary" onClick={onReset}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={14} height={14}>
@@ -51,29 +44,19 @@ function ErrorFallback({ error, errorInfo, onReset, pageName }) {
             </svg>
             Try Again
           </button>
-          <button className="eb-btn-secondary" onClick={() => window.location.href = '/dashboard'}>
-            Go to Dashboard
-          </button>
-          <button className="eb-btn-ghost" onClick={() => window.location.reload()}>
-            Reload Page
-          </button>
+          <button className="eb-btn-secondary" onClick={() => window.location.href='/dashboard'}>Go to Dashboard</button>
+          <button className="eb-btn-ghost" onClick={() => window.location.reload()}>Reload Page</button>
         </div>
-
-        {/* Help text */}
-        <p className="eb-help">
-          If this keeps happening, try clearing your browser cache or contact support.
-        </p>
-
+        {eventId && <p className="eb-help">Error ID: <code style={{fontSize:10}}>{eventId}</code></p>}
       </div>
     </div>
   )
 }
 
-// ── Error Boundary class ──────────────────────────────────────────────────────
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false, error: null, errorInfo: null }
+    this.state = { hasError: false, error: null, errorInfo: null, eventId: null }
     this.handleReset = this.handleReset.bind(this)
   }
 
@@ -83,38 +66,31 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('[ErrorBoundary] Caught error:', error)
-    console.error('[ErrorBoundary] Component stack:', errorInfo?.componentStack)
-    this.setState({ errorInfo })
-
-    // Hook for external error tracking (Sentry etc.) — add your DSN here
-    // if (window.Sentry) window.Sentry.captureException(error, { extra: errorInfo })
+    const eventId = Sentry.captureException(error, {
+      extra: { componentStack: errorInfo?.componentStack, pageName: this.props.pageName },
+    })
+    this.setState({ errorInfo, eventId })
   }
 
   handleReset() {
-    this.setState({ hasError: false, error: null, errorInfo: null })
+    this.setState({ hasError: false, error: null, errorInfo: null, eventId: null })
   }
 
   render() {
     if (this.state.hasError) {
-      // Allow custom fallback via prop
       if (this.props.fallback) {
-        return this.props.fallback({
-          error:     this.state.error,
-          errorInfo: this.state.errorInfo,
-          onReset:   this.handleReset,
-        })
+        return this.props.fallback({ error: this.state.error, errorInfo: this.state.errorInfo, onReset: this.handleReset })
       }
-
       return (
         <ErrorFallback
           error={this.state.error}
           errorInfo={this.state.errorInfo}
           onReset={this.handleReset}
           pageName={this.props.pageName}
+          eventId={this.state.eventId}
         />
       )
     }
-
     return this.props.children
   }
 }

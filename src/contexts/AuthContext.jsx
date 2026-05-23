@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { authAPI } from '../services/api'
+import { setSentryUser, clearSentryUser } from '../sentry'
 
 const AuthContext = createContext(null)
 
@@ -36,7 +37,7 @@ export function AuthProvider({ children }) {
       localStorage.setItem('token', response.token)
       localStorage.setItem('user', JSON.stringify(response.user))
       
-      setUser(response.user)
+      setUser(response.user); setSentryUser(response.user)
       return response
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed'
@@ -55,7 +56,7 @@ export function AuthProvider({ children }) {
       if (response.token) {
         localStorage.setItem('token', response.token)
         localStorage.setItem('user', JSON.stringify(response.user))
-        setUser(response.user)
+        setUser(response.user); setSentryUser(response.user)
       }
       
       return response
@@ -108,3 +109,5 @@ export function useAuth() {
   }
   return context
 }
+
+
