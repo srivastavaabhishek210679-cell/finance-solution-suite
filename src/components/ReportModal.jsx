@@ -71,7 +71,11 @@ function ReportModal({ isOpen, onClose, onSave, report, mode = 'create' }) {
 
     try {
       setSaving(true)
-      await onSave(formData)
+      // Map domain name to domain_id
+      const DOMAIN_MAP = { 'HR':2,'Operations':3,'Sales':4,'IT':5,'Healthcare':6,'Banking':7,'Telecom':8,'Retail':9,'Energy':10,'Manufacturing':11,'Education':12,'General':13,'Finance':13,'Tax':13,'Audit':13,'Risk':13,'Treasury':13,'Legal':13,'Marketing':13,'Supply Chain':13,'ESG':13 }
+      const payload = { ...formData, domain_id: DOMAIN_MAP[formData.domain] || 13 }
+      delete payload.domain
+      await onSave(payload)
       onClose()
     } catch (err) {
       setError(err.message || 'Failed to save report')
@@ -250,3 +254,4 @@ function ReportModal({ isOpen, onClose, onSave, report, mode = 'create' }) {
 }
 
 export default ReportModal
+
