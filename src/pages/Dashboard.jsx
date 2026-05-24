@@ -10,7 +10,6 @@ import ReportModal from '../components/ReportModal'
 import DeleteConfirmModal from '../components/DeleteConfirmModal'
 import Pagination from '../components/Pagination'
 import FilterPanel from '../components/FilterPanel'
-import KPIPanel from '../components/KPIPanel'
 import AdvancedCharts from '../components/AdvancedCharts'
 import AdvancedTable from '../components/AdvancedTable'
 import ExportImport from '../components/ExportImport'
@@ -541,10 +540,7 @@ function Dashboard() {
                   <FilterPanel activeFilters={activeFilters} onFilterChange={handleFilterChange} onReset={handleResetFilters} />
                 </div>
 
-                {/* ── KPI PANEL */}
                 <div className="dm-section">
-                  <div className="dm-section-label"><span className="dm-section-line"/><span>KPI Dashboard</span><span className="dm-section-line"/></div>
-                  <KPIPanel reports={displayReports} />
                 </div>
 
                 {/* ── CHARTS */}
@@ -669,6 +665,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
