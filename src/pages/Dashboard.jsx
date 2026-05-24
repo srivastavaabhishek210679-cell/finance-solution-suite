@@ -546,7 +546,7 @@ function Dashboard() {
                 {/* ── CHARTS */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Analytics &amp; Charts</span><span className="dm-section-line"/></div>
-                  <AdvancedCharts reports={displayReports} />
+                  <AdvancedCharts reports={transformedReports} analyticsStats={analyticsStats} />
                 </div>
 
                 {/* ── TABLE */}
@@ -665,6 +665,8 @@ function Dashboard() {
 }
 
 export default Dashboard
+
+
 
 
 
