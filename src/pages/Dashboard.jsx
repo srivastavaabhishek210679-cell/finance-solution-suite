@@ -263,8 +263,8 @@ function Dashboard() {
   const activeDomains   = DOMAINS.length
   const domainCounts = DOMAINS.map(domain => {
       const found = analyticsStats?.domainBreakdown?.find(d => d.domain === domain)
-      const count = found?.count || displayReports.filter(r => r.domain === domain).length
-      const total = analyticsStats?.totalReports || totalReports || 1
+      const count = found ? found.count : 0
+      const total = analyticsStats?.totalReports || 1
       return { domain, count, percentage: ((count / total) * 100).toFixed(1) }
     })
   const filteredDomains = selectedCategory === 'All'
@@ -669,6 +669,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
