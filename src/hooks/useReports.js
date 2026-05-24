@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { reportsAPI } from '../services/api'
 
+const DOMAIN_ID_MAP = {1:'Finance',2:'HR',3:'Operations',4:'Sales',5:'IT',6:'Healthcare',7:'Telecom',8:'Retail',9:'Energy',10:'Manufacturing',11:'Banking',12:'Education',13:'General'}
+
 export function useReports() {
   const [reports, setReports] = useState([])
   const [pagination, setPagination] = useState(null)
@@ -19,7 +21,7 @@ export function useReports() {
       if (response && response.data && response.pagination) {
         console.log('📊 Reports Count:', response.data.length)
         console.log('📊 Pagination:', response.pagination)
-        setReports(response.data)
+        setReports(response.data.map(r => ({ ...r, domain: r.domain || DOMAIN_ID_MAP[r.domain_id] || 'General' })))
         setPagination(response.pagination)
       } 
       // Handle direct array response (no pagination)
@@ -114,3 +116,4 @@ export function useReports() {
     refresh,
   }
 }
+
