@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Navigation from '../components/Navigation'
@@ -261,12 +261,12 @@ function Dashboard() {
   const requiredReports = displayReports.filter(r => r.complianceStatus === 'Required' || r.compliance_status === 'Required').length
   const optionalReports = displayReports.filter(r => r.complianceStatus === 'Optional' || r.compliance_status === 'Optional').length
   const activeDomains   = DOMAINS.length
-  const domainCounts = DOMAINS.map(domain => {
+  const domainCounts = useMemo(() => DOMAINS.map(domain => {
       const found = analyticsStats?.domainBreakdown?.find(d => d.domain === domain)
       const count = found ? found.count : 0
       const total = analyticsStats?.totalReports || 1
       return { domain, count, percentage: ((count / total) * 100).toFixed(1) }
-    })
+    }), [analyticsStats])
   const filteredDomains = selectedCategory === 'All'
     ? domainCounts
     : domainCounts.filter(d => d.domain === selectedCategory)
@@ -669,6 +669,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
