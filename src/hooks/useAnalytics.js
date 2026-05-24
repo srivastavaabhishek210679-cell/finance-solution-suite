@@ -18,7 +18,7 @@ export function useAnalytics() {
       const data = await analyticsAPI.getDashboardStats()
 
       if (data && typeof data === 'object') {
-        setStats(data)
+        setStats(data?.data || data)
         setIsLive(true)
         console.log('✅ Analytics: real data loaded', data)
       } else {
@@ -112,3 +112,4 @@ export function extractStat(stats, keys, fallback = null) {
   }
   return fallback
 }
+
