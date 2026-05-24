@@ -85,9 +85,6 @@ function Dashboard() {
     pagination,
     loading,
     error,
-    reports: backendReports,
-    loading,
-    error,
     createReport,
     updateReport,
     deleteReport,
@@ -669,6 +666,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
