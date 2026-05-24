@@ -17,6 +17,7 @@ import ExportImport from '../components/ExportImport'
 import ComplianceCalendar from '../components/ComplianceCalendar'
 import DomainDashboard from '../components/DomainDashboard'
 import { useReports } from '../hooks/useReports'
+import { useAnalytics } from '../hooks/useAnalytics'
 import { useSimulatedRealTime } from '../hooks/useRealTime'
 import RealTimeIndicator from '../components/RealTimeIndicator'
 import RealTimeAlerts, { RealTimeAlertTypes, showRealTimeAlert } from '../components/RealTimeAlerts'
@@ -91,6 +92,7 @@ function Dashboard() {
     refresh,
     fetchReports
   } = useReports()
+  const { stats: analyticsStats } = useAnalytics()
 
   const reports = useBackend && !loading && !error ? backendReports : REPORTS_DATA
 
@@ -259,11 +261,12 @@ function Dashboard() {
   const requiredReports = displayReports.filter(r => r.complianceStatus === 'Required' || r.compliance_status === 'Required').length
   const optionalReports = displayReports.filter(r => r.complianceStatus === 'Optional' || r.compliance_status === 'Optional').length
   const activeDomains   = DOMAINS.length
-  const domainCounts    = DOMAINS.map(domain => ({
-    domain,
-    count: displayReports.filter(r => r.domain === domain).length,
-    percentage: totalReports > 0 ? ((displayReports.filter(r => r.domain === domain).length / totalReports) * 100).toFixed(1) : 0
-  }))
+  const domainCounts = DOMAINS.map(domain => {
+      const found = analyticsStats?.domainBreakdown?.find(d => d.domain === domain)
+      const count = found?.count || displayReports.filter(r => r.domain === domain).length
+      const total = analyticsStats?.totalReports || totalReports || 1
+      return { domain, count, percentage: ((count / total) * 100).toFixed(1) }
+    })
   const filteredDomains = selectedCategory === 'All'
     ? domainCounts
     : domainCounts.filter(d => d.domain === selectedCategory)
@@ -666,6 +669,8 @@ function Dashboard() {
 }
 
 export default Dashboard
+
+
 
 
 
