@@ -204,7 +204,6 @@ export const analyticsAPI = {
 export const complianceAPI = {
   getCalendar:  (params = {}) => api.get('/compliance-calendar', { params }),
   getById:      (id)          => api.get(`/compliance-calendar/${id}`),
-  create:       (data)        => api.post('/compliance-calendar', data),
   update:       (id, data)    => api.put(`/compliance-calendar/${id}`, data),
 }
 
@@ -239,3 +238,5 @@ export const auditAPI = {
 }
 
 export default api
+
+
