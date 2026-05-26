@@ -550,7 +550,7 @@ function ChatbotAssistant() {
                 key={report.id || report.report_id || i}
                 className="cba-report-card"
                 style={{ borderLeft: `3px solid ${color}` }}
-                onClick={() => navigate('/dashboard')}
+                onClick={() => { const p = new URLSearchParams(); if(domain) p.set("domain",domain); if(report.frequency) p.set("frequency",report.frequency); navigate("/dashboard?"+p.toString()); }}
               >
                 <div className="cba-report-card-top">
                   <div className="cba-report-icon" style={{ background: `${color}18`, color }}>

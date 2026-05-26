@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Navigation from '../components/Navigation'
 import Sidebar from '../components/Sidebar'
@@ -64,6 +64,20 @@ function Dashboard() {
   
   // Advanced Filter State
   const [activeFilters, setActiveFilters] = useState({})
+  const location = useLocation()
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const domain = params.get('domain')
+    const frequency = params.get('frequency')
+    const compliance = params.get('compliance')
+    if (domain || frequency || compliance) {
+      const filters = {}
+      if (domain) { filters.domains = [domain]; setSelectedCategory(domain) }
+      if (frequency) filters.frequency = [frequency]
+      if (compliance) filters.compliance = [compliance]
+      handleFilterChange(filters)
+    }
+  }, [location.search])
   
 
   // Clock update every second
@@ -677,6 +691,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
