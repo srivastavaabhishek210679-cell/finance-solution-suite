@@ -62,7 +62,7 @@ const INITIAL_SCHEDULES = [
 ]
 
 const SUMMARY_TYPES = ['Executive Brief','Detailed Analysis','Risk Report','Compliance Status','Trend Analysis']
-const DOMAINS_LIST  = ['Finance','Tax','Operations','Audit','Risk','Treasury','HR','Legal','IT','Sales']
+const DOMAINS_LIST  = ['Finance','HR','Operations','Sales','IT','Healthcare','Telecom','Retail','Energy','Manufacturing','Banking','Education','General']
 const FREQUENCIES   = ['Daily','Weekly','Monthly','Quarterly','Annual']
 const FORMATS       = ['PDF','Excel','CSV']
 
