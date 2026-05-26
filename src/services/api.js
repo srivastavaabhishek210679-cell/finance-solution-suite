@@ -182,6 +182,15 @@ export const authAPI = {
 }
 
 // ── Reports API ───────────────────────────────────────────────────────────────
+export const schedulesAPI = {
+  getAll:   ()        => api.get('/schedules'),
+  create:   (data)    => api.post('/schedules', data),
+  update:   (id,data) => api.put(/schedules/\, data),
+  toggle:   (id)      => api.patch(/schedules/\/toggle),
+  delete:   (id)      => api.delete(/schedules/\),
+  sendNow:  (id)      => api.post(/schedules/\/send),
+}
+
 export const reportsAPI = {
   getAll:   (params = {}) => api.get('/reports/master', { params }),
   getById:  (id)          => api.get(`/reports/master/${id}`),
@@ -238,5 +247,6 @@ export const auditAPI = {
 }
 
 export default api
+
 
 

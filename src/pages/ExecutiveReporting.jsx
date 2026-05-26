@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { schedulesAPI } from '../services/api'
 import { useNavigate } from 'react-router-dom'
 import { REPORTS_DATA } from '../data/reportsData'
 import {
@@ -84,7 +85,20 @@ export default function ExecutiveReporting() {
   const [drillDomain,   setDrillDomain]   = useState(null)
   const [benchDomains,  setBenchDomains]  = useState(['Finance','Tax','HR'])
   const [benchMetric,   setBenchMetric]   = useState('compliance')
-  const [schedules,     setSchedules]     = useState(INITIAL_SCHEDULES)
+  const [schedules, setSchedules] = useState([])
+  const [schedLoading, setSchedLoading] = useState(true)
+  const [schedError, setSchedError] = useState(null)
+  useEffect(() => {
+    schedulesAPI.getAll()
+      .then(r => setSchedules((r?.data || r || []).map(s => ({
+        ...s, id: s.schedule_id, active: s.is_active,
+        lastSent: s.last_sent_at ? new Date(s.last_sent_at).toLocaleDateString() : 'Never',
+        nextSend: s.next_send_at ? new Date(s.next_send_at).toLocaleDateString() : 'Scheduled',
+        sentCount: s.sent_count || 0
+      }))))
+      .catch(e => setSchedError(e.message))
+      .finally(() => setSchedLoading(false))
+  }, [])
   const [showForm,      setShowForm]      = useState(false)
   const [selDomain,     setSelDomain]     = useState('Finance')
   const [selType,       setSelType]       = useState('Executive Brief')
@@ -121,9 +135,31 @@ export default function ExecutiveReporting() {
   ]
 
   // ── SCHEDULED helpers ──────────────────────────────────────
-  const toggleSchedule = (id) => setSchedules(p => p.map(s => s.id===id ? {...s, active:!s.active} : s))
-  const deleteSchedule = (id) => setSchedules(p => p.filter(s => s.id!==id))
-  const saveSchedule   = () => {
+  const toggleSchedule = async (id) => {
+    try {
+      await schedulesAPI.toggle(id)
+      setSchedules(p => p.map(s => s.id===id ? {...s, active:!s.active} : s))
+    } catch(e) { console.error('Toggle failed:', e) }
+  }
+  const deleteSchedule = async (id) => {
+    try {
+      await schedulesAPI.delete(id)
+      setSchedules(p => p.filter(s => s.id!==id))
+    } catch(e) { console.error('Delete failed:', e) }
+  }
+  const saveSchedule = async () => {
+    try {
+      const payload = {
+        name: form.name, domain: form.domain, frequency: form.frequency,
+        send_time: form.time, recipients: form.recipients.split(',').map(r=>r.trim()).filter(Boolean),
+        format: form.format
+      }
+      const r = await schedulesAPI.create(payload)
+      const s = r?.data || r
+      setSchedules(p => [{ ...s, id: s.schedule_id, active: s.is_active, lastSent:'Never', nextSend:'Scheduled', sentCount:0 }, ...p])
+      setForm({ name:'', domain:'Finance', frequency:'Monthly', time:'09:00', recipients:'', format:'PDF' })
+    } catch(e) { console.error('Save failed:', e) }
+  }
     if (!form.name.trim()) return
     setSchedules(p => [{id:Date.now(),...form,recipients:form.recipients.split(',').map(r=>r.trim()),lastSent:'Never',nextSend:'Scheduled',sentCount:0},...p])
     setForm({ name:'', domain:'Finance', frequency:'Monthly', time:'09:00', recipients:'', format:'PDF' })
