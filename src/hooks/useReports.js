@@ -18,11 +18,11 @@ export function useReports() {
       console.log('📊 Reports API Response:', response)
       
       // Handle paginated response
-      if (response && response.data && response.pagination) {
+      if (response && response.data) {
         console.log('📊 Reports Count:', response.data.length)
         console.log('📊 Pagination:', response.pagination)
-        setReports((response?.data?.data || response?.data || []).map(r => ({ ...r, domain: r.domain || DOMAIN_ID_MAP[r.domain_id] || 'General' })))
-        setPagination(response.pagination)
+        setReports((Array.isArray(response.data.data) ? response.data.data : Array.isArray(response.data) ? response.data : []).map(r => ({ ...r, domain: r.domain || DOMAIN_ID_MAP[r.domain_id] || 'General' })))
+        setPagination(response.data.pagination || response.pagination || null)
       } 
       // Handle direct array response (no pagination)
       else if (Array.isArray(response)) {
@@ -114,6 +114,7 @@ export function useReports() {
     refresh,
   }
 }
+
 
 
 
