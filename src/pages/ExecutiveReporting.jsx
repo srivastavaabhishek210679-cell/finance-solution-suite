@@ -137,7 +137,7 @@ export default function ExecutiveReporting() {
   const toggleSchedule = async (id) => {
     try {
       await schedulesAPI.toggle(id)
-      setSchedules(p => p.map(s => s.id===id ? {...s, active:!s.active} : s))
+      refreshSchedules()
     } catch(e) { console.error('Toggle failed:', e) }
   }
   const deleteSchedule = async (id) => {
@@ -146,9 +146,16 @@ export default function ExecutiveReporting() {
       setSchedules(p => p.filter(s => s.id!==id))
     } catch(e) { console.error('Delete failed:', e) }
   }
+  const refreshSchedules = () => {
+    schedulesAPI.getAll()
+      .then(r => { const list = Array.isArray(r?.data?.data) ? r.data.data : Array.isArray(r?.data) ? r.data : []; setSchedules(list.map(s => ({...s, id: s.schedule_id, active: s.is_active, time: s.send_time, lastSent: s.last_sent_at ? new Date(s.last_sent_at).toLocaleDateString() : 'Never', nextSend: s.next_send_at ? new Date(s.next_send_at).toLocaleDateString() : 'Scheduled', sentCount: s.sent_count || 0}))) })
+      .catch(e => console.error(e))
+  }
+
   const sendNow = async (id) => {
     try {
       await schedulesAPI.sendNow(id)
+      refreshSchedules()
       alert("Report sent successfully!")
     } catch(e) { console.error("Send failed:", e); alert("Send failed: " + e.message) }
   }
@@ -635,6 +642,7 @@ export default function ExecutiveReporting() {
     </div>
   )
 }
+
 
 
 
