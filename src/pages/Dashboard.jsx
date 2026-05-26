@@ -89,7 +89,7 @@ function Dashboard() {
     updateReport,
     deleteReport,
     refresh,
-    fetchReports(1, 500)
+    fetchReports
   } = useReports()
   const { stats: analyticsStats } = useAnalytics()
 
