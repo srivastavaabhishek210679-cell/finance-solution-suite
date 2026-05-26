@@ -232,7 +232,11 @@ function AICopilot() {
 
     try {
       const reply = await callCopilot(msg)
-      const aiMsg = { id: Date.now()+1, role: 'assistant', content: reply, timestamp: new Date().toISOString() }
+      const DOMAINS = ['Finance','HR','Operations','Sales','IT','Healthcare','Telecom','Retail','Energy','Manufacturing','Banking','Education','General']
+      const FREQS = ['Daily','Weekly','Monthly','Quarterly','Yearly']
+      const detectedDomain = DOMAINS.find(d => reply.includes(d) || msg.includes(d))
+      const detectedFreq = FREQS.find(f => reply.toLowerCase().includes(f.toLowerCase()) || msg.toLowerCase().includes(f.toLowerCase()))
+      const aiMsg = { id: Date.now()+1, role: 'assistant', content: reply, timestamp: new Date().toISOString(), filters: detectedDomain || detectedFreq ? { domain: detectedDomain, frequency: detectedFreq } : null }
       setMessages(p => [...p, aiMsg])
       setHistory(p => [...p, { role:'user', content:msg }, { role:'assistant', content:reply }].slice(-20))
     } catch (e) {
@@ -344,6 +348,11 @@ function AICopilot() {
                       {copied === m.id ? <CheckCircle size={11} /> : <Copy size={11} />}
                       {copied === m.id ? 'Copied' : 'Copy'}
                     </button>
+                    {m.filters && (
+                      <button onClick={() => { const p = new URLSearchParams(); if(m.filters.domain) p.set('domain', m.filters.domain); if(m.filters.frequency) p.set('frequency', m.filters.frequency); navigate('/dashboard?' + p.toString()); }} style={{ display:'flex', alignItems:'center', gap:4, background:'#1e3a5f', border:'1px solid #3b82f640', borderRadius:6, color:'#60a5fa', fontSize:11, fontWeight:600, padding:'4px 10px', cursor:'pointer', marginTop:4 }}>
+                        <BarChart3 size={11}/> View on Dashboard
+                      </button>
+                    )}
                   )}
                   <span className="acp-timestamp">{new Date(m.timestamp).toLocaleTimeString()}</span>
                 </div>
