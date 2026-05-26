@@ -91,7 +91,7 @@ export default function ExecutiveReporting() {
   useEffect(() => {
     schedulesAPI.getAll()
       .then(r => setSchedules((r?.data || r || []).map(s => ({
-        ...s, id: s.schedule_id, active: s.is_active,
+        ...s, id: s.schedule_id, active: s.is_active, time: s.send_time,
         lastSent: s.last_sent_at ? new Date(s.last_sent_at).toLocaleDateString() : 'Never',
         nextSend: s.next_send_at ? new Date(s.next_send_at).toLocaleDateString() : 'Scheduled',
         sentCount: s.sent_count || 0
@@ -156,7 +156,7 @@ export default function ExecutiveReporting() {
       }
       const r = await schedulesAPI.create(payload)
       const s = r?.data || r
-      setSchedules(p => [{ ...s, id: s.schedule_id, active: s.is_active, lastSent:'Never', nextSend:'Scheduled', sentCount:0 }, ...p])
+      setSchedules(p => [{ ...s, id: s.schedule_id, active: s.is_active, time: s.send_time, lastSent:'Never', nextSend:'Scheduled', sentCount:0 }, ...p])
       setForm({ name:'', domain:'Finance', frequency:'Monthly', time:'09:00', recipients:'', format:'PDF' })
     } catch(e) { console.error('Save failed:', e) }
   }
@@ -630,3 +630,4 @@ export default function ExecutiveReporting() {
     </div>
   )
 }
+
