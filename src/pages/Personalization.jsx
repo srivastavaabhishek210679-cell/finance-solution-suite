@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Settings, Layout, Bell, Palette, Save, RotateCcw, Download, Upload, Check } from 'lucide-react'
 import { preferencesAPI } from '../services/api'
 import './Personalization.css'
