@@ -21,16 +21,19 @@ import './ExecutiveReporting.css'
 const safeReports = Array.isArray(REPORTS_DATA) ? REPORTS_DATA : []
 
 const DOMAIN_PERF = [
-  { domain:'Finance',     compliance:94, efficiency:88, risk:18, reports:125, color:'#14b8a6' },
-  { domain:'Tax',         compliance:91, efficiency:82, risk:24, reports:87,  color:'#6366f1' },
-  { domain:'Operations',  compliance:87, efficiency:91, risk:31, reports:64,  color:'#f59e0b' },
-  { domain:'Audit',       compliance:98, efficiency:79, risk:12, reports:52,  color:'#ef4444' },
-  { domain:'Risk',        compliance:89, efficiency:85, risk:28, reports:41,  color:'#fb7185' },
-  { domain:'Treasury',    compliance:96, efficiency:90, risk:15, reports:35,  color:'#22d3ee' },
-  { domain:'HR',          compliance:85, efficiency:88, risk:22, reports:28,  color:'#10b981' },
-  { domain:'Legal',       compliance:93, efficiency:76, risk:19, reports:23,  color:'#a855f7' },
-  { domain:'IT',          compliance:97, efficiency:94, risk:14, reports:19,  color:'#3b82f6' },
-  { domain:'Sales',       compliance:82, efficiency:86, risk:27, reports:15,  color:'#8b5cf6' },
+  { domain:'Finance',      compliance:94, efficiency:88, risk:18, reports:19,  color:'#14b8a6' },
+  { domain:'HR',           compliance:85, efficiency:88, risk:22, reports:39,  color:'#3b82f6' },
+  { domain:'Operations',   compliance:87, efficiency:91, risk:31, reports:40,  color:'#f59e0b' },
+  { domain:'Sales',        compliance:82, efficiency:86, risk:27, reports:40,  color:'#8b5cf6' },
+  { domain:'IT',           compliance:97, efficiency:94, risk:14, reports:40,  color:'#06b6d4' },
+  { domain:'Healthcare',   compliance:91, efficiency:83, risk:21, reports:39,  color:'#ec4899' },
+  { domain:'Telecom',      compliance:88, efficiency:85, risk:25, reports:38,  color:'#14b8a6' },
+  { domain:'Retail',       compliance:84, efficiency:87, risk:29, reports:38,  color:'#f97316' },
+  { domain:'Energy',       compliance:90, efficiency:82, risk:24, reports:38,  color:'#eab308' },
+  { domain:'Manufacturing',compliance:86, efficiency:89, risk:26, reports:38,  color:'#6366f1' },
+  { domain:'Banking',      compliance:93, efficiency:84, risk:20, reports:38,  color:'#22c55e' },
+  { domain:'Education',    compliance:89, efficiency:80, risk:23, reports:38,  color:'#a855f7' },
+  { domain:'General',      compliance:83, efficiency:78, risk:32, reports:19,  color:'#64748b' },
 ]
 
 const REVENUE_TREND = [
