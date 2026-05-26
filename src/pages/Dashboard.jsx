@@ -664,6 +664,7 @@ function Dashboard() {
                   </div>
                   <div className="dm-section">
                     <div className='dm-section-label'><span className='dm-section-line'/><span>Report Explorer</span><span className='dm-section-line'/></div>
+                    {console.log('TransformedReports count:', transformedReports.length, 'First:', transformedReports[0]?.name)}
                     <AdvancedTable reports={transformedReports} />
                   </div>
                 </div>
