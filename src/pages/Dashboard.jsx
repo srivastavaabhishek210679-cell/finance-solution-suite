@@ -661,8 +661,8 @@ function Dashboard() {
                                 </button>
                               )}
                             </div>
-                          <DomainNarrative domain={domain} count={count} percentage={percentage} color={color} reports={domainReports} />
                           )}
+                          <DomainNarrative domain={domain} count={count} percentage={percentage} color={color} reports={domainReports} />
                         </div>
                       )
                     })}
