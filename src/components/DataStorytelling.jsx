@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Sparkles, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react'
 
-const CLAUDE_API = 'https://api.anthropic.com/v1/messages'
+const CLAUDE_API = 'https://finance-backend-so86.onrender.com/api/v1/ai/narrative'
 
 export default function DataStorytelling({ analyticsStats }) {
   const [narrative, setNarrative] = useState('')
@@ -46,15 +46,11 @@ Write 3 short paragraphs:
     try {
       const res = await fetch(CLAUDE_API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          messages: [{ role: 'user', content: prompt }]
-        })
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+        body: JSON.stringify({ prompt })
       })
       const data = await res.json()
-      const text = data.content?.[0]?.text || 'Unable to generate narrative.'
+      const text = data?.data?.narrative || data?.content?.[0]?.text || 'Unable to generate narrative.'
       setNarrative(text)
       setGenerated(true)
     } catch (err) {
@@ -151,3 +147,4 @@ Write 3 short paragraphs:
     </div>
   )
 }
+
