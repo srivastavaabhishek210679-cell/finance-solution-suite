@@ -585,10 +585,10 @@ function Dashboard() {
 
                   <div className="dm-domain-tabs">
                     <button className={`dm-domain-tab ${selectedCategory==='All'?'active':''}`} onClick={()=>setSelectedCategory('All')}>
-                      All Domains <span className="dm-tab-count">{reports.length}</span>
+                      All Domains <span className='dm-tab-count'>{analyticsStats?.totalReports || reports.length}</span>
                     </button>
                     {DOMAINS.map(domain=>{
-                      const cnt=reports.filter(r=>r.domain===domain).length
+                      const cnt = domainCounts.find(d=>d.domain===domain)?.count || reports.filter(r=>r.domain===domain).length
                       return(
                         <button key={domain} className={`dm-domain-tab ${selectedCategory===domain?'active':''}`} onClick={()=>setSelectedCategory(domain)}>
                           {domain} <span className="dm-tab-count">{cnt}</span>
