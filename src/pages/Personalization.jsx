@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Settings, Layout, Bell, Palette, Save, RotateCcw, Download, Upload, Check } from 'lucide-react'
+import { preferencesAPI } from '../services/api'
 import './Personalization.css'
 
 function Personalization() {
@@ -69,16 +70,25 @@ function Personalization() {
     { id: 'pending-approvals', name: 'Pending Approvals', category: 'Workflow' }
   ]
 
-  // Save preferences
-  const savePreferences = () => {
-    // Simulate save
-    setSavedMessage('Preferences saved successfully!')
-    setTimeout(() => setSavedMessage(''), 3000)
-  }
+  useEffect(() => {
+    preferencesAPI.get().then(r => {
+      const d = r?.data?.data || r?.data
+      if (!d) return
+      if (d.layout_prefs && Object.keys(d.layout_prefs).length) setLayoutPrefs(d.layout_prefs)
+      if (d.notification_prefs && Object.keys(d.notification_prefs).length) setNotificationPrefs(d.notification_prefs)
+      if (d.theme_prefs && Object.keys(d.theme_prefs).length) setThemePrefs(d.theme_prefs)
+      if (d.favorite_reports?.length) setFavoriteReports(d.favorite_reports)
+    }).catch(() => {})
+  }, [])
 
-  // Reset to defaults
-  const resetToDefaults = () => {
-    if (confirm('Reset all preferences to default values?')) {
+  // Save preferences
+  const savePreferences = async () => {
+    try {
+      await preferencesAPI.save({ layout_prefs: layoutPrefs, notification_prefs: notificationPrefs, theme_prefs: themePrefs, favorite_reports: favoriteReports, domain_priorities: [] })
+      setSavedMessage('Preferences saved successfully!')
+      setTimeout(() => setSavedMessage(''), 3000)
+    } catch (e) { setSavedMessage('Failed to save preferences') }
+  }
       setLayoutPrefs({
         defaultView: 'dashboard',
         sidebarPosition: 'left',

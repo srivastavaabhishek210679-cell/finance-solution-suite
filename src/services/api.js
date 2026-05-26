@@ -1,3 +1,8 @@
+export const preferencesAPI = {
+  get:  ()     => api.get('/preferences'),
+  save: (data) => api.post('/preferences', data),
+}
+
 export const schedulesAPI = {
   getAll:   ()        => api.get('/schedules'),
   create:   (data)    => api.post('/schedules', data),
@@ -249,6 +254,7 @@ export const auditAPI = {
 }
 
 export default api
+
 
 
 
