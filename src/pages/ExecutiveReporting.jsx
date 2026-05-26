@@ -160,11 +160,6 @@ export default function ExecutiveReporting() {
       setForm({ name:'', domain:'Finance', frequency:'Monthly', time:'09:00', recipients:'', format:'PDF' })
     } catch(e) { console.error('Save failed:', e) }
   }
-    if (!form.name.trim()) return
-    setSchedules(p => [{id:Date.now(),...form,recipients:form.recipients.split(',').map(r=>r.trim()),lastSent:'Never',nextSend:'Scheduled',sentCount:0},...p])
-    setForm({ name:'', domain:'Finance', frequency:'Monthly', time:'09:00', recipients:'', format:'PDF' })
-    setShowForm(false)
-  }
 
   // ── SUMMARY generator ──────────────────────────────────────
   const generateSummary = async () => {
