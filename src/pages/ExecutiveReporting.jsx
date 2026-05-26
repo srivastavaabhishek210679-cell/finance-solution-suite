@@ -90,12 +90,11 @@ export default function ExecutiveReporting() {
   const [schedError, setSchedError] = useState(null)
   useEffect(() => {
     schedulesAPI.getAll()
-      .then(r => setSchedules((r?.data || r || []).map(s => ({
+      .then(r => { const list = Array.isArray(r?.data) ? r.data : Array.isArray(r) ? r : []; setSchedules(list.map(s => ({
         ...s, id: s.schedule_id, active: s.is_active, time: s.send_time,
         lastSent: s.last_sent_at ? new Date(s.last_sent_at).toLocaleDateString() : 'Never',
         nextSend: s.next_send_at ? new Date(s.next_send_at).toLocaleDateString() : 'Scheduled',
-        sentCount: s.sent_count || 0
-      }))))
+        sentCount: s.sent_count || 0 })))})
       .catch(e => setSchedError(e.message))
       .finally(() => setSchedLoading(false))
   }, [])
@@ -630,4 +629,5 @@ export default function ExecutiveReporting() {
     </div>
   )
 }
+
 
