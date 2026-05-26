@@ -652,15 +652,15 @@ function Dashboard() {
                     <div className="dm-pagination-wrap">
                       <Pagination pagination={pagination} onPageChange={handlePageChange} loading={loading}/>
                     </div>
+                  )}
                   <div className="dm-section">
                     <div className="dm-section-label"><span className="dm-section-line"/><span>Analytics &amp; Charts</span><span className="dm-section-line"/></div>
                     <AdvancedCharts reports={transformedReports} analyticsStats={analyticsStats} />
                   </div>
                   <div className="dm-section">
-                    <div className="dm-section-label"><span className="dm-section-line"/><span>Report Explorer</span><span className="dm-section-line"/></div>
+                    <div className='dm-section-label'><span className='dm-section-line'/><span>Report Explorer</span><span className='dm-section-line'/></div>
                     <AdvancedTable reports={displayReports} />
                   </div>
-                  )}
                 </div>
 
               </div>
