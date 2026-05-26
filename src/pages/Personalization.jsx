@@ -89,6 +89,8 @@ function Personalization() {
       setTimeout(() => setSavedMessage(''), 3000)
     } catch (e) { setSavedMessage('Failed to save preferences') }
   }
+  const resetToDefaults = () => {
+    if (confirm('Reset all preferences to default values?')) {
       setLayoutPrefs({
         defaultView: 'dashboard',
         sidebarPosition: 'left',
