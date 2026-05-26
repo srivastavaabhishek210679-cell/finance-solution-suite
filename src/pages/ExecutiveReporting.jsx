@@ -146,6 +146,12 @@ export default function ExecutiveReporting() {
       setSchedules(p => p.filter(s => s.id!==id))
     } catch(e) { console.error('Delete failed:', e) }
   }
+  const sendNow = async (id) => {
+    try {
+      await schedulesAPI.sendNow(id)
+      alert("Report sent successfully!")
+    } catch(e) { console.error("Send failed:", e); alert("Send failed: " + e.message) }
+  }
   const saveSchedule = async () => {
     try {
       const payload = {
@@ -442,8 +448,8 @@ export default function ExecutiveReporting() {
                 </div>
                 <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
                   {[
-                    { icon: s.active?Pause:Play, action:()=>toggleSchedule(s.id) },
-                    { icon: Trash2, action:()=>deleteSchedule(s.id), danger:true },
+                    { icon: s.active?Pause:Play, action:()=>toggleSchedule(s.id), title:'Toggle' },
+                    { icon: Play, action:()=>sendNow(s.id), title:'Send Now', success:true },
                   ].map((btn,i) => {
                     const Icon = btn.icon
                     return (
