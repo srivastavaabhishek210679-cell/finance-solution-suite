@@ -552,7 +552,7 @@ function Dashboard() {
                 {/* ── TABLE */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Report Explorer</span><span className="dm-section-line"/></div>
-                  <AdvancedTable reports={displayReports} />
+                  <AdvancedTable reports={transformedReports} />
                 </div>
 
                 {/* ── EXPORT */}
@@ -659,7 +659,7 @@ function Dashboard() {
                   </div>
                   <div className="dm-section">
                     <div className='dm-section-label'><span className='dm-section-line'/><span>Report Explorer</span><span className='dm-section-line'/></div>
-                    <AdvancedTable reports={displayReports} />
+                    <AdvancedTable reports={transformedReports} />
                   </div>
                 </div>
 
