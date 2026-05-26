@@ -11,6 +11,7 @@ import DeleteConfirmModal from '../components/DeleteConfirmModal'
 import Pagination from '../components/Pagination'
 import FilterPanel from '../components/FilterPanel'
 import AdvancedCharts from '../components/AdvancedCharts'
+import DataStorytelling from '../components/DataStorytelling'
 import AdvancedTable from '../components/AdvancedTable'
 import ExportImport from '../components/ExportImport'
 import ComplianceCalendar from '../components/ComplianceCalendar'
@@ -672,6 +673,7 @@ function Dashboard() {
                   )}
                   <div className="dm-section">
                     <div className="dm-section-label"><span className="dm-section-line"/><span>Analytics &amp; Charts</span><span className="dm-section-line"/></div>
+                    <DataStorytelling analyticsStats={analyticsStats} />
                     <AdvancedCharts reports={transformedReports} analyticsStats={analyticsStats} />
                   </div>
                   <div className="dm-section">
@@ -691,6 +693,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
