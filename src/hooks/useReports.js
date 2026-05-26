@@ -21,7 +21,7 @@ export function useReports() {
       if (response && response.data && response.pagination) {
         console.log('📊 Reports Count:', response.data.length)
         console.log('📊 Pagination:', response.pagination)
-        setReports(response.data.map(r => ({ ...r, domain: r.domain || DOMAIN_ID_MAP[r.domain_id] || 'General' })))
+        setReports((response?.data?.data || response?.data || []).map(r => ({ ...r, domain: r.domain || DOMAIN_ID_MAP[r.domain_id] || 'General' })))
         setPagination(response.pagination)
       } 
       // Handle direct array response (no pagination)
@@ -99,9 +99,7 @@ export function useReports() {
   }
 
   // Initial fetch
-  useEffect(() => {
-    fetchReports()
-  }, [])
+  // Initial fetch handled by consumer (Dashboard calls fetchReports(1, 500))
 
   return {
     reports,
@@ -116,6 +114,8 @@ export function useReports() {
     refresh,
   }
 }
+
+
 
 
 
