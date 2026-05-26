@@ -602,7 +602,7 @@ function Dashboard() {
                       const emoji=DEMOJI[domain]||'📋'
                       const domainReports=displayReports.filter(r=>r.domain===domain)
                       return(
-                        <div key={domain} className="dm-domain-card" style={{'--dc':color}}>
+                          <div key={domain} className='dm-domain-card' style={{'--dc':color}} onClick={()=>setSelectedCategory(domain)} >
                           <div className="dm-dc-header">
                             <div className="dm-dc-icon" style={{background:`${color}22`}}><span style={{fontSize:18}}>{emoji}</span></div>
                             <div className="dm-dc-title-wrap">
@@ -652,6 +652,14 @@ function Dashboard() {
                     <div className="dm-pagination-wrap">
                       <Pagination pagination={pagination} onPageChange={handlePageChange} loading={loading}/>
                     </div>
+                  <div className="dm-section">
+                    <div className="dm-section-label"><span className="dm-section-line"/><span>Analytics &amp; Charts</span><span className="dm-section-line"/></div>
+                    <AdvancedCharts reports={transformedReports} analyticsStats={analyticsStats} />
+                  </div>
+                  <div className="dm-section">
+                    <div className="dm-section-label"><span className="dm-section-line"/><span>Report Explorer</span><span className="dm-section-line"/></div>
+                    <AdvancedTable reports={displayReports} />
+                  </div>
                   )}
                 </div>
 
