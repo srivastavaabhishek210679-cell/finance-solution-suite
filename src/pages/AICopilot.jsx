@@ -343,7 +343,7 @@ function AICopilot() {
                 )}
                 <div className={`acp-bubble ${m.role}`}>
                   <div className="acp-bubble-text">{formatText(m.content)}</div>
-                  {m.role === 'assistant' && (
+                  {m.role === 'assistant' && (<>
                     <button className="acp-copy-btn" onClick={() => copyText(m.content, m.id)}>
                       {copied === m.id ? <CheckCircle size={11} /> : <Copy size={11} />}
                       {copied === m.id ? 'Copied' : 'Copy'}
@@ -352,8 +352,7 @@ function AICopilot() {
                       <button onClick={() => { const p = new URLSearchParams(); if(m.filters.domain) p.set('domain', m.filters.domain); if(m.filters.frequency) p.set('frequency', m.filters.frequency); navigate('/dashboard?' + p.toString()); }} style={{ display:'flex', alignItems:'center', gap:4, background:'#1e3a5f', border:'1px solid #3b82f640', borderRadius:6, color:'#60a5fa', fontSize:11, fontWeight:600, padding:'4px 10px', cursor:'pointer', marginTop:4 }}>
                         <BarChart3 size={11}/> View on Dashboard
                       </button>
-                    )}
-                  )}
+                  </> )}
                   <span className="acp-timestamp">{new Date(m.timestamp).toLocaleTimeString()}</span>
                 </div>
                 {m.role === 'user' && (
