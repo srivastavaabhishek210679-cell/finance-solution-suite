@@ -12,6 +12,7 @@ import Pagination from '../components/Pagination'
 import FilterPanel from '../components/FilterPanel'
 import AdvancedCharts from '../components/AdvancedCharts'
 import DataStorytelling from '../components/DataStorytelling'
+import DomainNarrative from '../components/DomainNarrative'
 import AdvancedTable from '../components/AdvancedTable'
 import ExportImport from '../components/ExportImport'
 import ComplianceCalendar from '../components/ComplianceCalendar'
@@ -660,6 +661,7 @@ function Dashboard() {
                                 </button>
                               )}
                             </div>
+                          <DomainNarrative domain={domain} count={count} percentage={percentage} color={color} reports={domainReports} />
                           )}
                         </div>
                       )
@@ -693,6 +695,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
