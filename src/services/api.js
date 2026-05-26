@@ -1,8 +1,18 @@
+export const schedulesAPI = {
+  getAll:   ()        => api.get('/schedules'),
+  create:   (data)    => api.post('/schedules', data),
+  update:   (id,data) => api.put(`/schedules/${id}`, data),
+  toggle:   (id)      => api.patch(`/schedules/${id}/toggle`),
+  delete:   (id)      => api.delete(`/schedules/${id}`),
+  sendNow:  (id)      => api.post(`/schedules/${id}/send`),
+}
+
+
 import axios from 'axios'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'https://finance-backend-so86.onrender.com/api/v1'
 
-// ── Token storage helpers ─────────────────────────────────────────────────────
+// â”€â”€ Token storage helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const TOKEN_KEY   = 'auth_token'
 const REFRESH_KEY = 'auth_refresh_token'
 const USER_KEY    = 'auth_user'
@@ -28,14 +38,14 @@ export const tokenStorage = {
   },
 }
 
-// ── Axios instance ────────────────────────────────────────────────────────────
+// â”€â”€ Axios instance â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const api = axios.create({
   baseURL: API_BASE,
   timeout: 15000,
   headers: { 'Content-Type': 'application/json' },
 })
 
-// ── Request interceptor — attach JWT ─────────────────────────────────────────
+// â”€â”€ Request interceptor â€” attach JWT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 api.interceptors.request.use(
   (config) => {
     // Try new token key first, fall back to legacy key
@@ -49,7 +59,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-// ── Refresh token state ───────────────────────────────────────────────────────
+// â”€â”€ Refresh token state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let isRefreshing   = false
 let failedQueue    = []
 
@@ -61,7 +71,7 @@ const processQueue = (error, token = null) => {
   failedQueue = []
 }
 
-// ── Response interceptor — auto-refresh on 401 ───────────────────────────────
+// â”€â”€ Response interceptor â€” auto-refresh on 401 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -90,7 +100,7 @@ api.interceptors.response.use(
       const refreshToken = tokenStorage.getRefreshToken()
 
       if (!refreshToken) {
-        // No refresh token — log user out
+        // No refresh token â€” log user out
         isRefreshing = false
         tokenStorage.clearAll()
         window.location.href = '/login'
@@ -127,14 +137,14 @@ api.interceptors.response.use(
     }
 
     if (error.code === 'ERR_NETWORK' || !navigator.onLine) {
-      console.warn('[API] Network error — backend may be sleeping (cold start ~30s)')
+      console.warn('[API] Network error â€” backend may be sleeping (cold start ~30s)')
     }
 
     return Promise.reject(error)
   },
 )
 
-// ── Auth API calls ────────────────────────────────────────────────────────────
+// â”€â”€ Auth API calls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const authAPI = {
   login: async (email, password) => {
     const res = await api.post('/auth/login', { email, password })
@@ -181,15 +191,7 @@ export const authAPI = {
   },
 }
 
-// ── Reports API ───────────────────────────────────────────────────────────────
-export const schedulesAPI = {
-  getAll:   ()        => api.get('/schedules'),
-  create:   (data)    => api.post('/schedules', data),
-  update:   (id,data) => api.put(/schedules/\, data),
-  toggle:   (id)      => api.patch(/schedules/\/toggle),
-  delete:   (id)      => api.delete(/schedules/\),
-  sendNow:  (id)      => api.post(/schedules/\/send),
-}
+// â”€â”€ Reports API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const reportsAPI = {
   getAll:   (params = {}) => api.get('/reports/master', { params }),
@@ -203,27 +205,27 @@ export const reportsAPI = {
   }),
 }
 
-// ── Analytics API ─────────────────────────────────────────────────────────────
+// â”€â”€ Analytics API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const analyticsAPI = {
   getDashboardStats: () => api.get('/analytics/dashboard-stats'),
   getSummary:        () => api.get('/analytics/summary'),
 }
 
-// ── Compliance API ────────────────────────────────────────────────────────────
+// â”€â”€ Compliance API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const complianceAPI = {
   getCalendar:  (params = {}) => api.get('/compliance-calendar', { params }),
   getById:      (id)          => api.get(`/compliance-calendar/${id}`),
   update:       (id, data)    => api.put(`/compliance-calendar/${id}`, data),
 }
 
-// ── Notifications API ─────────────────────────────────────────────────────────
+// â”€â”€ Notifications API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const notificationsAPI = {
   getAll:      (params = {}) => api.get('/notifications', { params }),
   markRead:    (id)          => api.put(`/notifications/${id}/read`),
   markAllRead: ()            => api.put('/notifications/mark-all-read'),
 }
 
-// ── Workflows API ─────────────────────────────────────────────────────────────
+// â”€â”€ Workflows API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const workflowsAPI = {
   getAll:     (params = {}) => api.get('/workflow-definitions', { params }),
   getSummary: ()            => api.get('/workflow-definitions/summary'),
@@ -231,7 +233,7 @@ export const workflowsAPI = {
   toggle:     (id)          => api.put(`/workflow-definitions/${id}/toggle`),
 }
 
-// ── Integrations API ──────────────────────────────────────────────────────────
+// â”€â”€ Integrations API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const integrationsAPI = {
   getAll:      ()    => api.get('/integrations'),
   getStatus:   ()    => api.get('/integrations/sync/status'),
@@ -240,13 +242,15 @@ export const integrationsAPI = {
   saveCredentials: (id, creds) => api.post(`/integrations/${id}/credentials`, creds),
 }
 
-// ── Audit Logs API ────────────────────────────────────────────────────────────
+// â”€â”€ Audit Logs API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const auditAPI = {
   getAll:     (params = {}) => api.get('/audit-logs', { params }),
   getSummary: ()            => api.get('/audit-logs/summary'),
 }
 
 export default api
+
+
 
 
 
