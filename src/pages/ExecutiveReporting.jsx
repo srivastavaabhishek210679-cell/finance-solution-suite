@@ -166,10 +166,9 @@ export default function ExecutiveReporting() {
         send_time: form.time, recipients: form.recipients.split(',').map(r=>r.trim()).filter(Boolean),
         format: form.format
       }
-      const r = await schedulesAPI.create(payload)
-      const s = r?.data || r
-      setSchedules(p => [{ ...s, id: s.schedule_id, active: s.is_active, time: s.send_time, lastSent:'Never', nextSend:'Scheduled', sentCount:0 }, ...p])
+      await schedulesAPI.create(payload)
       setForm({ name:'', domain:'Finance', frequency:'Monthly', time:'09:00', recipients:'', format:'PDF' })
+      refreshSchedules()
     } catch(e) { console.error('Save failed:', e) }
   }
 
@@ -642,6 +641,7 @@ export default function ExecutiveReporting() {
     </div>
   )
 }
+
 
 
 
