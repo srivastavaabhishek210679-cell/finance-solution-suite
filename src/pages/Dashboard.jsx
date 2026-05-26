@@ -89,7 +89,7 @@ function Dashboard() {
     updateReport,
     deleteReport,
     refresh,
-    fetchReports
+    fetchReports(1, 500)
   } = useReports()
   const { stats: analyticsStats } = useAnalytics()
 
@@ -551,13 +551,11 @@ function Dashboard() {
                 {/* ── CHARTS */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Analytics &amp; Charts</span><span className="dm-section-line"/></div>
-                  <AdvancedCharts reports={transformedReports} analyticsStats={analyticsStats} />
                 </div>
 
                 {/* ── TABLE */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Report Explorer</span><span className="dm-section-line"/></div>
-                  <AdvancedTable reports={transformedReports} />
                 </div>
 
                 {/* ── EXPORT */}
