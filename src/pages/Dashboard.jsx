@@ -97,7 +97,12 @@ function Dashboard() {
 
   const transformedReports = reports.map(report => ({
     ...report,
-    domain: report.domain || (report.domain_id ? DOMAIN_ID_MAP[report.domain_id] : null)
+    domain: report.domain || (report.domain_id ? DOMAIN_ID_MAP[report.domain_id] : null),
+      complianceStatus: report.complianceStatus || report.compliance_status || 'Optional',
+      automationStatus: report.automationStatus || 'Manual',
+      riskLevel: report.riskLevel || report.risk_level || 'Low',
+      createdAt: report.createdAt || report.created_at,
+      id: report.id || report.report_id
   }))
 
   const isUsingBackend = useBackend && !loading && !error && backendReports.length > 0
@@ -673,6 +678,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
