@@ -183,7 +183,23 @@ export default function IntegrationEcosystem() {
   }
 
   const handleConnect = async (id) => {
+    const conn = connectors.find(c => c.id === id)
+    const dbId = conn?._dbId || id
     try {
+      await integrationManageAPI.connect(dbId, {})
+      setConnectors(p => p.map(c => c.id===id ? {...c, status:'connected', health:88} : c))
+      showToast('Integration connected!')
+    } catch { showToast('Connect failed', 'error') }
+  }
+  const handleDisconnect = async (id) => {
+    const conn = connectors.find(c => c.id === id)
+    const dbId = conn?._dbId || id
+    try {
+      await integrationManageAPI.disconnect(dbId)
+      setConnectors(p => p.map(c => c.id===id ? {...c, status:'disconnected', health:0} : c))
+      showToast('Disconnected', 'warning')
+    } catch { showToast('Disconnect failed', 'error') }
+  }
       await integrationManageAPI.connect(id, {})
       setConnectors(p => p.map(c => c.id===id ? {...c, status:'connected', health:88} : c))
       showToast('Integration connected!')
@@ -199,6 +215,17 @@ export default function IntegrationEcosystem() {
   const handleConfigure  = ()   => showToast('Configuration panel â€” coming soon')
 
   const handleSync = async (id) => {
+    const conn = connectors.find(c => c.id === id)
+    const dbId = conn?._dbId || id
+    setSyncing(p => ({...p, [id]: true}))
+    try {
+      const r = await integrationManageAPI.sync(dbId)
+      const count = r?.data?.data?.last_sync_count || 0
+      setConnectors(p => p.map(c => c.id===id ? {...c, lastSync: new Date().toLocaleString(), records: c.records + count} : c))
+      showToast('Sync done — ' + count + ' records')
+    } catch { showToast('Sync failed', 'warning') }
+    finally { setSyncing(p => ({...p, [id]: false})) }
+  }
     setSyncing(p => ({...p, [id]: true}))
     try {
       const r = await integrationManageAPI.sync(id)
