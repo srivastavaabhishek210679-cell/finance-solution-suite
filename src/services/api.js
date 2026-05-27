@@ -1,3 +1,11 @@
+export const collaborationAPI = {
+  getRooms:    ()           => api.get('/collaboration'),
+  createRoom:  (data)       => api.post('/collaboration', data),
+  getComments: (roomId)     => api.get('/collaboration/' + roomId + '/comments'),
+  addComment:  (roomId, data) => api.post('/collaboration/' + roomId + '/comments', data),
+  deleteRoom:  (id)         => api.delete('/collaboration/' + id),
+}
+
 export const preferencesAPI = {
   get:  ()     => api.get('/preferences'),
   save: (data) => api.post('/preferences', data),
@@ -254,6 +262,7 @@ export const auditAPI = {
 }
 
 export default api
+
 
 
 

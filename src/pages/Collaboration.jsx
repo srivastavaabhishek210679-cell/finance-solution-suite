@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Users, Share2, MessageCircle, UserPlus, Clock, Eye, Edit, Shield, Send, Paperclip, Search } from 'lucide-react'
 import './Collaboration.css'
+import { collaborationAPI } from '../services/api'
 
 function Collaboration() {
   const [activeTab, setActiveTab] = useState('shared')
@@ -8,36 +9,9 @@ function Collaboration() {
   const [newComment, setNewComment] = useState('')
 
   // Shared dashboards
-  const [sharedDashboards, setSharedDashboards] = useState([
-    {
-      id: 1,
-      name: 'Q1 2026 Financial Review',
-      owner: 'John Smith',
-      sharedWith: 5,
-      lastActivity: '2 hours ago',
-      permissions: ['view', 'comment'],
-      comments: 12
-    },
-    {
-      id: 2,
-      name: 'Tax Compliance Dashboard',
-      owner: 'Sarah Johnson',
-      sharedWith: 3,
-      lastActivity: '1 day ago',
-      permissions: ['view', 'edit', 'comment'],
-      comments: 8
-    },
-    {
-      id: 3,
-      name: 'ESG Metrics Tracker',
-      owner: 'You',
-      sharedWith: 7,
-      lastActivity: '5 hours ago',
-      permissions: ['admin'],
-      comments: 15
-    }
-  ])
-
+  const [sharedDashboards, setSharedDashboards] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [comments, setComments] = useState([])
   // Team members
   const [teamMembers, setTeamMembers] = useState([
     {
@@ -78,40 +52,6 @@ function Collaboration() {
     }
   ])
 
-  // Comments and activity
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      dashboardId: 1,
-      user: 'John Smith',
-      avatar: '👨‍💼',
-      text: 'The operating expenses variance needs clarification. Can someone review the Q1 vendor contracts?',
-      timestamp: '2 hours ago',
-      mentions: [],
-      attachments: []
-    },
-    {
-      id: 2,
-      dashboardId: 1,
-      user: 'You',
-      avatar: '👤',
-      text: '@John Smith I\'ve reviewed the contracts. The variance is due to the new software licenses purchased in March.',
-      timestamp: '1 hour ago',
-      mentions: ['John Smith'],
-      attachments: ['vendor-analysis.pdf']
-    },
-    {
-      id: 3,
-      dashboardId: 1,
-      user: 'Sarah Johnson',
-      avatar: '👩‍💼',
-      text: 'Good catch! We should update the budget forecast for Q2 to reflect these recurring costs.',
-      timestamp: '45 minutes ago',
-      mentions: [],
-      attachments: []
-    }
-  ])
-
   // Activity feed
   const [activities, setActivities] = useState([
     {
@@ -144,22 +84,39 @@ function Collaboration() {
     }
   ])
 
+  useEffect(() => {
+    collaborationAPI.getRooms()
+      .then(r => { const data = r?.data?.data || r?.data || []; setSharedDashboards(data.map(d => ({ id: d.room_id, name: d.name, owner: d.owner_id, sharedWith: 0, lastActivity: new Date(d.updated_at).toLocaleDateString(), permissions: ["view","comment"], comments: parseInt(d.comment_count)||0 }))) })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
   // Send comment
-  const sendComment = () => {
-    if (newComment.trim() && selectedDashboard) {
-      const comment = {
-        id: comments.length + 1,
-        dashboardId: selectedDashboard.id,
-        user: 'You',
-        avatar: '👤',
-        text: newComment,
-        timestamp: 'Just now',
-        mentions: [],
-        attachments: []
-      }
-      setComments([...comments, comment])
+  const sendComment = async () => {
+    if (!newComment.trim() || !selectedDashboard) return
+    try {
+      const r = await collaborationAPI.addComment(selectedDashboard.id, { content: newComment })
+      const c = r?.data?.data || r?.data
+      setComments(p => [...p, { id: c?.comment_id, dashboardId: selectedDashboard.id, user: c?.user_name || 'You', avatar: 'U', text: c?.content || newComment, timestamp: 'Just now', mentions: [], attachments: [] }])
       setNewComment('')
-    }
+    } catch { setNewComment('') }
+  }
+
+  const selectDashboard = async (dashboard) => {
+    setSelectedDashboard(dashboard)
+    try {
+      const r = await collaborationAPI.getComments(dashboard.id)
+      const data = r?.data?.data || r?.data || []
+      setComments(data.map(c => ({ id: c.comment_id, dashboardId: dashboard.id, user: c.user_name || "User", avatar: "U", text: c.content, timestamp: new Date(c.created_at).toLocaleString(), mentions: [], attachments: [] })))
+    } catch { setComments([]) }
+  }
+
+
+
+
+
+
+
   }
 
   // Share dashboard
@@ -297,7 +254,7 @@ function Collaboration() {
                   </div>
 
                   <div className="dashboard-actions">
-                    <button className="btn-text" onClick={() => setSelectedDashboard(dashboard)}>
+                    <button className='btn-text' onClick={() => selectDashboard(dashboard)}>
                       View Comments
                     </button>
                     <button className="btn-text" onClick={() => shareDashboard(dashboard.id)}>
