@@ -172,7 +172,7 @@ export default function IntegrationEcosystem() {
           const live = data.find(d => d.source_name.toLowerCase().includes(c.name.toLowerCase().split(" ")[0]) || c.name.toLowerCase().includes(d.source_name.toLowerCase().split(" ")[0]))
           if (!live) return c
           return { ...c, _dbId: live.source_id, status: live.connection_status || c.status, health: live.health_score || c.health, records: live.last_sync_count || c.records, lastSync: live.last_sync ? new Date(live.last_sync).toLocaleString() : c.lastSync }
-        }))
+          return { ...c, _dbId: live.source_id, status: live.connection_status === 'connected' ? 'connected' : c.status, health: live.health_score > 0 ? live.health_score : c.health, records: live.last_sync_count || c.records, lastSync: live.last_sync ? new Date(live.last_sync).toLocaleString() : c.lastSync }
       }
     }).catch(() => {})
   }, [])
