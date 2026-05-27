@@ -214,6 +214,7 @@ export default function IntegrationEcosystem() {
     finally { setSyncing(p => ({...p, [id]: false})) }
   }
 
+  const handleConfigure  = ()   => showToast('Configuration panel — coming soon')
   const deleteWebhook = (id) => { setWebhooks(p => p.filter(w => w.id!==id)); showToast('Webhook deleted') }
   const toggleWebhook = (id) => setWebhooks(p => p.map(w => w.id===id ? {...w, status:w.status==='active'?'inactive':'active'} : w))
   const saveWebhook   = () => {
