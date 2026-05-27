@@ -200,19 +200,6 @@ export default function IntegrationEcosystem() {
       showToast('Disconnected', 'warning')
     } catch { showToast('Disconnect failed', 'error') }
   }
-      await integrationManageAPI.connect(id, {})
-      setConnectors(p => p.map(c => c.id===id ? {...c, status:'connected', health:88} : c))
-      showToast('Integration connected!')
-    } catch { showToast('Connect failed', 'error') }
-  }
-  const handleDisconnect = async (id) => {
-    try {
-      await integrationManageAPI.disconnect(id)
-      setConnectors(p => p.map(c => c.id===id ? {...c, status:'disconnected', health:0} : c))
-      showToast('Disconnected', 'warning')
-    } catch { showToast('Disconnect failed', 'error') }
-  }
-  const handleConfigure  = ()   => showToast('Configuration panel — coming soon')
 
   const handleSync = async (id) => {
     const conn = connectors.find(c => c.id === id)
