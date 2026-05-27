@@ -381,7 +381,7 @@ function Collaboration() {
               </div>
             )}
           </div>
-        </div>
+        )}
       </div>
       {showInvite && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setShowInvite(false)}>
