@@ -9,9 +9,6 @@ function Collaboration() {
   const [newComment, setNewComment] = useState('')
   const [showInvite, setShowInvite] = useState(false)
   const [inviteEmail, setInviteEmail] = useState('')
-  const [newComment, setNewComment] = useState('')
-  const [showInvite, setShowInvite] = useState(false)
-  const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRole, setInviteRole] = useState('viewer')
   const [selectedMember, setSelectedMember] = useState(null)
   // Shared dashboards
