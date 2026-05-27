@@ -208,32 +208,6 @@ export default function IntegrationEcosystem() {
     } catch { showToast('Sync failed', 'warning') }
     finally { setSyncing(p => ({...p, [id]: false})) }
   }
-    setSyncing(p => ({...p, [id]: true}))
-    const conn = connectors.find(c => c.id === id)
-
-    if (conn?._sourceId && isLive) {
-      try {
-        const result = await apiSync(conn._sourceId)
-        setConnectors(p => p.map(c => c.id===id
-          ? {...c, lastSync: new Date().toLocaleString(), records: c.records + (result?.records_synced || 0)}
-          : c
-        ))
-        showToast(`Sync done — ${result?.records_synced || 0} records`)
-      } catch {
-        showToast('Sync failed', 'warning')
-      } finally {
-        setSyncing(p => ({...p, [id]: false}))
-      }
-      return
-    }
-
-    // Mock fallback
-    setTimeout(() => {
-      setSyncing(p => ({...p, [id]: false}))
-      setConnectors(p => p.map(c => c.id===id ? {...c, lastSync:'Just now', records: c.records + Math.floor(Math.random()*50)+10} : c))
-      showToast('Sync completed!')
-    }, 2000)
-  }
 
   const deleteWebhook = (id) => { setWebhooks(p => p.filter(w => w.id!==id)); showToast('Webhook deleted') }
   const toggleWebhook = (id) => setWebhooks(p => p.map(w => w.id===id ? {...w, status:w.status==='active'?'inactive':'active'} : w))
