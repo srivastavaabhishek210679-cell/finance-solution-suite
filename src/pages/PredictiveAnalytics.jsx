@@ -13,7 +13,7 @@ import {
 } from 'recharts'
 import './PredictiveAnalytics.css'
 
-// ─────────────────────────────────────────────────────────────
+import { useAnalytics } from '../hooks/useAnalytics'
 // MOCK DATA
 // ─────────────────────────────────────────────────────────────
 
@@ -138,10 +138,21 @@ const ChartTooltip = ({ active, payload, label, prefix = '', suffix = '' }) => {
 function PredictiveAnalytics() {
   const navigate = useNavigate()
   const [activeTab,      setActiveTab]      = useState('overview')
-  const [timeRange,      setTimeRange]      = useState('6M')
-  const [isRefreshing,   setIsRefreshing]   = useState(false)
+  const navigate = useNavigate()
+  const { stats: analyticsStats } = useAnalytics()
   const [lastUpdated,    setLastUpdated]    = useState(new Date())
   const [categoryFilter, setCategoryFilter] = useState('All')
+
+  const liveKPIs = analyticsStats ? [
+    { name: "Revenue Growth",         score: 87,                                    trend: "up",   value: "$18.2M",                                        change: "+8.2%",  domain: "Finance",    icon: DollarSign    },
+    { name: "Customer Retention",     score: 72,                                    trend: "down", value: "84.2%",                                         change: "-2.1%",  domain: "Sales",      icon: Users         },
+    { name: "Operational Efficiency", score: Math.round(analyticsStats.automationRate || 87), trend: "up", value: (analyticsStats.automationRate||87).toFixed(1)+"%", change: "+3.4%", domain: "Operations", icon: Activity },
+    { name: "Compliance Score",       score: Math.round(analyticsStats.complianceRate || 95), trend: "up", value: (analyticsStats.complianceRate||95).toFixed(1)+"%", change: "+0.8%", domain: "Finance",  icon: Shield   },
+    { name: "Cash Flow Health",       score: 68,                                    trend: "down", value: "$4.2M",                                         change: "-5.3%",  domain: "Treasury",   icon: TrendingUp    },
+    { name: "Risk Exposure",          score: Math.max(0,100-Math.round(analyticsStats.riskScore||23)), trend: analyticsStats.riskScore>25?"down":"up", value: analyticsStats.riskScore?.toFixed(1)||"23.3", change: "-5.3", domain: "Risk", icon: AlertTriangle },
+    { name: "HR Productivity",        score: 82,                                    trend: "up",   value: "89.1%",                                         change: "+4.2%",  domain: "HR",         icon: Users         },
+    { name: "IT System Health",       score: 96,                                    trend: "up",   value: "99.2%",                                         change: "+0.5%",  domain: "IT",         icon: Cpu           },
+  ] : KPI_HEALTH
   const [severityFilter, setSeverityFilter] = useState('All')
 
   const handleRefresh = useCallback(() => {
@@ -189,7 +200,7 @@ function PredictiveAnalytics() {
           <span className="pa-section-sub">AI-evaluated across all domains · 8 KPIs monitored</span>
         </div>
         <div className="pa-health-grid">
-          {KPI_HEALTH.map((kpi, i) => {
+          {liveKPIs.map((kpi, i) => {
             const IconComp = kpi.icon
             const color = getHealthColor(kpi.score)
             return (
