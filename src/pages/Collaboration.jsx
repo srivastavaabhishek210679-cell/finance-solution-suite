@@ -7,7 +7,6 @@ function Collaboration() {
   const [activeTab, setActiveTab] = useState('shared')
   const [selectedDashboard, setSelectedDashboard] = useState(null)
   const [newComment, setNewComment] = useState('')
-  const [newComment, setNewComment] = useState('')
   const [showInvite, setShowInvite] = useState(false)
   const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRole, setInviteRole] = useState('viewer')
