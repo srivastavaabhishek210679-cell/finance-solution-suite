@@ -9,7 +9,11 @@ function Collaboration() {
   const [newComment, setNewComment] = useState('')
   const [showInvite, setShowInvite] = useState(false)
   const [inviteEmail, setInviteEmail] = useState('')
+  const [newComment, setNewComment] = useState('')
+  const [showInvite, setShowInvite] = useState(false)
+  const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRole, setInviteRole] = useState('viewer')
+  const [selectedMember, setSelectedMember] = useState(null)
   // Shared dashboards
   const [sharedDashboards, setSharedDashboards] = useState([])
   const [loading, setLoading] = useState(true)
@@ -292,7 +296,7 @@ function Collaboration() {
                   <div className="member-stats">
                     <span>{member.dashboards} dashboards</span>
                   </div>
-                  <button className="btn-secondary">View Profile</button>
+                    <button className='btn-secondary' onClick={() => setSelectedMember(member)}>View Profile</button>
                 </div>
               ))}
             </div>
@@ -383,6 +387,34 @@ function Collaboration() {
           </div>
         )}
       </div>
+      {selectedMember && (
+        <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setSelectedMember(null)}>
+          <div style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:12, padding:24, width:420 }} onClick={e => e.stopPropagation()}>
+            <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:20 }}>
+              <div style={{ fontSize:48 }}>{selectedMember.avatar}</div>
+              <div>
+                <div style={{ fontSize:18, fontWeight:700, color:"#f1f5f9" }}>{selectedMember.name}</div>
+                <div style={{ fontSize:13, color:"#3b82f6" }}>{selectedMember.role}</div>
+                <div style={{ fontSize:12, color:"#64748b" }}>{selectedMember.email}</div>
+              </div>
+            </div>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:16 }}>
+              <div style={{ background:"#0f172a", borderRadius:8, padding:12, textAlign:"center" }}>
+                <div style={{ fontSize:24, fontWeight:700, color:"#3b82f6" }}>{selectedMember.dashboards}</div>
+                <div style={{ fontSize:11, color:"#64748b" }}>Dashboards</div>
+              </div>
+              <div style={{ background:"#0f172a", borderRadius:8, padding:12, textAlign:"center" }}>
+                <div style={{ fontSize:24, fontWeight:700, color:selectedMember.status==="online"?"#10b981":"#64748b" }}>{selectedMember.status}</div>
+                <div style={{ fontSize:11, color:"#64748b" }}>Status</div>
+              </div>
+            </div>
+            <div style={{ display:"flex", justifyContent:"flex-end", gap:8 }}>
+              <button onClick={() => setSelectedMember(null)} style={{ background:"#334155", border:"none", borderRadius:8, color:"#94a3b8", padding:"8px 16px", cursor:"pointer" }}>Close</button>
+              <button onClick={() => { setShowInvite(false); alert("Message sent to " + selectedMember.name); }} style={{ background:"#3b82f6", border:"none", borderRadius:8, color:"#fff", padding:"8px 16px", cursor:"pointer", fontWeight:600 }}>Send Message</button>
+            </div>
+          </div>
+        </div>
+      )}
       {showInvite && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setShowInvite(false)}>
           <div style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:12, padding:24, width:400 }} onClick={e => e.stopPropagation()}>
