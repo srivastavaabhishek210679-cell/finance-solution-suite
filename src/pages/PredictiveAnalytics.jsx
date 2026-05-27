@@ -138,6 +138,8 @@ const ChartTooltip = ({ active, payload, label, prefix = '', suffix = '' }) => {
 function PredictiveAnalytics() {
   const navigate = useNavigate()
   const [activeTab,      setActiveTab]      = useState('overview')
+  const [timeRange,      setTimeRange]      = useState('6M')
+  const [isRefreshing,   setIsRefreshing]   = useState(false)
   const { stats: analyticsStats } = useAnalytics()
   const [lastUpdated,    setLastUpdated]    = useState(new Date())
   const [categoryFilter, setCategoryFilter] = useState('All')
