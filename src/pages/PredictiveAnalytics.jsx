@@ -143,7 +143,6 @@ function PredictiveAnalytics() {
   const { stats: analyticsStats } = useAnalytics()
   const [lastUpdated,    setLastUpdated]    = useState(new Date())
   const [categoryFilter, setCategoryFilter] = useState('All')
-  const [categoryFilter, setCategoryFilter] = useState('All')
   const [aiRecs, setAiRecs] = useState([])
   const [aiRecsLoading, setAiRecsLoading] = useState(false)
   const liveKPIs = analyticsStats ? [
