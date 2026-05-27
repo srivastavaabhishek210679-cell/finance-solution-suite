@@ -104,14 +104,13 @@ function Collaboration() {
 
   const selectDashboard = async (dashboard) => {
     setSelectedDashboard(dashboard)
+    setActiveTab('comments')
     try {
       const r = await collaborationAPI.getComments(dashboard.id)
       const data = r?.data?.data || r?.data || []
-      setComments(data.map(c => ({ id: c.comment_id, dashboardId: dashboard.id, user: c.user_name || "User", avatar: "U", text: c.content, timestamp: new Date(c.created_at).toLocaleString(), mentions: [], attachments: [] })))
+      setComments(data.map(c => ({ id: c.comment_id, dashboardId: dashboard.id, user: c.user_name || 'User', avatar: 'U', text: c.content, timestamp: new Date(c.created_at).toLocaleString(), mentions: [], attachments: [] })))
     } catch { setComments([]) }
-
-
-
+  }
 
 
 
