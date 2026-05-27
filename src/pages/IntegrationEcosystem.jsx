@@ -173,7 +173,7 @@ export default function IntegrationEcosystem() {
           if (!live) return c
           return { ...c, _dbId: live.source_id, status: live.connection_status === 'connected' ? 'connected' : c.status, health: live.health_score > 0 ? live.health_score : c.health, records: live.last_sync_count || c.records, lastSync: live.last_sync ? new Date(live.last_sync).toLocaleString() : c.lastSync }
         }))
-    }).catch(() => {})
+      }
   }, [])
 
   const showToast = (msg, type = 'success') => {
