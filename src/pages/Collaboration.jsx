@@ -123,8 +123,7 @@ function Collaboration() {
     alert('Share dashboard functionality - Opens modal to select team members and set permissions')
   }
 
-  return (
-    <div className="collaboration-page">
+  return (<>
       {/* Header */}
       <div className="collaboration-header">
         <div className="header-content">
@@ -403,6 +402,7 @@ function Collaboration() {
 
         )}
       </div>
-    </div>
+    </>
   )
+}
 export default Collaboration
