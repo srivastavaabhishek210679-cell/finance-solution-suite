@@ -381,6 +381,7 @@ function Collaboration() {
               </div>
             )}
           </div>
+        </div>
       {showInvite && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setShowInvite(false)}>
           <div style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:12, padding:24, width:400 }} onClick={e => e.stopPropagation()}>
