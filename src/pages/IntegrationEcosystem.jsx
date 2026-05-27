@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import './IntegrationEcosystem.css'
 import { useIntegrations } from '../hooks/useIntegrations'
+import { integrationManageAPI } from '../services/api'
 import { SkeletonCard, SkeletonConnector } from '../components/Skeleton'
 
 const ERP_CONNECTORS = [
@@ -162,16 +163,51 @@ export default function IntegrationEcosystem() {
     }
   }, [liveIntegrations]) // eslint-disable-line
 
+
+  useEffect(() => {
+    integrationManageAPI.getAll().then(r => {
+      const data = r?.data?.data || r?.data || []
+      if (data.length) {
+        setConnectors(prev => prev.map(c => {
+          const live = data.find(d => d.source_name.toLowerCase().includes(c.name.toLowerCase().split(" ")[0]) || c.name.toLowerCase().includes(d.source_name.toLowerCase().split(" ")[0]))
+          if (!live) return c
+          return { ...c, _dbId: live.source_id, status: live.connection_status || c.status, health: live.health_score || c.health, records: live.last_sync_count || c.records, lastSync: live.last_sync ? new Date(live.last_sync).toLocaleString() : c.lastSync }
+        }))
+      }
+    }).catch(() => {})
+  }, [])
+
   const showToast = (msg, type = 'success') => {
     setToast({ msg, type })
     setTimeout(() => setToast(null), 3000)
   }
 
-  const handleConnect    = (id) => { setConnectors(p => p.map(c => c.id===id ? {...c, status:'connected', health:88, records:0, lastSync:'Just now'} : c)); showToast('Integration connected!') }
-  const handleDisconnect = (id) => { setConnectors(p => p.map(c => c.id===id ? {...c, status:'disconnected', health:0, records:0, lastSync:'Never'} : c)); showToast('Disconnected', 'warning') }
+  const handleConnect = async (id) => {
+    try {
+      await integrationManageAPI.connect(id, {})
+      setConnectors(p => p.map(c => c.id===id ? {...c, status:'connected', health:88} : c))
+      showToast('Integration connected!')
+    } catch { showToast('Connect failed', 'error') }
+  }
+  const handleDisconnect = async (id) => {
+    try {
+      await integrationManageAPI.disconnect(id)
+      setConnectors(p => p.map(c => c.id===id ? {...c, status:'disconnected', health:0} : c))
+      showToast('Disconnected', 'warning')
+    } catch { showToast('Disconnect failed', 'error') }
+  }
   const handleConfigure  = ()   => showToast('Configuration panel â€” coming soon')
 
   const handleSync = async (id) => {
+    setSyncing(p => ({...p, [id]: true}))
+    try {
+      const r = await integrationManageAPI.sync(id)
+      const count = r?.data?.data?.last_sync_count || 0
+      setConnectors(p => p.map(c => c.id===id ? {...c, lastSync: new Date().toLocaleString(), records: c.records + count} : c))
+      showToast('Sync done — ' + count + ' records')
+    } catch { showToast('Sync failed', 'warning') }
+    finally { setSyncing(p => ({...p, [id]: false})) }
+  }
     setSyncing(p => ({...p, [id]: true}))
     const conn = connectors.find(c => c.id === id)
 
@@ -480,6 +516,7 @@ export default function IntegrationEcosystem() {
     </div>
   )
 }
+
 
 
 

@@ -1,3 +1,11 @@
+export const integrationManageAPI = {
+  getAll:     ()           => api.get('/integrations/manage'),
+  connect:    (id, data)   => api.post('/integrations/manage/' + id + '/connect', data),
+  disconnect: (id)         => api.post('/integrations/manage/' + id + '/disconnect'),
+  sync:       (id)         => api.post('/integrations/manage/' + id + '/sync'),
+  updateConfig: (id, data) => api.put('/integrations/manage/' + id + '/config', data),
+}
+
 export const collaborationAPI = {
   getRooms:    ()           => api.get('/collaboration'),
   createRoom:  (data)       => api.post('/collaboration', data),
@@ -262,6 +270,7 @@ export const auditAPI = {
 }
 
 export default api
+
 
 
 
