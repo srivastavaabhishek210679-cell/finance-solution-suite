@@ -143,7 +143,9 @@ function PredictiveAnalytics() {
   const { stats: analyticsStats } = useAnalytics()
   const [lastUpdated,    setLastUpdated]    = useState(new Date())
   const [categoryFilter, setCategoryFilter] = useState('All')
-
+  const [categoryFilter, setCategoryFilter] = useState('All')
+  const [aiRecs, setAiRecs] = useState([])
+  const [aiRecsLoading, setAiRecsLoading] = useState(false)
   const liveKPIs = analyticsStats ? [
     { name: "Revenue Growth",         score: 87,                                    trend: "up",   value: "$18.2M",                                        change: "+8.2%",  domain: "Finance",    icon: DollarSign    },
     { name: "Customer Retention",     score: 72,                                    trend: "down", value: "84.2%",                                         change: "-2.1%",  domain: "Sales",      icon: Users         },
@@ -440,8 +442,90 @@ function PredictiveAnalytics() {
   )
 
   // ── TAB: RECOMMENDATIONS ───────────────────────────────────
+  const generateAIRecs = async () => {
+    if (!analyticsStats) return
+    setAiRecsLoading(true)
+    const prompt = `You are a financial AI advisor. Based on this enterprise finance platform data, generate exactly 3 specific actionable recommendations in JSON array format. Each object must have: title (string), category (one of: Revenue/Compliance/Operations/HR/Risk), impact (high/medium/low), description (string, 1 sentence), potentialValue (string like +$100K or -20hrs), confidence (number 70-95). Return ONLY the JSON array, no markdown, no explanation. Data: totalReports=${analyticsStats.totalReports}, complianceRate=${analyticsStats.complianceRate}%, riskScore=${analyticsStats.riskScore}, activeDomains=${analyticsStats.activeDomains}, requiredReports=${analyticsStats.requiredReports}`
+    try {
+      const res = await fetch(
+'https://finance-backend-so86.onrender.com/api/v1/ai/narrative'
+, {
+        method: 
+'POST'
+, headers: { 
+'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')
+ },
+        body: JSON.stringify({ prompt })
+      })
+      const data = await res.json()
+      const text = data?.data?.narrative || 
+''
+
+      const clean = text.replace(/```json|```/g, 
+''
+).trim()
+      const parsed = JSON.parse(clean)
+      setAiRecs(parsed.map((r, i) => ({ ...r, id: 
+'ai-'
+ + i, priority: i + 1 })))
+    } catch { console.error(
+'Failed to generate AI recs'
+) }
+    finally { setAiRecsLoading(false) }
+  }
+
   const renderRecommendations = () => (
     <div className="pa-tab-content">
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+        <h3 style={{ color:"#f1f5f9", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
+        <button onClick={generateAIRecs} disabled={aiRecsLoading} style={{ display:"flex", alignItems:"center", gap:6, background:"#7c3aed", border:"none", borderRadius:8, color:"#fff", fontSize:12, fontWeight:600, padding:"8px 16px", cursor:"pointer", opacity:aiRecsLoading?0.7:1 }}>
+          {aiRecsLoading ? <><RefreshCw size={12} style={{ animation:"spin 1s linear infinite" }}/> Generating...</> : <><Lightbulb size={12}/> Generate AI Insights</>}
+        </button>
+      </div>
+      {aiRecs.length > 0 && (
+        <div style={{ marginBottom:20 }}>
+          <div style={{ fontSize:12, color:"#a78bfa", fontWeight:600, marginBottom:10 }}>? AI Generated Recommendations</div>
+          {aiRecs.map(rec => (
+            <div key={rec.id} style={{ background:"#1e293b", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
+                <span style={{ color:"#f1f5f9", fontWeight:600, fontSize:13 }}>{rec.title}</span>
+                <span style={{ background:"#7c3aed20", color:"#a78bfa", fontSize:11, padding:"2px 8px", borderRadius:20 }}>{rec.category}</span>
+              </div>
+              <p style={{ color:"#94a3b8", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
+              <div style={{ display:"flex", gap:12, fontSize:11 }}>
+                <span style={{ color:"#10b981" }}>{rec.potentialValue}</span>
+                <span style={{ color:"#64748b" }}>Confidence: {rec.confidence}%</span>
+                <span style={{ color:rec.impact==="high"?"#10b981":rec.impact==="medium"?"#f59e0b":"#94a3b8" }}>Impact: {rec.impact}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+        <h3 style={{ color:"#f1f5f9", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
+        <button onClick={generateAIRecs} disabled={aiRecsLoading} style={{ display:"flex", alignItems:"center", gap:6, background:"#7c3aed", border:"none", borderRadius:8, color:"#fff", fontSize:12, fontWeight:600, padding:"8px 16px", cursor:"pointer", opacity:aiRecsLoading?0.7:1 }}>
+          {aiRecsLoading ? <><RefreshCw size={12} style={{ animation:"spin 1s linear infinite" }}/> Generating...</> : <><Lightbulb size={12}/> Generate AI Insights</>}
+        </button>
+      </div>
+      {aiRecs.length > 0 && (
+        <div style={{ marginBottom:20 }}>
+          <div style={{ fontSize:12, color:"#a78bfa", fontWeight:600, marginBottom:10 }}>? AI Generated Recommendations</div>
+          {aiRecs.map(rec => (
+            <div key={rec.id} style={{ background:"#1e293b", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
+                <span style={{ color:"#f1f5f9", fontWeight:600, fontSize:13 }}>{rec.title}</span>
+                <span style={{ background:"#7c3aed20", color:"#a78bfa", fontSize:11, padding:"2px 8px", borderRadius:20 }}>{rec.category}</span>
+              </div>
+              <p style={{ color:"#94a3b8", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
+              <div style={{ display:"flex", gap:12, fontSize:11 }}>
+                <span style={{ color:"#10b981" }}>{rec.potentialValue}</span>
+                <span style={{ color:"#64748b" }}>Confidence: {rec.confidence}%</span>
+                <span style={{ color:rec.impact==="high"?"#10b981":rec.impact==="medium"?"#f59e0b":"#94a3b8" }}>Impact: {rec.impact}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="pa-filter-row">
         <Filter size={13} style={{ color: '#94a3b8' }} />
         <span className="pa-filter-label">Category:</span>
