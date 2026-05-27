@@ -213,15 +213,6 @@ export default function IntegrationEcosystem() {
     } catch { showToast('Sync failed', 'warning') }
     finally { setSyncing(p => ({...p, [id]: false})) }
   }
-    setSyncing(p => ({...p, [id]: true}))
-    try {
-      const r = await integrationManageAPI.sync(id)
-      const count = r?.data?.data?.last_sync_count || 0
-      setConnectors(p => p.map(c => c.id===id ? {...c, lastSync: new Date().toLocaleString(), records: c.records + count} : c))
-      showToast('Sync done — ' + count + ' records')
-    } catch { showToast('Sync failed', 'warning') }
-    finally { setSyncing(p => ({...p, [id]: false})) }
-  }
 
   const deleteWebhook = (id) => { setWebhooks(p => p.filter(w => w.id!==id)); showToast('Webhook deleted') }
   const toggleWebhook = (id) => setWebhooks(p => p.map(w => w.id===id ? {...w, status:w.status==='active'?'inactive':'active'} : w))
