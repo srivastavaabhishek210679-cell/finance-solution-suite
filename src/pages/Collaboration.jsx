@@ -398,9 +398,7 @@ function Collaboration() {
           </div>
         </div>
       )}
-}
 
-        )}
       </div>
     </>
   )
