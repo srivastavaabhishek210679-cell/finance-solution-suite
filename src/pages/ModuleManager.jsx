@@ -5,6 +5,7 @@ import { Package, Search, Download, Trash2, Settings, CheckCircle, XCircle, Aler
 function ModuleManager() {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
+  const [showMarketplace, setShowMarketplace] = useState(false)
   const [filterStatus, setFilterStatus] = useState('all')
   const [filterCategory, setFilterCategory] = useState('all')
 
