@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Package, Search, Download, Trash2, Settings, CheckCircle, XCircle, AlertCircle, RefreshCw } from 'lucide-react'
 import './ModuleManager.css'
 
@@ -192,7 +192,7 @@ function ModuleManager() {
     alert('Module configuration - Opens settings modal')
   }
 
-  return (<>
+  return (<React.Fragment>
     <div className='module-manager-page'>
       {/* Header */}
       <div className="module-header">
@@ -427,9 +427,10 @@ function ModuleManager() {
           </div>
       )}
     </div>
-    </>
+    </React.Fragment>
   )
 }
 
 export default ModuleManager
+
 
