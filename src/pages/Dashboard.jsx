@@ -680,8 +680,8 @@ function Dashboard() {
                   </div>
                   <div className='dm-section' id='report-explorer'>
                     <div className='dm-section-label'><span className='dm-section-line'/><span>Report Explorer</span><span className='dm-section-line'/></div>
-                    {console.log('TransformedReports count:', transformedReports.length, 'First:', transformedReports[0]?.name)}
-
+                    <div className='dm-section-label'><span className='dm-section-line'/><span>Report Explorer</span><span className='dm-section-line'/></div>
+                    <AdvancedTable reports={selectedCategory !== 'All' ? transformedReports.filter(r => r.domain === selectedCategory) : transformedReports} />
                   </div>
                 </div>
 
