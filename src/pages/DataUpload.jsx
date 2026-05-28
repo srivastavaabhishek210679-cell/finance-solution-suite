@@ -136,38 +136,6 @@ const DataUpload = () => {
       setStep(5);
     }, 1500);
   };
-    setProcessing(true);
-    
-    // Simulate report generation
-    setTimeout(() => {
-      const template = reportTemplates.find(t => t.id === selectedTemplate);
-      const processedData = previewData.data.map(row => {
-        const mappedRow = {};
-        Object.keys(columnMapping).forEach(field => {
-          const sourceColumn = columnMapping[field];
-          mappedRow[field] = row[sourceColumn] || 'N/A';
-        });
-        return mappedRow;
-      });
-
-      const report = {
-        id: Date.now(),
-        name: `${template.name} - ${uploadedFile.name}`,
-        template: selectedTemplate,
-        templateName: template.name,
-        generatedAt: new Date().toISOString(),
-        dataSource: uploadedFile.name,
-        totalRecords: previewData.totalRows,
-        processedRecords: processedData.length,
-        data: processedData,
-        summary: generateSummary(processedData, template)
-      };
-
-      setGeneratedReport(report);
-      setProcessing(false);
-      setStep(5);
-    }, 2000);
-  };
 
 
   // AI-powered dynamic column matching
