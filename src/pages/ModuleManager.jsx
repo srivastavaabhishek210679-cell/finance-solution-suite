@@ -4,6 +4,7 @@ import './ModuleManager.css'
 
 function ModuleManager() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [showMarketplace, setShowMarketplace] = useState(false)
   const [filterStatus, setFilterStatus] = useState('all')
   const [filterCategory, setFilterCategory] = useState('all')
 
@@ -203,7 +204,7 @@ function ModuleManager() {
               <p>Install, update and manage report modules</p>
             </div>
           </div>
-          <button className="btn-primary">
+          <button className='btn-primary' onClick={() => setShowMarketplace(true)}>
             <Download size={18} />
             Browse Marketplace
           </button>
@@ -395,6 +396,38 @@ function ModuleManager() {
         </div>
       </div>
     </div>
+      {showMarketplace && (
+        <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.7)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setShowMarketplace(false)}>
+          <div style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:12, padding:24, width:600, maxHeight:"80vh", overflowY:"auto" }} onClick={e => e.stopPropagation()}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
+              <h2 style={{ color:"#f1f5f9", margin:0 }}>Module Marketplace</h2>
+              <button onClick={() => setShowMarketplace(false)} style={{ background:"none", border:"none", color:"#94a3b8", cursor:"pointer", fontSize:20 }}>×</button>
+            </div>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
+              {[
+                { name:"Advanced Tax Engine", price:"$99/month", desc:"Multi-jurisdiction tax calculations", category:"Tax" },
+                { name:"ESG Reporting Suite", price:"$149/month", desc:"Environmental & social governance reports", category:"ESG" },
+                { name:"Payroll Integration", price:"Free", desc:"Connect payroll providers", category:"HR" },
+                { name:"Budget Planning Tool", price:"$79/month", desc:"Interactive budget forecasting", category:"Finance" },
+                { name:"Audit Trail Module", price:"Free", desc:"Complete audit log tracking", category:"Compliance" },
+                { name:"Multi-Currency Module", price:"$59/month", desc:"Handle 150+ currencies", category:"Finance" },
+              ].map((m,i) => (
+                <div key={i} style={{ background:"#0f172a", border:"1px solid #334155", borderRadius:10, padding:16 }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8 }}>
+                    <span style={{ color:"#f1f5f9", fontWeight:600, fontSize:13 }}>{m.name}</span>
+                    <span style={{ color: m.price==="Free"?"#10b981":"#f59e0b", fontSize:12, fontWeight:600 }}>{m.price}</span>
+                  </div>
+                  <p style={{ color:"#64748b", fontSize:12, margin:"0 0 12px" }}>{m.desc}</p>
+                  <span style={{ background:"#1e293b", color:"#94a3b8", fontSize:10, padding:"2px 8px", borderRadius:20 }}>{m.category}</span>
+                  <button onClick={() => { alert(m.name + " - Contact sales@financeplatform.com to purchase"); }} style={{ display:"block", width:"100%", marginTop:12, background:"#3b82f6", border:"none", borderRadius:8, color:"#fff", padding:"8px", cursor:"pointer", fontSize:12, fontWeight:600 }}>
+                    Get Module
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
   )
 }
 
