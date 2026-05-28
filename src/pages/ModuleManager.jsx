@@ -427,7 +427,7 @@ function ModuleManager() {
             </div>
           </div>
         </div>
-      )}
+    </>
   )
 }
 
