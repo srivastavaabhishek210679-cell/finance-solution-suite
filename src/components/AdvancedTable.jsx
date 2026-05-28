@@ -5,6 +5,7 @@ import {
   Plus, Minus, Settings, X
 } from 'lucide-react';
 import './AdvancedTable.css';
+import ReportViewer from './ReportViewer';
 
 function AdvancedTable({ reports }) {
   const [viewMode, setViewMode] = useState('table'); // 'table' or 'pivot'
@@ -679,9 +680,10 @@ function AdvancedTable({ reports }) {
           </table>
         </div>
       )}
-      {selectedReport && (<div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={()=>setSelectedReport(null)}><div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:24,width:480}} onClick={e=>e.stopPropagation()}><h3 style={{color:'#f1f5f9',marginBottom:16}}>{selectedReport.name}</h3><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:16}}>{[['Domain',selectedReport.domain],['Frequency',selectedReport.frequency],['Compliance',selectedReport.complianceStatus||selectedReport.compliance_status||'N/A'],['Risk',selectedReport.riskLevel||'Low']].map(([l,v],i)=>(<div key={i} style={{background:'#0f172a',borderRadius:8,padding:10}}><div style={{fontSize:10,color:'#64748b'}}>{l}</div><div style={{color:'#f1f5f9',fontWeight:600,fontSize:13}}>{v||'N/A'}</div></div>))}</div><button onClick={()=>setSelectedReport(null)} style={{background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',width:'100%',fontWeight:600}}>Close</button></div></div>)}
+      {selectedReport && <ReportViewer report={selectedReport} onClose={() => setSelectedReport(null)} />}
     </div>
   );
 }
 
 export default AdvancedTable;
+
