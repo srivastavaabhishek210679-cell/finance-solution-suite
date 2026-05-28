@@ -619,6 +619,8 @@ function AdvancedTable({ reports }) {
                           )}
                         </td>
                       ))}
+                    </tr>
+                  ))}
               </tbody>
             </table>
           )}
