@@ -546,12 +546,10 @@ function AdvancedTable({ reports }) {
                                   </span>
                                 ) : column.key === 'createdAt' ? (
                                   new Date(report[column.key] || report.created_at).toLocaleDateString()
-                                ) : (
                                 ) : column.key === 'name' ? (
                                   <span onClick={() => setSelectedReport(report)} style={{ color:'#60a5fa', cursor:'pointer', textDecoration:'underline' }}>{report[column.key] || 'N/A'}</span>
                                 ) : (
                                   report[column.key] || report[column.key.replace('Status', '')] || 'N/A'
-                                )}
                                 )}
                               </td>
                             ))}
@@ -614,14 +612,13 @@ function AdvancedTable({ reports }) {
                             </span>
                           ) : column.key === 'createdAt' ? (
                             new Date(report[column.key] || report.created_at).toLocaleDateString()
+                          ) : column.key === 'name' ? (
+                            <span onClick={() => setSelectedReport(report)} style={{ color:'#60a5fa', cursor:'pointer', textDecoration:'underline' }}>{report[column.key] || 'N/A'}</span>
                           ) : (
                             report[column.key] || report[column.key.replace('Status', '')] || 'N/A'
                           )}
                         </td>
                       ))}
-                    </tr>
-                  ))
-                )}
               </tbody>
             </table>
           )}
