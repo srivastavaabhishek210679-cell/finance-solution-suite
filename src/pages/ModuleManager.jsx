@@ -192,8 +192,8 @@ function ModuleManager() {
     alert('Module configuration - Opens settings modal')
   }
 
-  return (
-    <div className="module-manager-page">
+  return (<>
+    <div className='module-manager-page'>
       {/* Header */}
       <div className="module-header">
         <div className="header-content">
@@ -425,7 +425,7 @@ function ModuleManager() {
               ))}
             </div>
           </div>
-        </div>
+      )}
     </div>
     </>
   )
