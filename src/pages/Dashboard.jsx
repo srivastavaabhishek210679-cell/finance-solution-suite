@@ -656,7 +656,7 @@ function Dashboard() {
                               </div>
                               {count>5&&(
                                 <button type="button" className="dm-dc-view-all" style={{color}}
-                                  onClick={e=>{e.stopPropagation();setSelectedCategory(domain)}}>
+                                onClick={e=>{e.stopPropagation();setSelectedCategory(domain);setTimeout(()=>document.getElementById('report-explorer')?.scrollIntoView({behavior:'smooth'}),100)}}>
                                   View all {count} {domain} reports →
                                 </button>
                               )}
@@ -678,10 +678,10 @@ function Dashboard() {
                     <DataStorytelling analyticsStats={analyticsStats} />
                     <AdvancedCharts reports={transformedReports} analyticsStats={analyticsStats} />
                   </div>
-                  <div className="dm-section">
+                  <div className='dm-section' id='report-explorer'>
                     <div className='dm-section-label'><span className='dm-section-line'/><span>Report Explorer</span><span className='dm-section-line'/></div>
                     {console.log('TransformedReports count:', transformedReports.length, 'First:', transformedReports[0]?.name)}
-                    <AdvancedTable reports={transformedReports} />
+
                   </div>
                 </div>
 
