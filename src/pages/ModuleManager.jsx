@@ -142,7 +142,7 @@ function ModuleManager() {
                 </div>
               )}
               <div className="module-actions">
-                <button onClick={() => toggleModule(mod.id)} className={mod.status==='active'?'btn-warning':'btn-success'}>
+                <button onClick={() => toggleModule(mod.id)} className='toggle-btn'>
                   {mod.status==='active'?'Disable':'Enable'}
                 </button>
                 <button onClick={() => alert('Downloading latest version...')} className="btn-secondary">
