@@ -53,6 +53,20 @@ const DataUpload = () => {
       const detectedType = detectReportType(headers);
       setSelectedTemplate(detectedType);
       console.log('Auto-detected report type:', detectedType);
+      // Auto-run column matching after detection
+      const template = [
+        { id: 'financial', name: 'Financial Report', fields: ['revenue', 'expenses', 'profit', 'date'] },
+        { id: 'sales', name: 'Sales Performance Report', fields: ['product', 'quantity', 'amount', 'date', 'region'] },
+        { id: 'operations', name: 'Operations Report', fields: ['department', 'tasks_completed', 'efficiency', 'date'] },
+        { id: 'analytics', name: 'Analytics Report', fields: ['metric_name', 'value', 'target', 'date', 'category'] },
+        { id: 'compliance', name: 'Compliance Report', fields: ['requirement', 'status', 'due_date', 'responsible_person'] }
+      ].find(t => t.id === detectedType);
+      if (template && headers) {
+        const autoMapping = fuzzyMatch(headers, template.fields);
+        setColumnMapping(autoMapping);
+      }
+      setSelectedTemplate(detectedType);
+      console.log('Auto-detected report type:', detectedType);
       setStep(2);
     };
     reader.readAsText(file);
