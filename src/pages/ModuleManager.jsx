@@ -192,7 +192,7 @@ function ModuleManager() {
     alert('Module configuration - Opens settings modal')
   }
 
-  return (<React.Fragment>
+  return (
     <div className='module-manager-page'>
       {/* Header */}
       <div className="module-header">
@@ -394,7 +394,6 @@ function ModuleManager() {
             </div>
           ))}
         </div>
-    </div>
       {showMarketplace && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.7)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setShowMarketplace(false)}>
           <div style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:12, padding:24, width:600, maxHeight:"80vh", overflowY:"auto" }} onClick={e => e.stopPropagation()}>
@@ -427,10 +426,6 @@ function ModuleManager() {
           </div>
       )}
     </div>
-    </React.Fragment>
   )
 }
-
 export default ModuleManager
-
-
