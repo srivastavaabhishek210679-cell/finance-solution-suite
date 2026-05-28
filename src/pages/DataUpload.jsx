@@ -65,8 +65,6 @@ const DataUpload = () => {
         const autoMapping = fuzzyMatch(headers, template.fields);
         setColumnMapping(autoMapping);
       }
-      setSelectedTemplate(detectedType);
-      console.log('Auto-detected report type:', detectedType);
       setStep(2);
     };
     reader.readAsText(file);
