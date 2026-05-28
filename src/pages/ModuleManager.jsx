@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Package, Search, Download, Trash2, Settings, CheckCircle, XCircle, AlertCircle, RefreshCw } from 'lucide-react'
-import './ModuleManager.css'
+import { useNavigate } from 'react-router-dom'
+import { Package, Search, Download, Trash2, Settings, CheckCircle, XCircle, AlertCircle, RefreshCw, ArrowLeft } from 'lucide-react'
 
 function ModuleManager() {
+  const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
-  const [showMarketplace, setShowMarketplace] = useState(false)
   const [filterStatus, setFilterStatus] = useState('all')
   const [filterCategory, setFilterCategory] = useState('all')
 
@@ -195,10 +195,10 @@ function ModuleManager() {
   return (
     <div className="module-manager-page">
       {/* Header */}
-      <div className="module-header">
-        <div className="header-content">
-          <div className="title-section">
-            <Package size={32} className="header-icon" />
+      <div className='module-header'>
+        <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+          <button onClick={() => navigate('/dashboard')} style={{ display:'flex', alignItems:'center', gap:6, background:'#1e293b', border:'1px solid #334155', borderRadius:8, color:'#94a3b8', padding:'8px 12px', cursor:'pointer', fontSize:13 }}><ArrowLeft size={16}/> Back</button>
+          <div className='header-content'>
             <div>
               <h1>Module Manager</h1>
               <p>Install, update and manage report modules</p>
