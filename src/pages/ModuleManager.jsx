@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Package, Search, Download, Trash2, Settings, CheckCircle, XCircle, AlertCircle, RefreshCw } from 'lucide-react'
+import { Package, Search, Download, Trash2, Settings, CheckCircle, XCircle, AlertCircle, RefreshCw, BarChart3, Link } from 'lucide-react'
 import './ModuleManager.css'
 
 function ModuleManager() {
@@ -23,64 +23,55 @@ function ModuleManager() {
     { id:9, name:'QuickBooks Connector', category:'integration', version:'3.1.0', description:'Sync data with QuickBooks Online', reports:0, size:'8.9 MB', price:'Free', dependencies:[] },
   ])
 
-  const stats = {
-    total: modules.length,
-    active: modules.filter(m => m.status === 'active').length,
-    inactive: modules.filter(m => m.status === 'inactive').length,
-  }
+  const stats = [
+    { label:'Installed Modules', value: modules.length, icon: Package, color:'#3b82f6' },
+    { label:'Active Modules', value: modules.filter(m => m.status==='active').length, icon: CheckCircle, color:'#10b981' },
+    { label:'Inactive Modules', value: modules.filter(m => m.status==='inactive').length, icon: XCircle, color:'#ef4444' },
+    { label:'Total Reports', value: modules.reduce((s,m) => s+m.reports, 0), icon: BarChart3, color:'#8b5cf6' },
+  ]
 
-  const filteredModules = modules.filter(module => {
-    const matchSearch = module.name.toLowerCase().includes(searchQuery.toLowerCase()) || module.description.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchStatus = filterStatus === 'all' || module.status === filterStatus
-    const matchCategory = filterCategory === 'all' || module.category === filterCategory
+  const filteredModules = modules.filter(m => {
+    const matchSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) || m.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchStatus = filterStatus === 'all' || m.status === filterStatus
+    const matchCategory = filterCategory === 'all' || m.category === filterCategory
     return matchSearch && matchStatus && matchCategory
   })
 
-  const toggleModule = (moduleId) => {
-    setModules(modules.map(m => m.id === moduleId ? { ...m, status: m.status === 'active' ? 'inactive' : 'active' } : m))
+  const toggleModule = (id) => setModules(modules.map(m => m.id===id ? {...m, status: m.status==='active'?'inactive':'active'} : m))
+
+  const uninstallModule = (id) => {
+    const mod = modules.find(m => m.id===id)
+    const deps = modules.filter(m => (m.dependencies||[]).includes(mod.name))
+    if (deps.length > 0) { alert(`Cannot uninstall. Required by: ${deps.map(m=>m.name).join(', ')}`); return }
+    if (window.confirm(`Uninstall ${mod.name}?`)) setModules(modules.filter(m => m.id!==id))
   }
 
-  const uninstallModule = (moduleId) => {
-    const module = modules.find(m => m.id === moduleId)
-    const dependentModules = modules.filter(m => (m.dependencies || []).includes(module.name))
-    if (dependentModules.length > 0) {
-      alert(`Cannot uninstall. Required by: ${dependentModules.map(m => m.name).join(', ')}`)
-      return
-    }
-    if (window.confirm(`Uninstall ${module.name}?`)) {
-      setModules(modules.filter(m => m.id !== moduleId))
-    }
+  const installModule = (mod) => {
+    setModules([...modules, {...mod, status:'active', lastUpdated:'Just now'}])
+    setAvailableModules(availableModules.filter(m => m.id!==mod.id))
+    alert(`${mod.name} installed successfully!`)
   }
-
-  const installModule = (module) => {
-    const newModule = { ...module, status: 'active', lastUpdated: 'Just now' }
-    setModules([...modules, newModule])
-    setAvailableModules(availableModules.filter(m => m.id !== module.id))
-    alert(`${module.name} installed successfully!`)
-  }
-
-  const updateModule = () => alert('Module update functionality - Downloads and installs latest version')
-  const configureModule = () => alert('Configuration panel - Opens module settings')
-
-  const getStatusIcon = (status) => status === 'active'
-    ? React.createElement(CheckCircle, { size:16, style:{ color:'#10b981' } })
-    : React.createElement(XCircle, { size:16, style:{ color:'#ef4444' } })
 
   const MARKETPLACE_MODULES = [
     { name:'Advanced Tax Engine', price:'$99/month', desc:'Multi-jurisdiction tax calculations', category:'Tax' },
     { name:'ESG Reporting Suite', price:'$149/month', desc:'Environmental & social governance reports', category:'ESG' },
-    { name:'Payroll Integration', price:'Free', desc:'Connect payroll providers', category:'HR' },
-    { name:'Budget Planning Tool', price:'$79/month', desc:'Interactive budget forecasting', category:'Finance' },
-    { name:'Audit Trail Module', price:'Free', desc:'Complete audit log tracking', category:'Compliance' },
-    { name:'Multi-Currency Module', price:'$59/month', desc:'Handle 150+ currencies', category:'Finance' },
+    { name:'Payroll Integration', price:'Free', desc:'Connect payroll providers automatically', category:'HR' },
+    { name:'Budget Planning Tool', price:'$79/month', desc:'Interactive budget forecasting & planning', category:'Finance' },
+    { name:'Audit Trail Module', price:'Free', desc:'Complete audit log tracking & compliance', category:'Compliance' },
+    { name:'Multi-Currency Module', price:'$59/month', desc:'Handle 150+ currencies seamlessly', category:'Finance' },
   ]
 
   return (
     <div className="module-manager-page">
       <div className="module-header">
-        <div>
-          <h1>Module Manager</h1>
-          <p>Manage installed modules and extensions</p>
+        <div className="header-content">
+          <div className="title-section">
+            <Package size={32} className="header-icon" />
+            <div>
+              <h1>Module Manager</h1>
+              <p>Install, update and manage report modules</p>
+            </div>
+          </div>
         </div>
         <button className="btn-primary" onClick={() => setShowMarketplace(true)}>
           <Download size={18} />
@@ -88,67 +79,80 @@ function ModuleManager() {
         </button>
       </div>
 
-      <div className="module-stats">
-        <div className="stat-card"><span className="stat-value">{stats.total}</span><span className="stat-label">Total Modules</span></div>
-        <div className="stat-card"><span className="stat-value" style={{ color:'#10b981' }}>{stats.active}</span><span className="stat-label">Active</span></div>
-        <div className="stat-card"><span className="stat-value" style={{ color:'#ef4444' }}>{stats.inactive}</span><span className="stat-label">Inactive</span></div>
+      <div className="stats-grid">
+        {stats.map((s,i) => {
+          const Icon = s.icon
+          return (
+            <div key={i} className="stat-card">
+              <div className="stat-icon" style={{background:`${s.color}20`,color:s.color}}><Icon size={20}/></div>
+              <div className="stat-content">
+                <div className="stat-value">{s.value}</div>
+                <div className="stat-label">{s.label}</div>
+              </div>
+            </div>
+          )
+        })}
       </div>
 
-      <div className="module-filters">
-        <div className="search-bar">
-          <Search size={16} />
-          <input placeholder="Search modules..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+      <div className="filters-section">
+        <div className="search-box">
+          <Search size={16}/>
+          <input placeholder="Search modules..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
         </div>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
-        <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)}>
-          <option value="all">All Categories</option>
-          <option value="report">Reports</option>
-          <option value="compliance">Compliance</option>
-          <option value="dashboard">Dashboard</option>
-          <option value="integration">Integration</option>
-        </select>
+        <div className="filter-tabs">
+          {['all','report','compliance','dashboard','integration'].map(cat => (
+            <button key={cat} className={filterCategory===cat?'active':''} onClick={() => setFilterCategory(cat)}>
+              {cat==='all'?'All Categories':cat.charAt(0).toUpperCase()+cat.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div className="status-filters">
+          {['all','active','inactive'].map(s => (
+            <button key={s} className={filterStatus===s?'active':''} onClick={() => setFilterStatus(s)}>
+              {s.charAt(0).toUpperCase()+s.slice(1)}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="modules-section">
         <h2>Installed Modules ({filteredModules.length})</h2>
         <div className="modules-grid">
-          {filteredModules.map(module => (
-            <div key={module.id} className={`module-card ${module.status}`}>
+          {filteredModules.map(mod => (
+            <div key={mod.id} className={`module-card ${mod.status}`}>
               <div className="module-card-header">
-                <div className="module-icon"><Package size={20} /></div>
+                <div className="module-icon"><Package size={20}/></div>
                 <div className="module-info">
-                  <h3>{module.name}</h3>
-                  <span className="module-version">v{module.version}</span>
+                  <h3>{mod.name}</h3>
+                  <span className="module-version">v{mod.version}</span>
                 </div>
-                <div className="module-status">{getStatusIcon(module.status)}</div>
+                <div className="module-status">
+                  {mod.status==='active' ? <CheckCircle size={16} style={{color:'#10b981'}}/> : <XCircle size={16} style={{color:'#ef4444'}}/>}
+                </div>
               </div>
-              <p className="module-description">{module.description}</p>
+              <p className="module-description">{mod.description}</p>
               <div className="module-meta">
-                <span>{module.reports} reports</span>
-                <span>{module.size}</span>
-                <span>Updated {module.lastUpdated}</span>
+                <span>{mod.reports} reports</span>
+                <span>{mod.size}</span>
+                <span>Updated {mod.lastUpdated}</span>
               </div>
-              {(module.dependencies || []).length > 0 && (
+              {(mod.dependencies||[]).length > 0 && (
                 <div className="module-dependencies">
-                  <AlertCircle size={12} /> Requires: {module.dependencies.join(', ')}
+                  <AlertCircle size={12}/> Requires: {mod.dependencies.join(', ')}
                 </div>
               )}
               <div className="module-actions">
-                <button onClick={() => toggleModule(module.id)} className={module.status === 'active' ? 'btn-warning' : 'btn-success'}>
-                  {module.status === 'active' ? 'Disable' : 'Enable'}
+                <button onClick={() => toggleModule(mod.id)} className={mod.status==='active'?'btn-warning':'btn-success'}>
+                  {mod.status==='active'?'Disable':'Enable'}
                 </button>
-                <button onClick={() => updateModule(module.id)} className="btn-secondary">
-                  <RefreshCw size={14} /> Update
+                <button onClick={() => alert('Downloading latest version...')} className="btn-secondary">
+                  <RefreshCw size={14}/> Update
                 </button>
-                <button onClick={() => configureModule(module.id)} className="btn-secondary">
-                  <Settings size={14} />
+                <button onClick={() => alert('Opening configuration...')} className="btn-secondary">
+                  <Settings size={14}/>
                 </button>
-                <button onClick={() => uninstallModule(module.id)} className="btn-danger">
-                  <Trash2 size={14} />
+                <button onClick={() => uninstallModule(mod.id)} className="btn-danger">
+                  <Trash2 size={14}/>
                 </button>
               </div>
             </div>
@@ -159,24 +163,23 @@ function ModuleManager() {
       <div className="modules-section">
         <h2>Available for Installation ({availableModules.length})</h2>
         <div className="modules-grid">
-          {availableModules.map(module => (
-            <div key={module.id} className="module-card available">
+          {availableModules.map(mod => (
+            <div key={mod.id} className="module-card available">
               <div className="module-card-header">
-                <div className="module-icon"><Package size={20} /></div>
+                <div className="module-icon"><Package size={20}/></div>
                 <div className="module-info">
-                  <h3>{module.name}</h3>
-                  <span className="module-version">v{module.version}</span>
+                  <h3>{mod.name}</h3>
+                  <span className="module-version">v{mod.version}</span>
                 </div>
-                <span className="module-price">{module.price}</span>
+                <span className="module-price">{mod.price}</span>
               </div>
-              <p className="module-description">{module.description}</p>
+              <p className="module-description">{mod.description}</p>
               <div className="module-meta">
-                <span>{module.reports} reports</span>
-                <span>{module.size}</span>
+                <span>{mod.reports} reports</span>
+                <span>{mod.size}</span>
               </div>
-              <button className="install-btn" onClick={() => installModule(module)}>
-                <Download size={16} />
-                Install Module
+              <button className="install-btn" onClick={() => installModule(mod)}>
+                <Download size={16}/> Install Module
               </button>
             </div>
           ))}
@@ -184,22 +187,22 @@ function ModuleManager() {
       </div>
 
       {showMarketplace && (
-        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.7)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center' }} onClick={() => setShowMarketplace(false)}>
-          <div style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:12, padding:24, width:600, maxHeight:'80vh', overflowY:'auto' }} onClick={e => e.stopPropagation()}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
-              <h2 style={{ color:'#f1f5f9', margin:0 }}>Module Marketplace</h2>
-              <button onClick={() => setShowMarketplace(false)} style={{ background:'none', border:'none', color:'#94a3b8', cursor:'pointer', fontSize:20 }}>x</button>
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowMarketplace(false)}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:24,width:600,maxHeight:'80vh',overflowY:'auto'}} onClick={e => e.stopPropagation()}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
+              <h2 style={{color:'#f1f5f9',margin:0}}>Module Marketplace</h2>
+              <button onClick={() => setShowMarketplace(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer',fontSize:24}}>x</button>
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
-              {MARKETPLACE_MODULES.map((m, i) => (
-                <div key={i} style={{ background:'#0f172a', border:'1px solid #334155', borderRadius:10, padding:16 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:8 }}>
-                    <span style={{ color:'#f1f5f9', fontWeight:600, fontSize:13 }}>{m.name}</span>
-                    <span style={{ color: m.price === 'Free' ? '#10b981' : '#f59e0b', fontSize:12, fontWeight:600 }}>{m.price}</span>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+              {MARKETPLACE_MODULES.map((m,i) => (
+                <div key={i} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:10,padding:16}}>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
+                    <span style={{color:'#f1f5f9',fontWeight:600,fontSize:13}}>{m.name}</span>
+                    <span style={{color:m.price==='Free'?'#10b981':'#f59e0b',fontSize:12,fontWeight:600}}>{m.price}</span>
                   </div>
-                  <p style={{ color:'#64748b', fontSize:12, margin:'0 0 12px' }}>{m.desc}</p>
-                  <span style={{ background:'#1e293b', color:'#94a3b8', fontSize:10, padding:'2px 8px', borderRadius:20 }}>{m.category}</span>
-                  <button onClick={() => alert(m.name + ' - Contact sales to purchase')} style={{ display:'block', width:'100%', marginTop:12, background:'#3b82f6', border:'none', borderRadius:8, color:'#fff', padding:'8px', cursor:'pointer', fontSize:12, fontWeight:600 }}>
+                  <p style={{color:'#64748b',fontSize:12,margin:'0 0 12px'}}>{m.desc}</p>
+                  <span style={{background:'#1e293b',color:'#94a3b8',fontSize:10,padding:'2px 8px',borderRadius:20}}>{m.category}</span>
+                  <button onClick={() => alert(m.name + ' - Contact sales to purchase')} style={{display:'block',width:'100%',marginTop:12,background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'8px',cursor:'pointer',fontSize:12,fontWeight:600}}>
                     Get Module
                   </button>
                 </div>
