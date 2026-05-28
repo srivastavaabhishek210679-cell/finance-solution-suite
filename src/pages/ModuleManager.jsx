@@ -121,9 +121,9 @@ function ModuleManager() {
                 <span className="meta-item">{mod.size}</span>
                 <span className="meta-item">Updated {mod.lastUpdated}</span>
               </div>
-              {(mod.dependencies||[]).length > 0 && (
+              {(mod.dependencies||[]).filter(d => !modules.find(m => m.name===d && m.status==='active')).length > 0 && (
                 <div className="dependencies">
-                  <AlertCircle size={12}/> Requires: {mod.dependencies.join(', ')}
+                  <AlertCircle size={12}/> Missing: {(mod.dependencies||[]).filter(d => !modules.find(m => m.name===d && m.status==='active')).join(', ')}
                 </div>
               )}
               <div className="module-actions">
