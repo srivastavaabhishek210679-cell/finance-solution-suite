@@ -394,7 +394,6 @@ function ModuleManager() {
             </div>
           ))}
         </div>
-      </div>
     </div>
       {showMarketplace && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.7)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setShowMarketplace(false)}>
@@ -427,6 +426,7 @@ function ModuleManager() {
             </div>
           </div>
         </div>
+    </div>
     </>
   )
 }
