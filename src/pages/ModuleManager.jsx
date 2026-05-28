@@ -423,6 +423,8 @@ function ModuleManager() {
                 </div>
               ))}
             </div>
+        </div>
+      </div>
           </div>
       )}
     </div>
