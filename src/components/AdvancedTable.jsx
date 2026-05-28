@@ -13,6 +13,7 @@ function AdvancedTable({ reports }) {
   const [visibleColumns, setVisibleColumns] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [groupBy, setGroupBy] = useState(null);
+  const [selectedReport, setSelectedReport] = useState(null);
   const [expandedGroups, setExpandedGroups] = useState({});
   const [showColumnSettings, setShowColumnSettings] = useState(false);
   
@@ -202,7 +203,7 @@ function AdvancedTable({ reports }) {
     if (!sort) return null;
     
     const index = sortConfig.findIndex(s => s.key === columnKey);
-    return (
+    return (<>
       <span className="sort-indicator">
         {sort.direction === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
         {sortConfig.length > 1 && <span className="sort-order">{index + 1}</span>}
@@ -276,7 +277,7 @@ function AdvancedTable({ reports }) {
     const uniqueValues = getUniqueValues(column.key);
     const activeFilters = columnFilters[column.key] || [];
 
-    return (
+    return (<>
       <div className="column-filter-dropdown">
         <div className="column-filter-header">
           <Filter size={14} />
@@ -309,7 +310,7 @@ function AdvancedTable({ reports }) {
     );
   };
 
-  return (
+  return (<>
     <div className="advanced-table-container">
       {/* Header */}
       <div className="table-header">
@@ -385,7 +386,7 @@ function AdvancedTable({ reports }) {
                 <span className="sorts-label">Sorted by:</span>
                 {sortConfig.map((sort, idx) => {
                   const column = allColumns.find(c => c.key === sort.key);
-                  return (
+                  return (<>
                     <span key={sort.key} className="sort-badge">
                       {column?.label} ({sort.direction})
                       <button onClick={() => setSortConfig(prev => prev.filter((_, i) => i !== idx))}>
@@ -546,10 +547,8 @@ function AdvancedTable({ reports }) {
                                   </span>
                                 ) : column.key === 'createdAt' ? (
                                   new Date(report[column.key] || report.created_at).toLocaleDateString()
-                                ) : column.key === 'name' ? (
-                                  <span onClick={() => setSelectedReport(report)} style={{ color:'#60a5fa', cursor:'pointer', textDecoration:'underline' }}>{report[column.key] || 'N/A'}</span>
                                 ) : (
-                                  report[column.key] || report[column.key.replace('Status', '')] || 'N/A'
+                                  {column.key === 'name' ? (<span onClick={() => setSelectedReport(report)} style={{color:'#60a5fa',cursor:'pointer'}}>{report[column.key]||'N/A'}</span>) : (report[column.key] || report[column.key.replace('Status', '')] || 'N/A')}
                                 )}
                               </td>
                             ))}
@@ -612,15 +611,14 @@ function AdvancedTable({ reports }) {
                             </span>
                           ) : column.key === 'createdAt' ? (
                             new Date(report[column.key] || report.created_at).toLocaleDateString()
-                          ) : column.key === 'name' ? (
-                            <span onClick={() => setSelectedReport(report)} style={{ color:'#60a5fa', cursor:'pointer', textDecoration:'underline' }}>{report[column.key] || 'N/A'}</span>
                           ) : (
-                            report[column.key] || report[column.key.replace('Status', '')] || 'N/A'
+                            {column.key === 'name' ? (<span onClick={() => setSelectedReport(report)} style={{color:'#60a5fa',cursor:'pointer'}}>{report[column.key]||'N/A'}</span>) : (report[column.key] || report[column.key.replace('Status', '')] || 'N/A')}
                           )}
                         </td>
                       ))}
                     </tr>
-                  ))}
+                  ))
+                )}
               </tbody>
             </table>
           )}
@@ -646,7 +644,7 @@ function AdvancedTable({ reports }) {
                   return sum + (pivotTable.data[row][col] || 0);
                 }, 0);
 
-                return (
+                return (<>
                   <tr key={row}>
                     <th className="pivot-row-header">{row}</th>
                     {pivotTable.columns.map(col => (
@@ -664,7 +662,7 @@ function AdvancedTable({ reports }) {
                   const colTotal = pivotTable.rows.reduce((sum, row) => {
                     return sum + (pivotTable.data[row][col] || 0);
                   }, 0);
-                  return (
+                  return (<>
                     <td key={col} className="pivot-total-cell">{colTotal}</td>
                   );
                 })}
@@ -681,33 +679,11 @@ function AdvancedTable({ reports }) {
         </div>
       )}
     </div>
-  );
-      {selectedReport && (
-        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.7)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center"}} onClick={() => setSelectedReport(null)}>
-          <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:24,width:500,maxHeight:"80vh",overflowY:"auto"}} onClick={e => e.stopPropagation()}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-              <h2 style={{color:"#f1f5f9",margin:0,fontSize:16}}>{selectedReport.name}</h2>
-              <button onClick={() => setSelectedReport(null)} style={{background:"none",border:"none",color:"#94a3b8",cursor:"pointer",fontSize:20}}>x</button>
-            </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
-              {[["Domain",selectedReport.domain],["Frequency",selectedReport.frequency],["Compliance",selectedReport.complianceStatus||selectedReport.compliance_status],["Risk Level",selectedReport.riskLevel||selectedReport.risk_level||"Low"],["Automation",selectedReport.automationStatus||"Manual"],["Created",selectedReport.createdAt?new Date(selectedReport.createdAt).toLocaleDateString():"N/A"]].map(([label,value],i) => (
-                <div key={i} style={{background:"#0f172a",borderRadius:8,padding:12}}>
-                  <div style={{fontSize:10,color:"#64748b",textTransform:"uppercase",marginBottom:4}}>{label}</div>
-                  <div style={{fontSize:13,color:"#f1f5f9",fontWeight:600}}>{value||"N/A"}</div>
-                </div>
-              ))}
-            </div>
-            {selectedReport.description && <p style={{color:"#94a3b8",fontSize:13,marginBottom:16}}>{selectedReport.description}</p>}
-            {selectedReport.stakeholders?.length > 0 && (
-              <div style={{marginBottom:16}}>
-                <div style={{fontSize:11,color:"#64748b",marginBottom:8}}>STAKEHOLDERS</div>
-                <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{selectedReport.stakeholders.map((s,i) => <span key={i} style={{background:"#334155",color:"#94a3b8",padding:"2px 8px",borderRadius:20,fontSize:11}}>{s}</span>)}</div>
-              </div>
-            )}
-            <button onClick={() => setSelectedReport(null)} style={{background:"#3b82f6",border:"none",borderRadius:8,color:"#fff",padding:"10px 20px",cursor:"pointer",fontWeight:600,width:"100%"}}>Close</button>
-          </div>
-        </div>
-      )}
+      {selectedReport && (<div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setSelectedReport(null)}><div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:24,width:480}} onClick={e => e.stopPropagation()}><h3 style={{color:'#f1f5f9',marginBottom:16}}>{selectedReport.name}</h3><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:16}}>{[['Domain',selectedReport.domain],['Frequency',selectedReport.frequency],['Compliance',selectedReport.complianceStatus||selectedReport.compliance_status||'N/A'],['Risk',selectedReport.riskLevel||'Low']].map(([l,v],i) => (<div key={i} style={{background:'#0f172a',borderRadius:8,padding:10}}><div style={{fontSize:10,color:'#64748b'}}>{l}</div><div style={{color:'#f1f5f9',fontWeight:600}}>{v||'N/A'}</div></div>))}</div><button onClick={() => setSelectedReport(null)} style={{background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',width:'100%'}}>Close</button></div></div>)}
+    </div>
+  </>);
 }
 
 export default AdvancedTable;
+
+
