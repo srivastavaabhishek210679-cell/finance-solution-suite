@@ -14,7 +14,6 @@ function AdvancedTable({ reports }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [groupBy, setGroupBy] = useState(null);
   const [expandedGroups, setExpandedGroups] = useState({});
-  const [expandedGroups, setExpandedGroups] = useState({});
   const [selectedReport, setSelectedReport] = useState(null);
   
   // Pivot table state
