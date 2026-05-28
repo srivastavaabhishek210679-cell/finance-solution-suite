@@ -320,7 +320,7 @@ function ModuleManager() {
                 <span className="meta-item">{module.size}</span>
               </div>
 
-              {module.dependencies.length > 0 && (
+              {(module.dependencies?.length || 0) > 0 && (
                 <div className="dependencies">
                   <AlertCircle size={14} />
                   <span>Requires: {module.dependencies.join(', ')}</span>
@@ -399,3 +399,4 @@ function ModuleManager() {
 }
 
 export default ModuleManager
+
