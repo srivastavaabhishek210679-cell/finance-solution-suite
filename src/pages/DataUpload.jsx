@@ -65,8 +65,6 @@ const DataUpload = () => {
         const autoMapping = fuzzyMatch(headers, template.fields);
         setColumnMapping(autoMapping);
       }
-      setStep(2);
-    };
     reader.readAsText(file);
   };
 
