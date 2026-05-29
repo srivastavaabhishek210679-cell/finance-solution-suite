@@ -119,19 +119,11 @@ const DataUpload = () => {
 
   const handleTemplateSelect = (templateId) => {
     setSelectedTemplate(templateId);
+    setSelectedTemplate(templateId);
     const template = reportTemplates.find(t => t.id === templateId);
-    
-    // Auto-map columns (basic matching)
-    const mapping = {};
-    template.fields.forEach(field => {
-      const matchingHeader = previewData.headers.find(h => 
-        h.toLowerCase().includes(field.toLowerCase()) || 
-        field.toLowerCase().includes(h.toLowerCase())
-      );
-      if (matchingHeader) {
-        mapping[field] = matchingHeader;
-      }
-    });
+    const mapping = fuzzyMatch(previewData.headers, template.fields);
+    setColumnMapping(mapping);
+    setStep(4);
     setColumnMapping(mapping);
     setStep(4);
   };
