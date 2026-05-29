@@ -22,94 +22,55 @@ const DataUpload = () => {
     { id: 'compliance', name: 'Compliance Report', fields: ['requirement', 'status', 'due_date', 'responsible_person'] }
   ];
 
-  const aiMatchColumns = async (headers, templateFields) => {
-    try {
-      const prompt = `You are a data analyst. Match these uploaded CSV columns to report fields.
-
-Uploaded columns: ${JSON.stringify(headers)}
-Report fields needed: ${JSON.stringify(templateFields)}
-
-Rules:
-1. Match even if names are different (e.g. "amt" -> "revenue", "dept" -> "department", "qty" -> "quantity")
-2. If no good match exists for a field, set it to null
-3. If uploaded columns have extra data not in template, suggest the best report field they could map to
-4. Return ONLY a JSON object like: {"revenue": "amt", "expenses": "cost", "date": "month", "profit": null}
-
-Return ONLY valid JSON, no explanation.`
-
-      const res = await fetch('https://finance-backend-so86.onrender.com/api/v1/ai/narrative', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') },
-        body: JSON.stringify({ prompt })
-      })
-      const data = await res.json()
-      const text = data?.data?.narrative || '{}'
-      const clean = text.replace(/```json|```/g, '').trim()
-      return JSON.parse(clean)
-    } catch (e) {
-      console.error('AI matching failed, using fuzzy match', e)
-      return null
-    }
-  }
-
-  // Fuzzy match fallback
-  const fuzzyMatch = (headers, fields) => {
-    const mapping = {}
-    const synonyms = {
-      revenue: ['revenue', 'income', 'sales', 'amt', 'amount', 'total', 'gross', 'turnover', 'receipts'],
-      expenses: ['expenses', 'expense', 'cost', 'costs', 'expenditure', 'spend', 'outflow', 'charges'],
-      profit: ['profit', 'net', 'margin', 'earnings', 'gain', 'surplus', 'pnl', 'p&l'],
-      date: ['date', 'month', 'year', 'period', 'time', 'day', 'week', 'quarter'],
-      department: ['department', 'dept', 'division', 'unit', 'team', 'group', 'section'],
-      quantity: ['quantity', 'qty', 'units', 'count', 'volume', 'number', 'nos'],
-      product: ['product', 'item', 'sku', 'goods', 'service', 'description', 'name'],
-      region: ['region', 'area', 'zone', 'territory', 'location', 'city', 'state', 'country'],
-      status: ['status', 'state', 'condition', 'flag', 'active', 'result'],
-      category: ['category', 'type', 'class', 'group', 'segment', 'kind'],
-      value: ['value', 'val', 'amount', 'figure', 'number', 'score', 'rating'],
-      target: ['target', 'goal', 'budget', 'plan', 'forecast', 'expected'],
-      metric_name: ['metric', 'kpi', 'measure', 'indicator', 'name', 'label'],
-      requirement: ['requirement', 'rule', 'policy', 'regulation', 'control', 'check'],
-      responsible_person: ['responsible', 'owner', 'assignee', 'manager', 'person', 'contact', 'name'],
-      due_date: ['due_date', 'deadline', 'due', 'expiry', 'end_date', 'target_date'],
-      efficiency: ['efficiency', 'performance', 'productivity', 'rate', 'score', 'utilization'],
-      tasks_completed: ['tasks', 'completed', 'done', 'finished', 'count', 'total'],
-    }
-
-    fields.forEach(field => {
-      const fieldSynonyms = synonyms[field] || [field]
-      let bestMatch = null
-      let bestScore = 0
-
-      headers.forEach(header => {
-        const h = header.toLowerCase().replace(/[^a-z0-9]/g, '')
-        fieldSynonyms.forEach(syn => {
-          const s = syn.toLowerCase().replace(/[^a-z0-9]/g, '')
-          if (h === s) { bestMatch = header; bestScore = 100 }
-          else if (h.includes(s) || s.includes(h)) { if (bestScore < 80) { bestMatch = header; bestScore = 80 } }
-          else if (h.slice(0,3) === s.slice(0,3) && bestScore < 60) { bestMatch = header; bestScore = 60 }
-        })
-      })
-      mapping[field] = bestMatch
-    })
-    return mapping
-  }
-
-  // Auto-detect report type from columns
   const detectReportType = (headers) => {
-    const h = headers.map(h => h.toLowerCase()).join(' ')
-    if (h.includes('revenue') || h.includes('profit') || h.includes('expense') || h.includes('income') || h.includes('cost')) return 'financial'
-    if (h.includes('product') || h.includes('quantity') || h.includes('sale') || h.includes('order') || h.includes('customer')) return 'sales'
-    if (h.includes('task') || h.includes('efficiency') || h.includes('department') || h.includes('operation')) return 'operations'
-    if (h.includes('requirement') || h.includes('compliance') || h.includes('status') || h.includes('regulation')) return 'compliance'
-    return 'analytics' // default
-  }
+    const h = headers.map(h => h.toLowerCase()).join(" ");
+    if (h.includes("revenue") || h.includes("profit") || h.includes("expense") || h.includes("income") || h.includes("cost") || h.includes("amt") || h.includes("expenditure")) return "financial";
+    if (h.includes("product") || h.includes("quantity") || h.includes("sale") || h.includes("order") || h.includes("customer") || h.includes("qty")) return "sales";
+    if (h.includes("task") || h.includes("efficiency") || h.includes("department") || h.includes("dept") || h.includes("operation")) return "operations";
+    if (h.includes("requirement") || h.includes("compliance") || h.includes("status") || h.includes("regulation")) return "compliance";
+    return "analytics";
+  };
 
-  const generateSummary = (data, template) => {
-    // Generate summary based on template type
-    if (template.id === 'financial') {
-      const totalRevenue = data.reduce((sum, row) => sum + parseFloat(row.revenue || 0), 0);
-      const totalExpenses = data.reduce((sum, row) => sum + parseFloat(row.expenses || 0), 0);
+  const fuzzyMatch = (headers, fields) => {
+    const synonyms = {
+      revenue: ["revenue","income","sales","amt","amount","total","gross","turnover"],
+      expenses: ["expenses","expense","cost","costs","expenditure","spend","outflow"],
+      profit: ["profit","net","margin","earnings","gain","net_gain","surplus"],
+      date: ["date","month","year","period","time","day","week"],
+      department: ["department","dept","division","unit","team","group"],
+      quantity: ["quantity","qty","units","count","volume"],
+      product: ["product","item","sku","goods","description","name"],
+      region: ["region","area","zone","territory","location","city"],
+      status: ["status","state","condition","flag","result"],
+      category: ["category","type","class","group","segment"],
+      value: ["value","val","amount","figure","number","score"],
+      target: ["target","goal","budget","plan","forecast","expected"],
+      metric_name: ["metric","kpi","measure","indicator","name","label"],
+      requirement: ["requirement","rule","policy","regulation","control"],
+      responsible_person: ["responsible","owner","assignee","manager","person"],
+      due_date: ["due_date","deadline","due","expiry","end_date"],
+      efficiency: ["efficiency","performance","productivity","rate","score"],
+      tasks_completed: ["tasks","completed","done","finished","count"],
+    };
+    const mapping = {};
+    fields.forEach(field => {
+      const fieldSyns = synonyms[field] || [field];
+      let bestMatch = null; let bestScore = 0;
+      headers.forEach(header => {
+        const h = header.toLowerCase().replace(/[^a-z0-9]/g, "");
+        fieldSyns.forEach(syn => {
+          const s = syn.toLowerCase().replace(/[^a-z0-9]/g, "");
+          if (h === s && bestScore < 100) { bestMatch = header; bestScore = 100; }
+          else if ((h.includes(s) || s.includes(h)) && bestScore < 80) { bestMatch = header; bestScore = 80; }
+          else if (h.slice(0,3) === s.slice(0,3) && h.length > 2 && bestScore < 60) { bestMatch = header; bestScore = 60; }
+        });
+      });
+      mapping[field] = bestMatch;
+    });
+    return mapping;
+  };
+
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -140,19 +101,19 @@ Return ONLY valid JSON, no explanation.`
       console.log('ðŸ“Š Preview Data:', { headers, data, totalRows: rows.length - 1 });
       const detectedType = detectReportType(headers);
       setSelectedTemplate(detectedType);
-      console.log('Auto-detected report type:', detectedType);
-      // Auto-run column matching after detection
-      const template = [
-        { id: 'financial', name: 'Financial Report', fields: ['revenue', 'expenses', 'profit', 'date'] },
-        { id: 'sales', name: 'Sales Performance Report', fields: ['product', 'quantity', 'amount', 'date', 'region'] },
-        { id: 'operations', name: 'Operations Report', fields: ['department', 'tasks_completed', 'efficiency', 'date'] },
-        { id: 'analytics', name: 'Analytics Report', fields: ['metric_name', 'value', 'target', 'date', 'category'] },
-        { id: 'compliance', name: 'Compliance Report', fields: ['requirement', 'status', 'due_date', 'responsible_person'] }
+      const detectedTemplate = [
+        { id: 'financial', fields: ['revenue', 'expenses', 'profit', 'date'] },
+        { id: 'sales', fields: ['product', 'quantity', 'amount', 'date', 'region'] },
+        { id: 'operations', fields: ['department', 'tasks_completed', 'efficiency', 'date'] },
+        { id: 'analytics', fields: ['metric_name', 'value', 'target', 'date', 'category'] },
+        { id: 'compliance', fields: ['requirement', 'status', 'due_date', 'responsible_person'] }
       ].find(t => t.id === detectedType);
-      if (template && headers) {
-        const autoMapping = fuzzyMatch(headers, template.fields);
+      if (detectedTemplate) {
+        const autoMapping = fuzzyMatch(headers, detectedTemplate.fields);
         setColumnMapping(autoMapping);
       }
+      setStep(2);
+    };
     reader.readAsText(file);
   };
 
@@ -177,66 +138,43 @@ Return ONLY valid JSON, no explanation.`
 
   const handleGenerateReport = () => {
     setProcessing(true);
+    
+    // Simulate report generation
     setTimeout(() => {
       const template = reportTemplates.find(t => t.id === selectedTemplate);
-      const mappedFields = Object.entries(columnMapping).filter(([,v]) => v);
-      const unmappedFields = Object.keys(columnMapping).filter(k => !columnMapping[k]);
-      
-      // Process data - use mapped columns where available, raw data for unmapped
       const processedData = previewData.data.map(row => {
         const mappedRow = {};
-        // Add all mapped fields
-        mappedFields.forEach(([field, sourceCol]) => {
-          mappedRow[field] = row[sourceCol] || 'N/A';
+        Object.keys(columnMapping).forEach(field => {
+          const sourceColumn = columnMapping[field];
+          mappedRow[field] = row[sourceColumn] || 'N/A';
         });
-        // For unmapped fields, use raw column values if available
-        unmappedFields.forEach((field, idx) => {
-          const rawCol = previewData.headers[mappedFields.length + idx];
-          mappedRow[field] = rawCol ? (row[rawCol] || 'N/A') : 'N/A';
-        });
-        // Also include all original columns as extra data
-        mappedRow._rawData = row;
         return mappedRow;
-      });
-
-      // Auto-generate summary from whatever numeric data exists
-      const numericSummary = {};
-      previewData.headers.forEach(header => {
-        const values = previewData.data.map(r => parseFloat(r[header])).filter(v => !isNaN(v));
-        if (values.length > 0) {
-          numericSummary[header] = {
-            total: values.reduce((a,b) => a+b, 0).toFixed(2),
-            avg: (values.reduce((a,b) => a+b, 0) / values.length).toFixed(2),
-            max: Math.max(...values),
-            min: Math.min(...values)
-          };
-        }
       });
 
       const report = {
         id: Date.now(),
-        name: template.name + ' - ' + uploadedFile.name,
+        name: `${template.name} - ${uploadedFile.name}`,
         template: selectedTemplate,
         templateName: template.name,
         generatedAt: new Date().toISOString(),
         dataSource: uploadedFile.name,
         totalRecords: previewData.totalRows,
         processedRecords: processedData.length,
-        mappedFields: mappedFields.length,
-        totalFields: template.fields.length,
-        unmappedFields: unmappedFields,
         data: processedData,
-        numericSummary,
         summary: generateSummary(processedData, template)
       };
+
       setGeneratedReport(report);
       setProcessing(false);
       setStep(5);
-    }, 1500);
+    }, 2000);
   };
 
-
-  // AI-powered dynamic column matching
+  const generateSummary = (data, template) => {
+    // Generate summary based on template type
+    if (template.id === 'financial') {
+      const totalRevenue = data.reduce((sum, row) => sum + parseFloat(row.revenue || 0), 0);
+      const totalExpenses = data.reduce((sum, row) => sum + parseFloat(row.expenses || 0), 0);
       return {
         totalRevenue: `$${totalRevenue.toLocaleString()}`,
         totalExpenses: `$${totalExpenses.toLocaleString()}`,
@@ -636,36 +574,25 @@ ${JSON.stringify(generatedReport.data, null, 2)}
                       <option key={header} value={header}>{header}</option>
                     ))}
                   </select>
-                  <div style={{display:"flex",alignItems:"center",gap:6}}>
-                    {columnMapping[field] ? (
-                      <CheckCircle size={20} style={{ color: '#10b981' }} />
-                    ) : (
-                      <AlertCircle size={20} style={{ color: '#f59e0b' }} />
-                    )}
-                    {columnMapping[field] && (
-                      <span style={{fontSize:10,color:"#10b981",background:"#10b98120",padding:"2px 6px",borderRadius:10}}>Auto-matched</span>
-                    )}
-                    {!columnMapping[field] && (
-                      <span style={{fontSize:10,color:"#f59e0b",background:"#f59e0b20",padding:"2px 6px",borderRadius:10}}>No match found</span>
-                    )}
-                  </div>
+                  {columnMapping[field] && (
+                    <CheckCircle size={20} style={{ color: '#14b8a6' }} />
+                  )}
                 </div>
               ))}
             </div>
 
             <div className="mapping-status">
-              {(() => {
-                const mapped = Object.values(columnMapping).filter(Boolean).length;
-                const total = reportTemplates.find(t => t.id === selectedTemplate).fields.length;
-                const pct = Math.round((mapped/total)*100);
-                return mapped === total ? (
-                  <div className='status-success'><CheckCircle size={20}/><span>All {total} fields mapped! Ready to generate.</span></div>
-                ) : mapped > 0 ? (
-                  <div className='status-warning'><AlertCircle size={20}/><span>{mapped}/{total} fields mapped ({pct}%). You can still generate — unmapped fields will use available data.</span></div>
-                ) : (
-                  <div className='status-warning'><AlertCircle size={20}/><span>No fields auto-matched. Please manually select columns or generate with raw data.</span></div>
-                );
-              })()}
+              {Object.keys(columnMapping).length === reportTemplates.find(t => t.id === selectedTemplate).fields.length ? (
+                <div className="status-success">
+                  <CheckCircle size={20} />
+                  <span>All fields mapped successfully!</span>
+                </div>
+              ) : (
+                <div className="status-warning">
+                  <AlertCircle size={20} />
+                  <span>Please map all required fields to continue</span>
+                </div>
+              )}
             </div>
 
             <div className="action-buttons">
@@ -826,13 +753,5 @@ ${JSON.stringify(generatedReport.data, null, 2)}
     </>
   );
 };
-}
 
 export default DataUpload;
-
-
-
-
-
-
-
