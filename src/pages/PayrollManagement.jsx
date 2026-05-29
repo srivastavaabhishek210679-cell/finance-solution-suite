@@ -27,7 +27,6 @@ export default function PayrollManagement() {
   const [payrollYear, setPayrollYear] = useState(new Date().getFullYear())
   const [selectedRun, setSelectedRun] = useState(null)
   const [payslips, setPayslips] = useState([])
-  const [payslips, setPayslips] = useState([])
   const [reportsData, setReportsData] = useState(null)
   const [toast, setToast] = useState(null)
 
