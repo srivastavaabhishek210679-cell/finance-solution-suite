@@ -27,10 +27,8 @@ export default function PayrollManagement() {
   const [payrollYear, setPayrollYear] = useState(new Date().getFullYear())
   const [selectedRun, setSelectedRun] = useState(null)
   const [payslips, setPayslips] = useState([])
-  const [payslips, setPayslips] = useState([])
   const [reportsData, setReportsData] = useState(null)
 
-  const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
 
   const loadReportsData = async () => {
@@ -247,231 +245,32 @@ export default function PayrollManagement() {
 
       {/* Add/Edit Employee Modal */}
 
-        {/* Reports Tab */}
-        {tab === 
-'reports'
- && (
+        {tab === "reports" && (
           <div>
             {!reportsData ? (
-              <div style={{textAlign:
-'center'
-,padding:40,color:
-'#64748b'
-}}>Loading reports data...</div>
+              <div style={{textAlign:"center",padding:40,color:"#64748b"}}>Click Reports tab to load data...</div>
             ) : (
               <div>
-                {/* Department Summary */}
-                <div style={{background:
-'#1e293b'
-,border:
-'1px solid #334155'
-,borderRadius:12,padding:20,marginBottom:20}}>
-                  <h3 style={{color:
-'#f1f5f9'
-,marginBottom:16,fontSize:14}}>Payroll Cost by Department</h3>
-                  <table style={{width:
-'100%'
-,borderCollapse:
-'collapse'
-}}>
-                    <thead><tr style={{borderBottom:
-'1px solid #334155'
-}}>{[
-'
-Department
-'
-,
-'
-Employees
-'
-,
-'
-Avg Salary
-'
-,
-'
-Total Gross
-'
-].map(h=>(<th key={h} style={{color:
-'#64748b'
-,fontSize:11,padding:
-'8px'
-,textAlign:
-'left'
-,textTransform:
-'uppercase'
-}}>{h}</th>))}</tr></thead>
-                    <tbody>
-                      {reportsData.deptSummary.map((d,i)=>(
-                        <tr key={i} style={{borderBottom:
-'1px solid #0f172a'
-}}>
-                          <td style={{padding:
-'10px 8px'
-,color:
-'#f1f5f9'
-,fontWeight:600}}>{d.department}</td>
-                          <td style={{padding:
-'10px 8px'
-,color:
-'#94a3b8'
-}}>{d.count}</td>
-                          <td style={{padding:
-'10px 8px'
-,color:
-'#10b981'
-}}>?{Number(d.avg_salary).toLocaleString()}</td>
-                          <td style={{padding:
-'10px 8px'
-,color:
-'#3b82f6'
-,fontWeight:600}}>?{Number(d.total_gross).toLocaleString()}</td>
-                        </tr>
-                      ))}
-                    </tbody>
+                <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20,marginBottom:20}}>
+                  <h3 style={{color:"#f1f5f9",marginBottom:16,fontSize:14}}>Payroll Cost by Department</h3>
+                  <table style={{width:"100%",borderCollapse:"collapse"}}>
+                    <thead><tr style={{borderBottom:"1px solid #334155"}}>{["Department","Employees","Avg Salary","Total Gross"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
+                    <tbody>{reportsData.deptSummary.map((d,i)=>(<tr key={i} style={{borderBottom:"1px solid #0f172a"}}><td style={{padding:"10px 8px",color:"#f1f5f9",fontWeight:600}}>{d.department}</td><td style={{padding:"10px 8px",color:"#94a3b8"}}>{d.count}</td><td style={{padding:"10px 8px",color:"#10b981"}}>{"?"+Number(d.avg_salary).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#3b82f6",fontWeight:600}}>{"?"+Number(d.total_gross).toLocaleString()}</td></tr>))}</tbody>
                   </table>
                 </div>
-                {/* Salary Bands */}
-                <div style={{background:
-'#1e293b'
-,border:
-'1px solid #334155'
-,borderRadius:12,padding:20,marginBottom:20}}>
-                  <h3 style={{color:
-'#f1f5f9'
-,marginBottom:16,fontSize:14}}>Salary Band by Designation</h3>
-                  <table style={{width:
-'100%'
-,borderCollapse:
-'collapse'
-}}>
-                    <thead><tr style={{borderBottom:
-'1px solid #334155'
-}}>{[
-'
-Designation
-'
-,
-'
-Employees
-'
-,
-'
-Avg Basic Salary
-'
-].map(h=>(<th key={h} style={{color:
-'#64748b'
-,fontSize:11,padding:
-'8px'
-,textAlign:
-'left'
-,textTransform:
-'uppercase'
-}}>{h}</th>))}</tr></thead>
-                    <tbody>
-                      {reportsData.salaryBands.map((s,i)=>(
-                        <tr key={i} style={{borderBottom:
-'1px solid #0f172a'
-}}>
-                          <td style={{padding:
-'10px 8px'
-,color:
-'#f1f5f9'
-,fontWeight:600}}>{s.designation}</td>
-                          <td style={{padding:
-'10px 8px'
-,color:
-'#94a3b8'
-}}>{s.count}</td>
-                          <td style={{padding:
-'10px 8px'
-,color:
-'#10b981'
-,fontWeight:600}}>?{Number(s.avg_salary).toLocaleString()}</td>
-                        </tr>
-                      ))}
-                    </tbody>
+                <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20,marginBottom:20}}>
+                  <h3 style={{color:"#f1f5f9",marginBottom:16,fontSize:14}}>Salary Band by Designation</h3>
+                  <table style={{width:"100%",borderCollapse:"collapse"}}>
+                    <thead><tr style={{borderBottom:"1px solid #334155"}}>{["Designation","Employees","Avg Basic Salary"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
+                    <tbody>{reportsData.salaryBands.map((s,i)=>(<tr key={i} style={{borderBottom:"1px solid #0f172a"}}><td style={{padding:"10px 8px",color:"#f1f5f9",fontWeight:600}}>{s.designation}</td><td style={{padding:"10px 8px",color:"#94a3b8"}}>{s.count}</td><td style={{padding:"10px 8px",color:"#10b981",fontWeight:600}}>{"?"+Number(s.avg_salary).toLocaleString()}</td></tr>))}</tbody>
                   </table>
                 </div>
-                {/* Payroll Trend */}
                 {reportsData.trend.length > 0 && (
-                  <div style={{background:
-'#1e293b'
-,border:
-'1px solid #334155'
-,borderRadius:12,padding:20}}>
-                    <h3 style={{color:
-'#f1f5f9'
-,marginBottom:16,fontSize:14}}>Monthly Payroll Trend</h3>
-                    <table style={{width:
-'100%'
-,borderCollapse:
-'collapse'
-}}>
-                      <thead><tr style={{borderBottom:
-'1px solid #334155'
-}}>{[
-'
-Month
-'
-,
-'
-Year
-'
-,
-'
-Gross
-'
-,
-'
-Deductions
-'
-,
-'
-Net Pay
-'
-].map(h=>(<th key={h} style={{color:
-'#64748b'
-,fontSize:11,padding:
-'8px'
-,textAlign:
-'left'
-,textTransform:
-'uppercase'
-}}>{h}</th>))}</tr></thead>
-                      <tbody>
-                        {reportsData.trend.map((t,i)=>(
-                          <tr key={i} style={{borderBottom:
-'1px solid #0f172a'
-}}>
-                            <td style={{padding:
-'10px 8px'
-,color:
-'#f1f5f9'
-}}>{t.month}</td>
-                            <td style={{padding:
-'10px 8px'
-,color:
-'#94a3b8'
-}}>{t.year}</td>
-                            <td style={{padding:
-'10px 8px'
-,color:
-'#10b981'
-}}>?{Number(t.gross).toLocaleString()}</td>
-                            <td style={{padding:
-'10px 8px'
-,color:
-'#ef4444'
-}}>?{Number(t.deductions).toLocaleString()}</td>
-                            <td style={{padding:
-'10px 8px'
-,color:
-'#3b82f6'
-,fontWeight:600}}>?{Number(t.net).toLocaleString()}</td>
-                          </tr>
-                        ))}
-                      </tbody>
+                  <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
+                    <h3 style={{color:"#f1f5f9",marginBottom:16,fontSize:14}}>Monthly Payroll Trend</h3>
+                    <table style={{width:"100%",borderCollapse:"collapse"}}>
+                      <thead><tr style={{borderBottom:"1px solid #334155"}}>{["Month","Year","Gross","Deductions","Net Pay"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
+                      <tbody>{reportsData.trend.map((t,i)=>(<tr key={i} style={{borderBottom:"1px solid #0f172a"}}><td style={{padding:"10px 8px",color:"#f1f5f9"}}>{t.month}</td><td style={{padding:"10px 8px",color:"#94a3b8"}}>{t.year}</td><td style={{padding:"10px 8px",color:"#10b981"}}>{"?"+Number(t.gross).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#ef4444"}}>{"?"+Number(t.deductions).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#3b82f6",fontWeight:600}}>{"?"+Number(t.net).toLocaleString()}</td></tr>))}</tbody>
                     </table>
                   </div>
                 )}
@@ -479,7 +278,6 @@ Net Pay
             )}
           </div>
         )}
-
       {showForm && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setShowForm(false)}>
           <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:600,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
