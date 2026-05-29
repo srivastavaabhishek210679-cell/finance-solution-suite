@@ -17,6 +17,7 @@ import ReviewsRatings       from './pages/ReviewsRatings'
 import ModuleManager        from './pages/ModuleManager'
 import Accessibility        from './pages/Accessibility'
 import ProtectedRoute       from './components/ProtectedRoute'
+import PayrollManagement from './pages/PayrollManagement'
 import DataUpload           from './pages/DataUpload'
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
 import PredictiveAnalytics  from './pages/PredictiveAnalytics'
@@ -64,6 +65,7 @@ function App() {
       <Route path="/reviews"               element={<Protected pageName="Reviews">              <ReviewsRatings />       </Protected>} />
       <Route path="/modules"               element={<Protected pageName="Module Manager">       <ModuleManager />        </Protected>} />
       <Route path="/accessibility"         element={<Protected pageName="Accessibility">        <Accessibility />        </Protected>} />
+      <Route path="/payroll" element={<Protected pageName="Payroll Management"><PayrollManagement /></Protected>} />
       <Route path="/upload-data"           element={<Protected pageName="Data Upload">          <DataUpload />           </Protected>} />
       <Route path="/kpi-dashboard"         element={<Protected pageName="KPI Dashboard">        <AdvancedKPIDashboard /> </Protected>} />
       <Route path="/predictive-analytics"  element={<Protected pageName="Predictive AI">        <PredictiveAnalytics />  </Protected>} />
@@ -80,3 +82,4 @@ function App() {
 }
 
 export default App
+
