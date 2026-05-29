@@ -19,7 +19,8 @@ import Accessibility        from './pages/Accessibility'
 import ProtectedRoute       from './components/ProtectedRoute'
 import PayrollManagement from './pages/PayrollManagement'
 import ResourceManagement from './pages/ResourceManagement'
-import DataUpload           from './pages/DataUpload'
+import ResourceManagement from './pages/ResourceManagement'
+import ProjectManagement  from './pages/ProjectManagement'
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
 import PredictiveAnalytics  from './pages/PredictiveAnalytics'
 import AICopilot            from './pages/AICopilot'
@@ -68,7 +69,8 @@ function App() {
       <Route path="/accessibility"         element={<Protected pageName="Accessibility">        <Accessibility />        </Protected>} />
       <Route path="/payroll" element={<Protected pageName="Payroll Management"><PayrollManagement /></Protected>} />
       <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
-      <Route path="/upload-data"           element={<Protected pageName="Data Upload">          <DataUpload />           </Protected>} />
+      <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
+      <Route path="/project-mgmt" element={<Protected pageName="Project Management"><ProjectManagement /></Protected>} />
       <Route path="/kpi-dashboard"         element={<Protected pageName="KPI Dashboard">        <AdvancedKPIDashboard /> </Protected>} />
       <Route path="/predictive-analytics"  element={<Protected pageName="Predictive AI">        <PredictiveAnalytics />  </Protected>} />
       <Route path="/ai-copilot"            element={<Protected pageName="AI Copilot">           <AICopilot />            </Protected>} />
