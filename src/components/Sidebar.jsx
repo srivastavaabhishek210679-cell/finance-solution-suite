@@ -140,6 +140,7 @@ function Sidebar() {
     { path: '/reviews',              icon: Star,          label: 'Reviews & Ratings' },
     { path: '/personalization',      icon: Settings,      label: 'Personalization' },
     { path: '/modules',              icon: Package,       label: 'Module Manager',       adminOnly: true },
+    { path: '/resources-mgmt',              icon: Users,         label: 'Resource Management', badge: 'NEW', badgeColor: '#3b82f6' },
     { path: '/payroll',              icon: DollarSign,    label: 'Payroll Management',   badge: 'NEW', badgeColor: '#10b981' },
     { path: '/accessibility',        icon: Eye,           label: 'Accessibility' },
   ]
@@ -340,5 +341,6 @@ function Sidebar() {
 }
 
 export default Sidebar
+
 
 
