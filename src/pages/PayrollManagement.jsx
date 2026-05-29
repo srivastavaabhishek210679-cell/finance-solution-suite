@@ -157,7 +157,6 @@ export default function PayrollManagement() {
         {[['employees','Employees'],['payroll','Payroll Runs'],['reports','Reports']].map(([id,label])=>(
             <button key={id} onClick={()=>{setTab(id);if(id==='reports')loadReportsData()}} style={{padding:'8px 20px',borderRadius:8,border:'none',background:tab===id?'#3b82f6':'transparent',color:tab===id?'#fff':'#64748b',cursor:'pointer',fontWeight:600,fontSize:13}}>{label}</button>
           ))}
-            <button key={id} onClick={()=>setTab(id)} style={{padding:'8px 20px',borderRadius:8,border:'none',background:tab===id?'#3b82f6':'transparent',color:tab===id?'#fff':'#64748b',cursor:'pointer',fontWeight:600,fontSize:13}}>{label}</button>
           ))}
         </div>
 
