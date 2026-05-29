@@ -10,7 +10,8 @@ import {
   Settings, 
   Share2, 
   Star, 
-  Package, 
+  Package,
+  DollarSign, 
   Eye,
   FileText,
   ChevronDown,
@@ -339,4 +340,5 @@ function Sidebar() {
 }
 
 export default Sidebar
+
 
