@@ -22,6 +22,94 @@ const DataUpload = () => {
     { id: 'compliance', name: 'Compliance Report', fields: ['requirement', 'status', 'due_date', 'responsible_person'] }
   ];
 
+  const aiMatchColumns = async (headers, templateFields) => {
+    try {
+      const prompt = `You are a data analyst. Match these uploaded CSV columns to report fields.
+
+Uploaded columns: ${JSON.stringify(headers)}
+Report fields needed: ${JSON.stringify(templateFields)}
+
+Rules:
+1. Match even if names are different (e.g. "amt" -> "revenue", "dept" -> "department", "qty" -> "quantity")
+2. If no good match exists for a field, set it to null
+3. If uploaded columns have extra data not in template, suggest the best report field they could map to
+4. Return ONLY a JSON object like: {"revenue": "amt", "expenses": "cost", "date": "month", "profit": null}
+
+Return ONLY valid JSON, no explanation.`
+
+      const res = await fetch('https://finance-backend-so86.onrender.com/api/v1/ai/narrative', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+        body: JSON.stringify({ prompt })
+      })
+      const data = await res.json()
+      const text = data?.data?.narrative || '{}'
+      const clean = text.replace(/```json|```/g, '').trim()
+      return JSON.parse(clean)
+    } catch (e) {
+      console.error('AI matching failed, using fuzzy match', e)
+      return null
+    }
+  }
+
+  // Fuzzy match fallback
+  const fuzzyMatch = (headers, fields) => {
+    const mapping = {}
+    const synonyms = {
+      revenue: ['revenue', 'income', 'sales', 'amt', 'amount', 'total', 'gross', 'turnover', 'receipts'],
+      expenses: ['expenses', 'expense', 'cost', 'costs', 'expenditure', 'spend', 'outflow', 'charges'],
+      profit: ['profit', 'net', 'margin', 'earnings', 'gain', 'surplus', 'pnl', 'p&l'],
+      date: ['date', 'month', 'year', 'period', 'time', 'day', 'week', 'quarter'],
+      department: ['department', 'dept', 'division', 'unit', 'team', 'group', 'section'],
+      quantity: ['quantity', 'qty', 'units', 'count', 'volume', 'number', 'nos'],
+      product: ['product', 'item', 'sku', 'goods', 'service', 'description', 'name'],
+      region: ['region', 'area', 'zone', 'territory', 'location', 'city', 'state', 'country'],
+      status: ['status', 'state', 'condition', 'flag', 'active', 'result'],
+      category: ['category', 'type', 'class', 'group', 'segment', 'kind'],
+      value: ['value', 'val', 'amount', 'figure', 'number', 'score', 'rating'],
+      target: ['target', 'goal', 'budget', 'plan', 'forecast', 'expected'],
+      metric_name: ['metric', 'kpi', 'measure', 'indicator', 'name', 'label'],
+      requirement: ['requirement', 'rule', 'policy', 'regulation', 'control', 'check'],
+      responsible_person: ['responsible', 'owner', 'assignee', 'manager', 'person', 'contact', 'name'],
+      due_date: ['due_date', 'deadline', 'due', 'expiry', 'end_date', 'target_date'],
+      efficiency: ['efficiency', 'performance', 'productivity', 'rate', 'score', 'utilization'],
+      tasks_completed: ['tasks', 'completed', 'done', 'finished', 'count', 'total'],
+    }
+
+    fields.forEach(field => {
+      const fieldSynonyms = synonyms[field] || [field]
+      let bestMatch = null
+      let bestScore = 0
+
+      headers.forEach(header => {
+        const h = header.toLowerCase().replace(/[^a-z0-9]/g, '')
+        fieldSynonyms.forEach(syn => {
+          const s = syn.toLowerCase().replace(/[^a-z0-9]/g, '')
+          if (h === s) { bestMatch = header; bestScore = 100 }
+          else if (h.includes(s) || s.includes(h)) { if (bestScore < 80) { bestMatch = header; bestScore = 80 } }
+          else if (h.slice(0,3) === s.slice(0,3) && bestScore < 60) { bestMatch = header; bestScore = 60 }
+        })
+      })
+      mapping[field] = bestMatch
+    })
+    return mapping
+  }
+
+  // Auto-detect report type from columns
+  const detectReportType = (headers) => {
+    const h = headers.map(h => h.toLowerCase()).join(' ')
+    if (h.includes('revenue') || h.includes('profit') || h.includes('expense') || h.includes('income') || h.includes('cost')) return 'financial'
+    if (h.includes('product') || h.includes('quantity') || h.includes('sale') || h.includes('order') || h.includes('customer')) return 'sales'
+    if (h.includes('task') || h.includes('efficiency') || h.includes('department') || h.includes('operation')) return 'operations'
+    if (h.includes('requirement') || h.includes('compliance') || h.includes('status') || h.includes('regulation')) return 'compliance'
+    return 'analytics' // default
+  }
+
+  const generateSummary = (data, template) => {
+    // Generate summary based on template type
+    if (template.id === 'financial') {
+      const totalRevenue = data.reduce((sum, row) => sum + parseFloat(row.revenue || 0), 0);
+      const totalExpenses = data.reduce((sum, row) => sum + parseFloat(row.expenses || 0), 0);
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -149,94 +237,6 @@ const DataUpload = () => {
 
 
   // AI-powered dynamic column matching
-  const aiMatchColumns = async (headers, templateFields) => {
-    try {
-      const prompt = `You are a data analyst. Match these uploaded CSV columns to report fields.
-
-Uploaded columns: ${JSON.stringify(headers)}
-Report fields needed: ${JSON.stringify(templateFields)}
-
-Rules:
-1. Match even if names are different (e.g. "amt" -> "revenue", "dept" -> "department", "qty" -> "quantity")
-2. If no good match exists for a field, set it to null
-3. If uploaded columns have extra data not in template, suggest the best report field they could map to
-4. Return ONLY a JSON object like: {"revenue": "amt", "expenses": "cost", "date": "month", "profit": null}
-
-Return ONLY valid JSON, no explanation.`
-
-      const res = await fetch('https://finance-backend-so86.onrender.com/api/v1/ai/narrative', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') },
-        body: JSON.stringify({ prompt })
-      })
-      const data = await res.json()
-      const text = data?.data?.narrative || '{}'
-      const clean = text.replace(/```json|```/g, '').trim()
-      return JSON.parse(clean)
-    } catch (e) {
-      console.error('AI matching failed, using fuzzy match', e)
-      return null
-    }
-  }
-
-  // Fuzzy match fallback
-  const fuzzyMatch = (headers, fields) => {
-    const mapping = {}
-    const synonyms = {
-      revenue: ['revenue', 'income', 'sales', 'amt', 'amount', 'total', 'gross', 'turnover', 'receipts'],
-      expenses: ['expenses', 'expense', 'cost', 'costs', 'expenditure', 'spend', 'outflow', 'charges'],
-      profit: ['profit', 'net', 'margin', 'earnings', 'gain', 'surplus', 'pnl', 'p&l'],
-      date: ['date', 'month', 'year', 'period', 'time', 'day', 'week', 'quarter'],
-      department: ['department', 'dept', 'division', 'unit', 'team', 'group', 'section'],
-      quantity: ['quantity', 'qty', 'units', 'count', 'volume', 'number', 'nos'],
-      product: ['product', 'item', 'sku', 'goods', 'service', 'description', 'name'],
-      region: ['region', 'area', 'zone', 'territory', 'location', 'city', 'state', 'country'],
-      status: ['status', 'state', 'condition', 'flag', 'active', 'result'],
-      category: ['category', 'type', 'class', 'group', 'segment', 'kind'],
-      value: ['value', 'val', 'amount', 'figure', 'number', 'score', 'rating'],
-      target: ['target', 'goal', 'budget', 'plan', 'forecast', 'expected'],
-      metric_name: ['metric', 'kpi', 'measure', 'indicator', 'name', 'label'],
-      requirement: ['requirement', 'rule', 'policy', 'regulation', 'control', 'check'],
-      responsible_person: ['responsible', 'owner', 'assignee', 'manager', 'person', 'contact', 'name'],
-      due_date: ['due_date', 'deadline', 'due', 'expiry', 'end_date', 'target_date'],
-      efficiency: ['efficiency', 'performance', 'productivity', 'rate', 'score', 'utilization'],
-      tasks_completed: ['tasks', 'completed', 'done', 'finished', 'count', 'total'],
-    }
-
-    fields.forEach(field => {
-      const fieldSynonyms = synonyms[field] || [field]
-      let bestMatch = null
-      let bestScore = 0
-
-      headers.forEach(header => {
-        const h = header.toLowerCase().replace(/[^a-z0-9]/g, '')
-        fieldSynonyms.forEach(syn => {
-          const s = syn.toLowerCase().replace(/[^a-z0-9]/g, '')
-          if (h === s) { bestMatch = header; bestScore = 100 }
-          else if (h.includes(s) || s.includes(h)) { if (bestScore < 80) { bestMatch = header; bestScore = 80 } }
-          else if (h.slice(0,3) === s.slice(0,3) && bestScore < 60) { bestMatch = header; bestScore = 60 }
-        })
-      })
-      mapping[field] = bestMatch
-    })
-    return mapping
-  }
-
-  // Auto-detect report type from columns
-  const detectReportType = (headers) => {
-    const h = headers.map(h => h.toLowerCase()).join(' ')
-    if (h.includes('revenue') || h.includes('profit') || h.includes('expense') || h.includes('income') || h.includes('cost')) return 'financial'
-    if (h.includes('product') || h.includes('quantity') || h.includes('sale') || h.includes('order') || h.includes('customer')) return 'sales'
-    if (h.includes('task') || h.includes('efficiency') || h.includes('department') || h.includes('operation')) return 'operations'
-    if (h.includes('requirement') || h.includes('compliance') || h.includes('status') || h.includes('regulation')) return 'compliance'
-    return 'analytics' // default
-  }
-
-  const generateSummary = (data, template) => {
-    // Generate summary based on template type
-    if (template.id === 'financial') {
-      const totalRevenue = data.reduce((sum, row) => sum + parseFloat(row.revenue || 0), 0);
-      const totalExpenses = data.reduce((sum, row) => sum + parseFloat(row.expenses || 0), 0);
       return {
         totalRevenue: `$${totalRevenue.toLocaleString()}`,
         totalExpenses: `$${totalExpenses.toLocaleString()}`,
