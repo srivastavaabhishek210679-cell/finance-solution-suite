@@ -23,6 +23,8 @@ import {
   AlertCircle,
   GitBranch,
   Brain,
+  Calendar,
+  Truck,
   Link2,
   CreditCard
 } from 'lucide-react'
@@ -143,6 +145,11 @@ function Sidebar() {
     { path: '/modules',              icon: Package,       label: 'Module Manager',       adminOnly: true },
     { path: '/project-mgmt',               icon: Briefcase,     label: 'Project Management',  badge: 'NEW', badgeColor: '#f59e0b' },
     { path: '/resources-mgmt',              icon: Users,         label: 'Resource Management', badge: 'NEW', badgeColor: '#3b82f6' },
+    { path: '/budget-mgmt',             icon: DollarSign,    label: 'Budget Management',   badge: 'NEW', badgeColor: '#10b981' },
+    { path: '/leave-mgmt',              icon: Calendar,      label: 'Leave Management',    badge: 'NEW', badgeColor: '#8b5cf6' },
+    { path: '/vendor-mgmt',             icon: Truck,         label: 'Vendor Management',   badge: 'NEW', badgeColor: '#14b8a6' },
+    { path: '/asset-mgmt',              icon: Package,       label: 'Asset Management',    badge: 'NEW', badgeColor: '#f59e0b' },
+    { path: '/contract-mgmt',           icon: FileText,      label: 'Contract Management', badge: 'NEW', badgeColor: '#6366f1' },
     { path: '/payroll',              icon: DollarSign,    label: 'Payroll Management',   badge: 'NEW', badgeColor: '#10b981' },
     { path: '/accessibility',        icon: Eye,           label: 'Accessibility' },
   ]
@@ -343,6 +350,8 @@ function Sidebar() {
 }
 
 export default Sidebar
+
+
 
 
 

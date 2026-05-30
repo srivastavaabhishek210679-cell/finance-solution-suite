@@ -20,7 +20,12 @@ import ProtectedRoute       from './components/ProtectedRoute'
 import PayrollManagement from './pages/PayrollManagement'
 import ResourceManagement from './pages/ResourceManagement'
 import ProjectManagement  from './pages/ProjectManagement'
-import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
+import ProjectManagement  from './pages/ProjectManagement'
+import BudgetManagement  from './pages/BudgetManagement'
+import LeaveManagement   from './pages/LeaveManagement'
+import VendorManagement  from './pages/VendorManagement'
+import AssetManagement   from './pages/AssetManagement'
+import ContractManagement from './pages/ContractManagement'
 import PredictiveAnalytics  from './pages/PredictiveAnalytics'
 import AICopilot            from './pages/AICopilot'
 import WorkflowAutomation   from './pages/WorkflowAutomation'
@@ -70,7 +75,12 @@ function App() {
       <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
       <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
       <Route path="/project-mgmt" element={<Protected pageName="Project Management"><ProjectManagement /></Protected>} />
-      <Route path="/kpi-dashboard"         element={<Protected pageName="KPI Dashboard">        <AdvancedKPIDashboard /> </Protected>} />
+      <Route path="/project-mgmt" element={<Protected pageName="Project Management"><ProjectManagement /></Protected>} />
+      <Route path="/budget-mgmt" element={<Protected pageName="Budget Management"><BudgetManagement /></Protected>} />
+      <Route path="/leave-mgmt" element={<Protected pageName="Leave Management"><LeaveManagement /></Protected>} />
+      <Route path="/vendor-mgmt" element={<Protected pageName="Vendor Management"><VendorManagement /></Protected>} />
+      <Route path="/asset-mgmt" element={<Protected pageName="Asset Management"><AssetManagement /></Protected>} />
+      <Route path="/contract-mgmt" element={<Protected pageName="Contract Management"><ContractManagement /></Protected>} />
       <Route path="/predictive-analytics"  element={<Protected pageName="Predictive AI">        <PredictiveAnalytics />  </Protected>} />
       <Route path="/ai-copilot"            element={<Protected pageName="AI Copilot">           <AICopilot />            </Protected>} />
       <Route path="/workflow-automation"   element={<Protected pageName="Workflow Automation">   <WorkflowAutomation />   </Protected>} />
