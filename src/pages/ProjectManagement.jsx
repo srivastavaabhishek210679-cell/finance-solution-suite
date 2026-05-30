@@ -77,17 +77,6 @@ export default function ProjectManagement() {
       setAttachments(attData.data||[])
     } catch(e) { showToast('Failed to load project details','error') }
   }
-    setTab('detail')
-    try {
-      const [taskRes, msRes] = await Promise.all([
-        fetch(API+'/'+project.project_id+'/tasks', {headers:getHeaders()}),
-        fetch(API+'/'+project.project_id+'/milestones', {headers:getHeaders()})
-      ])
-      const [taskData, msData] = await Promise.all([taskRes.json(), msRes.json()])
-      setTasks(taskData.data||[])
-      setMilestones(msData.data||[])
-    } catch(e) { showToast('Failed to load project details','error') }
-  }
 
   useEffect(()=>{ loadProjects() },[])
 
