@@ -31,7 +31,6 @@ export default function ProjectManagement() {
   const [prjForm, setPrjForm] = useState(EMPTY_PRJ)
   const [taskForm, setTaskForm] = useState(EMPTY_TASK)
   const [toast, setToast] = useState(null)
-  const [toast, setToast] = useState(null)
   const [detailTab, setDetailTab] = useState('kanban')
   const [teamMembers, setTeamMembers] = useState([])
   const [comments, setComments] = useState([])
@@ -241,111 +240,6 @@ export default function ProjectManagement() {
   }
 
 
-  const handleAddComment = async () => {
-    if (!newComment.trim()) return
-    await fetch(API+
-'/comments'
-, {method:
-'POST'
-, headers:getHeaders(), body:JSON.stringify({project_id:selectedProject.project_id, author:
-'Admin'
-, content:newComment})})
-    setNewComment(
-''
-)
-    showToast(
-'Comment added'
-)
-    loadProjectDetail(selectedProject)
-  }
-
-  const handleDeleteComment = async (id) => {
-    await fetch(API+
-'/comments/'
-+id, {method:
-'DELETE'
-, headers:getHeaders()})
-    showToast(
-'Comment deleted'
-, 
-'warning'
-)
-    loadProjectDetail(selectedProject)
-  }
-
-  const handleAddTeamMember = async () => {
-    await fetch(API+
-'/team'
-, {method:
-'POST'
-, headers:getHeaders(), body:JSON.stringify({...teamForm, project_id:selectedProject.project_id})})
-    showToast(
-'Team member added'
-)
-    setShowTeamForm(false)
-    setTeamForm({name:
-''
-,role:
-''
-,email:
-''
-,avatar_color:
-'#3b82f6'
-})
-    loadProjectDetail(selectedProject)
-  }
-
-  const handleRemoveTeamMember = async (id) => {
-    await fetch(API+
-'/team/'
-+id, {method:
-'DELETE'
-, headers:getHeaders()})
-    showToast(
-'Member removed'
-, 
-'warning'
-)
-    loadProjectDetail(selectedProject)
-  }
-
-  const handleAddAttachment = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const ext = file.name.split(
-'.'
-).pop().toUpperCase()
-    const size = (file.size/1024/1024).toFixed(2) + 
-' MB'
-
-    await fetch(API+
-'/attachments'
-, {method:
-'POST'
-, headers:getHeaders(), body:JSON.stringify({project_id:selectedProject.project_id, file_name:file.name, file_size:size, file_type:ext, uploaded_by:
-'Admin'
-})})
-    showToast(file.name + 
-' uploaded'
-)
-    loadProjectDetail(selectedProject)
-  }
-
-  const handleUpdateBudget = async () => {
-    await fetch(API+
-'/'
-+selectedProject.project_id+
-'/budget'
-, {method:
-'PUT'
-, headers:getHeaders(), body:JSON.stringify(budgetForm)})
-    showToast(
-'Budget updated'
-)
-    setShowBudgetForm(false)
-    loadProjectDetail({...selectedProject, ...budgetForm})
-    loadProjects()
-  }
 
 
   const filtered = projects.filter(p =>
