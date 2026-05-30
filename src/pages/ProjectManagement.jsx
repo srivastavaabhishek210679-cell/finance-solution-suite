@@ -58,7 +58,6 @@ export default function ProjectManagement() {
   }
 
   const loadProjectDetail = async (project) => {
-  const loadProjectDetail = async (project) => {
     setSelectedProject(project)
     setTab('detail')
     setDetailTab('kanban')
