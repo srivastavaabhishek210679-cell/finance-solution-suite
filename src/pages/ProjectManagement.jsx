@@ -468,6 +468,40 @@ export default function ProjectManagement() {
                 </div>
               </div>
             )}
+            {detailTab==="gantt" && (
+              <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
+                <h3 style={{color:"#f1f5f9",marginBottom:20,fontSize:14}}>Project Timeline (Gantt Chart)</h3>
+                <div style={{overflowX:"auto"}}>
+                  <div style={{minWidth:700}}>
+                    <div style={{display:"grid",gridTemplateColumns:"200px 1fr",gap:0,marginBottom:8}}>
+                      <div style={{fontSize:11,color:"#64748b",fontWeight:600}}>TASK</div>
+                      <div style={{display:"grid",gridTemplateColumns:"repeat(12,1fr)"}}>
+                        {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map(m=>(<div key={m} style={{fontSize:10,color:"#64748b",textAlign:"center",borderLeft:"1px solid #334155",padding:"2px 0"}}>{m}</div>))}
+                      </div>
+                    </div>
+                    {tasks.map((task,i)=>{
+                      const month = task.due_date ? new Date(task.due_date).getMonth() : 0;
+                      const color = task.status==="Done"?"#10b981":task.status==="In Progress"?"#3b82f6":task.status==="Review"?"#f59e0b":"#64748b";
+                      return (
+                        <div key={i} style={{display:"grid",gridTemplateColumns:"200px 1fr",gap:0,marginBottom:4,alignItems:"center"}}>
+                          <div style={{fontSize:12,color:"#f1f5f9",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",paddingRight:8}}>{task.task_name}</div>
+                          <div style={{position:"relative",height:20,background:"#0f172a",borderRadius:4}}>
+                            <div style={{position:"absolute",left:(month/12*100)+"%",width:"8%",height:"100%",background:color,borderRadius:4,display:"flex",alignItems:"center",paddingLeft:4}}>
+                              <span style={{fontSize:9,color:"#fff",whiteSpace:"nowrap"}}>{task.assigned_to?.split(" ")[0]}</span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div style={{display:"flex",gap:16,marginTop:16}}>
+                  {[["Done","#10b981"],["In Progress","#3b82f6"],["Review","#f59e0b"],["Todo","#64748b"]].map(([s,c])=>(
+                    <div key={s} style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:"#94a3b8"}}><div style={{width:12,height:12,borderRadius:2,background:c}}></div>{s}</div>
+                  ))}
+                </div>
+              </div>
+            )}
             {detailTab==="team" && (
               <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
