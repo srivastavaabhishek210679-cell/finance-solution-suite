@@ -23,6 +23,9 @@ import {
   AlertCircle,
   GitBranch,
   Brain,
+  TrendingUp,
+  UserPlus,
+  Shield,
   Calendar,
   Truck,
   Link2,
@@ -149,6 +152,13 @@ function Sidebar() {
     { path: '/leave-mgmt',              icon: Calendar,      label: 'Leave Management',    badge: 'NEW', badgeColor: '#8b5cf6' },
     { path: '/vendor-mgmt',             icon: Truck,         label: 'Vendor Management',   badge: 'NEW', badgeColor: '#14b8a6' },
     { path: '/asset-mgmt',              icon: Package,       label: 'Asset Management',    badge: 'NEW', badgeColor: '#f59e0b' },
+    { path: '/inventory-mgmt',            icon: Package,       label: 'Inventory Management', badge: 'NEW', badgeColor: '#3b82f6' },
+    { path: '/crm-mgmt',                  icon: Users,         label: 'CRM',                  badge: 'NEW', badgeColor: '#6366f1' },
+    { path: '/document-mgmt',             icon: FileText,      label: 'Document Management',  badge: 'NEW', badgeColor: '#14b8a6' },
+    { path: '/risk-mgmt',                 icon: Shield,        label: 'Risk Management',      badge: 'NEW', badgeColor: '#ef4444' },
+    { path: '/expense-mgmt',              icon: CreditCard,    label: 'Expense Management',   badge: 'NEW', badgeColor: '#f59e0b' },
+    { path: '/performance-mgmt',          icon: TrendingUp,    label: 'Performance',          badge: 'NEW', badgeColor: '#10b981' },
+    { path: '/recruitment-mgmt',          icon: UserPlus,      label: 'Recruitment',          badge: 'NEW', badgeColor: '#8b5cf6' },
     { path: '/contract-mgmt',           icon: FileText,      label: 'Contract Management', badge: 'NEW', badgeColor: '#6366f1' },
     { path: '/payroll',              icon: DollarSign,    label: 'Payroll Management',   badge: 'NEW', badgeColor: '#10b981' },
     { path: '/accessibility',        icon: Eye,           label: 'Accessibility' },
@@ -350,6 +360,8 @@ function Sidebar() {
 }
 
 export default Sidebar
+
+
 
 
 

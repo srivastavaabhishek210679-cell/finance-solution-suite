@@ -1,322 +1,204 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
-import Navigation from '../components/Navigation'
-import Sidebar from '../components/Sidebar'
-import { Users, Plus, Edit, Trash2, Eye, Search, Filter, FileText, TrendingUp, Building } from 'lucide-react'
+import { Users, ArrowLeft, Plus, X, Edit, MessageSquare, TrendingUp } from 'lucide-react'
 
-function CustomerManagement() {
+const API = 'https://finance-backend-so86.onrender.com/api/v1/crm-mgmt'
+const getHeaders = () => ({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.getItem('token') })
+const STATUS_COLOR = { Active:'#10b981', Inactive:'#ef4444', Prospect:'#f59e0b', Lead:'#3b82f6' }
+const INDUSTRIES = ['Manufacturing','IT Services','Trading','Retail','Finance','Healthcare','Education','Real Estate','Startup','Other']
+
+export default function CustomerManagement() {
   const navigate = useNavigate()
-  const { user } = useAuth()
   const [customers, setCustomers] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [stats, setStats] = useState(null)
+  const [interactions, setInteractions] = useState([])
   const [selectedCustomer, setSelectedCustomer] = useState(null)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [filterType, setFilterType] = useState('all')
+  const [tab, setTab] = useState('customers')
+  const [search, setSearch] = useState('')
+  const [filterStatus, setFilterStatus] = useState('All')
+  const [showForm, setShowForm] = useState(false)
+  const [showInteraction, setShowInteraction] = useState(false)
+  const [editCustomer, setEditCustomer] = useState(null)
+  const [toast, setToast] = useState(null)
+  const [form, setForm] = useState({company_name:'',contact_name:'',email:'',phone:'',industry:'IT Services',country:'India',status:'Active',customer_type:'B2B',assigned_to:'',notes:''})
+  const [intForm, setIntForm] = useState({type:'Call',subject:'',notes:''})
 
-  // Mock customer data - replace with API calls
-  const mockCustomers = [
-    {
-      id: 1,
-      name: 'Global Manufacturing Co',
-      industry: 'Manufacturing',
-      contactPerson: 'John Smith',
-      email: 'john.smith@globalmanuf.com',
-      phone: '+1 234-567-8900',
-      assignedReports: 45,
-      activeUsers: 12,
-      status: 'active',
-      revenue: '$125,000',
-      joined: '2024-01-15',
-      lastActivity: '2026-05-06'
-    },
-    {
-      id: 2,
-      name: 'Tech Innovations Inc',
-      industry: 'Technology',
-      contactPerson: 'Sarah Johnson',
-      email: 'sarah.j@techinnovations.com',
-      phone: '+1 234-567-8901',
-      assignedReports: 32,
-      activeUsers: 8,
-      status: 'active',
-      revenue: '$89,500',
-      joined: '2024-02-20',
-      lastActivity: '2026-05-05'
-    },
-    {
-      id: 3,
-      name: 'Healthcare Plus',
-      industry: 'Healthcare',
-      contactPerson: 'Dr. Michael Chen',
-      email: 'm.chen@healthcareplus.com',
-      phone: '+1 234-567-8902',
-      assignedReports: 68,
-      activeUsers: 25,
-      status: 'active',
-      revenue: '$210,000',
-      joined: '2023-11-10',
-      lastActivity: '2026-05-06'
-    },
-    {
-      id: 4,
-      name: 'Retail Solutions Ltd',
-      industry: 'Retail',
-      contactPerson: 'Emma Davis',
-      email: 'e.davis@retailsolutions.com',
-      phone: '+1 234-567-8903',
-      assignedReports: 15,
-      activeUsers: 5,
-      status: 'inactive',
-      revenue: '$32,000',
-      joined: '2025-03-01',
-      lastActivity: '2026-03-20'
-    }
-  ]
+  const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
 
-  useEffect(() => {
-    // Load customers - replace with actual API call
-    setCustomers(mockCustomers)
-  }, [])
-
-  // Filter customers
-  const filteredCustomers = customers.filter(customer => {
-    const matchesSearch = customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         customer.contactPerson.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         customer.email.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesType = filterType === 'all' || customer.status === filterType
-    return matchesSearch && matchesType
-  })
-
-  // Calculate stats
-  const stats = {
-    total: customers.length,
-    active: customers.filter(c => c.status === 'active').length,
-    totalReports: customers.reduce((sum, c) => sum + c.assignedReports, 0),
-    totalRevenue: customers.reduce((sum, c) => {
-      const revenue = parseFloat(c.revenue.replace(/[$,]/g, ''))
-      return sum + revenue
-    }, 0)
+  const load = async () => {
+    try {
+      const [cRes, sRes] = await Promise.all([fetch(API, {headers:getHeaders()}), fetch(API+'/stats', {headers:getHeaders()})])
+      const [c, s] = await Promise.all([cRes.json(), sRes.json()])
+      setCustomers(c.data||[]); setStats(s.data||null)
+    } catch(e) { showToast('Failed to load','error') }
   }
 
+  const loadInteractions = async (customer) => {
+    setSelectedCustomer(customer)
+    setTab('interactions')
+    const res = await fetch(API+'/'+customer.customer_id+'/interactions', {headers:getHeaders()})
+    const data = await res.json()
+    setInteractions(data.data||[])
+  }
+
+  useEffect(()=>{ load() },[])
+
+  const handleSave = async () => {
+    const url = editCustomer ? API+'/'+editCustomer.customer_id : API
+    const method = editCustomer ? 'PUT' : 'POST'
+    const res = await fetch(url, {method, headers:getHeaders(), body:JSON.stringify(form)})
+    const data = await res.json()
+    if(data.status==='success') { showToast(editCustomer?'Customer updated!':'Customer added!'); setShowForm(false); setEditCustomer(null); load() }
+    else showToast(data.message,'error')
+  }
+
+  const handleAddInteraction = async () => {
+    const res = await fetch(API+'/interactions', {method:'POST', headers:getHeaders(), body:JSON.stringify({...intForm, customer_id:selectedCustomer.customer_id})})
+    const data = await res.json()
+    if(data.status==='success') { showToast('Interaction logged!'); setShowInteraction(false); loadInteractions(selectedCustomer) }
+    else showToast(data.message,'error')
+  }
+
+  const filtered = customers.filter(c =>
+    (c.company_name+c.contact_name+c.industry).toLowerCase().includes(search.toLowerCase()) &&
+    (filterStatus==='All' || c.status===filterStatus)
+  )
+
   return (
-    <div className="min-h-screen bg-gray-900">
-      <Navigation />
-      
-      <div className="flex">
-        <Sidebar />
-        
-        <main className="flex-1 p-8">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Customer Management</h1>
-            <p className="text-gray-400">Manage your customers and track their reports and analytics</p>
-          </div>
-
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <Users className="w-8 h-8 text-blue-500" />
-                <span className="text-2xl font-bold text-white">{stats.total}</span>
-              </div>
-              <div className="text-sm text-gray-400">Total Customers</div>
-            </div>
-
-            <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <TrendingUp className="w-8 h-8 text-green-500" />
-                <span className="text-2xl font-bold text-white">{stats.active}</span>
-              </div>
-              <div className="text-sm text-gray-400">Active Customers</div>
-            </div>
-
-            <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <FileText className="w-8 h-8 text-purple-500" />
-                <span className="text-2xl font-bold text-white">{stats.totalReports}</span>
-              </div>
-              <div className="text-sm text-gray-400">Assigned Reports</div>
-            </div>
-
-            <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <Building className="w-8 h-8 text-orange-500" />
-                <span className="text-2xl font-bold text-white">${(stats.totalRevenue / 1000).toFixed(0)}K</span>
-              </div>
-              <div className="text-sm text-gray-400">Total Revenue</div>
-            </div>
-          </div>
-
-          {/* Controls */}
-          <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-              {/* Search */}
-              <div className="flex-1 w-full md:w-auto relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search customers..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-gray-700 text-white pl-10 pr-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* Filter Buttons */}
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setFilterType('all')}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    filterType === 'all'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  All
-                </button>
-                <button
-                  onClick={() => setFilterType('active')}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    filterType === 'active'
-                      ? 'bg-green-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  Active
-                </button>
-                <button
-                  onClick={() => setFilterType('inactive')}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    filterType === 'inactive'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  Inactive
-                </button>
-              </div>
-
-              {/* Add New Button */}
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
-              >
-                <Plus className="w-5 h-5" />
-                Add Customer
-              </button>
-            </div>
-          </div>
-
-          {/* Customers Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredCustomers.map((customer) => (
-              <div
-                key={customer.id}
-                className="bg-gray-800 rounded-lg border border-gray-700 p-6 hover:border-blue-500 transition-all"
-              >
-                {/* Customer Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-white mb-1">{customer.name}</h3>
-                    <span className="text-sm text-gray-400">{customer.industry}</span>
-                  </div>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      customer.status === 'active'
-                        ? 'bg-green-900 text-green-300'
-                        : 'bg-red-900 text-red-300'
-                    }`}
-                  >
-                    {customer.status}
-                  </span>
-                </div>
-
-                {/* Contact Info */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Users className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-300">{customer.contactPerson}</span>
-                  </div>
-                  <div className="text-sm text-gray-400">{customer.email}</div>
-                  <div className="text-sm text-gray-400">{customer.phone}</div>
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-2 gap-4 mb-4 pt-4 border-t border-gray-700">
-                  <div>
-                    <div className="text-2xl font-bold text-white">{customer.assignedReports}</div>
-                    <div className="text-xs text-gray-400">Reports</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">{customer.activeUsers}</div>
-                    <div className="text-xs text-gray-400">Users</div>
-                  </div>
-                </div>
-
-                {/* Revenue & Date */}
-                <div className="flex items-center justify-between mb-4 text-sm">
-                  <span className="text-green-400 font-semibold">{customer.revenue}</span>
-                  <span className="text-gray-400">Joined {customer.joined}</span>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => navigate(`/customers/${customer.id}`)}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
-                  >
-                    <Eye className="w-4 h-4" />
-                    View
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedCustomer(customer)
-                      setIsModalOpen(true)
-                    }}
-                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    <Edit className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (confirm(`Are you sure you want to delete ${customer.name}?`)) {
-                        // Delete customer
-                      }
-                    }}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Empty State */}
-          {filteredCustomers.length === 0 && (
-            <div className="bg-gray-800 rounded-lg border border-gray-700 p-12 text-center">
-              <Users className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">No customers found</h3>
-              <p className="text-gray-400 mb-6">
-                {searchQuery ? 'Try adjusting your search criteria' : 'Get started by adding your first customer'}
-              </p>
-              {!searchQuery && (
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg inline-flex items-center gap-2 transition-colors"
-                >
-                  <Plus className="w-5 h-5" />
-                  Add First Customer
-                </button>
-              )}
-            </div>
-          )}
-        </main>
+    <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
+      {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}
+      <div style={{background:'#1e293b',borderBottom:'1px solid #334155',padding:'16px 24px',display:'flex',alignItems:'center',gap:16}}>
+        <button onClick={()=>tab==='interactions'?setTab('customers'):navigate('/dashboard')} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 12px',cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><ArrowLeft size={16}/> {tab==='interactions'?'Customers':'Back'}</button>
+        <Users size={28} style={{color:'#6366f1'}}/>
+        <div><h1 style={{margin:0,fontSize:20,fontWeight:700}}>{tab==='interactions'&&selectedCustomer?selectedCustomer.company_name:'Customer Management (CRM)'}</h1><p style={{margin:0,fontSize:12,color:'#64748b'}}>{tab==='interactions'?'Customer Interactions':'Manage customers, leads and interactions'}</p></div>
+        <div style={{marginLeft:'auto',display:'flex',gap:10}}>
+          {tab==='interactions' && <button onClick={()=>setShowInteraction(true)} style={{display:'flex',alignItems:'center',gap:6,background:'#6366f1',border:'none',borderRadius:8,color:'#fff',padding:'10px 16px',cursor:'pointer',fontWeight:600}}><Plus size={14}/> Log Interaction</button>}
+          {tab==='customers' && <button onClick={()=>{setShowForm(true);setEditCustomer(null);setForm({company_name:'',contact_name:'',email:'',phone:'',industry:'IT Services',country:'India',status:'Active',customer_type:'B2B',assigned_to:'',notes:''})}} style={{display:'flex',alignItems:'center',gap:6,background:'#6366f1',border:'none',borderRadius:8,color:'#fff',padding:'10px 16px',cursor:'pointer',fontWeight:600}}><Plus size={14}/> Add Customer</button>}
+        </div>
       </div>
+
+      <div style={{padding:24}}>
+        {tab==='customers' && (
+          <div>
+            {stats && (
+              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,marginBottom:24}}>
+                {[
+                  {label:'Total Customers', value:stats.total, color:'#6366f1'},
+                  {label:'Active Customers', value:stats.active, color:'#10b981'},
+                  {label:'Total Revenue', value:'₹'+Number(stats.totalRevenue||0).toLocaleString(), color:'#3b82f6'},
+                  {label:'Industries', value:stats.byIndustry?.length||0, color:'#f59e0b'},
+                ].map((s,i)=>(
+                  <div key={i} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
+                    <div style={{fontSize:12,color:'#64748b',marginBottom:6}}>{s.label}</div>
+                    <div style={{fontSize:22,fontWeight:700,color:s.color}}>{s.value}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div style={{display:'flex',gap:12,marginBottom:16}}>
+              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search customers..." style={{flex:1,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'10px 14px',fontSize:13}}/>
+              <div style={{display:'flex',gap:4,background:'#1e293b',padding:4,borderRadius:8}}>
+                {['All','Active','Prospect','Inactive'].map(s=>(
+                  <button key={s} onClick={()=>setFilterStatus(s)} style={{padding:'6px 12px',borderRadius:6,border:'none',background:filterStatus===s?'#6366f1':'transparent',color:filterStatus===s?'#fff':'#64748b',cursor:'pointer',fontSize:12}}>{s}</button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16}}>
+              {filtered.map(c=>(
+                <div key={c.customer_id} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:12}}>
+                    <div>
+                      <div style={{color:'#f1f5f9',fontWeight:700,fontSize:15}}>{c.company_name}</div>
+                      <div style={{color:'#64748b',fontSize:12}}>{c.contact_name} • {c.country}</div>
+                    </div>
+                    <span style={{background:STATUS_COLOR[c.status]+'20',color:STATUS_COLOR[c.status],padding:'2px 8px',borderRadius:20,fontSize:11,height:'fit-content'}}>{c.status}</span>
+                  </div>
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:6,marginBottom:12,fontSize:12}}>
+                    <div><span style={{color:'#64748b'}}>Industry: </span><span style={{color:'#94a3b8'}}>{c.industry}</span></div>
+                    <div><span style={{color:'#64748b'}}>Type: </span><span style={{color:'#94a3b8'}}>{c.customer_type}</span></div>
+                    <div><span style={{color:'#64748b'}}>Email: </span><span style={{color:'#94a3b8',fontSize:11}}>{c.email}</span></div>
+                    <div><span style={{color:'#64748b'}}>Assigned: </span><span style={{color:'#94a3b8'}}>{c.assigned_to}</span></div>
+                  </div>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
+                    <div style={{color:'#10b981',fontWeight:700,fontSize:14}}>₹{Number(c.total_revenue).toLocaleString()}</div>
+                    <div style={{color:'#64748b',fontSize:11}}>Last contact: {c.last_contact?.slice(0,10)||'Never'}</div>
+                  </div>
+                  <div style={{display:'flex',gap:6}}>
+                    <button onClick={()=>loadInteractions(c)} style={{flex:1,background:'#6366f120',border:'none',borderRadius:6,color:'#6366f1',padding:'6px',cursor:'pointer',fontSize:12,display:'flex',alignItems:'center',justifyContent:'center',gap:4}}><MessageSquare size={12}/> Interactions</button>
+                    <button onClick={()=>{setEditCustomer(c);setForm(c);setShowForm(true)}} style={{background:'#334155',border:'none',borderRadius:6,color:'#94a3b8',padding:'6px 10px',cursor:'pointer',fontSize:12}}><Edit size={12}/></button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {tab==='interactions' && selectedCustomer && (
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:20,background:'#0f172a',borderRadius:10,padding:16}}>
+              {[['Industry',selectedCustomer.industry],['Revenue','₹'+Number(selectedCustomer.total_revenue).toLocaleString()],['Phone',selectedCustomer.phone],['Email',selectedCustomer.email]].map(([l,v],i)=>(
+                <div key={i}><div style={{fontSize:10,color:'#64748b',marginBottom:4}}>{l}</div><div style={{fontSize:13,color:'#f1f5f9',fontWeight:600}}>{v}</div></div>
+              ))}
+            </div>
+            {interactions.length===0 ? <div style={{textAlign:'center',padding:40,color:'#64748b'}}>No interactions yet. Log the first interaction!</div> : (
+              <div>
+                {interactions.map(i=>(
+                  <div key={i.interaction_id} style={{background:'#0f172a',borderRadius:10,padding:16,marginBottom:12}}>
+                    <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
+                      <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                        <span style={{background:'#6366f120',color:'#6366f1',padding:'2px 8px',borderRadius:20,fontSize:11}}>{i.type}</span>
+                        <span style={{color:'#f1f5f9',fontWeight:600,fontSize:13}}>{i.subject}</span>
+                      </div>
+                      <span style={{color:'#64748b',fontSize:11}}>{new Date(i.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <p style={{color:'#94a3b8',fontSize:12,margin:0}}>{i.notes}</p>
+                    <div style={{fontSize:11,color:'#64748b',marginTop:6}}>By: {i.created_by}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {showForm && (
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setShowForm(false)}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:560}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}><h2 style={{color:'#f1f5f9',margin:0}}>{editCustomer?'Edit Customer':'Add Customer'}</h2><button onClick={()=>setShowForm(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer'}}><X size={20}/></button></div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              {[['company_name','Company Name'],['contact_name','Contact Name'],['email','Email'],['phone','Phone'],['country','Country'],['assigned_to','Assigned To']].map(([key,label])=>(
+                <div key={key}><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>{label}</label><input value={form[key]||''} onChange={e=>setForm({...form,[key]:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/></div>
+              ))}
+              <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Industry</label><select value={form.industry} onChange={e=>setForm({...form,industry:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>{INDUSTRIES.map(i=><option key={i}>{i}</option>)}</select></div>
+              <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Status</label><select value={form.status} onChange={e=>setForm({...form,status:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>{['Active','Prospect','Lead','Inactive'].map(s=><option key={s}>{s}</option>)}</select></div>
+              <div style={{gridColumn:'span 2'}}><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Notes</label><textarea value={form.notes||''} onChange={e=>setForm({...form,notes:e.target.value})} rows={2} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box',resize:'vertical'}}/></div>
+            </div>
+            <div style={{display:'flex',gap:12,marginTop:20}}>
+              <button onClick={()=>setShowForm(false)} style={{flex:1,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'10px',cursor:'pointer'}}>Cancel</button>
+              <button onClick={handleSave} style={{flex:2,background:'#6366f1',border:'none',borderRadius:8,color:'#fff',padding:'10px',cursor:'pointer',fontWeight:600}}>{editCustomer?'Update':'Add Customer'}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showInteraction && (
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={()=>setShowInteraction(false)}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:420}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}><h2 style={{color:'#f1f5f9',margin:0}}>Log Interaction</h2><button onClick={()=>setShowInteraction(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer'}}><X size={20}/></button></div>
+            <div style={{display:'grid',gap:12}}>
+              <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Type</label><select value={intForm.type} onChange={e=>setIntForm({...intForm,type:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>{['Call','Email','Meeting','Demo','Follow-up','Support'].map(t=><option key={t}>{t}</option>)}</select></div>
+              <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Subject</label><input value={intForm.subject} onChange={e=>setIntForm({...intForm,subject:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/></div>
+              <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Notes</label><textarea value={intForm.notes} onChange={e=>setIntForm({...intForm,notes:e.target.value})} rows={3} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box',resize:'vertical'}}/></div>
+            </div>
+            <div style={{display:'flex',gap:12,marginTop:20}}>
+              <button onClick={()=>setShowInteraction(false)} style={{flex:1,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'10px',cursor:'pointer'}}>Cancel</button>
+              <button onClick={handleAddInteraction} style={{flex:2,background:'#6366f1',border:'none',borderRadius:8,color:'#fff',padding:'10px',cursor:'pointer',fontWeight:600}}>Log Interaction</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
-
-export default CustomerManagement
