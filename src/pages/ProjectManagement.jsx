@@ -31,7 +31,16 @@ export default function ProjectManagement() {
   const [prjForm, setPrjForm] = useState(EMPTY_PRJ)
   const [taskForm, setTaskForm] = useState(EMPTY_TASK)
   const [toast, setToast] = useState(null)
-  const [view, setView] = useState('grid')
+  const [toast, setToast] = useState(null)
+  const [detailTab, setDetailTab] = useState('kanban')
+  const [teamMembers, setTeamMembers] = useState([])
+  const [comments, setComments] = useState([])
+  const [attachments, setAttachments] = useState([])
+  const [newComment, setNewComment] = useState('')
+  const [showTeamForm, setShowTeamForm] = useState(false)
+  const [teamForm, setTeamForm] = useState({name:'',role:'',email:'',avatar_color:'#3b82f6'})
+  const [showBudgetForm, setShowBudgetForm] = useState(false)
+  const [budgetForm, setBudgetForm] = useState({spent:0,progress:0})
 
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
 
@@ -50,7 +59,26 @@ export default function ProjectManagement() {
   }
 
   const loadProjectDetail = async (project) => {
+  const loadProjectDetail = async (project) => {
     setSelectedProject(project)
+    setTab('detail')
+    setDetailTab('kanban')
+    try {
+      const [taskRes, msRes, teamRes, commRes, attRes] = await Promise.all([
+        fetch(API+'/'+project.project_id+'/tasks', {headers:getHeaders()}),
+        fetch(API+'/'+project.project_id+'/milestones', {headers:getHeaders()}),
+        fetch(API+'/'+project.project_id+'/team', {headers:getHeaders()}),
+        fetch(API+'/'+project.project_id+'/comments', {headers:getHeaders()}),
+        fetch(API+'/'+project.project_id+'/attachments', {headers:getHeaders()})
+      ])
+      const [taskData, msData, teamData, commData, attData] = await Promise.all([taskRes.json(), msRes.json(), teamRes.json(), commRes.json(), attRes.json()])
+      setTasks(taskData.data||[])
+      setMilestones(msData.data||[])
+      setTeamMembers(teamData.data||[])
+      setComments(commData.data||[])
+      setAttachments(attData.data||[])
+    } catch(e) { showToast('Failed to load project details','error') }
+  }
     setTab('detail')
     try {
       const [taskRes, msRes] = await Promise.all([
@@ -105,6 +133,220 @@ export default function ProjectManagement() {
     await fetch(API+'/tasks/'+task.task_id, {method:'PUT', headers:getHeaders(), body:JSON.stringify({...task, status:newStatus})})
     loadProjectDetail(selectedProject)
   }
+
+  const handleAddComment = async () => {
+    if (!newComment.trim()) return
+    await fetch(API+
+'/comments'
+, {method:
+'POST'
+, headers:getHeaders(), body:JSON.stringify({project_id:selectedProject.project_id, author:
+'Admin'
+, content:newComment})})
+    setNewComment(
+''
+)
+    showToast(
+'Comment added'
+)
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleDeleteComment = async (id) => {
+    await fetch(API+
+'/comments/'
++id, {method:
+'DELETE'
+, headers:getHeaders()})
+    showToast(
+'Comment deleted'
+, 
+'warning'
+)
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleAddTeamMember = async () => {
+    await fetch(API+
+'/team'
+, {method:
+'POST'
+, headers:getHeaders(), body:JSON.stringify({...teamForm, project_id:selectedProject.project_id})})
+    showToast(
+'Team member added'
+)
+    setShowTeamForm(false)
+    setTeamForm({name:
+''
+,role:
+''
+,email:
+''
+,avatar_color:
+'#3b82f6'
+})
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleRemoveTeamMember = async (id) => {
+    await fetch(API+
+'/team/'
++id, {method:
+'DELETE'
+, headers:getHeaders()})
+    showToast(
+'Member removed'
+, 
+'warning'
+)
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleAddAttachment = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const ext = file.name.split(
+'.'
+).pop().toUpperCase()
+    const size = (file.size/1024/1024).toFixed(2) + 
+' MB'
+
+    await fetch(API+
+'/attachments'
+, {method:
+'POST'
+, headers:getHeaders(), body:JSON.stringify({project_id:selectedProject.project_id, file_name:file.name, file_size:size, file_type:ext, uploaded_by:
+'Admin'
+})})
+    showToast(file.name + 
+' uploaded'
+)
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleUpdateBudget = async () => {
+    await fetch(API+
+'/'
++selectedProject.project_id+
+'/budget'
+, {method:
+'PUT'
+, headers:getHeaders(), body:JSON.stringify(budgetForm)})
+    showToast(
+'Budget updated'
+)
+    setShowBudgetForm(false)
+    loadProjectDetail({...selectedProject, ...budgetForm})
+    loadProjects()
+  }
+
+
+  const handleAddComment = async () => {
+    if (!newComment.trim()) return
+    await fetch(API+
+'/comments'
+, {method:
+'POST'
+, headers:getHeaders(), body:JSON.stringify({project_id:selectedProject.project_id, author:
+'Admin'
+, content:newComment})})
+    setNewComment(
+''
+)
+    showToast(
+'Comment added'
+)
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleDeleteComment = async (id) => {
+    await fetch(API+
+'/comments/'
++id, {method:
+'DELETE'
+, headers:getHeaders()})
+    showToast(
+'Comment deleted'
+, 
+'warning'
+)
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleAddTeamMember = async () => {
+    await fetch(API+
+'/team'
+, {method:
+'POST'
+, headers:getHeaders(), body:JSON.stringify({...teamForm, project_id:selectedProject.project_id})})
+    showToast(
+'Team member added'
+)
+    setShowTeamForm(false)
+    setTeamForm({name:
+''
+,role:
+''
+,email:
+''
+,avatar_color:
+'#3b82f6'
+})
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleRemoveTeamMember = async (id) => {
+    await fetch(API+
+'/team/'
++id, {method:
+'DELETE'
+, headers:getHeaders()})
+    showToast(
+'Member removed'
+, 
+'warning'
+)
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleAddAttachment = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const ext = file.name.split(
+'.'
+).pop().toUpperCase()
+    const size = (file.size/1024/1024).toFixed(2) + 
+' MB'
+
+    await fetch(API+
+'/attachments'
+, {method:
+'POST'
+, headers:getHeaders(), body:JSON.stringify({project_id:selectedProject.project_id, file_name:file.name, file_size:size, file_type:ext, uploaded_by:
+'Admin'
+})})
+    showToast(file.name + 
+' uploaded'
+)
+    loadProjectDetail(selectedProject)
+  }
+
+  const handleUpdateBudget = async () => {
+    await fetch(API+
+'/'
++selectedProject.project_id+
+'/budget'
+, {method:
+'PUT'
+, headers:getHeaders(), body:JSON.stringify(budgetForm)})
+    showToast(
+'Budget updated'
+)
+    setShowBudgetForm(false)
+    loadProjectDetail({...selectedProject, ...budgetForm})
+    loadProjects()
+  }
+
 
   const filtered = projects.filter(p =>
     (p.project_name+p.client+p.department).toLowerCase().includes(search.toLowerCase()) &&
@@ -224,6 +466,12 @@ export default function ProjectManagement() {
               ))}
             </div>
 
+            {/* Detail Sub-tabs */}
+            <div style={{display:'flex',gap:4,marginBottom:20,background:'#1e293b',padding:4,borderRadius:10,width:'fit-content'}}>
+              {[['kanban','Kanban'],['gantt','Gantt'],['team','Team'],['budget','Budget'],['comments','Comments'],['files','Files']].map(([id,label])=>(
+                <button key={id} onClick={()=>setDetailTab(id)} style={{padding:'6px 16px',borderRadius:8,border:'none',background:detailTab===id?'#3b82f6':'transparent',color:detailTab===id?'#fff':'#64748b',cursor:'pointer',fontWeight:600,fontSize:12}}>{label}</button>
+              ))}
+            </div>
             <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:20}}>
               {/* Kanban Board */}
               <div>
@@ -288,7 +536,175 @@ export default function ProjectManagement() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div>}
+            {detailTab==='gantt' && (
+              <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
+                <h3 style={{color:"#f1f5f9",marginBottom:20,fontSize:14}}>Project Timeline (Gantt Chart)</h3>
+                <div style={{overflowX:"auto"}}>
+                  <div style={{minWidth:700}}>
+                    <div style={{display:"grid",gridTemplateColumns:"200px 1fr",gap:0,marginBottom:8}}>
+                      <div style={{fontSize:11,color:"#64748b",fontWeight:600}}>TASK</div>
+                      <div style={{display:"grid",gridTemplateColumns:"repeat(12,1fr)",gap:0}}>
+                        {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map(m=>(<div key={m} style={{fontSize:10,color:"#64748b",textAlign:"center",borderLeft:"1px solid #334155",padding:"2px 0"}}>{m}</div>))}
+                      </div>
+                    </div>
+                    {tasks.map((task,i)=>{
+                      const start = task.due_date ? new Date(task.due_date) : new Date()
+                      const month = start.getMonth()
+                      const width = Math.max(8, 100/12)
+                      const left = (month/12)*100
+                      const color = task.status==="Done"?"#10b981":task.status==="In Progress"?"#3b82f6":task.status==="Review"?"#f59e0b":"#64748b"
+                      return (
+                        <div key={i} style={{display:"grid",gridTemplateColumns:"200px 1fr",gap:0,marginBottom:4,alignItems:"center"}}>
+                          <div style={{fontSize:12,color:"#f1f5f9",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",paddingRight:8}}>{task.task_name}</div>
+                          <div style={{position:"relative",height:20,background:"#0f172a",borderRadius:4}}>
+                            <div style={{position:"absolute",left:left+"%",width:width+"%",height:"100%",background:color,borderRadius:4,opacity:0.8,display:"flex",alignItems:"center",paddingLeft:4}}>
+                              <span style={{fontSize:9,color:"#fff",whiteSpace:"nowrap"}}>{task.assigned_to?.split(" ")[0]}</span>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+                <div style={{display:"flex",gap:16,marginTop:16,flexWrap:"wrap"}}>
+                  {[["Done","#10b981"],["In Progress","#3b82f6"],["Review","#f59e0b"],["Todo","#64748b"]].map(([s,c])=>(
+                    <div key={s} style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:"#94a3b8"}}><div style={{width:12,height:12,borderRadius:2,background:c}}></div>{s}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {detailTab==="team" && (
+              <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
+                  <h3 style={{color:"#f1f5f9",margin:0,fontSize:14}}>Team Members ({teamMembers.length})</h3>
+                  <button onClick={()=>setShowTeamForm(!showTeamForm)} style={{background:"#3b82f6",border:"none",borderRadius:8,color:"#fff",padding:"8px 16px",cursor:"pointer",fontSize:12,fontWeight:600}}>+ Add Member</button>
+                </div>
+                {showTeamForm && (
+                  <div style={{background:"#0f172a",borderRadius:10,padding:16,marginBottom:16,display:"grid",gridTemplateColumns:"1fr 1fr 1fr auto",gap:8,alignItems:"end"}}>
+                    {[["name","Name"],["role","Role"],["email","Email"]].map(([key,label])=>(
+                      <div key={key}>
+                        <label style={{fontSize:10,color:"#64748b",display:"block",marginBottom:4}}>{label}</label>
+                        <input value={teamForm[key]||""} onChange={e=>setTeamForm({...teamForm,[key]:e.target.value})} style={{width:"100%",background:"#1e293b",border:"1px solid #334155",borderRadius:6,color:"#f1f5f9",padding:"6px 10px",fontSize:12,boxSizing:"border-box"}}/>
+                      </div>
+                    ))}
+                    <button onClick={handleAddTeamMember} style={{background:"#10b981",border:"none",borderRadius:6,color:"#fff",padding:"8px 12px",cursor:"pointer",fontSize:12,fontWeight:600}}>Add</button>
+                  </div>
+                )}
+                <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
+                  {teamMembers.map(m=>(
+                    <div key={m.member_id} style={{background:"#0f172a",borderRadius:10,padding:16,display:"flex",alignItems:"center",gap:12}}>
+                      <div style={{width:40,height:40,borderRadius:"50%",background:m.avatar_color||"#3b82f6",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,fontWeight:700,color:"#fff",flexShrink:0}}>{m.name?.charAt(0)}</div>
+                      <div style={{flex:1}}>
+                        <div style={{fontSize:13,color:"#f1f5f9",fontWeight:600}}>{m.name}</div>
+                        <div style={{fontSize:11,color:"#64748b"}}>{m.role}</div>
+                        <div style={{fontSize:10,color:"#94a3b8"}}>{m.email}</div>
+                      </div>
+                      <button onClick={()=>handleRemoveTeamMember(m.member_id)} style={{background:"#ef444420",border:"none",borderRadius:6,color:"#ef4444",padding:"4px 6px",cursor:"pointer",fontSize:10}}>×</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {detailTab==="budget" && (
+              <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
+                  <h3 style={{color:"#f1f5f9",margin:0,fontSize:14}}>Budget Tracking</h3>
+                  <button onClick={()=>{setShowBudgetForm(!showBudgetForm);setBudgetForm({spent:selectedProject.spent||0,progress:selectedProject.progress||0})}} style={{background:"#f59e0b",border:"none",borderRadius:8,color:"#fff",padding:"8px 16px",cursor:"pointer",fontSize:12,fontWeight:600}}>Update Budget</button>
+                </div>
+                {showBudgetForm && (
+                  <div style={{background:"#0f172a",borderRadius:10,padding:16,marginBottom:16,display:"grid",gridTemplateColumns:"1fr 1fr auto",gap:8,alignItems:"end"}}>
+                    <div>
+                      <label style={{fontSize:10,color:"#64748b",display:"block",marginBottom:4}}>Amount Spent (?)</label>
+                      <input type="number" value={budgetForm.spent} onChange={e=>setBudgetForm({...budgetForm,spent:e.target.value})} style={{width:"100%",background:"#1e293b",border:"1px solid #334155",borderRadius:6,color:"#f1f5f9",padding:"6px 10px",fontSize:12,boxSizing:"border-box"}}/>
+                    </div>
+                    <div>
+                      <label style={{fontSize:10,color:"#64748b",display:"block",marginBottom:4}}>Progress %</label>
+                      <input type="number" min="0" max="100" value={budgetForm.progress} onChange={e=>setBudgetForm({...budgetForm,progress:e.target.value})} style={{width:"100%",background:"#1e293b",border:"1px solid #334155",borderRadius:6,color:"#f1f5f9",padding:"6px 10px",fontSize:12,boxSizing:"border-box"}}/>
+                    </div>
+                    <button onClick={handleUpdateBudget} style={{background:"#10b981",border:"none",borderRadius:6,color:"#fff",padding:"8px 12px",cursor:"pointer",fontSize:12,fontWeight:600}}>Save</button>
+                  </div>
+                )}
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:16,marginBottom:20}}>
+                  {[
+                    {label:"Total Budget",value:"?"+Number(selectedProject.budget||0).toLocaleString(),color:"#3b82f6"},
+                    {label:"Amount Spent",value:"?"+Number(selectedProject.spent||0).toLocaleString(),color:"#ef4444"},
+                    {label:"Remaining",value:"?"+Number((selectedProject.budget||0)-(selectedProject.spent||0)).toLocaleString(),color:"#10b981"},
+                  ].map((s,i)=>(
+                    <div key={i} style={{background:"#0f172a",borderRadius:10,padding:16,borderTop:"3px solid "+s.color}}>
+                      <div style={{fontSize:11,color:"#64748b",marginBottom:6}}>{s.label}</div>
+                      <div style={{fontSize:22,fontWeight:700,color:s.color}}>{s.value}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{marginBottom:8,display:"flex",justifyContent:"space-between",fontSize:12,color:"#64748b"}}>
+                  <span>Budget Utilization</span>
+                  <span style={{color:"#f59e0b"}}>{Math.round(((selectedProject.spent||0)/(selectedProject.budget||1))*100)}%</span>
+                </div>
+                <div style={{background:"#0f172a",borderRadius:8,height:16}}>
+                  <div style={{background:"#ef4444",height:16,borderRadius:8,width:Math.min(100,Math.round(((selectedProject.spent||0)/(selectedProject.budget||1))*100))+"%",transition:"width 0.3s"}}></div>
+                </div>
+                <div style={{marginTop:16}}>
+                  <div style={{fontSize:12,color:"#64748b",marginBottom:8,display:"flex",justifyContent:"space-between"}}><span>Project Progress</span><span style={{color:"#10b981"}}>{selectedProject.progress||0}%</span></div>
+                  <div style={{background:"#0f172a",borderRadius:8,height:16}}><div style={{background:"#10b981",height:16,borderRadius:8,width:(selectedProject.progress||0)+"%",transition:"width 0.3s"}}></div></div>
+                </div>
+              </div>
+            )}
+            {detailTab==="comments" && (
+              <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
+                <h3 style={{color:"#f1f5f9",marginBottom:16,fontSize:14}}>Activity Log & Comments ({comments.length})</h3>
+                <div style={{display:"flex",gap:8,marginBottom:20}}>
+                  <input value={newComment} onChange={e=>setNewComment(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleAddComment()} placeholder="Add a comment or update..." style={{flex:1,background:"#0f172a",border:"1px solid #334155",borderRadius:8,color:"#f1f5f9",padding:"10px 14px",fontSize:13}}/>
+                  <button onClick={handleAddComment} style={{background:"#3b82f6",border:"none",borderRadius:8,color:"#fff",padding:"10px 20px",cursor:"pointer",fontWeight:600}}>Post</button>
+                </div>
+                <div>
+                  {comments.map(c=>(
+                    <div key={c.comment_id} style={{background:"#0f172a",borderRadius:10,padding:16,marginBottom:12,display:"flex",gap:12}}>
+                      <div style={{width:36,height:36,borderRadius:"50%",background:"#3b82f6",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,color:"#fff",flexShrink:0}}>{c.author?.charAt(0)}</div>
+                      <div style={{flex:1}}>
+                        <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+                          <span style={{fontSize:13,color:"#f1f5f9",fontWeight:600}}>{c.author}</span>
+                          <span style={{fontSize:11,color:"#64748b"}}>{new Date(c.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <p style={{color:"#94a3b8",fontSize:13,margin:0}}>{c.content}</p>
+                      </div>
+                      <button onClick={()=>handleDeleteComment(c.comment_id)} style={{background:"none",border:"none",color:"#64748b",cursor:"pointer",fontSize:16,padding:0}}>×</button>
+                    </div>
+                  ))}
+                  {comments.length===0 && <div style={{textAlign:"center",padding:40,color:"#64748b"}}>No comments yet. Add the first comment!</div>}
+                </div>
+              </div>
+            )}
+            {detailTab==="files" && (
+              <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
+                  <h3 style={{color:"#f1f5f9",margin:0,fontSize:14}}>File Attachments ({attachments.length})</h3>
+                  <label style={{background:"#3b82f6",border:"none",borderRadius:8,color:"#fff",padding:"8px 16px",cursor:"pointer",fontSize:12,fontWeight:600}}>
+                    + Upload File
+                    <input type="file" style={{display:"none"}} onChange={handleAddAttachment}/>
+                  </label>
+                </div>
+                {attachments.length===0 ? (
+                  <div style={{textAlign:"center",padding:60,color:"#64748b"}}>
+                    <div style={{fontSize:40,marginBottom:12}}>??</div>
+                    <div>No files attached yet. Upload your first file!</div>
+                  </div>
+                ) : (
+                  <div style={{display:"grid",gap:8}}>
+                    {attachments.map(a=>(
+                      <div key={a.attachment_id} style={{background:"#0f172a",borderRadius:8,padding:12,display:"flex",alignItems:"center",gap:12}}>
+                        <div style={{width:36,height:36,borderRadius:8,background:"#334155",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:"#94a3b8"}}>{a.file_type||"FILE"}</div>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:13,color:"#f1f5f9",fontWeight:600}}>{a.file_name}</div>
+                          <div style={{fontSize:11,color:"#64748b"}}>{a.file_size} • Uploaded by {a.uploaded_by} • {new Date(a.created_at).toLocaleDateString()}</div>
+                        </div>
+                        <button onClick={()=>fetch(API+"/attachments/"+a.attachment_id,{method:"DELETE",headers:getHeaders()}).then(()=>{showToast("File deleted","warning");loadProjectDetail(selectedProject)})} style={{background:"#ef444420",border:"none",borderRadius:6,color:"#ef4444",padding:"4px 8px",cursor:"pointer",fontSize:11}}>Delete</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
