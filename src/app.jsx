@@ -47,8 +47,9 @@ import ErrorBoundary        from './components/ErrorBoundary'
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
 import DataUpload           from './pages/DataUpload'
 import MFASettings          from './pages/MFASettings'
-import MFASettings          from './pages/MFASettings'
 import ExecutiveReporting   from './pages/ExecutiveReporting'
+
+function Protected({ children, pageName }) {
   return (
     <ProtectedRoute>
       <ErrorBoundary pageName={pageName}>
@@ -60,7 +61,6 @@ import ExecutiveReporting   from './pages/ExecutiveReporting'
 
 function App() {
   const { user } = useAuth()
-
   return (
     <Routes>
       <Route path="/login"           element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
