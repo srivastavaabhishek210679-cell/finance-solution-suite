@@ -47,7 +47,8 @@ import ErrorBoundary        from './components/ErrorBoundary'
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
 import DataUpload           from './pages/DataUpload'
 import MFASettings          from './pages/MFASettings'
-function Protected({ children, pageName }) {
+import MFASettings          from './pages/MFASettings'
+import ExecutiveReporting   from './pages/ExecutiveReporting'
   return (
     <ProtectedRoute>
       <ErrorBoundary pageName={pageName}>
