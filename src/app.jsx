@@ -31,7 +31,14 @@ import RiskManagement       from './pages/RiskManagement'
 import ExpenseManagement    from './pages/ExpenseManagement'
 import PerformanceManagement from './pages/PerformanceManagement'
 import RecruitmentManagement from './pages/RecruitmentManagement'
-import AICopilot            from './pages/AICopilot'
+import RecruitmentManagement from './pages/RecruitmentManagement'
+import InvoiceManagement    from './pages/InvoiceManagement'
+import TrainingManagement   from './pages/TrainingManagement'
+import TravelManagement     from './pages/TravelManagement'
+import AttendanceManagement from './pages/AttendanceManagement'
+import SalesPipeline        from './pages/SalesPipeline'
+import HelpdeskManagement   from './pages/HelpdeskManagement'
+import ComplianceManagement from './pages/ComplianceManagement'
 import WorkflowAutomation   from './pages/WorkflowAutomation'
 import ExecutiveReporting   from './pages/ExecutiveReporting'
 import IntegrationEcosystem from './pages/IntegrationEcosystem'
@@ -93,7 +100,14 @@ function App() {
       <Route path="/expense-mgmt" element={<Protected pageName="Expense Management"><ExpenseManagement /></Protected>} />
       <Route path="/performance-mgmt" element={<Protected pageName="Performance Management"><PerformanceManagement /></Protected>} />
       <Route path="/recruitment-mgmt" element={<Protected pageName="Recruitment Management"><RecruitmentManagement /></Protected>} />
-      <Route path="/ai-copilot"            element={<Protected pageName="AI Copilot">           <AICopilot />            </Protected>} />
+      <Route path="/recruitment-mgmt" element={<Protected pageName="Recruitment Management"><RecruitmentManagement /></Protected>} />
+      <Route path="/invoices" element={<Protected pageName="Invoice Management"><InvoiceManagement /></Protected>} />
+      <Route path="/training" element={<Protected pageName="Training Management"><TrainingManagement /></Protected>} />
+      <Route path="/travel" element={<Protected pageName="Travel Management"><TravelManagement /></Protected>} />
+      <Route path="/attendance" element={<Protected pageName="Attendance Management"><AttendanceManagement /></Protected>} />
+      <Route path="/sales-pipeline" element={<Protected pageName="Sales Pipeline"><SalesPipeline /></Protected>} />
+      <Route path="/helpdesk" element={<Protected pageName="IT Helpdesk"><HelpdeskManagement /></Protected>} />
+      <Route path="/compliance" element={<Protected pageName="Compliance Management"><ComplianceManagement /></Protected>} />
       <Route path="/workflow-automation"   element={<Protected pageName="Workflow Automation">   <WorkflowAutomation />   </Protected>} />
       <Route path="/executive-reporting"   element={<Protected pageName="Executive Reporting">   <ExecutiveReporting />   </Protected>} />
       <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"> <IntegrationEcosystem /> </Protected>} />
