@@ -45,7 +45,6 @@ import Monetization         from './pages/Monetization'
 import ErrorBoundary        from './components/ErrorBoundary'
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
 import DataUpload           from './pages/DataUpload'
-import DataUpload           from './pages/DataUpload'
 import MFASettings          from './pages/MFASettings'
 function Protected({ children, pageName }) {
   return (
