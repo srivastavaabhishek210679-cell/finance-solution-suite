@@ -39,7 +39,9 @@ import SalesPipeline        from './pages/SalesPipeline'
 import HelpdeskManagement   from './pages/HelpdeskManagement'
 import ComplianceManagement from './pages/ComplianceManagement'
 import WorkflowAutomation   from './pages/WorkflowAutomation'
-import ExecutiveReporting   from './pages/ExecutiveReporting'
+import WorkflowAutomation   from './pages/WorkflowAutomation'
+import AICopilot            from './pages/AICopilot'
+import PredictiveAnalytics  from './pages/PredictiveAnalytics'
 import IntegrationEcosystem from './pages/IntegrationEcosystem'
 import Monetization         from './pages/Monetization'
 import ErrorBoundary        from './components/ErrorBoundary'
@@ -78,7 +80,11 @@ function App() {
       <Route path="/customers"             element={<Protected pageName="Customer Management">  <CustomerManagement />   </Protected>} />
       <Route path="/chatbot"               element={<Protected pageName="AI Assistant">         <ChatbotAssistant />     </Protected>} />
       <Route path="/ai-insights"           element={<Protected pageName="AI Insights">          <AIInsights />           </Protected>} />
-      <Route path="/personalization"       element={<Protected pageName="Personalization">      <Personalization />      </Protected>} />
+      <Route path="/ai-insights"           element={<Protected pageName="AI Insights">          <AIInsights />           </Protected>} />
+      <Route path="/ai-copilot"            element={<Protected pageName="AI Copilot">           <AICopilot />            </Protected>} />
+      <Route path="/predictive-analytics"  element={<Protected pageName="Predictive Analytics"> <PredictiveAnalytics />  </Protected>} />
+      <Route path="/workflow-automation"   element={<Protected pageName="Workflow Automation">  <WorkflowAutomation />   </Protected>} />
+      <Route path="/kpi-dashboard"         element={<Protected pageName="KPI Dashboard">        <AdvancedKPIDashboard /> </Protected>} />
       <Route path="/collaboration"         element={<Protected pageName="Collaboration">        <Collaboration />        </Protected>} />
       <Route path="/reviews"               element={<Protected pageName="Reviews">              <ReviewsRatings />       </Protected>} />
       <Route path="/modules"               element={<Protected pageName="Module Manager">       <ModuleManager />        </Protected>} />
