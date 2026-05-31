@@ -119,7 +119,8 @@ function App() {
       <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
       <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
       <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
-      <Route path="/executive-reporting"   element={<Protected pageName="Executive Reporting">   <ExecutiveReporting />   </Protected>} />
+      <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
+      <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
       <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"> <IntegrationEcosystem /> </Protected>} />
       <Route path="/monetization"          element={<Protected pageName="Billing & Plans">      <Monetization />         </Protected>} />
 
