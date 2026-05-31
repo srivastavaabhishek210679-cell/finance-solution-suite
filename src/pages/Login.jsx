@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
-const API = 'https://finance-backend-so86.onrender.com/api/v1/mfa'
+const BACKEND = 'https://finance-backend-so86.onrender.com/api/v1'
 const getHeaders = () => ({ 'Content-Type': 'application/json' })
 
 function Login() {
@@ -14,7 +14,6 @@ function Login() {
   const [otp, setOtp] = useState('')
   const [otpLoading, setOtpLoading] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
-  const [savedPassword, setSavedPassword] = useState('')
   const { login } = useAuth()
   const navigate = useNavigate()
 
@@ -26,32 +25,34 @@ function Login() {
     setError(null)
     setLoading(true)
     try {
-      // Step 1: Verify credentials first
-      await login(email, password)
-      setSavedPassword(password)
-      // Step 2: Always send OTP after successful login
-      const res = await fetch(API+'/send-otp', {
+      // Step 1: Verify credentials via API WITHOUT setting auth state
+      const credRes = await fetch(BACKEND+'/auth/login', {
+        method:'POST',
+        headers:getHeaders(),
+        body:JSON.stringify({email, password})
+      })
+      const credData = await credRes.json()
+      if(!credRes.ok || credData.status !== 'success') {
+        setError(credData.message || 'Invalid credentials')
+        setLoading(false)
+        return
+      }
+
+      // Step 2: Send OTP - credentials are valid
+      const otpRes = await fetch(BACKEND+'/mfa/send-otp', {
         method:'POST',
         headers:getHeaders(),
         body:JSON.stringify({email})
       })
-      const data = await res.json()
-      if(data.status === 'success') {
-        // Clear session until OTP verified
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        localStorage.removeItem('userRole')
+      const otpData = await otpRes.json()
+      if(otpData.status === 'success') {
         setOtpSent(true)
         setStep('otp')
       } else {
-        // OTP sending failed - show error, don't allow login
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        localStorage.removeItem('userRole')
-        setError('Failed to send OTP. Please check your email or try again.')
+        setError('Failed to send OTP: ' + (otpData.message || 'Unknown error'))
       }
     } catch (err) {
-      setError(err.message)
+      setError('Login failed. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -61,18 +62,19 @@ function Login() {
     setError(null)
     setOtpLoading(true)
     try {
-      const res = await fetch(API+'/verify-otp', {
+      // Step 3: Verify OTP
+      const verifyRes = await fetch(BACKEND+'/mfa/verify-otp', {
         method:'POST',
         headers:getHeaders(),
         body:JSON.stringify({email, otp})
       })
-      const data = await res.json()
-      if(data.status === 'success') {
-        // Re-login after OTP verified to restore session
-        await login(email, savedPassword)
+      const verifyData = await verifyRes.json()
+      if(verifyData.status === 'success') {
+        // Step 4: Now actually login and set auth state
+        await login(email, password)
         navigate('/dashboard')
       } else {
-        setError(data.message || 'Invalid OTP. Please try again.')
+        setError(verifyData.message || 'Invalid OTP. Please try again.')
       }
     } catch(e) {
       setError('OTP verification failed. Please try again.')
@@ -85,9 +87,9 @@ function Login() {
     setOtpLoading(true)
     setError(null)
     try {
-      const res = await fetch(API+'/send-otp', {method:'POST', headers:getHeaders(), body:JSON.stringify({email})})
+      const res = await fetch(BACKEND+'/mfa/send-otp', {method:'POST', headers:getHeaders(), body:JSON.stringify({email})})
       const data = await res.json()
-      if(data.status==='success') setOtpSent(true)
+      if(data.status==='success') { setOtpSent(true) }
       else setError(data.message)
     } catch(e) { setError('Failed to resend OTP') }
     setOtpLoading(false)
@@ -117,7 +119,6 @@ function Login() {
 
         <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:32}}>
 
-          {/* STEP 1: Login */}
           {step === 'login' && (
             <>
               <h2 style={{color:'#f1f5f9',fontSize:20,fontWeight:700,margin:'0 0 24px'}}>Sign In</h2>
@@ -155,7 +156,6 @@ function Login() {
             </>
           )}
 
-          {/* STEP 2: OTP Verification */}
           {step === 'otp' && (
             <>
               <div style={{textAlign:'center',marginBottom:24}}>
@@ -166,10 +166,8 @@ function Login() {
                   <strong style={{color:'#10b981'}}>{email}</strong>
                 </p>
               </div>
-
               {error && <div style={{background:'#ef444420',border:'1px solid #ef444440',borderRadius:8,padding:'10px 14px',color:'#ef4444',fontSize:13,marginBottom:16}}>{error}</div>}
-              {otpSent && !error && <div style={{background:'#10b98120',border:'1px solid #10b98140',borderRadius:8,padding:'10px 14px',color:'#10b981',fontSize:13,marginBottom:16,textAlign:'center'}}>✓ OTP sent successfully. Check your email inbox.</div>}
-
+              {otpSent && !error && <div style={{background:'#10b98120',border:'1px solid #10b98140',borderRadius:8,padding:'10px 14px',color:'#10b981',fontSize:13,marginBottom:16,textAlign:'center'}}>✓ OTP sent. Check your email inbox.</div>}
               <div style={{marginBottom:20}}>
                 <label style={{fontSize:12,color:'#64748b',display:'block',marginBottom:8,textAlign:'center'}}>Enter 6-digit OTP</label>
                 <input
@@ -183,18 +181,15 @@ function Login() {
                   onKeyDown={e=>e.key==='Enter'&&otp.length===6&&handleVerifyOTP()}
                 />
               </div>
-
               <button onClick={handleVerifyOTP} disabled={otpLoading||otp.length!==6} style={btnStyle('#10b981', otpLoading||otp.length!==6)}>
                 {otpLoading ? 'Verifying...' : '✓ Verify & Sign In'}
               </button>
-
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:16}}>
                 <button onClick={()=>{setStep('login');setOtp('');setError(null)}} style={{background:'none',border:'none',color:'#64748b',cursor:'pointer',fontSize:13}}>← Back</button>
                 <button onClick={handleResendOTP} disabled={otpLoading} style={{background:'none',border:'none',color:'#3b82f6',cursor:'pointer',fontSize:13,opacity:otpLoading?0.6:1}}>
                   {otpLoading?'Sending...':'Resend OTP'}
                 </button>
               </div>
-
               <div style={{background:'#0f172a',borderRadius:8,padding:12,marginTop:16,fontSize:12,color:'#64748b',textAlign:'center'}}>
                 <strong style={{color:'#f59e0b'}}>⏱ OTP expires in 10 minutes</strong><br/>
                 Check your spam folder if not received
