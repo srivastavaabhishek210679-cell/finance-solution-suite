@@ -9,35 +9,39 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // Check if user is logged in on mount
   useEffect(() => {
     const token = localStorage.getItem('token')
     const savedUser = localStorage.getItem('user')
-    
     if (token && savedUser) {
       try {
-        setUser(JSON.parse(savedUser))
+        const parsed = JSON.parse(savedUser)
+        // Check token expiry
+        const tokenData = JSON.parse(atob(token.split('.')[1]))
+        if (tokenData.exp * 1000 < Date.now()) {
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+        } else {
+          setUser(parsed)
+        }
       } catch (err) {
-        console.error('Error parsing saved user:', err)
         localStorage.removeItem('token')
         localStorage.removeItem('user')
       }
     }
-    
     setLoading(false)
   }, [])
 
-  // Login function
   const login = async (email, password) => {
     try {
       setError(null)
       const response = await authAPI.login(email, password)
-      
-      // Store token and user
       localStorage.setItem('token', response.token)
       localStorage.setItem('user', JSON.stringify(response.user))
-      
-      setUser(response.user); setSentryUser(response.user)
+      // Store role separately for easy access
+      const role = email === 'alice.smith@demo.com' ? 'demo' : (response.user?.role || 'user')
+      localStorage.setItem('userRole', role)
+      setUser(response.user)
+      setSentryUser(response.user)
       return response
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed'
@@ -46,19 +50,17 @@ export function AuthProvider({ children }) {
     }
   }
 
-  // Register function
   const register = async (userData) => {
     try {
       setError(null)
       const response = await authAPI.register(userData)
-      
-      // Auto-login after registration
       if (response.token) {
         localStorage.setItem('token', response.token)
         localStorage.setItem('user', JSON.stringify(response.user))
-        setUser(response.user); setSentryUser(response.user)
+        localStorage.setItem('userRole', response.user?.role || 'user')
+        setUser(response.user)
+        setSentryUser(response.user)
       }
-      
       return response
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Registration failed'
@@ -67,47 +69,32 @@ export function AuthProvider({ children }) {
     }
   }
 
-  // Logout function
   const logout = async () => {
     try {
       await authAPI.logout()
     } catch (err) {
       console.error('Logout error:', err)
     } finally {
-      // Clear local storage
       localStorage.removeItem('token')
       localStorage.removeItem('user')
+      localStorage.removeItem('userRole')
       setUser(null)
       setError(null)
+      clearSentryUser()
     }
   }
 
-  // Check if user is authenticated
-  const isAuthenticated = () => {
-    return !!user && !!localStorage.getItem('token')
-  }
+  const isAuthenticated = () => !!user && !!localStorage.getItem('token')
+  const isDemo = () => localStorage.getItem('userRole') === 'demo'
+  const isAdmin = () => localStorage.getItem('userRole') === 'admin'
 
-  const value = {
-    user,
-    loading,
-    error,
-    login,
-    register,
-    logout,
-    isAuthenticated,
-    setError,
-  }
+  const value = { user, loading, error, login, register, logout, isAuthenticated, isDemo, isAdmin, setError }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-// Custom hook to use auth context
 export function useAuth() {
   const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
+  if (!context) throw new Error('useAuth must be used within an AuthProvider')
   return context
 }
-
-

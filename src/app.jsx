@@ -45,7 +45,8 @@ import Monetization         from './pages/Monetization'
 import ErrorBoundary        from './components/ErrorBoundary'
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
 import DataUpload           from './pages/DataUpload'
-
+import DataUpload           from './pages/DataUpload'
+import MFASettings          from './pages/MFASettings'
 function Protected({ children, pageName }) {
   return (
     <ProtectedRoute>
@@ -111,7 +112,8 @@ function App() {
       <Route path="/compliance" element={<Protected pageName="Compliance Management"><ComplianceManagement /></Protected>} />
       <Route path="/compliance" element={<Protected pageName="Compliance Management"><ComplianceManagement /></Protected>} />
       <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
-      <Route path="/kpi-dashboard" element={<Protected pageName="KPI Dashboard"><AdvancedKPIDashboard /></Protected>} />
+      <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
+      <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
       <Route path="/executive-reporting"   element={<Protected pageName="Executive Reporting">   <ExecutiveReporting />   </Protected>} />
       <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"> <IntegrationEcosystem /> </Protected>} />
       <Route path="/monetization"          element={<Protected pageName="Billing & Plans">      <Monetization />         </Protected>} />

@@ -1,12 +1,21 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+
+const API = 'https://finance-backend-so86.onrender.com/api/v1/mfa'
+const getHeaders = () => ({ 'Content-Type': 'application/json' })
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [step, setStep] = useState('login') // login | otp
+  const [otp, setOtp] = useState('')
+  const [otpLoading, setOtpLoading] = useState(false)
+  const [otpSent, setOtpSent] = useState(false)
+  const [mfaEnabled, setMfaEnabled] = useState(false)
+  const [pendingUser, setPendingUser] = useState(null)
   const { login } = useAuth()
   const navigate = useNavigate()
 
@@ -14,10 +23,32 @@ function Login() {
     e.preventDefault()
     setError(null)
     setLoading(true)
-
     try {
-      await login(email, password)
-      navigate('/dashboard')
+      // First check if MFA is enabled for this user
+      const mfaRes = await fetch(API+'/status?email='+encodeURIComponent(email), {headers:getHeaders()})
+      const mfaData = await mfaRes.json()
+      
+      // Try login first to verify credentials
+      const result = await login(email, password)
+      
+      if (mfaData.status === 'success' && mfaData.data?.mfa_enabled) {
+        // MFA enabled - send OTP and go to OTP step
+        setPendingUser(result)
+        setMfaEnabled(true)
+        await sendOTP(email)
+        // Logout immediately until OTP verified
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        setStep('otp')
+      } else {
+        // No MFA - proceed normally
+        const role = mfaData.data?.role || 'user'
+        if (role === 'demo') {
+          navigate('/dashboard')
+        } else {
+          navigate('/dashboard')
+        }
+      }
     } catch (err) {
       setError(err.message)
     } finally {
@@ -25,13 +56,46 @@ function Login() {
     }
   }
 
-  // Quick login with demo credentials
+  const sendOTP = async (userEmail) => {
+    setOtpLoading(true)
+    try {
+      const res = await fetch(API+'/send-otp', {method:'POST', headers:getHeaders(), body:JSON.stringify({email: userEmail || email})})
+      const data = await res.json()
+      if (data.status === 'success') {
+        setOtpSent(true)
+      } else {
+        setError(data.message)
+      }
+    } catch(e) {
+      setError('Failed to send OTP')
+    } finally {
+      setOtpLoading(false)
+    }
+  }
+
+  const handleVerifyOTP = async () => {
+    setError(null)
+    setOtpLoading(true)
+    try {
+      const res = await fetch(API+'/verify-otp', {method:'POST', headers:getHeaders(), body:JSON.stringify({email, otp})})
+      const data = await res.json()
+      if (data.status === 'success') {
+        // Re-login after OTP verified
+        const result = await login(email, password)
+        navigate('/dashboard')
+      } else {
+        setError(data.message)
+      }
+    } catch(e) {
+      setError('OTP verification failed')
+    } finally {
+      setOtpLoading(false)
+    }
+  }
+
   const handleDemoLogin = async () => {
-    setEmail('alice.smith@demo.com')
-    setPassword('password123')
     setError(null)
     setLoading(true)
-
     try {
       await login('alice.smith@demo.com', 'password123')
       navigate('/dashboard')
@@ -42,143 +106,101 @@ function Login() {
     }
   }
 
+  const inputStyle = {width:'100%',background:'#1e293b',border:'1px solid #334155',borderRadius:10,color:'#f1f5f9',padding:'12px 16px',fontSize:14,boxSizing:'border-box',outline:'none'}
+  const btnStyle = (bg) => ({width:'100%',background:bg,border:'none',borderRadius:10,color:'#fff',padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',marginTop:8})
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 px-4">
-      <div className="max-w-md w-full">
-        {/* Logo/Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Enterprise Finance Platform
-          </h1>
-          <p className="text-blue-300">Sign in to access your dashboard</p>
+    <div style={{minHeight:'100vh',background:'#0f172a',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Inter,sans-serif',padding:20}}>
+      <div style={{width:'100%',maxWidth:420}}>
+        {/* Logo */}
+        <div style={{textAlign:'center',marginBottom:32}}>
+          <div style={{width:56,height:56,background:'linear-gradient(135deg,#10b981,#3b82f6)',borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 16px',fontSize:24}}>💼</div>
+          <h1 style={{color:'#f1f5f9',fontSize:24,fontWeight:800,margin:0}}>Finance Solution Suite</h1>
+          <p style={{color:'#64748b',fontSize:14,marginTop:6}}>Enterprise Financial Management Platform</p>
         </div>
 
-        {/* Login Card */}
-        <div className="bg-gray-800 rounded-lg shadow-2xl p-8 border border-gray-700">
-          <h2 className="text-2xl font-bold text-white mb-6">Sign In</h2>
-
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-900/50 border border-red-700 rounded-lg p-4 mb-6">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="text-red-200">{error}</span>
+        <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:32}}>
+          
+          {step === 'login' && (
+            <>
+              <h2 style={{color:'#f1f5f9',fontSize:20,fontWeight:700,margin:'0 0 24px'}}>Sign In</h2>
+              
+              {error && <div style={{background:'#ef444420',border:'1px solid #ef444440',borderRadius:8,padding:'10px 14px',color:'#ef4444',fontSize:13,marginBottom:16}}>{error}</div>}
+              
+              <div style={{display:'grid',gap:14}}>
+                <div>
+                  <label style={{fontSize:12,color:'#64748b',display:'block',marginBottom:6}}>Email Address</label>
+                  <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your@email.com" style={inputStyle} onKeyDown={e=>e.key==='Enter'&&handleSubmit(e)}/>
+                </div>
+                <div>
+                  <label style={{fontSize:12,color:'#64748b',display:'block',marginBottom:6}}>Password</label>
+                  <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" style={inputStyle} onKeyDown={e=>e.key==='Enter'&&handleSubmit(e)}/>
+                  <div style={{textAlign:'right',marginTop:6}}>
+                    <Link to="/forgot-password" style={{color:'#3b82f6',fontSize:12,textDecoration:'none'}}>Forgot password?</Link>
+                  </div>
+                </div>
+                <button onClick={handleSubmit} disabled={loading||!email||!password} style={{...btnStyle('#10b981'),opacity:loading||!email||!password?0.6:1}}>
+                  {loading ? 'Signing in...' : 'Sign In'}
+                </button>
               </div>
-            </div>
+
+              <div style={{display:'flex',alignItems:'center',gap:12,margin:'20px 0'}}>
+                <div style={{flex:1,height:1,background:'#334155'}}></div>
+                <span style={{color:'#64748b',fontSize:12}}>or</span>
+                <div style={{flex:1,height:1,background:'#334155'}}></div>
+              </div>
+
+              {/* Demo Login */}
+              <button onClick={handleDemoLogin} disabled={loading} style={{...btnStyle('#1e40af'),opacity:loading?0.6:1}}>
+                {loading ? 'Loading...' : '🎯 Try Demo Account'}
+              </button>
+              <div style={{background:'#0f172a',borderRadius:8,padding:12,marginTop:10,fontSize:12,color:'#64748b'}}>
+                <strong style={{color:'#94a3b8'}}>Demo Access:</strong> Limited view-only access to dashboard. Full features require a registered account.
+              </div>
+
+              <p style={{color:'#64748b',fontSize:13,textAlign:'center',marginTop:20}}>
+                Don't have an account? <Link to="/register" style={{color:'#10b981',textDecoration:'none',fontWeight:600}}>Sign Up</Link>
+              </p>
+            </>
           )}
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Field */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
+          {step === 'otp' && (
+            <>
+              <div style={{textAlign:'center',marginBottom:24}}>
+                <div style={{fontSize:40,marginBottom:12}}>🔐</div>
+                <h2 style={{color:'#f1f5f9',fontSize:20,fontWeight:700,margin:'0 0 8px'}}>Two-Factor Authentication</h2>
+                <p style={{color:'#64748b',fontSize:13,margin:0}}>We sent a 6-digit OTP to <strong style={{color:'#10b981'}}>{email}</strong></p>
+              </div>
 
-            {/* Password Field */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                placeholder="••••••••"
-                required
-              />
-            </div>
+              {error && <div style={{background:'#ef444420',border:'1px solid #ef444440',borderRadius:8,padding:'10px 14px',color:'#ef4444',fontSize:13,marginBottom:16}}>{error}</div>}
 
-            {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  className="rounded border-gray-600 bg-gray-700 text-blue-600 focus:ring-blue-500"
+              {otpSent && <div style={{background:'#10b98120',border:'1px solid #10b98140',borderRadius:8,padding:'10px 14px',color:'#10b981',fontSize:13,marginBottom:16}}>✓ OTP sent to your email. Check your inbox.</div>}
+
+              <div style={{marginBottom:16}}>
+                <label style={{fontSize:12,color:'#64748b',display:'block',marginBottom:6}}>Enter OTP</label>
+                <input 
+                  type="text" 
+                  value={otp} 
+                  onChange={e=>setOtp(e.target.value.replace(/\D/g,'').slice(0,6))} 
+                  placeholder="000000" 
+                  maxLength={6}
+                  style={{...inputStyle,textAlign:'center',fontSize:28,fontWeight:700,letterSpacing:12}}
+                  onKeyDown={e=>e.key==='Enter'&&handleVerifyOTP()}
                 />
-                <span className="ml-2 text-sm text-gray-300">Remember me</span>
-              </label>
-              <a href="/forgot-password" className="text-sm text-blue-400 hover:text-blue-300">Forgot password?
-              </a>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
-            >
-              {loading ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Signing in...</span>
-                </div>
-              ) : (
-                'Sign In'
-              )}
-            </button>
-          </form>
-
-          {/* Demo Login */}
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-600"></div>
               </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gray-800 text-gray-400">Or</span>
+
+              <button onClick={handleVerifyOTP} disabled={otpLoading||otp.length!==6} style={{...btnStyle('#10b981'),opacity:otpLoading||otp.length!==6?0.6:1}}>
+                {otpLoading ? 'Verifying...' : 'Verify OTP'}
+              </button>
+
+              <div style={{display:'flex',justifyContent:'space-between',marginTop:16}}>
+                <button onClick={()=>setStep('login')} style={{background:'none',border:'none',color:'#64748b',cursor:'pointer',fontSize:13}}>← Back to Login</button>
+                <button onClick={()=>sendOTP(email)} disabled={otpLoading} style={{background:'none',border:'none',color:'#3b82f6',cursor:'pointer',fontSize:13,opacity:otpLoading?0.6:1}}>
+                  {otpLoading ? 'Sending...' : 'Resend OTP'}
+                </button>
               </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleDemoLogin}
-              disabled={loading}
-              className="mt-4 w-full bg-gray-700 hover:bg-gray-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
-            >
-              Try Demo Account
-            </button>
-
-            <div className="mt-4 bg-blue-900/20 border border-blue-800 rounded-lg p-3">
-              <p className="text-xs text-blue-200">
-                <strong>Demo Credentials:</strong><br />
-                Email: alice.smith@demo.com<br />
-                Password: password123
-              </p>
-            </div>
-          </div>
-          {/* Forgot Password Link */}
-          <div className="mt-3 text-center">
-            <a href="/forgot-password" className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
-              Forgot your password?
-            </a>
-          </div>
-
-
-          {/* Register Link */}
-          <div className="mt-6 text-center">
-            <span className="text-gray-400">Don't have an account? </span>
-            <a href="/register" className="text-blue-400 hover:text-blue-300 font-medium">
-              Sign up
-            </a>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-8 text-center text-sm text-gray-400">
-          <p>© 2026 Enterprise Finance Platform. All rights reserved.</p>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -186,5 +208,3 @@ function Login() {
 }
 
 export default Login
-
-
