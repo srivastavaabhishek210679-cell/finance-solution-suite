@@ -44,8 +44,11 @@ function Login() {
         setOtpSent(true)
         setStep('otp')
       } else {
-        // OTP failed but credentials OK - allow login without OTP
-        navigate('/dashboard')
+        // OTP sending failed - show error, don't allow login
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        localStorage.removeItem('userRole')
+        setError('Failed to send OTP. Please check your email or try again.')
       }
     } catch (err) {
       setError(err.message)
