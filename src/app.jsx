@@ -43,6 +43,8 @@ import ExecutiveReporting   from './pages/ExecutiveReporting'
 import IntegrationEcosystem from './pages/IntegrationEcosystem'
 import Monetization         from './pages/Monetization'
 import ErrorBoundary        from './components/ErrorBoundary'
+import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
+import DataUpload           from './pages/DataUpload'
 
 function Protected({ children, pageName }) {
   return (
