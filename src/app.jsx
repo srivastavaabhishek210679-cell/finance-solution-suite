@@ -63,10 +63,10 @@ function App() {
   const { user } = useAuth()
   return (
     <Routes>
-      <Route path="/login"           element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
-      <Route path="/register"        element={user ? <Navigate to="/dashboard" replace /> : <Register />} />
-      <Route path="/forgot-password" element={user ? <Navigate to="/dashboard" replace /> : <ForgotPassword />} />
-      <Route path="/reset-password"  element={user ? <Navigate to="/dashboard" replace /> : <ResetPassword />} />
+      <Route path="/login"           element={user ? <Navigate to="/workspace" replace /> : <Login />} />
+      <Route path="/register"        element={user ? <Navigate to="/workspace" replace /> : <Register />} />
+      <Route path="/forgot-password" element={user ? <Navigate to="/workspace" replace /> : <ForgotPassword />} />
+      <Route path="/reset-password"  element={user ? <Navigate to="/workspace" replace /> : <ResetPassword />} />
 
       <Route path="/onboarding" element={
         <ProtectedRoute>
@@ -119,7 +119,7 @@ function App() {
       <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
       <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
       <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
-      <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
+      <Route path="/workspace" element={<Protected pageName="My Workspace"><Workspace /></Protected>} />
       <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
       <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"> <IntegrationEcosystem /> </Protected>} />
       <Route path="/monetization"          element={<Protected pageName="Billing & Plans">      <Monetization />         </Protected>} />

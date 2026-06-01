@@ -72,7 +72,7 @@ function Login() {
       if(verifyData.status === 'success') {
         // Step 4: Now actually login and set auth state
         await login(email, password)
-        navigate('/dashboard')
+        navigate('/workspace')
       } else {
         setError(verifyData.message || 'Invalid OTP. Please try again.')
       }
@@ -100,7 +100,7 @@ function Login() {
     setLoading(true)
     try {
       await login('alice.smith@demo.com', 'password123')
-      navigate('/dashboard')
+      navigate('/workspace')
     } catch (err) {
       setError(err.message)
     } finally {
