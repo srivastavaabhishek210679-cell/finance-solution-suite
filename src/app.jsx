@@ -63,10 +63,10 @@ function App() {
   const { user } = useAuth()
   return (
     <Routes>
-      <Route path="/login"           element={user ? <Navigate to="/workspace" replace /> : <Login />} />
-      <Route path="/register"        element={user ? <Navigate to="/workspace" replace /> : <Register />} />
-      <Route path="/forgot-password" element={user ? <Navigate to="/workspace" replace /> : <ForgotPassword />} />
-      <Route path="/reset-password"  element={user ? <Navigate to="/workspace" replace /> : <ResetPassword />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={user ? <Navigate to="/workspace" replace /> : <Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       <Route path="/onboarding" element={
         <ProtectedRoute>

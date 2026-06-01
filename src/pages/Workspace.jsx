@@ -32,7 +32,7 @@ export default function Workspace() {
     loadWorkspace()
     // Push extra history entry so back button goes to login
     window.history.pushState(null, '', window.location.href)
-    const handlePop = () => { navigate('/login', {replace:true}) }
+    const handlePop = async () => { await logout(); navigate('/login', {replace:true}) }
     window.addEventListener('popstate', handlePop)
     return () => window.removeEventListener('popstate', handlePop)
   },[]) // eslint-disable-line
@@ -232,4 +232,5 @@ export default function Workspace() {
     </div>
   )
 }
+
 
