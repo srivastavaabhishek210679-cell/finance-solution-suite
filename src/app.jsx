@@ -124,8 +124,8 @@ function App() {
       <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"> <IntegrationEcosystem /> </Protected>} />
       <Route path="/monetization"          element={<Protected pageName="Billing & Plans">      <Monetization />         </Protected>} />
 
-      <Route path="/"  element={<Navigate to="/dashboard" replace />} />
-      <Route path="*"  element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Navigate to="/workspace" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )
 }
