@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useBeforeUnload } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { Search, LayoutDashboard, Clock, FileText, ChevronRight, Settings, LogOut, RefreshCw } from 'lucide-react'
@@ -27,7 +28,14 @@ export default function Workspace() {
   const [searchResults, setSearchResults] = useState([])
   const [searching, setSearching] = useState(false)
 
-  useEffect(()=>{ loadWorkspace() },[])
+  useEffect(()=>{
+    loadWorkspace()
+    // Push extra history entry so back button goes to login
+    window.history.pushState(null, '', window.location.href)
+    const handlePop = () => { navigate('/login', {replace:true}) }
+    window.addEventListener('popstate', handlePop)
+    return () => window.removeEventListener('popstate', handlePop)
+  },[]) // eslint-disable-line
 
   const loadWorkspace = async () => {
     setLoading(true)
@@ -89,7 +97,7 @@ export default function Workspace() {
         </div>
         <div style={{marginLeft:'auto',display:'flex',gap:10,alignItems:'center'}}>
           <button onClick={()=>navigate('/onboarding')} style={{display:'flex',alignItems:'center',gap:6,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13}}><Settings size={14}/> Edit Workspace</button>
-          <button onClick={()=>navigate('/dashboard')} style={{display:'flex',alignItems:'center',gap:6,background:'#10b981',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',fontWeight:600,fontSize:13}}><LayoutDashboard size={14}/> Go to Dashboard</button>
+          <button onClick={()=>navigate('/dashboard', {state:{from:'workspace'}})} style={{display:'flex',alignItems:'center',gap:6,background:'#10b981',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',fontWeight:600,fontSize:13}}><LayoutDashboard size={14}/> Go to Dashboard</button>
           <button onClick={handleLogout} style={{display:'flex',alignItems:'center',gap:6,background:'#ef444420',border:'none',borderRadius:8,color:'#ef4444',padding:'8px 14px',cursor:'pointer',fontSize:13}}><LogOut size={14}/> Logout</button>
         </div>
       </div>
@@ -224,3 +232,4 @@ export default function Workspace() {
     </div>
   )
 }
+
