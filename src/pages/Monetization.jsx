@@ -160,8 +160,8 @@ const WL_DEFAULTS = {
 const ChartTip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:8, padding:'10px 14px', fontSize:12 }}>
-      <p style={{ color:'#94a3b8', marginBottom:4, fontWeight:600 }}>{label}</p>
+    <div style={{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:8, padding:'10px 14px', fontSize:12 }}>
+      <p style={{ color:'#475569', marginBottom:4, fontWeight:600 }}>{label}</p>
       {payload.map((e,i) => <p key={i} style={{ color:e.color||'#14b8a6', margin:'2px 0' }}>{e.name}: <strong>{e.value?.toLocaleString()}</strong></p>)}
     </div>
   )
@@ -503,7 +503,7 @@ export default function Monetization() {
 
               <div className="mon-preview-frame">
                 {/* Preview Header */}
-                <div className="mon-prev-header" style={{ background:'#1e293b', borderBottom:'1px solid #334155' }}>
+                <div className="mon-prev-header" style={{ background:'#ffffff', borderBottom:'1px solid #e2e8f0' }}>
                   <div className="mon-prev-brand">
                     <div className="mon-prev-logo" style={{ background:wl.primaryColor }}>
                       <span style={{ fontSize:10, fontWeight:700, color:'#fff' }}>{wl.logoText}</span>
@@ -522,13 +522,13 @@ export default function Monetization() {
 
                 {/* Preview Sidebar */}
                 <div style={{ display:'flex', flex:1, overflow:'hidden' }}>
-                  <div style={{ width:100, background:'#0f172a', borderRight:'1px solid #334155', padding:8, display:'flex', flexDirection:'column', gap:4 }}>
+                  <div style={{ width:100, background:'#f8fafc', borderRight:'1px solid #e2e8f0', padding:8, display:'flex', flexDirection:'column', gap:4 }}>
                     {['Finance','HR','Operations','Audit','Risk'].map(d => (
-                      <div key={d} style={{ fontSize:9, padding:'4px 6px', background:'#1e293b', borderRadius:4, color:'#64748b', borderLeft:`2px solid ${wl.primaryColor}` }}>{d}</div>
+                      <div key={d} style={{ fontSize:9, padding:'4px 6px', background:'#ffffff', borderRadius:4, color:'#64748b', borderLeft:`2px solid ${wl.primaryColor}` }}>{d}</div>
                     ))}
                   </div>
                   <div style={{ flex:1, padding:10, display:'flex', flexDirection:'column', gap:6 }}>
-                    <div style={{ fontSize:12, fontWeight:700, color:'#f1f5f9' }}>Dashboard Overview</div>
+                    <div style={{ fontSize:12, fontWeight:700, color:'#1e293b' }}>Dashboard Overview</div>
                     <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:4 }}>
                       {[
                         { label:'Reports', val:'500', color:wl.primaryColor },
@@ -536,7 +536,7 @@ export default function Monetization() {
                         { label:'Compliance', val:'94%', color:wl.accentColor },
                         { label:'Risk Score', val:'24',  color:'#f59e0b' },
                       ].map(k => (
-                        <div key={k.label} style={{ background:'#1e293b', border:`1px solid #334155`, borderTop:`2px solid ${k.color}`, borderRadius:4, padding:'6px 8px' }}>
+                        <div key={k.label} style={{ background:'#ffffff', border:`1px solid #334155`, borderTop:`2px solid ${k.color}`, borderRadius:4, padding:'6px 8px' }}>
                           <div style={{ fontSize:14, fontWeight:800, color:k.color }}>{k.val}</div>
                           <div style={{ fontSize:8, color:'#64748b' }}>{k.label}</div>
                         </div>
@@ -546,7 +546,7 @@ export default function Monetization() {
                 </div>
 
                 {/* Preview Footer */}
-                <div style={{ padding:'6px 10px', borderTop:'1px solid #334155', background:'#0f172a', fontSize:9, color:'#475569', textAlign:'center' }}>
+                <div style={{ padding:'6px 10px', borderTop:'1px solid #e2e8f0', background:'#f8fafc', fontSize:9, color:'#475569', textAlign:'center' }}>
                   {wl.footerText} · {wl.domain}
                 </div>
               </div>
@@ -591,7 +591,7 @@ export default function Monetization() {
                 <span style={{ fontSize:12, fontWeight:700, color:t.daysLeft===0?'#ef4444':t.daysLeft<=7?'#f59e0b':'#10b981' }}>
                   {t.daysLeft===0 ? 'Expired' : `${t.daysLeft}d`}
                 </span>
-                <span style={{ fontSize:12, color:'#94a3b8' }}>{t.users}</span>
+                <span style={{ fontSize:12, color:'#475569' }}>{t.users}</span>
                 <span className={`mon-trial-status ${t.status}`}>{t.status}</span>
                 <div style={{ display:'flex', gap:4 }}>
                   <button className="mon-trial-btn extend" onClick={()=>showToast(`Trial extended for ${t.tenant}`)}>Extend</button>
@@ -603,7 +603,7 @@ export default function Monetization() {
 
           {/* Add New Trial */}
           <div className="mon-new-trial">
-            <div style={{ fontSize:13, fontWeight:700, color:'#f1f5f9', marginBottom:12 }}>Start New Trial</div>
+            <div style={{ fontSize:13, fontWeight:700, color:'#1e293b', marginBottom:12 }}>Start New Trial</div>
             <div className="mon-new-trial-form">
               <input className="mon-wl-input" placeholder="Tenant / Company name"/>
               <input className="mon-wl-input" placeholder="Contact email"/>
@@ -641,7 +641,7 @@ export default function Monetization() {
                     <div style={{ width:34, height:34, background:`${s.color}22`, color:s.color, borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center' }}><Icon size={16}/></div>
                     <span style={{ fontSize:11, fontWeight:600, padding:'2px 7px', background:`${s.color}18`, color:s.color, borderRadius:20 }}>{s.trend}</span>
                   </div>
-                  <div style={{ fontSize:22, fontWeight:800, color:'#f1f5f9', lineHeight:1 }}>{s.value}</div>
+                  <div style={{ fontSize:22, fontWeight:800, color:'#1e293b', lineHeight:1 }}>{s.value}</div>
                   <div style={{ fontSize:11, color:'#64748b', marginTop:4 }}>{s.label}</div>
                 </div>
               )
@@ -693,7 +693,7 @@ export default function Monetization() {
 
           {/* Limit warnings */}
           <div className="mon-limit-alerts">
-            <div style={{ fontSize:13, fontWeight:700, color:'#f1f5f9', marginBottom:12 }}>Limit Alerts</div>
+            <div style={{ fontSize:13, fontWeight:700, color:'#1e293b', marginBottom:12 }}>Limit Alerts</div>
             {Object.entries(USAGE).map(([key, u]) => {
               const pct = u.limit === -1 ? 0 : (u.used / u.limit) * 100
               if (pct < 70) return null
@@ -713,3 +713,4 @@ export default function Monetization() {
     </div>
   )
 }
+

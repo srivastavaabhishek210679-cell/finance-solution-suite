@@ -476,7 +476,7 @@ function PredictiveAnalytics() {
   const renderRecommendations = () => (
     <div className="pa-tab-content">
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-        <h3 style={{ color:"#f1f5f9", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
+        <h3 style={{ color:"#1e293b", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
         <button onClick={generateAIRecs} disabled={aiRecsLoading} style={{ display:"flex", alignItems:"center", gap:6, background:"#7c3aed", border:"none", borderRadius:8, color:"#fff", fontSize:12, fontWeight:600, padding:"8px 16px", cursor:"pointer", opacity:aiRecsLoading?0.7:1 }}>
           {aiRecsLoading ? <><RefreshCw size={12} style={{ animation:"spin 1s linear infinite" }}/> Generating...</> : <><Lightbulb size={12}/> Generate AI Insights</>}
         </button>
@@ -485,12 +485,12 @@ function PredictiveAnalytics() {
         <div style={{ marginBottom:20 }}>
           <div style={{ fontSize:12, color:"#a78bfa", fontWeight:600, marginBottom:10 }}>? AI Generated Recommendations</div>
           {aiRecs.map(rec => (
-            <div key={rec.id} style={{ background:"#1e293b", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
+            <div key={rec.id} style={{ background:"#ffffff", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
               <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-                <span style={{ color:"#f1f5f9", fontWeight:600, fontSize:13 }}>{rec.title}</span>
+                <span style={{ color:"#1e293b", fontWeight:600, fontSize:13 }}>{rec.title}</span>
                 <span style={{ background:"#7c3aed20", color:"#a78bfa", fontSize:11, padding:"2px 8px", borderRadius:20 }}>{rec.category}</span>
               </div>
-              <p style={{ color:"#94a3b8", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
+              <p style={{ color:"#475569", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
               <div style={{ display:"flex", gap:12, fontSize:11 }}>
                 <span style={{ color:"#10b981" }}>{rec.potentialValue}</span>
                 <span style={{ color:"#64748b" }}>Confidence: {rec.confidence}%</span>
@@ -501,7 +501,7 @@ function PredictiveAnalytics() {
         </div>
       )}
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-        <h3 style={{ color:"#f1f5f9", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
+        <h3 style={{ color:"#1e293b", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
         <button onClick={generateAIRecs} disabled={aiRecsLoading} style={{ display:"flex", alignItems:"center", gap:6, background:"#7c3aed", border:"none", borderRadius:8, color:"#fff", fontSize:12, fontWeight:600, padding:"8px 16px", cursor:"pointer", opacity:aiRecsLoading?0.7:1 }}>
           {aiRecsLoading ? <><RefreshCw size={12} style={{ animation:"spin 1s linear infinite" }}/> Generating...</> : <><Lightbulb size={12}/> Generate AI Insights</>}
         </button>
@@ -510,12 +510,12 @@ function PredictiveAnalytics() {
         <div style={{ marginBottom:20 }}>
           <div style={{ fontSize:12, color:"#a78bfa", fontWeight:600, marginBottom:10 }}>? AI Generated Recommendations</div>
           {aiRecs.map(rec => (
-            <div key={rec.id} style={{ background:"#1e293b", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
+            <div key={rec.id} style={{ background:"#ffffff", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
               <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-                <span style={{ color:"#f1f5f9", fontWeight:600, fontSize:13 }}>{rec.title}</span>
+                <span style={{ color:"#1e293b", fontWeight:600, fontSize:13 }}>{rec.title}</span>
                 <span style={{ background:"#7c3aed20", color:"#a78bfa", fontSize:11, padding:"2px 8px", borderRadius:20 }}>{rec.category}</span>
               </div>
-              <p style={{ color:"#94a3b8", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
+              <p style={{ color:"#475569", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
               <div style={{ display:"flex", gap:12, fontSize:11 }}>
                 <span style={{ color:"#10b981" }}>{rec.potentialValue}</span>
                 <span style={{ color:"#64748b" }}>Confidence: {rec.confidence}%</span>
@@ -632,4 +632,5 @@ function PredictiveAnalytics() {
 }
 
 export default PredictiveAnalytics
+
 

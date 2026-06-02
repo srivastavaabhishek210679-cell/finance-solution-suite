@@ -196,7 +196,7 @@ function KPIPanel({ reports }) {
               disabled={statsLoading}
               style={{
                 display: 'flex', alignItems: 'center', gap: 4,
-                background: '#1e293b', border: '1px solid #334155',
+                background: '#1e293b', border: '1px solid #e2e8f0',
                 borderRadius: 6, color: '#64748b', cursor: 'pointer',
                 padding: '3px 8px', fontSize: 11,
               }}
@@ -283,3 +283,4 @@ function KPIPanel({ reports }) {
 }
 
 export default KPIPanel
+

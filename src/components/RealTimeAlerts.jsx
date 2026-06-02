@@ -156,3 +156,4 @@ export const RealTimeAlertTypes = {
 };
 
 export default RealTimeAlerts;
+
