@@ -106,21 +106,21 @@ function ConfidenceChart({
               </linearGradient>
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis
               dataKey={xKey}
-              tick={{ fill: '#475569', fontSize: 11 }}
-              axisLine={{ stroke: '#e2e8f0' }}
+              tick={{ fill: '#94a3b8', fontSize: 11 }}
+              axisLine={{ stroke: '#334155' }}
               tickLine={false}
             />
             <YAxis
-              tick={{ fill: '#475569', fontSize: 11 }}
-              axisLine={{ stroke: '#e2e8f0' }}
+              tick={{ fill: '#94a3b8', fontSize: 11 }}
+              axisLine={{ stroke: '#334155' }}
               tickLine={false}
               tickFormatter={v => `${prefix}${v}${suffix}`}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend wrapperStyle={{ color: '#475569', fontSize: 12, paddingTop: 10 }} />
+            <Legend wrapperStyle={{ color: '#94a3b8', fontSize: 12, paddingTop: 10 }} />
 
             {/* Today marker */}
             {todayMarker && (
@@ -144,7 +144,7 @@ function ConfidenceChart({
             <Area
               type="monotone"
               dataKey={lowerKey}
-              fill="#f8fafc"
+              fill="#0f172a"
               stroke="none"
               name="Lower Band"
               legendType="none"
@@ -199,4 +199,3 @@ function ConfidenceChart({
 }
 
 export default ConfidenceChart
-

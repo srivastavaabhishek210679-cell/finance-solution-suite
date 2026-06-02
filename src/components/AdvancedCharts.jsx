@@ -374,7 +374,7 @@ function AdvancedCharts({ reports, analyticsStats }) {
                   className={`domain-chip ${selectedDomains.includes(domain) ? 'active' : ''}`}
                   onClick={() => toggleDomain(domain)}
                   style={{
-                    '--chip-color': selectedDomains.includes(domain) ? DOMAIN_COLORS[idx % DOMAIN_COLORS.length] : '#e2e8f0'
+                    '--chip-color': selectedDomains.includes(domain) ? DOMAIN_COLORS[idx % DOMAIN_COLORS.length] : '#334155'
                   }}
                 >
                   {domain}
@@ -411,9 +411,9 @@ function AdvancedCharts({ reports, analyticsStats }) {
             <ResponsiveContainer width="100%" height={400}>
               {chartType === 'stackedBar' && (
                 <BarChart data={getChartData()} onClick={handleChartClick}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="domain" stroke="#475569" angle={-45} textAnchor="end" height={100} />
-                  <YAxis stroke="#475569" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                  <XAxis dataKey="domain" stroke="#94a3b8" angle={-45} textAnchor="end" height={100} />
+                  <YAxis stroke="#94a3b8" />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   {selectedMetric === 'reportCount' && (
@@ -444,9 +444,9 @@ function AdvancedCharts({ reports, analyticsStats }) {
 
               {chartType === 'line' && (
                 <LineChart data={trendData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="month" stroke="#475569" />
-                  <YAxis stroke="#475569" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                  <XAxis dataKey="month" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   <Line type="monotone" dataKey="count" stroke={COLORS.primary} strokeWidth={2} name="Reports" />
@@ -455,9 +455,9 @@ function AdvancedCharts({ reports, analyticsStats }) {
 
               {chartType === 'area' && (
                 <AreaChart data={trendData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="month" stroke="#475569" />
-                  <YAxis stroke="#475569" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                  <XAxis dataKey="month" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   <Area type="monotone" dataKey="count" stroke={COLORS.primary} fill={COLORS.primary} fillOpacity={0.6} name="Reports" />
@@ -496,9 +496,9 @@ function AdvancedCharts({ reports, analyticsStats }) {
           <div className="chart-wrapper">
             <ResponsiveContainer width="100%" height={250}>
               <AreaChart data={trendData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="month" stroke="#475569" fontSize={11} />
-                <YAxis stroke="#475569" fontSize={11} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <XAxis dataKey="month" stroke="#94a3b8" fontSize={11} />
+                <YAxis stroke="#94a3b8" fontSize={11} />
                 <Tooltip content={<CustomTooltip />} />
                 <Area type="monotone" dataKey="count" stroke={COLORS.info} fill={COLORS.info} fillOpacity={0.4} />
               </AreaChart>
@@ -622,6 +622,5 @@ function AdvancedCharts({ reports, analyticsStats }) {
 }
 
 export default AdvancedCharts;
-
 
 

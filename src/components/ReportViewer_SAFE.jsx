@@ -465,9 +465,9 @@ const ReportViewer = ({ reportData, onClose, onExport }) => {
                 <div className="chart-body">
                   <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={trendData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                      <XAxis dataKey="name" stroke="#475569" />
-                      <YAxis stroke="#475569" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                      <XAxis dataKey="name" stroke="#94a3b8" />
+                      <YAxis stroke="#94a3b8" />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend />
                       {chartConfig.lineKeys.map((key) => (
@@ -494,9 +494,9 @@ const ReportViewer = ({ reportData, onClose, onExport }) => {
                 <div className="chart-body">
                   <ResponsiveContainer width="100%" height={300}>
                     <AreaChart data={trendData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                      <XAxis dataKey="name" stroke="#475569" />
-                      <YAxis stroke="#475569" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                      <XAxis dataKey="name" stroke="#94a3b8" />
+                      <YAxis stroke="#94a3b8" />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend />
                       {chartConfig.lineKeys.map((key, index) => (
@@ -523,9 +523,9 @@ const ReportViewer = ({ reportData, onClose, onExport }) => {
                 <div className="chart-body">
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={trendData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                      <XAxis dataKey="name" stroke="#475569" />
-                      <YAxis stroke="#475569" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                      <XAxis dataKey="name" stroke="#94a3b8" />
+                      <YAxis stroke="#94a3b8" />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend />
                       {chartConfig.barKeys.map((key, index) => (
@@ -687,4 +687,3 @@ const ReportViewer = ({ reportData, onClose, onExport }) => {
 };
 
 export default ReportViewer;
-

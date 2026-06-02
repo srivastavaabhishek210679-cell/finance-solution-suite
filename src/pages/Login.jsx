@@ -10,7 +10,7 @@ function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  const inputStyle = {width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:10,color:'#f8fafc',padding:'12px 16px',fontSize:14,boxSizing:'border-box',outline:'none'}
+  const inputStyle = {width:'100%',background:'#1e293b',border:'1px solid #334155',borderRadius:10,color:'#f1f5f9',padding:'12px 16px',fontSize:14,boxSizing:'border-box',outline:'none'}
   const btnStyle = (bg, disabled) => ({width:'100%',background:bg,border:'none',borderRadius:10,color:'#fff',padding:'13px',fontSize:14,fontWeight:700,cursor:disabled?'not-allowed':'pointer',marginTop:8,opacity:disabled?0.6:1})
 
   const handleSubmit = async (e) => {
@@ -41,16 +41,16 @@ function Login() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#f8fafc',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Inter,sans-serif',padding:20}}>
+    <div style={{minHeight:'100vh',background:'#0f172a',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Inter,sans-serif',padding:20}}>
       <div style={{width:'100%',maxWidth:420}}>
         <div style={{textAlign:'center',marginBottom:32}}>
           <div style={{width:56,height:56,background:'linear-gradient(135deg,#10b981,#3b82f6)',borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 16px',fontSize:24}}>💼</div>
-          <h1 style={{color:'#f8fafc',fontSize:24,fontWeight:800,margin:0}}>Finance Solution Suite</h1>
+          <h1 style={{color:'#f1f5f9',fontSize:24,fontWeight:800,margin:0}}>Finance Solution Suite</h1>
           <p style={{color:'#64748b',fontSize:14,marginTop:6}}>Enterprise Financial Management Platform</p>
         </div>
 
-        <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:16,padding:32}}>
-          <h2 style={{color:'#f8fafc',fontSize:20,fontWeight:700,margin:'0 0 24px'}}>Sign In</h2>
+        <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:32}}>
+          <h2 style={{color:'#f1f5f9',fontSize:20,fontWeight:700,margin:'0 0 24px'}}>Sign In</h2>
           {error && <div style={{background:'#ef444420',border:'1px solid #ef444440',borderRadius:8,padding:'10px 14px',color:'#ef4444',fontSize:13,marginBottom:16}}>{error}</div>}
           <div style={{display:'grid',gap:14}}>
             <div>
@@ -70,15 +70,15 @@ function Login() {
           </div>
 
           <div style={{display:'flex',alignItems:'center',gap:12,margin:'20px 0'}}>
-            <div style={{flex:1,height:1,background:'#e2e8f0'}}></div>
+            <div style={{flex:1,height:1,background:'#334155'}}></div>
             <span style={{color:'#64748b',fontSize:12}}>or</span>
-            <div style={{flex:1,height:1,background:'#e2e8f0'}}></div>
+            <div style={{flex:1,height:1,background:'#334155'}}></div>
           </div>
 
           <button onClick={handleDemoLogin} disabled={loading} style={btnStyle('#1e40af', loading)}>
             {loading ? 'Loading...' : '🎯 Try Demo Account'}
           </button>
-          <div style={{background:'#f8fafc',borderRadius:8,padding:10,marginTop:8,fontSize:11,color:'#64748b',textAlign:'center'}}>
+          <div style={{background:'#0f172a',borderRadius:8,padding:10,marginTop:8,fontSize:11,color:'#64748b',textAlign:'center'}}>
             Demo access is view-only. Full features require registration.
           </div>
 
@@ -92,4 +92,3 @@ function Login() {
 }
 
 export default Login
-

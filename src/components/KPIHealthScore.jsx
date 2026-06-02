@@ -68,7 +68,7 @@ function KPIHealthScore({
         {/* Circular gauge */}
         <div className="khs-gauge-wrap">
           <svg width="54" height="54" viewBox="0 0 54 54">
-            <circle cx="27" cy="27" r={r} fill="none" stroke="#e2e8f0" strokeWidth="5" />
+            <circle cx="27" cy="27" r={r} fill="none" stroke="#334155" strokeWidth="5" />
             <circle
               cx="27" cy="27" r={r}
               fill="none"
@@ -97,4 +97,3 @@ function KPIHealthScore({
 }
 
 export default KPIHealthScore
-

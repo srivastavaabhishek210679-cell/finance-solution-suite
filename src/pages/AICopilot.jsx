@@ -290,7 +290,7 @@ function AICopilot() {
   ]
 
   const priorityColor = { critical:'#ef4444', high:'#f97316', medium:'#f59e0b', low:'#10b981' }
-  const impactColor   = { high:'#10b981', medium:'#f59e0b', low:'#475569' }
+  const impactColor   = { high:'#10b981', medium:'#f59e0b', low:'#94a3b8' }
   const filteredActions = actionFilter === 'All' ? ACTIONS : ACTIONS.filter(a => a.category === actionFilter)
 
   // ─────────────────────────────────────────────────────────────
@@ -465,7 +465,7 @@ function AICopilot() {
             <div className="acp-narr-output">
               {!narrative && !narrLoading && (
                 <div className="acp-narr-placeholder">
-                  <Brain size={40} style={{ color:'#e2e8f0', marginBottom:12 }} />
+                  <Brain size={40} style={{ color:'#334155', marginBottom:12 }} />
                   <p>Select a domain and narrative type, then click <strong>Generate Narrative</strong></p>
                   <p>The AI Copilot will create a professional, board-ready document tailored to your platform data.</p>
                 </div>
@@ -607,4 +607,3 @@ function AICopilot() {
 }
 
 export default AICopilot
-

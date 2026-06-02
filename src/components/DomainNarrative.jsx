@@ -57,7 +57,7 @@ export default function DomainNarrative({ domain, count, percentage, color, repo
         </button>
       ) : (
         <div style={{
-          marginTop:8, background:'#f8fafc', borderRadius:8,
+          marginTop:8, background:'#0f172a', borderRadius:8,
           padding:10, border:`1px solid ${color}30`, position:'relative'
         }}>
           <button onClick={e=>{e.stopPropagation();setShow(false)}} style={{
@@ -79,4 +79,3 @@ export default function DomainNarrative({ domain, count, percentage, color, repo
     </div>
   )
 }
-

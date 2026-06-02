@@ -687,4 +687,3 @@ function AdvancedTable({ reports }) {
 
 export default AdvancedTable;
 
-

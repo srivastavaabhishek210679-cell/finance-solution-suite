@@ -108,4 +108,3 @@ function Pagination({ pagination, onPageChange, loading }) {
 }
 
 export default Pagination
-

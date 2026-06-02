@@ -330,7 +330,7 @@ function ScheduledReports() {
 
         {filtered.length === 0 && (
           <div className="sr-empty">
-            <Calendar size={40} style={{ color:'#e2e8f0' }}/>
+            <Calendar size={40} style={{ color:'#334155' }}/>
             <p>No schedules match the selected filters.</p>
           </div>
         )}
@@ -340,4 +340,3 @@ function ScheduledReports() {
 }
 
 export default ScheduledReports
-

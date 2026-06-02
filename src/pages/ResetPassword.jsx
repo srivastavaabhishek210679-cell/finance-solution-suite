@@ -140,7 +140,7 @@ export default function ResetPassword() {
                         <div
                           key={i}
                           className="rp-strength-seg"
-                          style={{ background: i <= strength.score ? strength.color : '#e2e8f0' }}
+                          style={{ background: i <= strength.score ? strength.color : '#334155' }}
                         />
                       ))}
                     </div>
@@ -205,4 +205,3 @@ export default function ResetPassword() {
     </div>
   )
 }
-

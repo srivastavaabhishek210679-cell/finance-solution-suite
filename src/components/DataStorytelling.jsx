@@ -64,8 +64,8 @@ Write 3 short paragraphs:
 
   return (
     <div style={{
-      background: '#ffffff',
-      border: '1px solid #e2e8f0',
+      background: '#1e293b',
+      border: '1px solid #334155',
       borderRadius: 12,
       padding: 20,
       marginBottom: 16
@@ -76,7 +76,7 @@ Write 3 short paragraphs:
             <Sparkles size={16} style={{ color: '#a78bfa' }} />
           </div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#0f172a' }}>AI Data Narrative</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#f1f5f9' }}>AI Data Narrative</div>
             <div style={{ fontSize: 11, color: '#64748b' }}>Auto-generated insights from your platform data</div>
           </div>
         </div>
@@ -93,8 +93,8 @@ Write 3 short paragraphs:
             </button>
           )}
           <button onClick={() => setExpanded(!expanded)} style={{
-            background: 'none', border: '1px solid #e2e8f0',
-            borderRadius: 8, color: '#475569', cursor: 'pointer', padding: '6px 8px'
+            background: 'none', border: '1px solid #334155',
+            borderRadius: 8, color: '#94a3b8', cursor: 'pointer', padding: '6px 8px'
           }}>
             {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
           </button>
@@ -104,7 +104,7 @@ Write 3 short paragraphs:
       {expanded && (
         <div>
           {loading && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 0', color: '#475569', fontSize: 13 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 0', color: '#94a3b8', fontSize: 13 }}>
               <RefreshCw size={14} style={{ animation: 'spin 1s linear infinite', color: '#a78bfa' }} />
               Analyzing your platform data...
             </div>
@@ -134,7 +134,7 @@ Write 3 short paragraphs:
               { label: 'Active Domains', value: analyticsStats.activeDomains, color: '#8b5cf6' },
             ].map(stat => (
               <div key={stat.label} style={{
-                background: '#f8fafc', borderRadius: 8, padding: '8px 14px',
+                background: '#0f172a', borderRadius: 8, padding: '8px 14px',
                 border: `1px solid ${stat.color}30`
               }}>
                 <div style={{ fontSize: 18, fontWeight: 700, color: stat.color }}>{stat.value}</div>
@@ -147,6 +147,5 @@ Write 3 short paragraphs:
     </div>
   )
 }
-
 
 

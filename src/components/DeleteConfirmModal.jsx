@@ -71,4 +71,3 @@ function DeleteConfirmModal({ isOpen, onClose, onConfirm, report }) {
 }
 
 export default DeleteConfirmModal
-
