@@ -235,7 +235,7 @@ Current risk exposure in the ${selDomain} domain is assessed as **Medium**. Prim
         <div className="rsg-output">
           {!summary && !loading && !error && (
             <div className="rsg-placeholder">
-              <Brain size={44} style={{ color:'#334155', marginBottom:14 }}/>
+              <Brain size={44} style={{ color:'#e2e8f0', marginBottom:14 }}/>
               <p>Select a domain and summary type</p>
               <p>then click <strong>Generate Summary</strong></p>
               <p className="rsg-placeholder-hint">Powered by Claude AI · Exports to PDF, TXT</p>
@@ -268,3 +268,4 @@ Current risk exposure in the ${selDomain} domain is assessed as **Medium**. Prim
 }
 
 export default ReportSummaryGenerator
+

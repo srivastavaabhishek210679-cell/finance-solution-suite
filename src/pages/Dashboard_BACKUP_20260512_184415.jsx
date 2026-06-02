@@ -492,8 +492,8 @@ function Dashboard() {
                   {/* Filter Results Counter */}
                   {Object.keys(activeFilters).length > 0 && (
                     <div style={{
-                      background: '#1e293b',
-                      border: '1px solid #334155',
+                      background: '#ffffff',
+                      border: '1px solid #e2e8f0',
                       borderRadius: '6px',
                       padding: '0.75rem 1rem',
                       marginBottom: '1rem',

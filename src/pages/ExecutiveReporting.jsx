@@ -70,8 +70,8 @@ const FORMATS       = ['PDF','Excel','CSV']
 const ChartTip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:8, padding:'10px 14px', fontSize:12 }}>
-      <p style={{ color:'#94a3b8', marginBottom:4, fontWeight:600 }}>{label}</p>
+    <div style={{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:8, padding:'10px 14px', fontSize:12 }}>
+      <p style={{ color:'#475569', marginBottom:4, fontWeight:600 }}>{label}</p>
       {payload.map((e,i) => <p key={i} style={{ color:e.color||'#14b8a6', margin:'2px 0' }}>{e.name}: <strong>{e.value}</strong></p>)}
     </div>
   )
@@ -281,7 +281,7 @@ export default function ExecutiveReporting() {
               <div style={{ padding:'12px 12px 0' }}>
                 <ResponsiveContainer width="100%" height={200}>
                   <LineChart data={REVENUE_TREND} margin={{ top:5, right:16, left:0, bottom:0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155"/>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0"/>
                     <XAxis dataKey="month" tick={{ fill:'#64748b', fontSize:10 }} tickLine={false}/>
                     <YAxis tick={{ fill:'#64748b', fontSize:10 }} tickLine={false}/>
                     <Tooltip content={<ChartTip/>}/>
@@ -295,9 +295,9 @@ export default function ExecutiveReporting() {
               <div style={{ padding:'12px 12px 0' }}>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={DOMAIN_PERF.slice(0,8)} layout="vertical" margin={{ top:5, right:16, left:60, bottom:0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155"/>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0"/>
                     <XAxis type="number" domain={[0,100]} tick={{ fill:'#64748b', fontSize:10 }} tickLine={false}/>
-                    <YAxis dataKey="domain" type="category" tick={{ fill:'#94a3b8', fontSize:10 }} tickLine={false} width={58}/>
+                    <YAxis dataKey="domain" type="category" tick={{ fill:'#475569', fontSize:10 }} tickLine={false} width={58}/>
                     <Tooltip content={<ChartTip/>}/>
                     <Bar dataKey="compliance" name="Compliance %" radius={[0,3,3,0]}>
                       {DOMAIN_PERF.slice(0,8).map((d,i) => <Cell key={i} fill={d.color}/>)}
@@ -327,8 +327,8 @@ export default function ExecutiveReporting() {
 
           {/* Controls */}
           <div style={{ width:260, flexShrink:0, display:'flex', flexDirection:'column', gap:14 }}>
-            <div style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:12, padding:16, display:'flex', flexDirection:'column', gap:12 }}>
-              <div style={{ fontSize:13, fontWeight:700, color:'#f1f5f9', display:'flex', alignItems:'center', gap:6 }}><Brain size={13}/> Configure</div>
+            <div style={{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:12, padding:16, display:'flex', flexDirection:'column', gap:12 }}>
+              <div style={{ fontSize:13, fontWeight:700, color:'#0f172a', display:'flex', alignItems:'center', gap:6 }}><Brain size={13}/> Configure</div>
 
               <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
                 <label style={{ fontSize:10, fontWeight:700, color:'#64748b', textTransform:'uppercase' }}>Domain</label>
@@ -350,7 +350,7 @@ export default function ExecutiveReporting() {
               </button>
 
               {summary && (
-                <div style={{ display:'flex', flexDirection:'column', gap:6, paddingTop:10, borderTop:'1px solid #334155' }}>
+                <div style={{ display:'flex', flexDirection:'column', gap:6, paddingTop:10, borderTop:'1px solid #e2e8f0' }}>
                   <button className="er-export-btn" onClick={()=>navigator.clipboard.writeText(summary)}><Copy size={12}/> Copy</button>
                   <button className="er-export-btn" onClick={exportTxt}><Download size={12}/> Download .txt</button>
                 </div>
@@ -359,10 +359,10 @@ export default function ExecutiveReporting() {
           </div>
 
           {/* Output */}
-          <div style={{ flex:1, background:'#1e293b', border:'1px solid #334155', borderRadius:12, overflow:'hidden', display:'flex', flexDirection:'column', minHeight:400 }}>
+          <div style={{ flex:1, background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:12, overflow:'hidden', display:'flex', flexDirection:'column', minHeight:400 }}>
             {!summary && !summaryLoading && (
               <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', color:'#64748b', gap:8, padding:40, textAlign:'center' }}>
-                <Brain size={44} style={{ color:'#334155' }}/>
+                <Brain size={44} style={{ color:'#e2e8f0' }}/>
                 <p style={{ fontSize:13, margin:0 }}>Select domain and type, then click Generate</p>
               </div>
             )}
@@ -398,9 +398,9 @@ export default function ExecutiveReporting() {
           </div>
 
           {showForm && (
-            <div style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:10, padding:18, display:'flex', flexDirection:'column', gap:12 }}>
+            <div style={{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:10, padding:18, display:'flex', flexDirection:'column', gap:12 }}>
               <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-                <span style={{ fontSize:14, fontWeight:700, color:'#f1f5f9' }}>New Scheduled Report</span>
+                <span style={{ fontSize:14, fontWeight:700, color:'#0f172a' }}>New Scheduled Report</span>
                 <button onClick={()=>setShowForm(false)} style={{ background:'none', border:'none', color:'#64748b', cursor:'pointer' }}><X size={16}/></button>
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
@@ -428,7 +428,7 @@ export default function ExecutiveReporting() {
                 ))}
               </div>
               <div style={{ display:'flex', justifyContent:'flex-end', gap:8 }}>
-                <button onClick={()=>setShowForm(false)} style={{ padding:'7px 16px', background:'#1e293b', border:'1px solid #334155', borderRadius:7, color:'#94a3b8', cursor:'pointer', fontSize:12 }}>Cancel</button>
+                <button onClick={()=>setShowForm(false)} style={{ padding:'7px 16px', background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:7, color:'#475569', cursor:'pointer', fontSize:12 }}>Cancel</button>
                 <button onClick={saveSchedule} disabled={!form.name.trim()} style={{ padding:'7px 16px', background:'#10b981', border:'none', borderRadius:7, color:'#fff', cursor:'pointer', fontSize:12, fontWeight:600 }}>
                   <CheckCircle size={12}/> Create
                 </button>
@@ -438,12 +438,12 @@ export default function ExecutiveReporting() {
 
           <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
             {schedules.map(s => (
-              <div key={s.id} style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:10, padding:16, display:'flex', alignItems:'center', gap:14, opacity:s.active?1:0.7 }}>
+              <div key={s.id} style={{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:10, padding:16, display:'flex', alignItems:'center', gap:14, opacity:s.active?1:0.7 }}>
                 <div style={{ width:10, height:10, borderRadius:'50%', background:s.active?'#10b981':'#f59e0b', flexShrink:0 }}/>
                 <div style={{ flex:1 }}>
                   <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap', marginBottom:6 }}>
-                    <span style={{ fontSize:14, fontWeight:700, color:'#f1f5f9' }}>{s.name}</span>
-                    <span style={{ fontSize:10, padding:'2px 7px', background:'#334155', color:'#94a3b8', borderRadius:20 }}>{s.domain}</span>
+                    <span style={{ fontSize:14, fontWeight:700, color:'#0f172a' }}>{s.name}</span>
+                    <span style={{ fontSize:10, padding:'2px 7px', background:'#e2e8f0', color:'#475569', borderRadius:20 }}>{s.domain}</span>
                     <span style={{ fontSize:10, fontWeight:600, padding:'2px 7px', borderRadius:20, background:`${freqColor[s.frequency]||'#64748b'}20`, color:freqColor[s.frequency]||'#64748b' }}>{s.frequency}</span>
                     <span style={{ fontSize:10, padding:'2px 7px', background:'#3b82f620', color:'#3b82f6', borderRadius:20 }}>{s.format}</span>
                     {!s.active && <span style={{ fontSize:10, fontWeight:600, padding:'2px 7px', background:'#f59e0b20', color:'#f59e0b', borderRadius:20 }}>Paused</span>}
@@ -462,7 +462,7 @@ export default function ExecutiveReporting() {
                   ].map((btn,i) => {
                     const Icon = btn.icon
                     return (
-                      <button key={i} onClick={btn.action} style={{ width:30, height:30, background:'#0f172a', border:'1px solid #334155', borderRadius:7, color:'#94a3b8', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                      <button key={i} onClick={btn.action} style={{ width:30, height:30, background:'#f8fafc', border:'1px solid #e2e8f0', borderRadius:7, color:'#475569', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
                         <Icon size={13}/>
                       </button>
                     )
@@ -482,21 +482,21 @@ export default function ExecutiveReporting() {
             <p className="er-exec-sub">Click any domain to explore its reports and metrics</p>
           </div>
 
-          <div style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 12px', background:'#1e293b', border:'1px solid #334155', borderRadius:8, fontSize:12 }}>
-            <button style={{ background:'none', border:'none', color:drillDomain?'#3b82f6':'#f1f5f9', cursor:'pointer', fontSize:12 }} onClick={()=>setDrillDomain(null)}>All Domains</button>
-            {drillDomain && <><ChevronRight size={12} style={{ color:'#475569' }}/><span style={{ color:'#f1f5f9', fontWeight:600 }}>{drillDomain}</span></>}
+          <div style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 12px', background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:8, fontSize:12 }}>
+            <button style={{ background:'none', border:'none', color:drillDomain?'#3b82f6':'#0f172a', cursor:'pointer', fontSize:12 }} onClick={()=>setDrillDomain(null)}>All Domains</button>
+            {drillDomain && <><ChevronRight size={12} style={{ color:'#475569' }}/><span style={{ color:'#0f172a', fontWeight:600 }}>{drillDomain}</span></>}
           </div>
 
           {!drillDomain && (
             <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:14 }}>
               {DOMAIN_PERF.map(d => (
                 <button key={d.domain} onClick={()=>setDrillDomain(d.domain)}
-                  style={{ background:'#1e293b', border:`1px solid #334155`, borderTop:`3px solid ${d.color}`, borderRadius:10, padding:16, cursor:'pointer', textAlign:'left', transition:'all 0.2s' }}
+                  style={{ background:'#ffffff', border:`1px solid #334155`, borderTop:`3px solid ${d.color}`, borderRadius:10, padding:16, cursor:'pointer', textAlign:'left', transition:'all 0.2s' }}
                   onMouseEnter={e=>e.currentTarget.style.transform='translateY(-2px)'}
                   onMouseLeave={e=>e.currentTarget.style.transform='none'}
                 >
                   <div style={{ display:'flex', justifyContent:'space-between', marginBottom:8 }}>
-                    <span style={{ fontSize:14, fontWeight:700, color:'#f1f5f9' }}>{d.domain}</span>
+                    <span style={{ fontSize:14, fontWeight:700, color:'#0f172a' }}>{d.domain}</span>
                     <span style={{ fontSize:12, fontWeight:700, color:d.color }}>{d.reports}</span>
                   </div>
                   <div style={{ display:'flex', gap:8, fontSize:11, flexWrap:'wrap', marginBottom:10 }}>
@@ -504,7 +504,7 @@ export default function ExecutiveReporting() {
                     <span style={{ color:'#3b82f6' }}>E:{d.efficiency}%</span>
                     <span style={{ color:d.risk>30?'#ef4444':'#f59e0b' }}>R:{d.risk}</span>
                   </div>
-                  <div style={{ height:4, background:'#334155', borderRadius:2, overflow:'hidden' }}>
+                  <div style={{ height:4, background:'#e2e8f0', borderRadius:2, overflow:'hidden' }}>
                     <div style={{ width:`${d.compliance}%`, height:'100%', background:d.color, borderRadius:2 }}/>
                   </div>
                   <div style={{ fontSize:11, color:'#475569', marginTop:8, display:'flex', alignItems:'center', gap:4 }}><Eye size={10}/> Explore <ChevronRight size={10}/></div>
@@ -524,19 +524,19 @@ export default function ExecutiveReporting() {
                     { label:'Efficiency',  value:`${domain?.efficiency}%`, color:'#3b82f6' },
                     { label:'Risk Score',  value:domain?.risk,             color:'#f59e0b' },
                   ].map((m,i) => (
-                    <div key={i} style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:10, padding:20, textAlign:'center' }}>
+                    <div key={i} style={{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:10, padding:20, textAlign:'center' }}>
                       <div style={{ fontSize:32, fontWeight:800, color:m.color }}>{m.value}</div>
                       <div style={{ fontSize:12, color:'#64748b', marginTop:4 }}>{m.label}</div>
                     </div>
                   ))}
                 </div>
-                <div style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:10, overflow:'hidden' }}>
-                  <div style={{ padding:'10px 16px', background:'#0f172a', borderBottom:'1px solid #334155', fontSize:12, fontWeight:700, color:'#94a3b8', display:'flex', alignItems:'center', gap:6 }}>
+                <div style={{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:10, overflow:'hidden' }}>
+                  <div style={{ padding:'10px 16px', background:'#f8fafc', borderBottom:'1px solid #e2e8f0', fontSize:12, fontWeight:700, color:'#475569', display:'flex', alignItems:'center', gap:6 }}>
                     <FileText size={13}/> {drillDomain} Reports ({reports.length})
                   </div>
                   {reports.map((r,i) => (
                     <div key={i} style={{ display:'flex', alignItems:'center', gap:10, padding:'8px 16px', borderBottom:'1px solid #1e293b', borderLeft:`3px solid ${domain?.color}` }}>
-                      <span style={{ flex:1, fontSize:12, color:'#f1f5f9' }}>{r.name||r.report_name}</span>
+                      <span style={{ flex:1, fontSize:12, color:'#0f172a' }}>{r.name||r.report_name}</span>
                       <span style={{ fontSize:10, color:'#64748b' }}>{r.frequency}</span>
                       <span style={{ fontSize:10, fontWeight:600, padding:'1px 6px', borderRadius:20, background:(r.complianceStatus||r.compliance_status)==='Required'?'#10b98120':'#f59e0b20', color:(r.complianceStatus||r.compliance_status)==='Required'?'#10b981':'#f59e0b' }}>
                         {r.complianceStatus||r.compliance_status}
@@ -562,7 +562,7 @@ export default function ExecutiveReporting() {
             {DOMAIN_PERF.map(d => (
               <button key={d.domain}
                 onClick={()=>setBenchDomains(p=>p.includes(d.domain)?p.filter(x=>x!==d.domain):p.length<5?[...p,d.domain]:p)}
-                style={{ padding:'5px 14px', background: benchDomains.includes(d.domain)?`${d.color}18`:'#1e293b', border:`1px solid ${benchDomains.includes(d.domain)?d.color:'#334155'}`, borderRadius:20, color:benchDomains.includes(d.domain)?d.color:'#64748b', fontSize:12, cursor:'pointer', fontWeight:benchDomains.includes(d.domain)?600:400 }}
+                style={{ padding:'5px 14px', background: benchDomains.includes(d.domain)?`${d.color}18`:'#ffffff', border:`1px solid ${benchDomains.includes(d.domain)?d.color:'#e2e8f0'}`, borderRadius:20, color:benchDomains.includes(d.domain)?d.color:'#64748b', fontSize:12, cursor:'pointer', fontWeight:benchDomains.includes(d.domain)?600:400 }}
               >
                 {d.domain}
               </button>
@@ -573,7 +573,7 @@ export default function ExecutiveReporting() {
             <span style={{ fontSize:12, color:'#64748b', fontWeight:600 }}>Compare:</span>
             {[{k:'compliance',l:'Compliance'},{k:'efficiency',l:'Efficiency'},{k:'risk',l:'Risk'},{k:'reports',l:'Reports'}].map(m => (
               <button key={m.k} onClick={()=>setBenchMetric(m.k)}
-                style={{ padding:'5px 12px', background:benchMetric===m.k?'#1e3a5f':'#1e293b', border:`1px solid ${benchMetric===m.k?'#3b82f640':'#334155'}`, borderRadius:7, color:benchMetric===m.k?'#3b82f6':'#64748b', fontSize:12, cursor:'pointer' }}>
+                style={{ padding:'5px 12px', background:benchMetric===m.k?'#1e3a5f':'#ffffff', border:`1px solid ${benchMetric===m.k?'#3b82f640':'#e2e8f0'}`, borderRadius:7, color:benchMetric===m.k?'#3b82f6':'#64748b', fontSize:12, cursor:'pointer' }}>
                 {m.l}
               </button>
             ))}
@@ -585,8 +585,8 @@ export default function ExecutiveReporting() {
               <div style={{ padding:'12px 12px 0' }}>
                 <ResponsiveContainer width="100%" height={240}>
                   <BarChart data={benchData} margin={{ top:10, right:20, left:0, bottom:0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155"/>
-                    <XAxis dataKey="domain" tick={{ fill:'#94a3b8', fontSize:10 }} tickLine={false}/>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0"/>
+                    <XAxis dataKey="domain" tick={{ fill:'#475569', fontSize:10 }} tickLine={false}/>
                     <YAxis tick={{ fill:'#64748b', fontSize:10 }} tickLine={false}/>
                     <Tooltip content={<ChartTip/>}/>
                     <Bar dataKey={benchMetric} name={benchMetric} radius={[4,4,0,0]}>
@@ -603,13 +603,13 @@ export default function ExecutiveReporting() {
                 {radarData.length > 0 && (
                   <ResponsiveContainer width="100%" height={240}>
                     <RadarChart data={radarData} margin={{ top:10, right:20, left:20, bottom:10 }}>
-                      <PolarGrid stroke="#334155"/>
-                      <PolarAngleAxis dataKey="subject" tick={{ fill:'#94a3b8', fontSize:10 }}/>
+                      <PolarGrid stroke="#e2e8f0"/>
+                      <PolarAngleAxis dataKey="subject" tick={{ fill:'#475569', fontSize:10 }}/>
                       <PolarRadiusAxis angle={90} domain={[0,100]} tick={{ fill:'#64748b', fontSize:9 }}/>
                       <Radar name="Compliance" dataKey="Compliance" stroke="#10b981" fill="#10b981" fillOpacity={0.2}/>
                       <Radar name="Efficiency" dataKey="Efficiency" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2}/>
                       <Radar name="Safety"     dataKey="Safety"     stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.2}/>
-                      <Legend wrapperStyle={{ color:'#94a3b8', fontSize:11 }}/>
+                      <Legend wrapperStyle={{ color:'#475569', fontSize:11 }}/>
                       <Tooltip content={<ChartTip/>}/>
                     </RadarChart>
                   </ResponsiveContainer>
@@ -619,8 +619,8 @@ export default function ExecutiveReporting() {
           </div>
 
           {/* Benchmark table */}
-          <div style={{ background:'#1e293b', border:'1px solid #334155', borderRadius:10, overflow:'hidden' }}>
-            <div style={{ display:'grid', gridTemplateColumns:'1.5fr 1fr 1fr 1fr 1fr 1fr', gap:12, padding:'10px 16px', background:'#0f172a', borderBottom:'1px solid #334155', fontSize:10, fontWeight:700, color:'#64748b', textTransform:'uppercase' }}>
+          <div style={{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:10, overflow:'hidden' }}>
+            <div style={{ display:'grid', gridTemplateColumns:'1.5fr 1fr 1fr 1fr 1fr 1fr', gap:12, padding:'10px 16px', background:'#f8fafc', borderBottom:'1px solid #e2e8f0', fontSize:10, fontWeight:700, color:'#64748b', textTransform:'uppercase' }}>
               {['Domain','Compliance','Efficiency','Risk','Reports','Score'].map(h=><span key={h}>{h}</span>)}
             </div>
             {benchData.map((d,i)=>{
@@ -632,7 +632,7 @@ export default function ExecutiveReporting() {
                   <span style={{ color:clr(d.compliance), fontWeight:600 }}>{d.compliance}%</span>
                   <span style={{ color:clr(d.efficiency), fontWeight:600 }}>{d.efficiency}%</span>
                   <span style={{ color:d.risk<=20?'#10b981':d.risk<=30?'#f59e0b':'#ef4444', fontWeight:600 }}>{d.risk}</span>
-                  <span style={{ color:'#94a3b8' }}>{d.reports}</span>
+                  <span style={{ color:'#475569' }}>{d.reports}</span>
                   <span style={{ color:clr(parseFloat(score)), fontWeight:600 }}>{score}</span>
                 </div>
               )
@@ -644,6 +644,7 @@ export default function ExecutiveReporting() {
     </div>
   )
 }
+
 
 
 

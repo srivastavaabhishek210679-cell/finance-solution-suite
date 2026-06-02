@@ -23,15 +23,15 @@ export default function ReportViewer({ report, onClose }) {
 
   return (
     <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:2000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={onClose}>
-      <div style={{background:'#0f172a',border:'1px solid #334155',borderRadius:16,width:'90%',maxWidth:900,maxHeight:'90vh',overflowY:'auto'}} onClick={e => e.stopPropagation()}>
+      <div style={{background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:16,width:'90%',maxWidth:900,maxHeight:'90vh',overflowY:'auto'}} onClick={e => e.stopPropagation()}>
 
         {/* Header */}
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid #334155'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid #e2e8f0'}}>
           <div>
-            <h2 style={{color:'#f1f5f9',margin:0,fontSize:18}}>{report.name}</h2>
+            <h2 style={{color:'#0f172a',margin:0,fontSize:18}}>{report.name}</h2>
             <div style={{display:'flex',gap:12,marginTop:6}}>
-              <span style={{background:'#1e293b',color:'#94a3b8',padding:'2px 10px',borderRadius:20,fontSize:11}}>{report.domain}</span>
-              <span style={{background:'#1e293b',color:'#94a3b8',padding:'2px 10px',borderRadius:20,fontSize:11}}>{report.frequency}</span>
+              <span style={{background:'#ffffff',color:'#475569',padding:'2px 10px',borderRadius:20,fontSize:11}}>{report.domain}</span>
+              <span style={{background:'#ffffff',color:'#475569',padding:'2px 10px',borderRadius:20,fontSize:11}}>{report.frequency}</span>
               <span style={{background:report.complianceStatus==='Required'?'#ef444420':'#10b98120',color:report.complianceStatus==='Required'?'#ef4444':'#10b981',padding:'2px 10px',borderRadius:20,fontSize:11}}>{report.complianceStatus||report.compliance_status||'Optional'}</span>
             </div>
           </div>
@@ -39,7 +39,7 @@ export default function ReportViewer({ report, onClose }) {
             <button onClick={() => alert('PDF export coming soon')} style={{display:'flex',alignItems:'center',gap:6,background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'8px 14px',cursor:'pointer',fontSize:12,fontWeight:600}}>
               <Download size={14}/> Export PDF
             </button>
-            <button onClick={onClose} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#94a3b8',padding:'8px 12px',cursor:'pointer'}}>
+            <button onClick={onClose} style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#475569',padding:'8px 12px',cursor:'pointer'}}>
               <X size={16}/>
             </button>
           </div>
@@ -53,7 +53,7 @@ export default function ReportViewer({ report, onClose }) {
             {/* KPI Metrics */}
             <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:24}}>
               {data.metrics.map((m, i) => (
-                <div key={i} style={{background:'#1e293b',borderRadius:10,padding:16,borderTop:`3px solid ${m.color}`}}>
+                <div key={i} style={{background:'#ffffff',borderRadius:10,padding:16,borderTop:`3px solid ${m.color}`}}>
                   <div style={{fontSize:11,color:'#64748b',marginBottom:4}}>{m.label}</div>
                   <div style={{fontSize:22,fontWeight:700,color:m.color}}>{m.value}</div>
                   <div style={{fontSize:11,color:m.change.startsWith('-')?'#ef4444':'#10b981',marginTop:4}}>{m.change}</div>
@@ -62,14 +62,14 @@ export default function ReportViewer({ report, onClose }) {
             </div>
 
             {/* Trend Chart */}
-            <div style={{background:'#1e293b',borderRadius:10,padding:20,marginBottom:24}}>
-              <h3 style={{color:'#f1f5f9',marginBottom:16,fontSize:14}}>{data.chartLabel} - 6 Month Trend</h3>
+            <div style={{background:'#ffffff',borderRadius:10,padding:20,marginBottom:24}}>
+              <h3 style={{color:'#0f172a',marginBottom:16,fontSize:14}}>{data.chartLabel} - 6 Month Trend</h3>
               <ResponsiveContainer width="100%" height={200}>
                 <LineChart data={data.trendData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155"/>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0"/>
                   <XAxis dataKey="month" tick={{fill:'#64748b',fontSize:11}}/>
                   <YAxis tick={{fill:'#64748b',fontSize:11}}/>
-                  <Tooltip contentStyle={{background:'#1e293b',border:'1px solid #334155',borderRadius:8}}/>
+                  <Tooltip contentStyle={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8}}/>
                   <ReferenceLine y={85} stroke="#f59e0b" strokeDasharray="3 3" label={{value:'Target',fill:'#f59e0b',fontSize:10}}/>
                   <Line type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={2} dot={{fill:'#3b82f6'}} name="Actual"/>
                   <Line type="monotone" dataKey="previous" stroke="#64748b" strokeWidth={1} strokeDasharray="4 4" name="Previous"/>
@@ -78,14 +78,14 @@ export default function ReportViewer({ report, onClose }) {
             </div>
 
             {/* Bar Chart */}
-            <div style={{background:'#1e293b',borderRadius:10,padding:20,marginBottom:24}}>
-              <h3 style={{color:'#f1f5f9',marginBottom:16,fontSize:14}}>Actual vs Target Comparison</h3>
+            <div style={{background:'#ffffff',borderRadius:10,padding:20,marginBottom:24}}>
+              <h3 style={{color:'#0f172a',marginBottom:16,fontSize:14}}>Actual vs Target Comparison</h3>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={data.trendData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155"/>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0"/>
                   <XAxis dataKey="month" tick={{fill:'#64748b',fontSize:11}}/>
                   <YAxis tick={{fill:'#64748b',fontSize:11}}/>
-                  <Tooltip contentStyle={{background:'#1e293b',border:'1px solid #334155',borderRadius:8}}/>
+                  <Tooltip contentStyle={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8}}/>
                   <Bar dataKey="value" fill="#3b82f6" name="Actual" radius={[4,4,0,0]}/>
                   <Bar dataKey="target" fill="#f59e0b" name="Target" radius={[4,4,0,0]}/>
                 </BarChart>
@@ -93,11 +93,11 @@ export default function ReportViewer({ report, onClose }) {
             </div>
 
             {/* Data Table */}
-            <div style={{background:'#1e293b',borderRadius:10,padding:20}}>
-              <h3 style={{color:'#f1f5f9',marginBottom:16,fontSize:14}}>Monthly Data Breakdown</h3>
+            <div style={{background:'#ffffff',borderRadius:10,padding:20}}>
+              <h3 style={{color:'#0f172a',marginBottom:16,fontSize:14}}>Monthly Data Breakdown</h3>
               <table style={{width:'100%',borderCollapse:'collapse'}}>
                 <thead>
-                  <tr style={{borderBottom:'1px solid #334155'}}>
+                  <tr style={{borderBottom:'1px solid #e2e8f0'}}>
                     {['Month','Actual','Target','Variance','Status'].map(h => (
                       <th key={h} style={{color:'#64748b',fontSize:11,padding:'8px',textAlign:'left',textTransform:'uppercase'}}>{h}</th>
                     ))}
@@ -106,7 +106,7 @@ export default function ReportViewer({ report, onClose }) {
                 <tbody>
                   {data.tableData.map((row, i) => (
                     <tr key={i} style={{borderBottom:'1px solid #1e293b'}}>
-                      <td style={{color:'#f1f5f9',padding:'10px 8px',fontSize:13}}>{row.month}</td>
+                      <td style={{color:'#0f172a',padding:'10px 8px',fontSize:13}}>{row.month}</td>
                       <td style={{color:'#3b82f6',padding:'10px 8px',fontSize:13,fontWeight:600}}>{row.actual}%</td>
                       <td style={{color:'#f59e0b',padding:'10px 8px',fontSize:13}}>{row.target}%</td>
                       <td style={{color:row.variance>=0?'#10b981':'#ef4444',padding:'10px 8px',fontSize:13}}>{row.variance>=0?'+':''}{row.variance}%</td>

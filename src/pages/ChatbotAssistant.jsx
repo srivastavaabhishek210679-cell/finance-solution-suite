@@ -35,7 +35,7 @@ const DOMAIN_COLORS = {
   'Energy':         '#ec4899',
   'Banking':        '#14b8a6',
   'Education':      '#8b5cf6',
-  'General':        '#94a3b8',
+  'General':        '#475569',
 }
 
 const DOMAIN_ICONS = {
@@ -73,7 +73,7 @@ const DOMAIN_ID_MAP = {
 const getDomainName = (r) =>
   r.domain || (r.domain_id ? DOMAIN_ID_MAP[r.domain_id] : 'Other') || 'Other'
 
-const getDomainColor = (domain) => DOMAIN_COLORS[domain] || '#94a3b8'
+const getDomainColor = (domain) => DOMAIN_COLORS[domain] || '#475569'
 
 const getReportName = (r) => r.name || r.report_name || 'Unnamed Report'
 
@@ -848,3 +848,4 @@ function ChatbotAssistant() {
 }
 
 export default ChatbotAssistant
+

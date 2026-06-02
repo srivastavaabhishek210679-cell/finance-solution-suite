@@ -386,27 +386,27 @@ function Collaboration() {
       </div>
       {selectedMember && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setSelectedMember(null)}>
-          <div style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:12, padding:24, width:420 }} onClick={e => e.stopPropagation()}>
+          <div style={{ background:"#ffffff", border:"1px solid #e2e8f0", borderRadius:12, padding:24, width:420 }} onClick={e => e.stopPropagation()}>
             <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:20 }}>
               <div style={{ fontSize:48 }}>{selectedMember.avatar}</div>
               <div>
-                <div style={{ fontSize:18, fontWeight:700, color:"#f1f5f9" }}>{selectedMember.name}</div>
+                <div style={{ fontSize:18, fontWeight:700, color:"#0f172a" }}>{selectedMember.name}</div>
                 <div style={{ fontSize:13, color:"#3b82f6" }}>{selectedMember.role}</div>
                 <div style={{ fontSize:12, color:"#64748b" }}>{selectedMember.email}</div>
               </div>
             </div>
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:16 }}>
-              <div style={{ background:"#0f172a", borderRadius:8, padding:12, textAlign:"center" }}>
+              <div style={{ background:"#f8fafc", borderRadius:8, padding:12, textAlign:"center" }}>
                 <div style={{ fontSize:24, fontWeight:700, color:"#3b82f6" }}>{selectedMember.dashboards}</div>
                 <div style={{ fontSize:11, color:"#64748b" }}>Dashboards</div>
               </div>
-              <div style={{ background:"#0f172a", borderRadius:8, padding:12, textAlign:"center" }}>
+              <div style={{ background:"#f8fafc", borderRadius:8, padding:12, textAlign:"center" }}>
                 <div style={{ fontSize:24, fontWeight:700, color:selectedMember.status==="online"?"#10b981":"#64748b" }}>{selectedMember.status}</div>
                 <div style={{ fontSize:11, color:"#64748b" }}>Status</div>
               </div>
             </div>
             <div style={{ display:"flex", justifyContent:"flex-end", gap:8 }}>
-              <button onClick={() => setSelectedMember(null)} style={{ background:"#334155", border:"none", borderRadius:8, color:"#94a3b8", padding:"8px 16px", cursor:"pointer" }}>Close</button>
+              <button onClick={() => setSelectedMember(null)} style={{ background:"#e2e8f0", border:"none", borderRadius:8, color:"#475569", padding:"8px 16px", cursor:"pointer" }}>Close</button>
               <button onClick={() => { setShowInvite(false); alert("Message sent to " + selectedMember.name); }} style={{ background:"#3b82f6", border:"none", borderRadius:8, color:"#fff", padding:"8px 16px", cursor:"pointer", fontWeight:600 }}>Send Message</button>
             </div>
           </div>
@@ -414,16 +414,16 @@ function Collaboration() {
       )}
       {showInvite && (
         <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center" }} onClick={() => setShowInvite(false)}>
-          <div style={{ background:"#1e293b", border:"1px solid #334155", borderRadius:12, padding:24, width:400 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ color:"#f1f5f9", marginBottom:16 }}>Invite Team Member</h3>
-            <input placeholder="Email address" value={inviteEmail} onChange={e => setInviteEmail(e.target.value)} style={{ width:"100%", background:"#0f172a", border:"1px solid #334155", borderRadius:8, padding:"8px 12px", color:"#f1f5f9", marginBottom:12, boxSizing:"border-box" }} />
-            <select value={inviteRole} onChange={e => setInviteRole(e.target.value)} style={{ width:"100%", background:"#0f172a", border:"1px solid #334155", borderRadius:8, padding:"8px 12px", color:"#f1f5f9", marginBottom:16, boxSizing:"border-box" }}>
+          <div style={{ background:"#ffffff", border:"1px solid #e2e8f0", borderRadius:12, padding:24, width:400 }} onClick={e => e.stopPropagation()}>
+            <h3 style={{ color:"#0f172a", marginBottom:16 }}>Invite Team Member</h3>
+            <input placeholder="Email address" value={inviteEmail} onChange={e => setInviteEmail(e.target.value)} style={{ width:"100%", background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"8px 12px", color:"#0f172a", marginBottom:12, boxSizing:"border-box" }} />
+            <select value={inviteRole} onChange={e => setInviteRole(e.target.value)} style={{ width:"100%", background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"8px 12px", color:"#0f172a", marginBottom:16, boxSizing:"border-box" }}>
               <option value="viewer">Viewer</option>
               <option value="editor">Editor</option>
               <option value="admin">Admin</option>
             </select>
             <div style={{ display:"flex", gap:8, justifyContent:"flex-end" }}>
-              <button onClick={() => setShowInvite(false)} style={{ background:"#334155", border:"none", borderRadius:8, color:"#94a3b8", padding:"8px 16px", cursor:"pointer" }}>Cancel</button>
+              <button onClick={() => setShowInvite(false)} style={{ background:"#e2e8f0", border:"none", borderRadius:8, color:"#475569", padding:"8px 16px", cursor:"pointer" }}>Cancel</button>
               <button onClick={() => { alert("Invite sent to " + inviteEmail); setShowInvite(false); setInviteEmail(""); }} style={{ background:"#3b82f6", border:"none", borderRadius:8, color:"#fff", padding:"8px 16px", cursor:"pointer", fontWeight:600 }}>Send Invite</button>
             </div>
           </div>
@@ -433,3 +433,4 @@ function Collaboration() {
   )
 }
 export default Collaboration
+

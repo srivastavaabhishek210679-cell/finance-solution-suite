@@ -73,7 +73,7 @@ export default function Workspace() {
   }
 
   if(loading) return (
-    <div style={{minHeight:'100vh',background:'#0f172a',display:'flex',alignItems:'center',justifyContent:'center',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#f8fafc',display:'flex',alignItems:'center',justifyContent:'center',color:'#f8fafc',fontFamily:'Inter,sans-serif'}}>
       <div style={{textAlign:'center'}}>
         <div style={{width:48,height:48,border:'3px solid #334155',borderTop:'3px solid #10b981',borderRadius:'50%',margin:'0 auto 16px',animation:'spin 1s linear infinite'}}></div>
         <p>Loading your workspace...</p>
@@ -87,16 +87,16 @@ export default function Workspace() {
   const uniqueDomains = [...new Set(reportHistory.map(r=>r.domain_name).filter(Boolean))]
 
   return (
-    <div style={{minHeight:'100vh',background:'#0f172a',fontFamily:'Inter,sans-serif',color:'#f1f5f9'}}>
+    <div style={{minHeight:'100vh',background:'#f8fafc',fontFamily:'Inter,sans-serif',color:'#f8fafc'}}>
       {/* Header */}
-      <div style={{background:'#1e293b',borderBottom:'1px solid #334155',padding:'16px 24px',display:'flex',alignItems:'center',gap:16}}>
+      <div style={{background:'#ffffff',borderBottom:'1px solid #e2e8f0',padding:'16px 24px',display:'flex',alignItems:'center',gap:16}}>
         <div style={{width:40,height:40,background:'linear-gradient(135deg,#10b981,#3b82f6)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20}}>💼</div>
         <div>
           <h1 style={{margin:0,fontSize:18,fontWeight:700}}>My Workspace</h1>
           <p style={{margin:0,fontSize:12,color:'#64748b'}}>Welcome back, {user?.firstName||user?.email}!</p>
         </div>
         <div style={{marginLeft:'auto',display:'flex',gap:10,alignItems:'center'}}>
-          <button onClick={()=>navigate('/onboarding')} style={{display:'flex',alignItems:'center',gap:6,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13}}><Settings size={14}/> Edit Workspace</button>
+          <button onClick={()=>navigate('/onboarding')} style={{display:'flex',alignItems:'center',gap:6,background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'8px 14px',cursor:'pointer',fontSize:13}}><Settings size={14}/> Edit Workspace</button>
           <button onClick={()=>navigate('/dashboard', {state:{from:'workspace'}})} style={{display:'flex',alignItems:'center',gap:6,background:'#10b981',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',fontWeight:600,fontSize:13}}><LayoutDashboard size={14}/> Go to Dashboard</button>
           <button onClick={handleLogout} style={{display:'flex',alignItems:'center',gap:6,background:'#ef444420',border:'none',borderRadius:8,color:'#ef4444',padding:'8px 14px',cursor:'pointer',fontSize:13}}><LogOut size={14}/> Logout</button>
         </div>
@@ -111,7 +111,7 @@ export default function Workspace() {
             {label:'Selected Reports', value:selectedReports.length, color:'#8b5cf6', icon:'📊'},
             {label:'Reports Generated', value:reportHistory.length, color:'#f59e0b', icon:'📈'},
           ].map((s,i)=>(
-            <div key={i} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
+            <div key={i} style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
                 <span style={{fontSize:12,color:'#64748b'}}>{s.label}</span>
                 <span style={{fontSize:18}}>{s.icon}</span>
@@ -124,16 +124,16 @@ export default function Workspace() {
         <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:20}}>
           <div>
             {/* My Modules */}
-            <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,marginBottom:20}}>
-              <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:15,fontWeight:600}}>My Modules</h3>
+            <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20,marginBottom:20}}>
+              <h3 style={{color:'#f8fafc',margin:'0 0 16px',fontSize:15,fontWeight:600}}>My Modules</h3>
               <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
                 {selectedModules.map((path, i)=>{
                   const icon = MODULE_ICONS[path] || '📋'
                   const name = path.replace('/', '').replace(/-/g,' ').replace(/\b\w/g, l=>l.toUpperCase())
                   return (
-                    <button key={i} onClick={()=>navigate(path)} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:8,padding:'12px 10px',cursor:'pointer',display:'flex',alignItems:'center',gap:8,transition:'border-color 0.2s'}} onMouseEnter={e=>e.currentTarget.style.borderColor='#10b981'} onMouseLeave={e=>e.currentTarget.style.borderColor='#334155'}>
+                    <button key={i} onClick={()=>navigate(path)} style={{background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:8,padding:'12px 10px',cursor:'pointer',display:'flex',alignItems:'center',gap:8,transition:'border-color 0.2s'}} onMouseEnter={e=>e.currentTarget.style.borderColor='#10b981'} onMouseLeave={e=>e.currentTarget.style.borderColor='#e2e8f0'}>
                       <span style={{fontSize:18}}>{icon}</span>
-                      <span style={{color:'#f1f5f9',fontSize:11,textAlign:'left',lineHeight:1.3}}>{name}</span>
+                      <span style={{color:'#f8fafc',fontSize:11,textAlign:'left',lineHeight:1.3}}>{name}</span>
                       <ChevronRight size={12} style={{color:'#64748b',marginLeft:'auto',flexShrink:0}}/>
                     </button>
                   )
@@ -142,9 +142,9 @@ export default function Workspace() {
             </div>
 
             {/* Report History */}
-            <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
+            <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20}}>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
-                <h3 style={{color:'#f1f5f9',margin:0,fontSize:15,fontWeight:600}}>Recent Reports</h3>
+                <h3 style={{color:'#f8fafc',margin:0,fontSize:15,fontWeight:600}}>Recent Reports</h3>
                 <button onClick={loadWorkspace} style={{background:'none',border:'none',color:'#64748b',cursor:'pointer'}}><RefreshCw size={14}/></button>
               </div>
               {reportHistory.length===0 ? (
@@ -155,11 +155,11 @@ export default function Workspace() {
                 </div>
               ) : (
                 <table style={{width:'100%',borderCollapse:'collapse'}}>
-                  <thead><tr style={{borderBottom:'1px solid #334155'}}>{['Report Name','Domain','Generated On','Status'].map(h=><th key={h} style={{color:'#64748b',fontSize:11,padding:'8px',textAlign:'left',textTransform:'uppercase'}}>{h}</th>)}</tr></thead>
+                  <thead><tr style={{borderBottom:'1px solid #e2e8f0'}}>{['Report Name','Domain','Generated On','Status'].map(h=><th key={h} style={{color:'#64748b',fontSize:11,padding:'8px',textAlign:'left',textTransform:'uppercase'}}>{h}</th>)}</tr></thead>
                   <tbody>
                     {reportHistory.map(r=>(
-                      <tr key={r.history_id} style={{borderBottom:'1px solid #0f172a'}}>
-                        <td style={{padding:'10px 8px',color:'#f1f5f9',fontSize:13,fontWeight:500}}>{r.report_name}</td>
+                      <tr key={r.history_id} style={{borderBottom:'1px solid #f1f5f9'}}>
+                        <td style={{padding:'10px 8px',color:'#f8fafc',fontSize:13,fontWeight:500}}>{r.report_name}</td>
                         <td style={{padding:'10px 8px'}}><span style={{background:'#3b82f620',color:'#3b82f6',padding:'2px 8px',borderRadius:20,fontSize:11}}>{r.domain_name}</span></td>
                         <td style={{padding:'10px 8px',color:'#64748b',fontSize:12}}>{new Date(r.run_at).toLocaleDateString()}</td>
                         <td style={{padding:'10px 8px'}}><span style={{background:'#10b98120',color:'#10b981',padding:'2px 8px',borderRadius:20,fontSize:11}}>{r.status}</span></td>
@@ -173,11 +173,11 @@ export default function Workspace() {
 
           {/* Right Panel - Search */}
           <div>
-            <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,marginBottom:20}}>
-              <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:15,fontWeight:600}}>🔍 Find a Report</h3>
+            <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20,marginBottom:20}}>
+              <h3 style={{color:'#f8fafc',margin:'0 0 16px',fontSize:15,fontWeight:600}}>🔍 Find a Report</h3>
               <div style={{display:'grid',gap:10}}>
-                <input value={search} onChange={e=>setSearch(e.target.value)} onKeyDown={e=>e.key==='Enter'&&handleSearch()} placeholder="Report name, domain, date..." style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'10px 12px',fontSize:13,boxSizing:'border-box'}}/>
-                <select value={domainFilter} onChange={e=>setDomainFilter(e.target.value)} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'10px 12px',fontSize:13}}>
+                <input value={search} onChange={e=>setSearch(e.target.value)} onKeyDown={e=>e.key==='Enter'&&handleSearch()} placeholder="Report name, domain, date..." style={{width:'100%',background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:8,color:'#f8fafc',padding:'10px 12px',fontSize:13,boxSizing:'border-box'}}/>
+                <select value={domainFilter} onChange={e=>setDomainFilter(e.target.value)} style={{width:'100%',background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:8,color:'#f8fafc',padding:'10px 12px',fontSize:13}}>
                   <option value="All">All Domains</option>
                   {uniqueDomains.map(d=><option key={d}>{d}</option>)}
                 </select>
@@ -193,8 +193,8 @@ export default function Workspace() {
                   ) : (
                     <div style={{display:'grid',gap:6,maxHeight:300,overflowY:'auto'}}>
                       {searchResults.map(r=>(
-                        <div key={r.history_id} style={{background:'#0f172a',borderRadius:8,padding:10}}>
-                          <div style={{color:'#f1f5f9',fontSize:13,fontWeight:500,marginBottom:4}}>{r.report_name}</div>
+                        <div key={r.history_id} style={{background:'#f8fafc',borderRadius:8,padding:10}}>
+                          <div style={{color:'#f8fafc',fontSize:13,fontWeight:500,marginBottom:4}}>{r.report_name}</div>
                           <div style={{display:'flex',justifyContent:'space-between',fontSize:11,color:'#64748b'}}>
                             <span>{r.domain_name}</span>
                             <span>{new Date(r.run_at).toLocaleDateString()}</span>
@@ -208,8 +208,8 @@ export default function Workspace() {
             </div>
 
             {/* Quick Actions */}
-            <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
-              <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:15,fontWeight:600}}>Quick Actions</h3>
+            <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20}}>
+              <h3 style={{color:'#f8fafc',margin:'0 0 16px',fontSize:15,fontWeight:600}}>Quick Actions</h3>
               <div style={{display:'grid',gap:8}}>
                 {[
                   {label:'Upload Data & Generate Report', icon:'📤', path:'/upload-data', color:'#10b981'},
@@ -218,9 +218,9 @@ export default function Workspace() {
                   {label:'KPI Dashboard', icon:'📈', path:'/kpi-dashboard', color:'#f59e0b'},
                   {label:'Edit Workspace Settings', icon:'⚙️', path:'/onboarding', color:'#64748b'},
                 ].map((a,i)=>(
-                  <button key={i} onClick={()=>navigate(a.path)} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:8,padding:'10px 14px',cursor:'pointer',display:'flex',alignItems:'center',gap:10,width:'100%',textAlign:'left'}} onMouseEnter={e=>e.currentTarget.style.borderColor=a.color} onMouseLeave={e=>e.currentTarget.style.borderColor='#334155'}>
+                  <button key={i} onClick={()=>navigate(a.path)} style={{background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:8,padding:'10px 14px',cursor:'pointer',display:'flex',alignItems:'center',gap:10,width:'100%',textAlign:'left'}} onMouseEnter={e=>e.currentTarget.style.borderColor=a.color} onMouseLeave={e=>e.currentTarget.style.borderColor='#e2e8f0'}>
                     <span style={{fontSize:16}}>{a.icon}</span>
-                    <span style={{color:'#f1f5f9',fontSize:13}}>{a.label}</span>
+                    <span style={{color:'#f8fafc',fontSize:13}}>{a.label}</span>
                     <ChevronRight size={14} style={{color:'#64748b',marginLeft:'auto'}}/>
                   </button>
                 ))}
@@ -232,5 +232,7 @@ export default function Workspace() {
     </div>
   )
 }
+
+
 
 

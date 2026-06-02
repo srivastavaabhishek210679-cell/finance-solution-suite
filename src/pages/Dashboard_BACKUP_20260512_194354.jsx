@@ -524,8 +524,8 @@ function Dashboard() {
                   {/* Filter Results Counter */}
                   {Object.keys(activeFilters).length > 0 && (
                     <div style={{
-                      background: '#1e293b',
-                      border: '1px solid #334155',
+                      background: '#ffffff',
+                      border: '1px solid #e2e8f0',
                       borderRadius: '6px',
                       padding: '0.75rem 1rem',
                       marginBottom: '1rem',
@@ -659,7 +659,7 @@ function Dashboard() {
                           <div style={{
                             marginTop: '1rem',
                             paddingTop: '1rem',
-                            borderTop: '1px solid #334155'
+                            borderTop: '1px solid #e2e8f0'
                           }}>
                             <div style={{
                               fontSize: '0.75rem',
@@ -684,10 +684,10 @@ function Dashboard() {
                                   }}
                                   style={{
                                     padding: '0.75rem',
-                                    background: '#0f172a',
-                                    border: '1px solid #334155',
+                                    background: '#f8fafc',
+                                    border: '1px solid #e2e8f0',
                                     borderRadius: '6px',
-                                    color: '#f1f5f9',
+                                    color: '#0f172a',
                                     fontSize: '0.875rem',
                                     cursor: 'pointer',
                                     transition: 'all 0.2s',
@@ -698,12 +698,12 @@ function Dashboard() {
                                     textAlign: 'left'
                                   }}
                                   onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = '#1e293b'
+                                    e.currentTarget.style.background = '#ffffff'
                                     e.currentTarget.style.borderColor = '#14B8A6'
                                   }}
                                   onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = '#0f172a'
-                                    e.currentTarget.style.borderColor = '#334155'
+                                    e.currentTarget.style.background = '#f8fafc'
+                                    e.currentTarget.style.borderColor = '#e2e8f0'
                                   }}
                                 >
                                   <span style={{
@@ -730,7 +730,7 @@ function Dashboard() {
                                   width: '100%',
                                   padding: '0.5rem',
                                   background: 'transparent',
-                                  border: '1px solid #334155',
+                                  border: '1px solid #e2e8f0',
                                   borderRadius: '6px',
                                   color: '#14B8A6',
                                   fontSize: '0.75rem',
@@ -744,7 +744,7 @@ function Dashboard() {
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.background = 'transparent'
-                                  e.currentTarget.style.borderColor = '#334155'
+                                  e.currentTarget.style.borderColor = '#e2e8f0'
                                 }}
                               >
                                 View All {count} Reports

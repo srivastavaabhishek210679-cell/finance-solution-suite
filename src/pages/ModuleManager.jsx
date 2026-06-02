@@ -59,7 +59,7 @@ function ModuleManager() {
   return (
     <div className="module-manager-page">
       <div className="module-header">
-        <button onClick={() => navigate('/dashboard')} style={{ display:'flex', alignItems:'center', gap:6, background:'#1e293b', border:'1px solid #334155', borderRadius:8, color:'#94a3b8', padding:'8px 12px', cursor:'pointer', fontSize:13, marginBottom:12 }}>
+        <button onClick={() => navigate('/dashboard')} style={{ display:'flex', alignItems:'center', gap:6, background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:8, color:'#475569', padding:'8px 12px', cursor:'pointer', fontSize:13, marginBottom:12 }}>
           <ArrowLeft size={16}/> Back to Dashboard
         </button>
         <div className="header-content">
@@ -167,20 +167,20 @@ function ModuleManager() {
 
       {showMarketplace && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowMarketplace(false)}>
-          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:24,width:600,maxHeight:'80vh',overflowY:'auto'}} onClick={e => e.stopPropagation()}>
+          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:24,width:600,maxHeight:'80vh',overflowY:'auto'}} onClick={e => e.stopPropagation()}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-              <h2 style={{color:'#f1f5f9',margin:0}}>Module Marketplace</h2>
-              <button onClick={() => setShowMarketplace(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer',fontSize:24}}>x</button>
+              <h2 style={{color:'#0f172a',margin:0}}>Module Marketplace</h2>
+              <button onClick={() => setShowMarketplace(false)} style={{background:'none',border:'none',color:'#475569',cursor:'pointer',fontSize:24}}>x</button>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
               {MARKETPLACE.map((m,i) => (
-                <div key={i} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:10,padding:16}}>
+                <div key={i} style={{background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:10,padding:16}}>
                   <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
-                    <span style={{color:'#f1f5f9',fontWeight:600,fontSize:13}}>{m.name}</span>
+                    <span style={{color:'#0f172a',fontWeight:600,fontSize:13}}>{m.name}</span>
                     <span style={{color:m.price==='Free'?'#10b981':'#f59e0b',fontSize:12,fontWeight:600}}>{m.price}</span>
                   </div>
                   <p style={{color:'#64748b',fontSize:12,margin:'0 0 12px'}}>{m.desc}</p>
-                  <span style={{background:'#1e293b',color:'#94a3b8',fontSize:10,padding:'2px 8px',borderRadius:20}}>{m.category}</span>
+                  <span style={{background:'#ffffff',color:'#475569',fontSize:10,padding:'2px 8px',borderRadius:20}}>{m.category}</span>
                   <button onClick={() => alert(m.name + ' - Contact sales to purchase')} style={{display:'block',width:'100%',marginTop:12,background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'8px',cursor:'pointer',fontSize:12,fontWeight:600}}>
                     Get Module
                   </button>
@@ -195,3 +195,4 @@ function ModuleManager() {
 }
 
 export default ModuleManager
+

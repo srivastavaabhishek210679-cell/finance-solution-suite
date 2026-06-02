@@ -360,3 +360,4 @@ function FilterPanel({ onFilterChange, activeFilters, onReset }) {
 }
 
 export default FilterPanel;
+

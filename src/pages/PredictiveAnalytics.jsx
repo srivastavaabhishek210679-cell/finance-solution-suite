@@ -105,8 +105,8 @@ const MODEL_PERFORMANCE = [
 
 const getHealthColor = (s) => s >= 80 ? '#10b981' : s >= 60 ? '#f59e0b' : '#ef4444'
 const getHealthLabel = (s) => s >= 80 ? 'Healthy' : s >= 60 ? 'Warning' : 'Critical'
-const getSeverityColor = (v) => ({ critical: '#ef4444', high: '#f97316', medium: '#f59e0b', low: '#10b981' }[v] || '#94a3b8')
-const getImpactColor  = (v) => ({ high: '#10b981', medium: '#f59e0b', low: '#94a3b8' }[v] || '#94a3b8')
+const getSeverityColor = (v) => ({ critical: '#ef4444', high: '#f97316', medium: '#f59e0b', low: '#10b981' }[v] || '#475569')
+const getImpactColor  = (v) => ({ high: '#10b981', medium: '#f59e0b', low: '#475569' }[v] || '#475569')
 
 // ─────────────────────────────────────────────────────────────
 // CUSTOM RECHARTS TOOLTIP
@@ -267,14 +267,14 @@ function PredictiveAnalytics() {
                   <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.02} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="month"    tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} tickLine={false} />
-              <YAxis                    tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} tickLine={false} tickFormatter={v => `$${v}M`} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis dataKey="month"    tick={{ fill: '#475569', fontSize: 11 }} axisLine={{ stroke: '#e2e8f0' }} tickLine={false} />
+              <YAxis                    tick={{ fill: '#475569', fontSize: 11 }} axisLine={{ stroke: '#e2e8f0' }} tickLine={false} tickFormatter={v => `$${v}M`} />
               <Tooltip content={<ChartTooltip prefix="$" suffix="M" />} />
-              <Legend wrapperStyle={{ color: '#94a3b8', fontSize: 12, paddingTop: 8 }} />
+              <Legend wrapperStyle={{ color: '#475569', fontSize: 12, paddingTop: 8 }} />
               <ReferenceLine x="Dec 25" stroke="#475569" strokeDasharray="5 4" label={{ value: 'Today', fill: '#64748b', fontSize: 11 }} />
               <Area type="monotone" dataKey="upper"    fill="url(#revGrad)" stroke="none"     name="Upper Band" legendType="none" />
-              <Area type="monotone" dataKey="lower"    fill="#0f172a"       stroke="none"     name="Lower Band" legendType="none" />
+              <Area type="monotone" dataKey="lower"    fill="#f8fafc"       stroke="none"     name="Lower Band" legendType="none" />
               <Line type="monotone" dataKey="actual"   stroke="#10b981" strokeWidth={2.5} dot={{ fill: '#10b981', r: 4 }} name="Actual"   connectNulls={false} />
               <Line type="monotone" dataKey="forecast" stroke="#3b82f6" strokeWidth={2.5} strokeDasharray="6 3" dot={{ fill: '#3b82f6', r: 3 }} name="Forecast" />
             </ComposedChart>
@@ -292,11 +292,11 @@ function PredictiveAnalytics() {
         <div className="pa-chart-wrap">
           <ResponsiveContainer width="100%" height={260}>
             <ComposedChart data={DEMAND_FORECAST} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="month" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} tickLine={false} />
-              <YAxis                 tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} tickLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis dataKey="month" tick={{ fill: '#475569', fontSize: 11 }} axisLine={{ stroke: '#e2e8f0' }} tickLine={false} />
+              <YAxis                 tick={{ fill: '#475569', fontSize: 11 }} axisLine={{ stroke: '#e2e8f0' }} tickLine={false} />
               <Tooltip content={<ChartTooltip suffix=" units" />} />
-              <Legend wrapperStyle={{ color: '#94a3b8', fontSize: 12, paddingTop: 8 }} />
+              <Legend wrapperStyle={{ color: '#475569', fontSize: 12, paddingTop: 8 }} />
               <ReferenceLine x="Dec 25" stroke="#475569" strokeDasharray="5 4" />
               <Bar dataKey="actual"   fill="#10b981" name="Actual"   radius={[3,3,0,0]} opacity={0.85} />
               <Bar dataKey="forecast" fill="#3b82f6" name="Forecast" radius={[3,3,0,0]} opacity={0.75} />
@@ -357,12 +357,12 @@ function PredictiveAnalytics() {
         <div className="pa-chart-wrap">
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={CHURN_RISK_DATA} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="segment" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} tickLine={false} />
-              <YAxis                   tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} tickLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis dataKey="segment" tick={{ fill: '#475569', fontSize: 11 }} axisLine={{ stroke: '#e2e8f0' }} tickLine={false} />
+              <YAxis                   tick={{ fill: '#475569', fontSize: 11 }} axisLine={{ stroke: '#e2e8f0' }} tickLine={false} />
               <Tooltip content={<ChartTooltip suffix=" customers" />} />
               <Bar dataKey="count" name="Customers" radius={[4,4,0,0]} fill="#3b82f6"
-                label={{ position: 'top', fill: '#94a3b8', fontSize: 11 }} />
+                label={{ position: 'top', fill: '#475569', fontSize: 11 }} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -405,7 +405,7 @@ function PredictiveAnalytics() {
   const renderAnomaly = () => (
     <div className="pa-tab-content">
       <div className="pa-filter-row">
-        <Filter size={13} style={{ color: '#94a3b8' }} />
+        <Filter size={13} style={{ color: '#475569' }} />
         <span className="pa-filter-label">Severity:</span>
         {['All', 'Critical', 'High', 'Medium', 'Low'].map(s => (
           <button key={s} className={`pa-filter-btn ${severityFilter === s ? 'active' : ''}`} onClick={() => setSeverityFilter(s)}>{s}</button>
@@ -476,7 +476,7 @@ function PredictiveAnalytics() {
   const renderRecommendations = () => (
     <div className="pa-tab-content">
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-        <h3 style={{ color:"#f1f5f9", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
+        <h3 style={{ color:"#0f172a", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
         <button onClick={generateAIRecs} disabled={aiRecsLoading} style={{ display:"flex", alignItems:"center", gap:6, background:"#7c3aed", border:"none", borderRadius:8, color:"#fff", fontSize:12, fontWeight:600, padding:"8px 16px", cursor:"pointer", opacity:aiRecsLoading?0.7:1 }}>
           {aiRecsLoading ? <><RefreshCw size={12} style={{ animation:"spin 1s linear infinite" }}/> Generating...</> : <><Lightbulb size={12}/> Generate AI Insights</>}
         </button>
@@ -485,23 +485,23 @@ function PredictiveAnalytics() {
         <div style={{ marginBottom:20 }}>
           <div style={{ fontSize:12, color:"#a78bfa", fontWeight:600, marginBottom:10 }}>? AI Generated Recommendations</div>
           {aiRecs.map(rec => (
-            <div key={rec.id} style={{ background:"#1e293b", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
+            <div key={rec.id} style={{ background:"#ffffff", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
               <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-                <span style={{ color:"#f1f5f9", fontWeight:600, fontSize:13 }}>{rec.title}</span>
+                <span style={{ color:"#0f172a", fontWeight:600, fontSize:13 }}>{rec.title}</span>
                 <span style={{ background:"#7c3aed20", color:"#a78bfa", fontSize:11, padding:"2px 8px", borderRadius:20 }}>{rec.category}</span>
               </div>
-              <p style={{ color:"#94a3b8", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
+              <p style={{ color:"#475569", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
               <div style={{ display:"flex", gap:12, fontSize:11 }}>
                 <span style={{ color:"#10b981" }}>{rec.potentialValue}</span>
                 <span style={{ color:"#64748b" }}>Confidence: {rec.confidence}%</span>
-                <span style={{ color:rec.impact==="high"?"#10b981":rec.impact==="medium"?"#f59e0b":"#94a3b8" }}>Impact: {rec.impact}</span>
+                <span style={{ color:rec.impact==="high"?"#10b981":rec.impact==="medium"?"#f59e0b":"#475569" }}>Impact: {rec.impact}</span>
               </div>
             </div>
           ))}
         </div>
       )}
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-        <h3 style={{ color:"#f1f5f9", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
+        <h3 style={{ color:"#0f172a", fontSize:16, fontWeight:700, margin:0 }}>AI-Powered Recommendations</h3>
         <button onClick={generateAIRecs} disabled={aiRecsLoading} style={{ display:"flex", alignItems:"center", gap:6, background:"#7c3aed", border:"none", borderRadius:8, color:"#fff", fontSize:12, fontWeight:600, padding:"8px 16px", cursor:"pointer", opacity:aiRecsLoading?0.7:1 }}>
           {aiRecsLoading ? <><RefreshCw size={12} style={{ animation:"spin 1s linear infinite" }}/> Generating...</> : <><Lightbulb size={12}/> Generate AI Insights</>}
         </button>
@@ -510,23 +510,23 @@ function PredictiveAnalytics() {
         <div style={{ marginBottom:20 }}>
           <div style={{ fontSize:12, color:"#a78bfa", fontWeight:600, marginBottom:10 }}>? AI Generated Recommendations</div>
           {aiRecs.map(rec => (
-            <div key={rec.id} style={{ background:"#1e293b", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
+            <div key={rec.id} style={{ background:"#ffffff", border:"1px solid #7c3aed30", borderLeft:"3px solid #7c3aed", borderRadius:10, padding:16, marginBottom:10 }}>
               <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-                <span style={{ color:"#f1f5f9", fontWeight:600, fontSize:13 }}>{rec.title}</span>
+                <span style={{ color:"#0f172a", fontWeight:600, fontSize:13 }}>{rec.title}</span>
                 <span style={{ background:"#7c3aed20", color:"#a78bfa", fontSize:11, padding:"2px 8px", borderRadius:20 }}>{rec.category}</span>
               </div>
-              <p style={{ color:"#94a3b8", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
+              <p style={{ color:"#475569", fontSize:12, margin:"0 0 8px" }}>{rec.description}</p>
               <div style={{ display:"flex", gap:12, fontSize:11 }}>
                 <span style={{ color:"#10b981" }}>{rec.potentialValue}</span>
                 <span style={{ color:"#64748b" }}>Confidence: {rec.confidence}%</span>
-                <span style={{ color:rec.impact==="high"?"#10b981":rec.impact==="medium"?"#f59e0b":"#94a3b8" }}>Impact: {rec.impact}</span>
+                <span style={{ color:rec.impact==="high"?"#10b981":rec.impact==="medium"?"#f59e0b":"#475569" }}>Impact: {rec.impact}</span>
               </div>
             </div>
           ))}
         </div>
       )}
       <div className="pa-filter-row">
-        <Filter size={13} style={{ color: '#94a3b8' }} />
+        <Filter size={13} style={{ color: '#475569' }} />
         <span className="pa-filter-label">Category:</span>
         {['All', 'Revenue', 'Retention', 'Operations', 'HR', 'Risk'].map(c => (
           <button key={c} className={`pa-filter-btn ${categoryFilter === c ? 'active' : ''}`} onClick={() => setCategoryFilter(c)}>{c}</button>
@@ -632,4 +632,5 @@ function PredictiveAnalytics() {
 }
 
 export default PredictiveAnalytics
+
 

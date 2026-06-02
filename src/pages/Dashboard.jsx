@@ -297,7 +297,7 @@ function Dashboard() {
     display: 'inline-flex', alignItems: 'center', gap: 4,
     height: 28, padding: '0 8px',
     background: bg, border: '1px solid rgba(255,255,255,0.08)',
-    borderRadius: 6, color: '#f1f5f9',
+    borderRadius: 6, color: '#0f172a',
     fontSize: 11, fontWeight: 500,
     cursor: 'pointer', whiteSpace: 'nowrap',
     transition: 'filter 0.15s',
@@ -305,8 +305,8 @@ function Dashboard() {
   const iconBtnStyle = {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
     height: 30, width: 30,
-    background: '#1e293b', border: '1px solid rgba(255,255,255,0.08)',
-    borderRadius: 6, color: '#94a3b8', cursor: 'pointer',
+    background: '#ffffff', border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 6, color: '#475569', cursor: 'pointer',
   }
 
   return (
@@ -331,7 +331,7 @@ function Dashboard() {
         <ReportModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} onSave={handleSaveReport} report={reportToEdit} mode={modalMode}/>
         <DeleteConfirmModal isOpen={isDeleteModalOpen} onClose={()=>setIsDeleteModalOpen(false)} onConfirm={handleDeleteReport} report={reportToDelete}/>
 
-        {/* ── HEADER ─────────────────────────────────────────────── */}        <header style={{background:'#1e293b',borderBottom:'1px solid #334155',flexShrink:0}}>
+        {/* ── HEADER ─────────────────────────────────────────────── */}        <header style={{background:'#ffffff',borderBottom:'1px solid #e2e8f0',flexShrink:0}}>
           <div style={{padding:'0 16px',height:52,display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,overflow:'hidden'}}>
 
             {/* LEFT */}
@@ -346,13 +346,13 @@ function Dashboard() {
             {/* RIGHT */}
             <div style={{display:'flex',alignItems:'center',gap:3,overflow:'hidden',flexShrink:1}}>
               <RealTimeIndicator isConnected={realtime.isActive} connectionType="polling" lastUpdate={realtime.lastUpdate} updateCount={realtime.updateCount} onRefresh={realtime.refresh} showDetails={false} compact={true}/>
-              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
+              <div style={{width:1,height:18,background:'#e2e8f0',margin:'0 3px'}}/>
 
               {/* ── Hamburger Menu ──────────────────────────── */}
               <div style={{position:'relative'}}>
                 <button
                   onClick={()=>setShowHamburger(!showHamburger)}
-                  style={{...btnStyle('#1e293b'), border:'1px solid #334155', gap:5}}
+                  style={{...btnStyle('#ffffff'), border:'1px solid #e2e8f0', gap:5}}
                   title="Features Menu"
                 >
                   {showHamburger ? <X size={13}/> : <Menu size={13}/>}
@@ -369,11 +369,11 @@ function Dashboard() {
                     {/* Dropdown */}
                     <div style={{
                       position:'fixed', top:58, right:16,
-                      width:220, background:'#1e293b', border:'1px solid #334155',
+                      width:220, background:'#ffffff', border:'1px solid #e2e8f0',
                       borderRadius:10, boxShadow:'0 8px 32px rgba(0,0,0,0.4)',
                       zIndex:50, overflow:'hidden',
                     }}>
-                      <div style={{padding:'8px 12px', fontSize:10, fontWeight:700, color:'#64748b', textTransform:'uppercase', letterSpacing:'0.5px', borderBottom:'1px solid #334155'}}>
+                      <div style={{padding:'8px 12px', fontSize:10, fontWeight:700, color:'#64748b', textTransform:'uppercase', letterSpacing:'0.5px', borderBottom:'1px solid #e2e8f0'}}>
                         Feature Pages
                       </div>
                       {[
@@ -396,13 +396,13 @@ function Dashboard() {
                               borderBottom: i < 5 ? '1px solid #1e293b' : 'none',
                               transition:'background 0.15s',
                             }}
-                            onMouseEnter={e => e.currentTarget.style.background='#334155'}
+                            onMouseEnter={e => e.currentTarget.style.background='#e2e8f0'}
                             onMouseLeave={e => e.currentTarget.style.background='none'}
                           >
                             <div style={{width:26,height:26,borderRadius:6,background:`${item.color}25`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
                               <Icon size={13} style={{color:item.color}}/>
                             </div>
-                            <span style={{fontSize:12,fontWeight:600,color:'#f1f5f9'}}>{item.label}</span>
+                            <span style={{fontSize:12,fontWeight:600,color:'#0f172a'}}>{item.label}</span>
                           </button>
                         )
                       })}
@@ -426,8 +426,8 @@ function Dashboard() {
                   </button>
                 </>
               )}
-              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
-              <button onClick={showDashboard} style={btnStyle(currentView==='dashboard'?'#1d4ed8':'#1e293b')}>
+              <div style={{width:1,height:18,background:'#e2e8f0',margin:'0 3px'}}/>
+              <button onClick={showDashboard} style={btnStyle(currentView==='dashboard'?'#1d4ed8':'#ffffff')}>
                 <BarChart3 size={12}/><span>View</span>
               </button>
               <button onClick={()=>navigate('/upload-data')} style={btnStyle('#0f766e')}>
@@ -436,17 +436,17 @@ function Dashboard() {
               <button onClick={()=>navigate('/kpi-dashboard')} style={btnStyle('#0e7490')}>
                 <BarChart3 size={12}/><span>KPI</span>
               </button>
-              <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
-              <div style={{display:'flex',alignItems:'center',gap:4,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 8px',height:28}}>
+              <div style={{width:1,height:18,background:'#e2e8f0',margin:'0 3px'}}/>
+              <div style={{display:'flex',alignItems:'center',gap:4,background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:6,padding:'0 8px',height:28}}>
                 <Clock size={11} style={{color:'#2dd4bf'}}/>
                 <span style={{fontSize:11,fontFamily:'monospace',fontWeight:700,color:'#2dd4bf',letterSpacing:'0.5px'}}>{formatTime(currentTime)}</span>
               </div>
               <div className="relative">
-                <button onClick={()=>setShowUserMenu(!showUserMenu)} style={{display:'flex',alignItems:'center',gap:5,background:'#0f172a',border:'1px solid #334155',borderRadius:6,padding:'0 8px',height:28,cursor:'pointer'}}>
+                <button onClick={()=>setShowUserMenu(!showUserMenu)} style={{display:'flex',alignItems:'center',gap:5,background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:6,padding:'0 8px',height:28,cursor:'pointer'}}>
                   <div style={{width:18,height:18,background:'#2563eb',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:700,fontSize:9}}>
                     {user?.firstName?.charAt(0)||user?.email?.charAt(0)?.toUpperCase()}
                   </div>
-                  <span style={{fontSize:11,color:'#94a3b8',fontWeight:500}}>{user?.firstName||user?.email}</span>
+                  <span style={{fontSize:11,color:'#475569',fontWeight:500}}>{user?.firstName||user?.email}</span>
                 </button>
                 {showUserMenu&&(
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
@@ -696,6 +696,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 

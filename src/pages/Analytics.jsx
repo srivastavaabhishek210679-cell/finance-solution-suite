@@ -782,13 +782,13 @@ const Analytics = () => {
               </Pie>
               <Tooltip 
                 contentStyle={{ 
-                  background: '#1e293b', 
-                  border: '1px solid #334155',
+                  background: '#ffffff', 
+                  border: '1px solid #e2e8f0',
                   borderRadius: '8px'
                 }}
               />
               <Legend 
-                wrapperStyle={{ color: '#94a3b8' }}
+                wrapperStyle={{ color: '#475569' }}
               />
             </PieChart>
           </ResponsiveContainer>
@@ -798,7 +798,7 @@ const Analytics = () => {
           <h3>Role Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={roleData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#ffffff" />
               <XAxis type="number" stroke="#64748b" />
               <YAxis 
                 dataKey="name" 
@@ -808,8 +808,8 @@ const Analytics = () => {
               />
               <Tooltip 
                 contentStyle={{ 
-                  background: '#1e293b', 
-                  border: '1px solid #334155',
+                  background: '#ffffff', 
+                  border: '1px solid #e2e8f0',
                   borderRadius: '8px'
                 }}
               />
@@ -886,3 +886,4 @@ const Analytics = () => {
 };
 
 export default Analytics;
+

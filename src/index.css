@@ -100,7 +100,7 @@
 }
 
 body {
-  background-color: #ffffff !important;
+  background-color: #f8fafc !important;
   color: #0f172a !important;
 }
 
@@ -225,3 +225,4 @@ div[style*="background:#ef4444"] {
 div[style*="minHeight.*100vh"][style*="background:#0f172a"] {
   background: #f8fafc !important;
 }
+
