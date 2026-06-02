@@ -86,3 +86,142 @@
   animation: fadeIn 0.3s ease-in;
 }
 /*@import url('./AllComponents_COMPACT.css');*/
+
+/* ===== LIGHT THEME OVERRIDE ===== */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-input: #f1f5f9;
+  --border-color: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+}
+
+body {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Override dark backgrounds */
+div[style*="background:#0f172a"],
+div[style*="background: #0f172a"] {
+  background: #f8fafc !important;
+}
+
+div[style*="background:#1e293b"],
+div[style*="background: #1e293b"] {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+div[style*="background:#334155"],
+div[style*="background: #334155"] {
+  background: #f1f5f9 !important;
+}
+
+div[style*="background:#0f172a"],
+div[style*="background:'#0f172a'"] {
+  background: #f8fafc !important;
+}
+
+/* Override text colors */
+div[style*="color:#f1f5f9"],
+span[style*="color:#f1f5f9"],
+h1[style*="color:#f1f5f9"],
+h2[style*="color:#f1f5f9"],
+h3[style*="color:#f1f5f9"],
+h4[style*="color:#f1f5f9"],
+p[style*="color:#f1f5f9"] {
+  color: #0f172a !important;
+}
+
+div[style*="color:#94a3b8"],
+span[style*="color:#94a3b8"],
+td[style*="color:#94a3b8"] {
+  color: #475569 !important;
+}
+
+div[style*="color:#64748b"],
+span[style*="color:#64748b"],
+p[style*="color:#64748b"],
+label[style*="color:#64748b"],
+th[style*="color:#64748b"] {
+  color: #64748b !important;
+}
+
+/* Input fields */
+input[style*="background:#0f172a"],
+input[style*="background:#1e293b"],
+select[style*="background:#0f172a"],
+select[style*="background:#1e293b"],
+textarea[style*="background:#0f172a"],
+textarea[style*="background:#1e293b"] {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Buttons */
+button[style*="background:#334155"] {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+}
+
+/* Table rows */
+tr[style*="background:#0f172a"] {
+  background: #f8fafc !important;
+}
+
+/* Borders */
+div[style*="border.*#334155"],
+div[style*="borderBottom.*#334155"] {
+  border-color: #e2e8f0 !important;
+}
+
+/* Header bars */
+div[style*="background:#1e293b"][style*="borderBottom"] {
+  background: #ffffff !important;
+  border-bottom-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+/* Sidebar */
+nav[style*="background:#1e293b"],
+div[style*="background:#1e293b"][style*="height.*100vh"] {
+  background: #f8fafc !important;
+}
+
+/* Cards with colored borders - keep accent colors */
+div[style*="borderTop.*#3b82f6"],
+div[style*="borderTop.*#10b981"],
+div[style*="borderTop.*#ef4444"],
+div[style*="borderTop.*#f59e0b"],
+div[style*="borderTop.*#8b5cf6"] {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Dark overlays for modals - keep semi-transparent */
+div[style*="background:rgba(0,0,0,0.8)"],
+div[style*="background: rgba(0,0,0,0.8)"] {
+  background: rgba(0,0,0,0.5) !important;
+}
+
+/* Scrollbar for light theme */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Toast notifications - keep colored */
+div[style*="background:#10b981"],
+div[style*="background:#ef4444"] {
+  color: #ffffff !important;
+}
+
+/* Min height pages */
+div[style*="minHeight.*100vh"][style*="background:#0f172a"] {
+  background: #f8fafc !important;
+}
