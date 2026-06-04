@@ -23,6 +23,7 @@ import { useSimulatedRealTime } from '../hooks/useRealTime'
 import RealTimeIndicator from '../components/RealTimeIndicator'
 import RealTimeAlerts, { RealTimeAlertTypes, showRealTimeAlert } from '../components/RealTimeAlerts'
 import { REPORTS_DATA, DOMAINS } from '../data/reportsData'
+import GlobalSearch from '../components/GlobalSearch'
 import { TrendingUp, TrendingDown, FileText, CheckCircle, AlertTriangle, BarChart3, Clock, Upload, Brain, GitBranch, Link2, CreditCard, Menu, X } from 'lucide-react'
 import './dashboard.css'
 import NotificationPanel from '../components/NotificationPanel'
@@ -49,6 +50,11 @@ const DOMAIN_ID_MAP = {
 function Dashboard() {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
+  useEffect(() => {
+    const handleKey = (e) => { if((e.metaKey||e.ctrlKey) && e.key==='k') { e.preventDefault(); setShowSearch(true) } }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [])
   const [selectedReport, setSelectedReport] = useState(null)
   const [currentView, setCurrentView] = useState('dashboard')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -336,7 +342,12 @@ function Dashboard() {
 
             {/* LEFT */}
             <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
-              <button onClick={showDashboard} style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
+              <button onClick={()=>setShowSearch(true)} style={{display:'flex',alignItems:'center',gap:8,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#64748b',padding:'6px 14px',cursor:'pointer',fontSize:12,minWidth:180}}>
+                  <svg width='14' height='14' fill='none' stroke='currentColor' viewBox='0 0 24 24'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.35-4.35'/></svg>
+                  <span>Search...</span>
+                  <span style={{marginLeft:'auto',background:'#334155',borderRadius:4,padding:'1px 6px',fontSize:10}}>Ctrl+K</span>
+                </button>
+                <button onClick={showDashboard} style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
                 <span style={{fontSize:15,fontWeight:700,color:'#60a5fa',letterSpacing:'-0.3px'}}>Enterprise Finance Platform</span>
               </button>
               <span style={{fontSize:11,color:'#475569',whiteSpace:'nowrap'}}>{reports.length} Reports · {DOMAINS.length} Domains</span>
@@ -427,7 +438,12 @@ function Dashboard() {
                 </>
               )}
               <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
-              <button onClick={showDashboard} style={btnStyle(currentView==='dashboard'?'#1d4ed8':'#1e293b')}>
+              <button onClick={()=>setShowSearch(true)} style={{display:'flex',alignItems:'center',gap:8,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#64748b',padding:'6px 14px',cursor:'pointer',fontSize:12,minWidth:180}}>
+                  <svg width='14' height='14' fill='none' stroke='currentColor' viewBox='0 0 24 24'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.35-4.35'/></svg>
+                  <span>Search...</span>
+                  <span style={{marginLeft:'auto',background:'#334155',borderRadius:4,padding:'1px 6px',fontSize:10}}>Ctrl+K</span>
+                </button>
+                <button onClick={showDashboard} style={btnStyle(currentView==='dashboard'?'#1d4ed8':'#1e293b')}>
                 <BarChart3 size={12}/><span>View</span>
               </button>
               <button onClick={()=>navigate('/upload-data')} style={btnStyle('#0f766e')}>
@@ -696,6 +712,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
