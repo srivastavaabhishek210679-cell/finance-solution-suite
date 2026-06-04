@@ -76,7 +76,13 @@ function Register() {
         }
       } else {
         // Legacy flow — redirect to login
-        navigate('/login?registered=true')
+        // Send verification email
+        fetch('https://finance-backend-so86.onrender.com/api/v1/email-verify/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email })
+        }).catch(e => console.error('Verify email error:', e))
+        navigate('/login?registered=true&verify=true')
       }
     } catch (err) {
       setError('Could not connect to server. Please try again.')
@@ -236,6 +242,7 @@ function Register() {
 }
 
 export default Register
+
 
 
 

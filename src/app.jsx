@@ -47,7 +47,8 @@ import ErrorBoundary        from './components/ErrorBoundary'
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
 import DataUpload           from './pages/DataUpload'
 import MFASettings          from './pages/MFASettings'
-import Workspace            from './pages/Workspace'
+import MFASettings          from './pages/MFASettings'
+import VerifyEmail          from './pages/VerifyEmail'
 
 function Protected({ children, pageName }) {
   return (
@@ -121,7 +122,8 @@ function App() {
       <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
       <Route path="/workspace" element={<Protected pageName="My Workspace"><Workspace /></Protected>} />
       <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
-      <Route path="/integration-ecosystem" element={<Protected pageName="Integration Ecosystem"> <IntegrationEcosystem /> </Protected>} />
+      <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/monetization"          element={<Protected pageName="Billing & Plans">      <Monetization />         </Protected>} />
 
       <Route path="/" element={<Navigate to="/workspace" replace />} />
