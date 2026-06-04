@@ -102,7 +102,15 @@ export default function Onboarding() {
         })
       })
       const data = await res.json()
-      if(data.status==='success') navigate('/workspace')
+      if(data.status==='success') {
+        localStorage.setItem('userWorkspace', JSON.stringify({
+          selected_modules: selectedModules.map(m => m.module_path === '/upload-data' ? 'domain:'+m.domain_id : m.module_path),
+          selected_domains: selectedDomains,
+          selected_reports: selectedReports.map(r => r.report_id),
+          onboarding_complete: true
+        }))
+        navigate('/workspace')
+      }
     } catch(e) { console.error(e) }
     setSaving(false)
   }
