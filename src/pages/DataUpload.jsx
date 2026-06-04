@@ -156,7 +156,7 @@ const DataUpload = () => {
         summary: generateSummary(processedData, template)
       };
 
-      setGeneratedReport(report);
+      setGeneratedReport(report); console.log('Report generated:', report);
       setProcessing(false);
       setStep(5);
     }, 2000);
@@ -747,5 +747,6 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
+
 
 
