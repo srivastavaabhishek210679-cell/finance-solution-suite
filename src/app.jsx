@@ -50,7 +50,8 @@ const DataUpload = lazy(() => import('./pages/DataUpload'))
 const MFASettings = lazy(() => import('./pages/MFASettings'))
 const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
 const AuditLog = lazy(() => import('./pages/AuditLog'))
-function Protected({ children, pageName }) {
+const AuditLog = lazy(() => import('./pages/AuditLog'))
+const Workspace = lazy(() => import('./pages/Workspace'))
   return (
     <ProtectedRoute>
       <ErrorBoundary pageName={pageName}>
