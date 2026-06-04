@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { useAuth } from './contexts/AuthContext'
+import CookieBanner from './components/CookieBanner'
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
@@ -50,7 +51,8 @@ const DataUpload = lazy(() => import('./pages/DataUpload'))
 const MFASettings = lazy(() => import('./pages/MFASettings'))
 const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
 const AuditLog = lazy(() => import('./pages/AuditLog'))
-const Workspace = lazy(() => import('./pages/Workspace'))
+const AuditLog = lazy(() => import('./pages/AuditLog'))
+const GDPRPrivacyCenter = lazy(() => import('./pages/GDPRPrivacyCenter'))
 
 function Protected({ children, pageName }) {
   return (
@@ -127,10 +129,14 @@ function App() {
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
-
+      <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
+      <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
       <Route path="/" element={<Navigate to="/workspace" replace />} />
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<Navigate to="/workspace" replace />} />
+      <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
     </Routes>
+    <CookieBanner />
+  )
   )
 }
 
