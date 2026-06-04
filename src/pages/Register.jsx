@@ -174,6 +174,26 @@ function Register() {
               placeholder="Min. 8 characters"
               className="w-full bg-gray-900 border border-gray-600 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 text-sm"
             />
+              {formData.password && (
+                <div style={{marginTop:6}}>
+                  <div style={{display:'flex',gap:4,marginBottom:4}}>
+                    {[
+                      /[a-z]/.test(formData.password),
+                      /[A-Z]/.test(formData.password),
+                      /\d/.test(formData.password),
+                      /[@$!%*?&]/.test(formData.password),
+                      formData.password.length >= 8
+                    ].map((met,i)=>(
+                      <div key={i} style={{flex:1,height:3,borderRadius:2,background:met?'#10b981':'#334155'}}></div>
+                    ))}
+                  </div>
+                  <div style={{fontSize:10,color:'#64748b'}}>
+                    {[/[a-z]/,/[A-Z]/,/\d/,/[@$!%*?&]/].filter(r=>r.test(formData.password)).length < 2 ? '?? Weak' :
+                     [/[a-z]/,/[A-Z]/,/\d/,/[@$!%*?&]/].filter(r=>r.test(formData.password)).length < 4 ? '?? Medium' : '?? Strong'}
+                    {' '}- Use uppercase, lowercase, number & special char
+                  </div>
+                </div>
+              )}
           </div>
 
           {/* Confirm password */}
@@ -216,5 +236,7 @@ function Register() {
 }
 
 export default Register
+
+
 
 
