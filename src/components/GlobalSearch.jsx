@@ -55,7 +55,7 @@ export default function GlobalSearch({ onClose }) {
       const [reportData, histData] = await Promise.all([reportRes.json(), histRes.json()])
 
       const moduleResults = Object.entries(MODULE_MAP)
-        .filter(([key]) => key.includes(q.toLowerCase()))
+        .filter(([key, val]) => key.includes(q.toLowerCase()) || val.path.includes(q.toLowerCase()))
         .map(([key, val]) => ({ type:'module', name:key.charAt(0).toUpperCase()+key.slice(1)+' Management', ...val }))
 
       const reportResults = (reportData.data||[]).slice(0,5).map(r=>({ type:'report', name:r.name, domain:r.domain_name, icon:'📊', color:'#8b5cf6', path:'/upload-data' }))
@@ -117,7 +117,7 @@ export default function GlobalSearch({ onClose }) {
             <div style={{padding:'12px 20px'}}>
               <div style={{fontSize:11,color:'#64748b',marginBottom:10,textTransform:'uppercase',fontWeight:600}}>Quick Access</div>
               <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
-                {Object.entries(MODULE_MAP).slice(0,9).map(([key,val])=>(
+                {Object.entries(MODULE_MAP).map(([key,val])=>(
                   <div key={key} onClick={()=>handleSelect({...val,name:key.charAt(0).toUpperCase()+key.slice(1)})} style={{background:'#0f172a',borderRadius:8,padding:'10px',cursor:'pointer',display:'flex',alignItems:'center',gap:8,border:'1px solid #334155'}} onMouseEnter={e=>e.currentTarget.style.borderColor=val.color} onMouseLeave={e=>e.currentTarget.style.borderColor='#334155'}>
                     <span style={{fontSize:16}}>{val.icon}</span>
                     <span style={{color:'#94a3b8',fontSize:12,textTransform:'capitalize'}}>{key}</span>
