@@ -709,18 +709,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
                 <Download size={20} />
                 Download PDF/Text
               </button>
-              <button 
-                className="button-primary"
-                onClick={() => { console.log('generatedReport:', generatedReport); setShowReportViewer(true); }}
-                style={{ 
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                  boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)',
-                  fontWeight: '700'
-                }}
-              >
-                <Sparkles size={20} />
-                View Professional Report
-              </button>
+              
               <button onClick={() => navigate('/kpi-dashboard')}>
                 Advanced KPI Dashboard
               </button>
@@ -747,6 +736,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
+
 
 
 
