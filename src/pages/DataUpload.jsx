@@ -711,7 +711,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
               </button>
               <button 
                 className="button-primary"
-                onClick={() => { if(generatedReport) setShowReportViewer(true); else alert('Please complete the report generation first. Upload a file, select a template and generate the report.'); }}
+                onClick={() => { console.log('generatedReport:', generatedReport); setShowReportViewer(true); }}
                 style={{ 
                   background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                   boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)',
@@ -747,6 +747,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
+
 
 
 
