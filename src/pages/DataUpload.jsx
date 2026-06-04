@@ -157,21 +157,6 @@ const DataUpload = () => {
       };
 
       setGeneratedReport(report);
-      // Save report to DB
-      const token = localStorage.getItem('token');
-      fetch('https://finance-backend-so86.onrender.com/api/v1/workspace/save-report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
-        body: JSON.stringify({
-          report_name: report.name,
-          domain_name: report.templateName,
-          template_id: report.template,
-          total_records: report.totalRecords,
-          file_name: report.dataSource,
-          report_data: { summary: report.summary, data: report.data.slice(0, 100) },
-          notes: 'Generated from ' + report.dataSource
-        })
-      }).then(r => r.json()).then(d => console.log('Report saved to DB:', d.data?.history_id));
       setProcessing(false);
       setStep(5);
     }, 2000);
@@ -615,7 +600,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
               </button>
               <button 
                 className="button-primary"
-                disabled={processing}
+                disabled={Object.keys(columnMapping).length !== reportTemplates.find(t => t.id === selectedTemplate).fields.length}
                 onClick={handleGenerateReport}
               >
                 {processing ? 'Generating...' : 'Generate Report'}
@@ -724,11 +709,10 @@ ${JSON.stringify(generatedReport.data, null, 2)}
                 <Download size={20} />
                 Download PDF/Text
               </button>
-              
-              <button
+              <button 
                 className="button-primary"
                 onClick={() => setShowReportViewer(true)}
-                style={{
+                style={{ 
                   background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                   boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)',
                   fontWeight: '700'
@@ -763,11 +747,3 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
-
-
-
-
-
-
-
-

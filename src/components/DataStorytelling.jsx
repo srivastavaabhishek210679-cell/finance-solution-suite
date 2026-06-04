@@ -65,7 +65,7 @@ Write 3 short paragraphs:
   return (
     <div style={{
       background: '#1e293b',
-      border: '1px solid #e2e8f0',
+      border: '1px solid #334155',
       borderRadius: 12,
       padding: 20,
       marginBottom: 16
@@ -93,7 +93,7 @@ Write 3 short paragraphs:
             </button>
           )}
           <button onClick={() => setExpanded(!expanded)} style={{
-            background: 'none', border: '1px solid #e2e8f0',
+            background: 'none', border: '1px solid #334155',
             borderRadius: 8, color: '#94a3b8', cursor: 'pointer', padding: '6px 8px'
           }}>
             {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -147,6 +147,5 @@ Write 3 short paragraphs:
     </div>
   )
 }
-
 
 

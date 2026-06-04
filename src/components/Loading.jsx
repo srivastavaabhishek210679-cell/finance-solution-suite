@@ -10,4 +10,3 @@ function Loading({ message = 'Loading...' }) {
 }
 
 export default Loading
-

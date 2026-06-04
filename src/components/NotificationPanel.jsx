@@ -164,4 +164,3 @@ export default function NotificationPanel() {
     </div>
   )
 }
-

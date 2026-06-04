@@ -268,4 +268,3 @@ Current risk exposure in the ${selDomain} domain is assessed as **Medium**. Prim
 }
 
 export default ReportSummaryGenerator
-

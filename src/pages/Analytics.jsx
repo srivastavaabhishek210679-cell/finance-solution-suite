@@ -783,7 +783,7 @@ const Analytics = () => {
               <Tooltip 
                 contentStyle={{ 
                   background: '#1e293b', 
-                  border: '1px solid #e2e8f0',
+                  border: '1px solid #334155',
                   borderRadius: '8px'
                 }}
               />
@@ -809,7 +809,7 @@ const Analytics = () => {
               <Tooltip 
                 contentStyle={{ 
                   background: '#1e293b', 
-                  border: '1px solid #e2e8f0',
+                  border: '1px solid #334155',
                   borderRadius: '8px'
                 }}
               />
@@ -886,4 +886,3 @@ const Analytics = () => {
 };
 
 export default Analytics;
-

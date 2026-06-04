@@ -163,7 +163,7 @@ function ComplianceCalendar() {
             disabled={loading}
             style={{
               display: 'flex', alignItems: 'center', gap: 4,
-              background: '#1e293b', border: '1px solid #e2e8f0',
+              background: '#1e293b', border: '1px solid #334155',
               borderRadius: 6, color: '#64748b', cursor: 'pointer',
               padding: '4px 10px', fontSize: 11,
             }}
@@ -326,4 +326,3 @@ function ComplianceCalendar() {
 }
 
 export default ComplianceCalendar
-

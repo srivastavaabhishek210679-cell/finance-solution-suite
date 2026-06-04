@@ -501,4 +501,3 @@ function DomainDashboard({ domain = 'Healthcare', reports }) {
 }
 
 export default DomainDashboard;
-

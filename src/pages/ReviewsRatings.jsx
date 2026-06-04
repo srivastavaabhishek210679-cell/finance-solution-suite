@@ -236,4 +236,3 @@ function ReviewsRatings() {
 }
 
 export default ReviewsRatings
-

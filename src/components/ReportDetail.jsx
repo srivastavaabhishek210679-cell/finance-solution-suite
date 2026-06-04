@@ -745,4 +745,3 @@ Compliance: ${report.complianceStatus}
 }
 
 export default ReportDetail
-

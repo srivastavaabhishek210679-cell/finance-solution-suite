@@ -525,7 +525,7 @@ function Dashboard() {
                   {Object.keys(activeFilters).length > 0 && (
                     <div style={{
                       background: '#1e293b',
-                      border: '1px solid #e2e8f0',
+                      border: '1px solid #334155',
                       borderRadius: '6px',
                       padding: '0.75rem 1rem',
                       marginBottom: '1rem',
@@ -659,7 +659,7 @@ function Dashboard() {
                           <div style={{
                             marginTop: '1rem',
                             paddingTop: '1rem',
-                            borderTop: '1px solid #e2e8f0'
+                            borderTop: '1px solid #334155'
                           }}>
                             <div style={{
                               fontSize: '0.75rem',
@@ -685,7 +685,7 @@ function Dashboard() {
                                   style={{
                                     padding: '0.75rem',
                                     background: '#0f172a',
-                                    border: '1px solid #e2e8f0',
+                                    border: '1px solid #334155',
                                     borderRadius: '6px',
                                     color: '#f1f5f9',
                                     fontSize: '0.875rem',
@@ -730,7 +730,7 @@ function Dashboard() {
                                   width: '100%',
                                   padding: '0.5rem',
                                   background: 'transparent',
-                                  border: '1px solid #e2e8f0',
+                                  border: '1px solid #334155',
                                   borderRadius: '6px',
                                   color: '#14B8A6',
                                   fontSize: '0.75rem',

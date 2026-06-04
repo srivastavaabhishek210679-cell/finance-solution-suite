@@ -94,12 +94,12 @@ export default function ResourceManagement() {
   const filtered = resources.filter(r => (r.name+r.role+r.department).toLowerCase().includes(search.toLowerCase()))
 
   return (
-    <div style={{minHeight:'100vh',background:'#f1f5f9',color:'#1e293b',fontFamily:'Inter,sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}
 
       {/* Header */}
       <div style={{background:'#1e293b',borderBottom:'1px solid #334155',padding:'16px 24px',display:'flex',alignItems:'center',gap:16}}>
-        <button onClick={()=>navigate('/dashboard')} style={{background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'8px 12px',cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><ArrowLeft size={16}/> Back</button>
+        <button onClick={()=>navigate('/dashboard')} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 12px',cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><ArrowLeft size={16}/> Back</button>
         <Users size={28} style={{color:'#3b82f6'}}/>
         <div>
           <h1 style={{margin:0,fontSize:20,fontWeight:700}}>Resource Management</h1>
@@ -122,7 +122,7 @@ export default function ResourceManagement() {
               {label:'Allocated', value:Number(stats.totalResources)-Number(stats.availableResources), color:'#f59e0b'},
               {label:'Active Projects', value:stats.activeProjects, color:'#8b5cf6'},
             ].map((s,i)=>(
-              <div key={i} style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
+              <div key={i} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
                 <div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{s.label}</div>
                 <div style={{fontSize:28,fontWeight:700,color:s.color}}>{s.value}</div>
               </div>
@@ -132,15 +132,15 @@ export default function ResourceManagement() {
 
         {/* Department Chart */}
         {stats?.departmentBreakdown?.length > 0 && (
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20,marginBottom:24}}>
-            <h3 style={{color:'#1e293b',marginBottom:16,fontSize:14}}>Resource Distribution by Department</h3>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,marginBottom:24}}>
+            <h3 style={{color:'#f1f5f9',marginBottom:16,fontSize:14}}>Resource Distribution by Department</h3>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={stats.departmentBreakdown}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155"/>
                   <XAxis dataKey="department" tick={{fill:'#64748b',fontSize:10}}/>
                   <YAxis tick={{fill:'#64748b',fontSize:10}}/>
-                  <Tooltip contentStyle={{background:'#ffffff',border:'1px solid #e2e8f0'}}/>
+                  <Tooltip contentStyle={{background:'#1e293b',border:'1px solid #334155'}}/>
                   <Bar dataKey="count" fill="#3b82f6" radius={[4,4,0,0]}/>
                 </BarChart>
               </ResponsiveContainer>
@@ -157,7 +157,7 @@ export default function ResourceManagement() {
         )}
 
         {/* Tabs */}
-        <div style={{display:'flex',gap:4,marginBottom:20,background:'#ffffff',padding:4,borderRadius:10,width:'fit-content'}}>
+        <div style={{display:'flex',gap:4,marginBottom:20,background:'#1e293b',padding:4,borderRadius:10,width:'fit-content'}}>
           {[['resources','Resources'],['projects','Projects'],['allocations','Allocations']].map(([id,label])=>(
             <button key={id} onClick={()=>setTab(id)} style={{padding:'8px 20px',borderRadius:8,border:'none',background:tab===id?'#3b82f6':'transparent',color:tab===id?'#fff':'#64748b',cursor:'pointer',fontWeight:600,fontSize:13}}>{label}</button>
           ))}
@@ -165,20 +165,20 @@ export default function ResourceManagement() {
 
         {/* Resources Tab */}
         {tab==='resources' && (
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20}}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
-              <h3 style={{color:'#1e293b',margin:0}}>Resource Pool ({filtered.length})</h3>
-              <div style={{display:'flex',alignItems:'center',gap:8,background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:8,padding:'8px 12px'}}>
+              <h3 style={{color:'#f1f5f9',margin:0}}>Resource Pool ({filtered.length})</h3>
+              <div style={{display:'flex',alignItems:'center',gap:8,background:'#0f172a',border:'1px solid #334155',borderRadius:8,padding:'8px 12px'}}>
                 <Search size={14} style={{color:'#64748b'}}/>
-                <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search resources..." style={{background:'none',border:'none',color:'#1e293b',fontSize:13,outline:'none',width:180}}/>
+                <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search resources..." style={{background:'none',border:'none',color:'#f1f5f9',fontSize:13,outline:'none',width:180}}/>
               </div>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16}}>
               {filtered.map(r=>(
-                <div key={r.resource_id} style={{background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:10,padding:16}}>
+                <div key={r.resource_id} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:10,padding:16}}>
                   <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
                     <div>
-                      <div style={{color:'#1e293b',fontWeight:600,fontSize:14}}>{r.name}</div>
+                      <div style={{color:'#f1f5f9',fontWeight:600,fontSize:14}}>{r.name}</div>
                       <div style={{color:'#64748b',fontSize:12}}>{r.role}</div>
                     </div>
                     <span style={{background:r.status==='Available'?'#10b98120':'#f59e0b20',color:r.status==='Available'?'#10b981':'#f59e0b',padding:'2px 8px',borderRadius:20,fontSize:11,height:'fit-content'}}>{r.status}</span>
@@ -186,15 +186,15 @@ export default function ResourceManagement() {
                   <div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{r.department} • {r.location}</div>
                   <div style={{marginBottom:10}}>
                     <div style={{display:'flex',justifyContent:'space-between',fontSize:11,color:'#64748b',marginBottom:4}}><span>Availability</span><span style={{color:'#10b981'}}>{r.availability_percent}%</span></div>
-                    <div style={{background:'#ffffff',borderRadius:4,height:6}}><div style={{background:'#10b981',height:6,borderRadius:4,width:`${r.availability_percent}%`}}></div></div>
+                    <div style={{background:'#1e293b',borderRadius:4,height:6}}><div style={{background:'#10b981',height:6,borderRadius:4,width:`${r.availability_percent}%`}}></div></div>
                   </div>
                   <div style={{display:'flex',flexWrap:'wrap',gap:4,marginBottom:10}}>
-                    {(r.skills||[]).slice(0,3).map((s,i)=><span key={i} style={{background:'#ffffff',color:'#475569',fontSize:10,padding:'2px 6px',borderRadius:10}}>{s}</span>)}
+                    {(r.skills||[]).slice(0,3).map((s,i)=><span key={i} style={{background:'#1e293b',color:'#94a3b8',fontSize:10,padding:'2px 6px',borderRadius:10}}>{s}</span>)}
                     {(r.skills||[]).length>3 && <span style={{color:'#64748b',fontSize:10}}>+{r.skills.length-3} more</span>}
                   </div>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <span style={{color:'#3b82f6',fontSize:12,fontWeight:600}}>₹{Number(r.hourly_rate).toLocaleString()}/hr</span>
-                    <button onClick={()=>{setEditRes(r);setResForm({...r,skills:r.skills||[]});setShowResForm(true)}} style={{background:'#e2e8f0',border:'none',borderRadius:6,color:'#475569',padding:'4px 8px',cursor:'pointer',fontSize:12}}><Edit size={12}/></button>
+                    <button onClick={()=>{setEditRes(r);setResForm({...r,skills:r.skills||[]});setShowResForm(true)}} style={{background:'#334155',border:'none',borderRadius:6,color:'#94a3b8',padding:'4px 8px',cursor:'pointer',fontSize:12}}><Edit size={12}/></button>
                   </div>
                 </div>
               ))}
@@ -204,21 +204,21 @@ export default function ResourceManagement() {
 
         {/* Projects Tab */}
         {tab==='projects' && (
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20}}>
-            <h3 style={{color:'#1e293b',margin:'0 0 16px'}}>Projects ({projects.length})</h3>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
+            <h3 style={{color:'#f1f5f9',margin:'0 0 16px'}}>Projects ({projects.length})</h3>
             <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:16}}>
               {projects.map(p=>(
-                <div key={p.project_id} style={{background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:10,padding:16}}>
+                <div key={p.project_id} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:10,padding:16}}>
                   <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
                     <div>
-                      <div style={{color:'#1e293b',fontWeight:600,fontSize:14}}>{p.project_name}</div>
+                      <div style={{color:'#f1f5f9',fontWeight:600,fontSize:14}}>{p.project_name}</div>
                       <div style={{color:'#64748b',fontSize:12}}>{p.project_code} • {p.client}</div>
                     </div>
                     <span style={{background:p.priority==='High'?'#ef444420':'#f59e0b20',color:p.priority==='High'?'#ef4444':'#f59e0b',padding:'2px 8px',borderRadius:20,fontSize:11,height:'fit-content'}}>{p.priority}</span>
                   </div>
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
-                    <div style={{fontSize:11,color:'#64748b'}}>Start: <span style={{color:'#475569'}}>{p.start_date?.slice(0,10)}</span></div>
-                    <div style={{fontSize:11,color:'#64748b'}}>End: <span style={{color:'#475569'}}>{p.end_date?.slice(0,10)}</span></div>
+                    <div style={{fontSize:11,color:'#64748b'}}>Start: <span style={{color:'#94a3b8'}}>{p.start_date?.slice(0,10)}</span></div>
+                    <div style={{fontSize:11,color:'#64748b'}}>End: <span style={{color:'#94a3b8'}}>{p.end_date?.slice(0,10)}</span></div>
                     <div style={{fontSize:11,color:'#64748b'}}>Budget: <span style={{color:'#10b981'}}>₹{Number(p.budget).toLocaleString()}</span></div>
                     <div style={{fontSize:11,color:'#64748b'}}>Team: <span style={{color:'#3b82f6'}}>{p.team_size} members</span></div>
                   </div>
@@ -231,11 +231,11 @@ export default function ResourceManagement() {
 
         {/* Allocations Tab */}
         {tab==='allocations' && (
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20}}>
-            <h3 style={{color:'#1e293b',margin:'0 0 16px'}}>Resource Allocations ({allocations.length})</h3>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
+            <h3 style={{color:'#f1f5f9',margin:'0 0 16px'}}>Resource Allocations ({allocations.length})</h3>
             <table style={{width:'100%',borderCollapse:'collapse'}}>
               <thead>
-                <tr style={{borderBottom:'1px solid #e2e8f0'}}>
+                <tr style={{borderBottom:'1px solid #334155'}}>
                   {['Resource','Role','Project','Allocation %','Period','Status','Action'].map(h=>(
                     <th key={h} style={{color:'#64748b',fontSize:11,padding:'8px',textAlign:'left',textTransform:'uppercase'}}>{h}</th>
                   ))}
@@ -243,20 +243,20 @@ export default function ResourceManagement() {
               </thead>
               <tbody>
                 {allocations.map(a=>(
-                  <tr key={a.allocation_id} style={{borderBottom:'1px solid #f1f5f9'}}>
+                  <tr key={a.allocation_id} style={{borderBottom:'1px solid #0f172a'}}>
                     <td style={{padding:'10px 8px'}}>
-                      <div style={{color:'#1e293b',fontWeight:600,fontSize:13}}>{a.resource_name}</div>
+                      <div style={{color:'#f1f5f9',fontWeight:600,fontSize:13}}>{a.resource_name}</div>
                       <div style={{color:'#64748b',fontSize:11}}>{a.department}</div>
                     </td>
-                    <td style={{padding:'10px 8px',color:'#475569',fontSize:12}}>{a.role_in_project}</td>
+                    <td style={{padding:'10px 8px',color:'#94a3b8',fontSize:12}}>{a.role_in_project}</td>
                     <td style={{padding:'10px 8px',color:'#3b82f6',fontSize:12}}>{a.project_name}</td>
                     <td style={{padding:'10px 8px'}}>
                       <div style={{display:'flex',alignItems:'center',gap:8}}>
-                        <div style={{background:'#ffffff',borderRadius:4,height:6,width:60}}><div style={{background:'#3b82f6',height:6,borderRadius:4,width:`${a.allocation_percent}%`}}></div></div>
+                        <div style={{background:'#1e293b',borderRadius:4,height:6,width:60}}><div style={{background:'#3b82f6',height:6,borderRadius:4,width:`${a.allocation_percent}%`}}></div></div>
                         <span style={{color:'#3b82f6',fontSize:12}}>{a.allocation_percent}%</span>
                       </div>
                     </td>
-                    <td style={{padding:'10px 8px',color:'#475569',fontSize:11}}>{a.start_date?.slice(0,10)} → {a.end_date?.slice(0,10)}</td>
+                    <td style={{padding:'10px 8px',color:'#94a3b8',fontSize:11}}>{a.start_date?.slice(0,10)} → {a.end_date?.slice(0,10)}</td>
                     <td style={{padding:'10px 8px'}}>
                       <span style={{background:a.status==='Active'?'#10b98120':'#ef444420',color:a.status==='Active'?'#10b981':'#ef4444',padding:'2px 8px',borderRadius:20,fontSize:11}}>{a.status}</span>
                     </td>
@@ -274,27 +274,27 @@ export default function ResourceManagement() {
       {/* Add Resource Modal */}
       {showResForm && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setShowResForm(false)}>
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:16,padding:24,width:560,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:560,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-              <h2 style={{color:'#1e293b',margin:0}}>{editRes?'Edit Resource':'Add Resource'}</h2>
-              <button onClick={()=>setShowResForm(false)} style={{background:'none',border:'none',color:'#475569',cursor:'pointer'}}><X size={20}/></button>
+              <h2 style={{color:'#f1f5f9',margin:0}}>{editRes?'Edit Resource':'Add Resource'}</h2>
+              <button onClick={()=>setShowResForm(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer'}}><X size={20}/></button>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
               {[['name','Name'],['email','Email'],['role','Role'],['location','Location'],['availability_percent','Availability %','number'],['hourly_rate','Hourly Rate','number']].map(([key,label,type='text'])=>(
                 <div key={key}>
                   <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>{label}</label>
-                  <input type={type} value={resForm[key]||''} onChange={e=>setResForm({...resForm,[key]:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
+                  <input type={type} value={resForm[key]||''} onChange={e=>setResForm({...resForm,[key]:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
                 </div>
               ))}
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Department</label>
-                <select value={resForm.department} onChange={e=>setResForm({...resForm,department:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                <select value={resForm.department} onChange={e=>setResForm({...resForm,department:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   {DEPARTMENTS.map(d=><option key={d}>{d}</option>)}
                 </select>
               </div>
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Status</label>
-                <select value={resForm.status} onChange={e=>setResForm({...resForm,status:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                <select value={resForm.status} onChange={e=>setResForm({...resForm,status:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   {['Available','Allocated','On Leave','Inactive'].map(s=><option key={s}>{s}</option>)}
                 </select>
               </div>
@@ -302,15 +302,15 @@ export default function ResourceManagement() {
             <div style={{marginTop:12}}>
               <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Skills</label>
               <div style={{display:'flex',gap:8,marginBottom:8}}>
-                <input value={skillInput} onChange={e=>setSkillInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&addSkill()} placeholder="Add skill and press Enter" style={{flex:1,background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}/>
+                <input value={skillInput} onChange={e=>setSkillInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&addSkill()} placeholder="Add skill and press Enter" style={{flex:1,background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}/>
                 <button onClick={addSkill} style={{background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'8px 12px',cursor:'pointer'}}>Add</button>
               </div>
               <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
-                {(resForm.skills||[]).map((s,i)=><span key={i} style={{background:'#e2e8f0',color:'#475569',padding:'2px 8px',borderRadius:20,fontSize:12,display:'flex',alignItems:'center',gap:4}}>{s}<button onClick={()=>removeSkill(i)} style={{background:'none',border:'none',color:'#64748b',cursor:'pointer',padding:0,fontSize:10}}>×</button></span>)}
+                {(resForm.skills||[]).map((s,i)=><span key={i} style={{background:'#334155',color:'#94a3b8',padding:'2px 8px',borderRadius:20,fontSize:12,display:'flex',alignItems:'center',gap:4}}>{s}<button onClick={()=>removeSkill(i)} style={{background:'none',border:'none',color:'#64748b',cursor:'pointer',padding:0,fontSize:10}}>×</button></span>)}
               </div>
             </div>
             <div style={{display:'flex',gap:12,marginTop:20}}>
-              <button onClick={()=>setShowResForm(false)} style={{flex:1,background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'10px',cursor:'pointer'}}>Cancel</button>
+              <button onClick={()=>setShowResForm(false)} style={{flex:1,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'10px',cursor:'pointer'}}>Cancel</button>
               <button onClick={handleSaveResource} style={{flex:2,background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'10px',cursor:'pointer',fontWeight:600}}>{editRes?'Update':'Add Resource'}</button>
             </div>
           </div>
@@ -320,37 +320,37 @@ export default function ResourceManagement() {
       {/* Add Project Modal */}
       {showPrjForm && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setShowPrjForm(false)}>
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:16,padding:24,width:560}} onClick={e=>e.stopPropagation()}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:560}} onClick={e=>e.stopPropagation()}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-              <h2 style={{color:'#1e293b',margin:0}}>New Project</h2>
-              <button onClick={()=>setShowPrjForm(false)} style={{background:'none',border:'none',color:'#475569',cursor:'pointer'}}><X size={20}/></button>
+              <h2 style={{color:'#f1f5f9',margin:0}}>New Project</h2>
+              <button onClick={()=>setShowPrjForm(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer'}}><X size={20}/></button>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
               {[['project_name','Project Name'],['project_code','Project Code'],['client','Client'],['budget','Budget','number'],['start_date','Start Date','date'],['end_date','End Date','date']].map(([key,label,type='text'])=>(
                 <div key={key}>
                   <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>{label}</label>
-                  <input type={type} value={prjForm[key]||''} onChange={e=>setPrjForm({...prjForm,[key]:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
+                  <input type={type} value={prjForm[key]||''} onChange={e=>setPrjForm({...prjForm,[key]:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
                 </div>
               ))}
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Priority</label>
-                <select value={prjForm.priority} onChange={e=>setPrjForm({...prjForm,priority:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                <select value={prjForm.priority} onChange={e=>setPrjForm({...prjForm,priority:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   {['High','Medium','Low'].map(p=><option key={p}>{p}</option>)}
                 </select>
               </div>
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Department</label>
-                <select value={prjForm.department} onChange={e=>setPrjForm({...prjForm,department:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                <select value={prjForm.department} onChange={e=>setPrjForm({...prjForm,department:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   {DEPARTMENTS.map(d=><option key={d}>{d}</option>)}
                 </select>
               </div>
             </div>
             <div style={{marginTop:12}}>
               <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Description</label>
-              <textarea value={prjForm.description||''} onChange={e=>setPrjForm({...prjForm,description:e.target.value})} rows={3} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13,boxSizing:'border-box',resize:'vertical'}}/>
+              <textarea value={prjForm.description||''} onChange={e=>setPrjForm({...prjForm,description:e.target.value})} rows={3} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box',resize:'vertical'}}/>
             </div>
             <div style={{display:'flex',gap:12,marginTop:20}}>
-              <button onClick={()=>setShowPrjForm(false)} style={{flex:1,background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'10px',cursor:'pointer'}}>Cancel</button>
+              <button onClick={()=>setShowPrjForm(false)} style={{flex:1,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'10px',cursor:'pointer'}}>Cancel</button>
               <button onClick={handleSaveProject} style={{flex:2,background:'#f59e0b',border:'none',borderRadius:8,color:'#fff',padding:'10px',cursor:'pointer',fontWeight:600}}>Create Project</button>
             </div>
           </div>
@@ -360,22 +360,22 @@ export default function ResourceManagement() {
       {/* Allocate Modal */}
       {showAllocForm && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setShowAllocForm(false)}>
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:16,padding:24,width:480}} onClick={e=>e.stopPropagation()}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:480}} onClick={e=>e.stopPropagation()}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-              <h2 style={{color:'#1e293b',margin:0}}>Allocate Resource</h2>
-              <button onClick={()=>setShowAllocForm(false)} style={{background:'none',border:'none',color:'#475569',cursor:'pointer'}}><X size={20}/></button>
+              <h2 style={{color:'#f1f5f9',margin:0}}>Allocate Resource</h2>
+              <button onClick={()=>setShowAllocForm(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer'}}><X size={20}/></button>
             </div>
             <div style={{display:'grid',gap:12}}>
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Resource</label>
-                <select value={allocForm.resource_id} onChange={e=>setAllocForm({...allocForm,resource_id:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                <select value={allocForm.resource_id} onChange={e=>setAllocForm({...allocForm,resource_id:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   <option value="">Select Resource</option>
                   {resources.map(r=><option key={r.resource_id} value={r.resource_id}>{r.name} — {r.role}</option>)}
                 </select>
               </div>
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Project</label>
-                <select value={allocForm.project_id} onChange={e=>setAllocForm({...allocForm,project_id:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                <select value={allocForm.project_id} onChange={e=>setAllocForm({...allocForm,project_id:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   <option value="">Select Project</option>
                   {projects.map(p=><option key={p.project_id} value={p.project_id}>{p.project_name}</option>)}
                 </select>
@@ -383,12 +383,12 @@ export default function ResourceManagement() {
               {[['role_in_project','Role in Project'],['allocation_percent','Allocation %','number'],['start_date','Start Date','date'],['end_date','End Date','date']].map(([key,label,type='text'])=>(
                 <div key={key}>
                   <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>{label}</label>
-                  <input type={type} value={allocForm[key]||''} onChange={e=>setAllocForm({...allocForm,[key]:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
+                  <input type={type} value={allocForm[key]||''} onChange={e=>setAllocForm({...allocForm,[key]:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
                 </div>
               ))}
             </div>
             <div style={{display:'flex',gap:12,marginTop:20}}>
-              <button onClick={()=>setShowAllocForm(false)} style={{flex:1,background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'10px',cursor:'pointer'}}>Cancel</button>
+              <button onClick={()=>setShowAllocForm(false)} style={{flex:1,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'10px',cursor:'pointer'}}>Cancel</button>
               <button onClick={handleAllocate} style={{flex:2,background:'#8b5cf6',border:'none',borderRadius:8,color:'#fff',padding:'10px',cursor:'pointer',fontWeight:600}}>Allocate Resource</button>
             </div>
           </div>

@@ -50,10 +50,10 @@ export default function VendorManagement() {
   }
 
   return (
-    <div style={{minHeight:'100vh',background:'#f1f5f9',color:'#1e293b',fontFamily:'Inter,sans-serif'}}>
+    <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}
       <div style={{background:'#1e293b',borderBottom:'1px solid #334155',padding:'16px 24px',display:'flex',alignItems:'center',gap:16}}>
-        <button onClick={()=>navigate('/dashboard')} style={{background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'8px 12px',cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><ArrowLeft size={16}/> Back</button>
+        <button onClick={()=>navigate('/dashboard')} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 12px',cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><ArrowLeft size={16}/> Back</button>
         <Truck size={28} style={{color:'#14b8a6'}}/>
         <div><h1 style={{margin:0,fontSize:20,fontWeight:700}}>Vendor Management</h1><p style={{margin:0,fontSize:12,color:'#64748b'}}>Manage vendors, suppliers and partners</p></div>
         <button onClick={()=>{setShowForm(true);setEditVendor(null);setForm({vendor_name:'',vendor_code:'',category:'IT Hardware',contact_person:'',email:'',phone:'',address:'',payment_terms:'Net 30'})}} style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:6,background:'#14b8a6',border:'none',borderRadius:8,color:'#fff',padding:'10px 16px',cursor:'pointer',fontWeight:600}}><Plus size={14}/> Add Vendor</button>
@@ -68,7 +68,7 @@ export default function VendorManagement() {
               {label:'Top Vendor', value:stats.topVendors?.[0]?.vendor_name||'N/A', color:'#f59e0b'},
               {label:'Top Vendor Value', value:'₹'+(Number(stats.topVendors?.[0]?.total_value||0).toLocaleString()), color:'#8b5cf6'},
             ].map((s,i)=>(
-              <div key={i} style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
+              <div key={i} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
                 <div style={{fontSize:12,color:'#64748b',marginBottom:6}}>{s.label}</div>
                 <div style={{fontSize:i===2?14:22,fontWeight:700,color:s.color}}>{s.value}</div>
               </div>
@@ -77,8 +77,8 @@ export default function VendorManagement() {
         )}
 
         <div style={{display:'flex',gap:12,marginBottom:16,alignItems:'center'}}>
-          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search vendors..." style={{flex:1,background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'10px 14px',fontSize:13}}/>
-          <div style={{display:'flex',gap:4,background:'#ffffff',padding:4,borderRadius:8}}>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search vendors..." style={{flex:1,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'10px 14px',fontSize:13}}/>
+          <div style={{display:'flex',gap:4,background:'#1e293b',padding:4,borderRadius:8}}>
             {['All','Active','Inactive'].map(s=>(
               <button key={s} onClick={()=>setFilterStatus(s)} style={{padding:'6px 14px',borderRadius:6,border:'none',background:filterStatus===s?'#14b8a6':'transparent',color:filterStatus===s?'#fff':'#64748b',cursor:'pointer',fontSize:12}}>{s}</button>
             ))}
@@ -87,10 +87,10 @@ export default function VendorManagement() {
 
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16}}>
           {filtered.map(v=>(
-            <div key={v.vendor_id} style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20}}>
+            <div key={v.vendor_id} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:12}}>
                 <div>
-                  <div style={{color:'#1e293b',fontWeight:700,fontSize:15}}>{v.vendor_name}</div>
+                  <div style={{color:'#f1f5f9',fontWeight:700,fontSize:15}}>{v.vendor_name}</div>
                   <div style={{color:'#64748b',fontSize:12}}>{v.vendor_code}</div>
                 </div>
                 <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:4}}>
@@ -98,19 +98,19 @@ export default function VendorManagement() {
                   <div style={{display:'flex',gap:1}}>{renderStars(v.rating)}</div>
                 </div>
               </div>
-              <div style={{background:'#f8fafc',borderRadius:8,padding:10,marginBottom:12}}>
+              <div style={{background:'#0f172a',borderRadius:8,padding:10,marginBottom:12}}>
                 <div style={{fontSize:11,color:'#64748b',marginBottom:2}}>Category</div>
-                <div style={{fontSize:13,color:'#475569'}}>{v.category}</div>
+                <div style={{fontSize:13,color:'#94a3b8'}}>{v.category}</div>
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12,fontSize:12}}>
-                <div><span style={{color:'#64748b'}}>Contact: </span><span style={{color:'#475569'}}>{v.contact_person}</span></div>
-                <div><span style={{color:'#64748b'}}>Phone: </span><span style={{color:'#475569'}}>{v.phone}</span></div>
+                <div><span style={{color:'#64748b'}}>Contact: </span><span style={{color:'#94a3b8'}}>{v.contact_person}</span></div>
+                <div><span style={{color:'#64748b'}}>Phone: </span><span style={{color:'#94a3b8'}}>{v.phone}</span></div>
                 <div><span style={{color:'#64748b'}}>Orders: </span><span style={{color:'#3b82f6',fontWeight:600}}>{v.total_orders}</span></div>
-                <div><span style={{color:'#64748b'}}>Terms: </span><span style={{color:'#475569'}}>{v.payment_terms}</span></div>
+                <div><span style={{color:'#64748b'}}>Terms: </span><span style={{color:'#94a3b8'}}>{v.payment_terms}</span></div>
               </div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                 <span style={{color:'#10b981',fontWeight:700,fontSize:14}}>₹{Number(v.total_value).toLocaleString()}</span>
-                <button onClick={()=>{setEditVendor(v);setForm(v);setShowForm(true)}} style={{background:'#e2e8f0',border:'none',borderRadius:6,color:'#475569',padding:'4px 10px',cursor:'pointer',fontSize:12,display:'flex',alignItems:'center',gap:4}}><Edit size={12}/> Edit</button>
+                <button onClick={()=>{setEditVendor(v);setForm(v);setShowForm(true)}} style={{background:'#334155',border:'none',borderRadius:6,color:'#94a3b8',padding:'4px 10px',cursor:'pointer',fontSize:12,display:'flex',alignItems:'center',gap:4}}><Edit size={12}/> Edit</button>
               </div>
             </div>
           ))}
@@ -119,18 +119,18 @@ export default function VendorManagement() {
 
       {showForm && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setShowForm(false)}>
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:16,padding:24,width:540}} onClick={e=>e.stopPropagation()}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}><h2 style={{color:'#1e293b',margin:0}}>{editVendor?'Edit Vendor':'Add Vendor'}</h2><button onClick={()=>setShowForm(false)} style={{background:'none',border:'none',color:'#475569',cursor:'pointer'}}><X size={20}/></button></div>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:540}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}><h2 style={{color:'#f1f5f9',margin:0}}>{editVendor?'Edit Vendor':'Add Vendor'}</h2><button onClick={()=>setShowForm(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer'}}><X size={20}/></button></div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
               {[['vendor_name','Vendor Name'],['vendor_code','Vendor Code'],['contact_person','Contact Person'],['email','Email'],['phone','Phone'],['payment_terms','Payment Terms']].map(([key,label])=>(
-                <div key={key}><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>{label}</label><input value={form[key]||''} onChange={e=>setForm({...form,[key]:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/></div>
+                <div key={key}><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>{label}</label><input value={form[key]||''} onChange={e=>setForm({...form,[key]:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/></div>
               ))}
-              <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Category</label><select value={form.category||'IT Hardware'} onChange={e=>setForm({...form,category:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>{CATEGORIES.map(c=><option key={c}>{c}</option>)}</select></div>
-              {editVendor && <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Status</label><select value={form.status||'Active'} onChange={e=>setForm({...form,status:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>{['Active','Inactive'].map(s=><option key={s}>{s}</option>)}</select></div>}
-              <div style={{gridColumn:'span 2'}}><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Address</label><input value={form.address||''} onChange={e=>setForm({...form,address:e.target.value})} style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/></div>
+              <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Category</label><select value={form.category||'IT Hardware'} onChange={e=>setForm({...form,category:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>{CATEGORIES.map(c=><option key={c}>{c}</option>)}</select></div>
+              {editVendor && <div><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Status</label><select value={form.status||'Active'} onChange={e=>setForm({...form,status:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>{['Active','Inactive'].map(s=><option key={s}>{s}</option>)}</select></div>}
+              <div style={{gridColumn:'span 2'}}><label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Address</label><input value={form.address||''} onChange={e=>setForm({...form,address:e.target.value})} style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/></div>
             </div>
             <div style={{display:'flex',gap:12,marginTop:20}}>
-              <button onClick={()=>setShowForm(false)} style={{flex:1,background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'10px',cursor:'pointer'}}>Cancel</button>
+              <button onClick={()=>setShowForm(false)} style={{flex:1,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'10px',cursor:'pointer'}}>Cancel</button>
               <button onClick={handleSave} style={{flex:2,background:'#14b8a6',border:'none',borderRadius:8,color:'#fff',padding:'10px',cursor:'pointer',fontWeight:600}}>{editVendor?'Update':'Add Vendor'}</button>
             </div>
           </div>

@@ -94,7 +94,7 @@ export default function PayrollManagement() {
     (e.first_name+' '+e.last_name+' '+e.employee_code+' '+e.department).toLowerCase().includes(search.toLowerCase())
   )
 
-  const s = { container:{ minHeight:'100vh', background:'#f8fafc', color:'#1e293b', fontFamily:'Inter,sans-serif' }, header:{ background:'#ffffff', borderBottom:'1px solid #e2e8f0', padding:'16px 24px', display:'flex', alignItems:'center', gap:16 }, content:{ padding:24 }, card:{ background:'#ffffff', border:'1px solid #e2e8f0', borderRadius:12, padding:20 } }
+  const s = { container:{ minHeight:'100vh', background:'#0f172a', color:'#f1f5f9', fontFamily:'Inter,sans-serif' }, header:{ background:'#1e293b', borderBottom:'1px solid #334155', padding:'16px 24px', display:'flex', alignItems:'center', gap:16 }, content:{ padding:24 }, card:{ background:'#1e293b', border:'1px solid #334155', borderRadius:12, padding:20 } }
 
   return (
     <div style={s.container}>
@@ -103,7 +103,7 @@ export default function PayrollManagement() {
 
       {/* Header */}
       <div style={s.header}>
-        <button onClick={()=>navigate('/dashboard')} style={{background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'8px 12px',cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><ArrowLeft size={16}/> Back</button>
+        <button onClick={()=>navigate('/dashboard')} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 12px',cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><ArrowLeft size={16}/> Back</button>
         <DollarSign size={28} style={{color:'#10b981'}}/>
         <div>
           <h1 style={{margin:0,fontSize:20,fontWeight:700}}>Payroll Management</h1>
@@ -125,7 +125,7 @@ export default function PayrollManagement() {
               {label:'Total Deductions', value:'₹'+Number(stats.lastPayroll?.total_deductions||0).toLocaleString(), color:'#ef4444', icon:AlertCircle},
               {label:'Net Payroll', value:'₹'+Number(stats.lastPayroll?.total_net||0).toLocaleString(), color:'#8b5cf6', icon:CheckCircle},
             ].map((s,i) => { const Icon=s.icon; return (
-              <div key={i} style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
+              <div key={i} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,borderTop:`3px solid ${s.color}`}}>
                 <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
                   <span style={{fontSize:12,color:'#64748b'}}>{s.label}</span>
                   <Icon size={18} style={{color:s.color}}/>
@@ -139,13 +139,13 @@ export default function PayrollManagement() {
         {/* Department Cost Chart */}
         {stats?.departmentCosts?.length > 0 && (
           <div style={{...s.card, marginBottom:24}}>
-            <h3 style={{color:'#1e293b',marginBottom:16,fontSize:14}}>Department Payroll Cost</h3>
+            <h3 style={{color:'#f1f5f9',marginBottom:16,fontSize:14}}>Department Payroll Cost</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={stats.departmentCosts}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155"/>
                 <XAxis dataKey="department" tick={{fill:'#64748b',fontSize:11}}/>
                 <YAxis tick={{fill:'#64748b',fontSize:11}}/>
-                <Tooltip contentStyle={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8}} formatter={(v)=>['₹'+Number(v).toLocaleString(),'Cost']}/>
+                <Tooltip contentStyle={{background:'#1e293b',border:'1px solid #334155',borderRadius:8}} formatter={(v)=>['₹'+Number(v).toLocaleString(),'Cost']}/>
                 <Bar dataKey="total_cost" fill="#3b82f6" radius={[4,4,0,0]}/>
               </BarChart>
             </ResponsiveContainer>
@@ -153,7 +153,7 @@ export default function PayrollManagement() {
         )}
 
         {/* Tabs */}
-        <div style={{display:'flex',gap:4,marginBottom:20,background:'#ffffff',padding:4,borderRadius:10,width:'fit-content'}}>
+        <div style={{display:'flex',gap:4,marginBottom:20,background:'#1e293b',padding:4,borderRadius:10,width:'fit-content'}}>
         {[['employees','Employees'],['payroll','Payroll Runs'],['reports','Reports']].map(([id,label])=>(
             <button key={id} onClick={()=>{setTab(id);if(id==='reports')loadReportsData()}} style={{padding:'8px 20px',borderRadius:8,border:'none',background:tab===id?'#3b82f6':'transparent',color:tab===id?'#fff':'#64748b',cursor:'pointer',fontWeight:600,fontSize:13}}>{label}</button>
           ))}
@@ -164,15 +164,15 @@ export default function PayrollManagement() {
         {tab === 'employees' && (
           <div style={s.card}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
-              <h3 style={{color:'#1e293b',margin:0}}>Employees ({filteredEmployees.length})</h3>
-              <div style={{display:'flex',alignItems:'center',gap:8,background:'#f8fafc',border:'1px solid #e2e8f0',borderRadius:8,padding:'8px 12px'}}>
+              <h3 style={{color:'#f1f5f9',margin:0}}>Employees ({filteredEmployees.length})</h3>
+              <div style={{display:'flex',alignItems:'center',gap:8,background:'#0f172a',border:'1px solid #334155',borderRadius:8,padding:'8px 12px'}}>
                 <Search size={14} style={{color:'#64748b'}}/>
-                <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search employees..." style={{background:'none',border:'none',color:'#1e293b',fontSize:13,outline:'none',width:200}}/>
+                <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search employees..." style={{background:'none',border:'none',color:'#f1f5f9',fontSize:13,outline:'none',width:200}}/>
               </div>
             </div>
             <table style={{width:'100%',borderCollapse:'collapse'}}>
               <thead>
-                <tr style={{borderBottom:'1px solid #e2e8f0'}}>
+                <tr style={{borderBottom:'1px solid #334155'}}>
                   {['Code','Name','Department','Designation','Basic Salary','Gross','Status','Actions'].map(h=>(
                     <th key={h} style={{color:'#64748b',fontSize:11,padding:'8px',textAlign:'left',textTransform:'uppercase'}}>{h}</th>
                   ))}
@@ -183,10 +183,10 @@ export default function PayrollManagement() {
                   const gross = Number(emp.basic_salary)+Number(emp.hra)+Number(emp.transport_allowance)+Number(emp.medical_allowance)+Number(emp.other_allowance)
                   return (
                     <tr key={emp.employee_id} style={{borderBottom:'1px solid #1e293b'}}>
-                      <td style={{padding:'12px 8px',color:'#475569',fontSize:12}}>{emp.employee_code}</td>
-                      <td style={{padding:'12px 8px',color:'#1e293b',fontWeight:600,fontSize:13}}>{emp.first_name} {emp.last_name}</td>
-                      <td style={{padding:'12px 8px',color:'#475569',fontSize:12}}>{emp.department}</td>
-                      <td style={{padding:'12px 8px',color:'#475569',fontSize:12}}>{emp.designation}</td>
+                      <td style={{padding:'12px 8px',color:'#94a3b8',fontSize:12}}>{emp.employee_code}</td>
+                      <td style={{padding:'12px 8px',color:'#f1f5f9',fontWeight:600,fontSize:13}}>{emp.first_name} {emp.last_name}</td>
+                      <td style={{padding:'12px 8px',color:'#94a3b8',fontSize:12}}>{emp.department}</td>
+                      <td style={{padding:'12px 8px',color:'#94a3b8',fontSize:12}}>{emp.designation}</td>
                       <td style={{padding:'12px 8px',color:'#10b981',fontSize:13}}>₹{Number(emp.basic_salary).toLocaleString()}</td>
                       <td style={{padding:'12px 8px',color:'#3b82f6',fontSize:13,fontWeight:600}}>₹{gross.toLocaleString()}</td>
                       <td style={{padding:'12px 8px'}}>
@@ -194,7 +194,7 @@ export default function PayrollManagement() {
                       </td>
                       <td style={{padding:'12px 8px'}}>
                         <div style={{display:'flex',gap:6}}>
-                          <button onClick={()=>{setEditEmp(emp);setForm(emp);setShowForm(true)}} style={{background:'#e2e8f0',border:'none',borderRadius:6,color:'#475569',padding:'4px 8px',cursor:'pointer'}}><Edit size={12}/></button>
+                          <button onClick={()=>{setEditEmp(emp);setForm(emp);setShowForm(true)}} style={{background:'#334155',border:'none',borderRadius:6,color:'#94a3b8',padding:'4px 8px',cursor:'pointer'}}><Edit size={12}/></button>
                         </div>
                       </td>
                     </tr>
@@ -208,13 +208,13 @@ export default function PayrollManagement() {
         {/* Payroll Runs Tab */}
         {tab === 'payroll' && (
           <div style={s.card}>
-            <h3 style={{color:'#1e293b',margin:'0 0 16px'}}>Payroll Runs</h3>
+            <h3 style={{color:'#f1f5f9',margin:'0 0 16px'}}>Payroll Runs</h3>
             {payrollRuns.length === 0 ? (
               <div style={{textAlign:'center',padding:40,color:'#64748b'}}>No payroll runs yet. Click "Run Payroll" to process.</div>
             ) : (
               <table style={{width:'100%',borderCollapse:'collapse'}}>
                 <thead>
-                  <tr style={{borderBottom:'1px solid #e2e8f0'}}>
+                  <tr style={{borderBottom:'1px solid #334155'}}>
                     {['Period','Employees','Gross','Deductions','Net Pay','Status','Actions'].map(h=>(
                       <th key={h} style={{color:'#64748b',fontSize:11,padding:'8px',textAlign:'left',textTransform:'uppercase'}}>{h}</th>
                     ))}
@@ -223,8 +223,8 @@ export default function PayrollManagement() {
                 <tbody>
                   {payrollRuns.map(run => (
                     <tr key={run.payroll_id} style={{borderBottom:'1px solid #1e293b'}}>
-                      <td style={{padding:'12px 8px',color:'#1e293b',fontWeight:600}}>{MONTHS[run.month-1]} {run.year}</td>
-                      <td style={{padding:'12px 8px',color:'#475569'}}>{run.total_employees}</td>
+                      <td style={{padding:'12px 8px',color:'#f1f5f9',fontWeight:600}}>{MONTHS[run.month-1]} {run.year}</td>
+                      <td style={{padding:'12px 8px',color:'#94a3b8'}}>{run.total_employees}</td>
                       <td style={{padding:'12px 8px',color:'#10b981'}}>₹{Number(run.total_gross).toLocaleString()}</td>
                       <td style={{padding:'12px 8px',color:'#ef4444'}}>₹{Number(run.total_deductions).toLocaleString()}</td>
                       <td style={{padding:'12px 8px',color:'#3b82f6',fontWeight:600}}>₹{Number(run.total_net).toLocaleString()}</td>
@@ -232,7 +232,7 @@ export default function PayrollManagement() {
                         <span style={{background:'#10b98120',color:'#10b981',padding:'2px 8px',borderRadius:20,fontSize:11}}>{run.status}</span>
                       </td>
                       <td style={{padding:'12px 8px'}}>
-                        <button onClick={()=>handleViewPayslips(run)} style={{display:'flex',alignItems:'center',gap:4,background:'#e2e8f0',border:'none',borderRadius:6,color:'#475569',padding:'4px 10px',cursor:'pointer',fontSize:12}}><Eye size={12}/> View</button>
+                        <button onClick={()=>handleViewPayslips(run)} style={{display:'flex',alignItems:'center',gap:4,background:'#334155',border:'none',borderRadius:6,color:'#94a3b8',padding:'4px 10px',cursor:'pointer',fontSize:12}}><Eye size={12}/> View</button>
                       </td>
                     </tr>
                   ))}
@@ -251,26 +251,26 @@ export default function PayrollManagement() {
               <div style={{textAlign:"center",padding:40,color:"#64748b"}}>Click Reports tab to load data...</div>
             ) : (
               <div>
-                <div style={{background:"#ffffff",border:"1px solid #e2e8f0",borderRadius:12,padding:20,marginBottom:20}}>
-                  <h3 style={{color:"#1e293b",marginBottom:16,fontSize:14}}>Payroll Cost by Department</h3>
+                <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20,marginBottom:20}}>
+                  <h3 style={{color:"#f1f5f9",marginBottom:16,fontSize:14}}>Payroll Cost by Department</h3>
                   <table style={{width:"100%",borderCollapse:"collapse"}}>
-                    <thead><tr style={{borderBottom:"1px solid #e2e8f0"}}>{["Department","Employees","Avg Salary","Total Gross"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
-                    <tbody>{reportsData.deptSummary.map((d,i)=>(<tr key={i} style={{borderBottom:"1px solid #f1f5f9"}}><td style={{padding:"10px 8px",color:"#1e293b",fontWeight:600}}>{d.department}</td><td style={{padding:"10px 8px",color:"#475569"}}>{d.count}</td><td style={{padding:"10px 8px",color:"#10b981"}}>{"?"+Number(d.avg_salary).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#3b82f6",fontWeight:600}}>{"?"+Number(d.total_gross).toLocaleString()}</td></tr>))}</tbody>
+                    <thead><tr style={{borderBottom:"1px solid #334155"}}>{["Department","Employees","Avg Salary","Total Gross"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
+                    <tbody>{reportsData.deptSummary.map((d,i)=>(<tr key={i} style={{borderBottom:"1px solid #0f172a"}}><td style={{padding:"10px 8px",color:"#f1f5f9",fontWeight:600}}>{d.department}</td><td style={{padding:"10px 8px",color:"#94a3b8"}}>{d.count}</td><td style={{padding:"10px 8px",color:"#10b981"}}>{"?"+Number(d.avg_salary).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#3b82f6",fontWeight:600}}>{"?"+Number(d.total_gross).toLocaleString()}</td></tr>))}</tbody>
                   </table>
                 </div>
-                <div style={{background:"#ffffff",border:"1px solid #e2e8f0",borderRadius:12,padding:20,marginBottom:20}}>
-                  <h3 style={{color:"#1e293b",marginBottom:16,fontSize:14}}>Salary Band by Designation</h3>
+                <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20,marginBottom:20}}>
+                  <h3 style={{color:"#f1f5f9",marginBottom:16,fontSize:14}}>Salary Band by Designation</h3>
                   <table style={{width:"100%",borderCollapse:"collapse"}}>
-                    <thead><tr style={{borderBottom:"1px solid #e2e8f0"}}>{["Designation","Employees","Avg Basic Salary"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
-                    <tbody>{reportsData.salaryBands.map((s,i)=>(<tr key={i} style={{borderBottom:"1px solid #f1f5f9"}}><td style={{padding:"10px 8px",color:"#1e293b",fontWeight:600}}>{s.designation}</td><td style={{padding:"10px 8px",color:"#475569"}}>{s.count}</td><td style={{padding:"10px 8px",color:"#10b981",fontWeight:600}}>{"?"+Number(s.avg_salary).toLocaleString()}</td></tr>))}</tbody>
+                    <thead><tr style={{borderBottom:"1px solid #334155"}}>{["Designation","Employees","Avg Basic Salary"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
+                    <tbody>{reportsData.salaryBands.map((s,i)=>(<tr key={i} style={{borderBottom:"1px solid #0f172a"}}><td style={{padding:"10px 8px",color:"#f1f5f9",fontWeight:600}}>{s.designation}</td><td style={{padding:"10px 8px",color:"#94a3b8"}}>{s.count}</td><td style={{padding:"10px 8px",color:"#10b981",fontWeight:600}}>{"?"+Number(s.avg_salary).toLocaleString()}</td></tr>))}</tbody>
                   </table>
                 </div>
                 {reportsData.trend.length > 0 && (
-                  <div style={{background:"#ffffff",border:"1px solid #e2e8f0",borderRadius:12,padding:20}}>
-                    <h3 style={{color:"#1e293b",marginBottom:16,fontSize:14}}>Monthly Payroll Trend</h3>
+                  <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:12,padding:20}}>
+                    <h3 style={{color:"#f1f5f9",marginBottom:16,fontSize:14}}>Monthly Payroll Trend</h3>
                     <table style={{width:"100%",borderCollapse:"collapse"}}>
-                      <thead><tr style={{borderBottom:"1px solid #e2e8f0"}}>{["Month","Year","Gross","Deductions","Net Pay"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
-                      <tbody>{reportsData.trend.map((t,i)=>(<tr key={i} style={{borderBottom:"1px solid #f1f5f9"}}><td style={{padding:"10px 8px",color:"#1e293b"}}>{t.month}</td><td style={{padding:"10px 8px",color:"#475569"}}>{t.year}</td><td style={{padding:"10px 8px",color:"#10b981"}}>{"?"+Number(t.gross).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#ef4444"}}>{"?"+Number(t.deductions).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#3b82f6",fontWeight:600}}>{"?"+Number(t.net).toLocaleString()}</td></tr>))}</tbody>
+                      <thead><tr style={{borderBottom:"1px solid #334155"}}>{["Month","Year","Gross","Deductions","Net Pay"].map(h=>(<th key={h} style={{color:"#64748b",fontSize:11,padding:"8px",textAlign:"left",textTransform:"uppercase"}}>{h}</th>))}</tr></thead>
+                      <tbody>{reportsData.trend.map((t,i)=>(<tr key={i} style={{borderBottom:"1px solid #0f172a"}}><td style={{padding:"10px 8px",color:"#f1f5f9"}}>{t.month}</td><td style={{padding:"10px 8px",color:"#94a3b8"}}>{t.year}</td><td style={{padding:"10px 8px",color:"#10b981"}}>{"?"+Number(t.gross).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#ef4444"}}>{"?"+Number(t.deductions).toLocaleString()}</td><td style={{padding:"10px 8px",color:"#3b82f6",fontWeight:600}}>{"?"+Number(t.net).toLocaleString()}</td></tr>))}</tbody>
                     </table>
                   </div>
                 )}
@@ -280,10 +280,10 @@ export default function PayrollManagement() {
         )}
       {showForm && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setShowForm(false)}>
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:16,padding:24,width:600,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:600,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-              <h2 style={{color:'#1e293b',margin:0}}>{editEmp?'Edit Employee':'Add Employee'}</h2>
-              <button onClick={()=>setShowForm(false)} style={{background:'none',border:'none',color:'#475569',cursor:'pointer'}}><X size={20}/></button>
+              <h2 style={{color:'#f1f5f9',margin:0}}>{editEmp?'Edit Employee':'Add Employee'}</h2>
+              <button onClick={()=>setShowForm(false)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer'}}><X size={20}/></button>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
               {[
@@ -299,26 +299,26 @@ export default function PayrollManagement() {
                 <div key={key}>
                   <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>{label}</label>
                   <input type={type} value={form[key]||''} onChange={e=>setForm({...form,[key]:e.target.value})}
-                    style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
+                    style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
                 </div>
               ))}
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Department</label>
                 <select value={form.department||'Finance'} onChange={e=>setForm({...form,department:e.target.value})}
-                  style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                  style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   {DEPARTMENTS.map(d=><option key={d}>{d}</option>)}
                 </select>
               </div>
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Employment Type</label>
                 <select value={form.employment_type||'Full-Time'} onChange={e=>setForm({...form,employment_type:e.target.value})}
-                  style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                  style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   {['Full-Time','Part-Time','Contract','Intern'].map(t=><option key={t}>{t}</option>)}
                 </select>
               </div>
             </div>
             <div style={{display:'flex',gap:12,marginTop:20}}>
-              <button onClick={()=>setShowForm(false)} style={{flex:1,background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'10px',cursor:'pointer'}}>Cancel</button>
+              <button onClick={()=>setShowForm(false)} style={{flex:1,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'10px',cursor:'pointer'}}>Cancel</button>
               <button onClick={handleSaveEmployee} style={{flex:2,background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'10px',cursor:'pointer',fontWeight:600}}>{editEmp?'Update Employee':'Add Employee'}</button>
             </div>
           </div>
@@ -328,27 +328,27 @@ export default function PayrollManagement() {
       {/* Run Payroll Modal */}
       {showPayroll && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={()=>setShowPayroll(false)}>
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:16,padding:24,width:400}} onClick={e=>e.stopPropagation()}>
-            <h2 style={{color:'#1e293b',marginBottom:20}}>Run Payroll</h2>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:400}} onClick={e=>e.stopPropagation()}>
+            <h2 style={{color:'#f1f5f9',marginBottom:20}}>Run Payroll</h2>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:20}}>
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Month</label>
                 <select value={payrollMonth} onChange={e=>setPayrollMonth(Number(e.target.value))}
-                  style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13}}>
+                  style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13}}>
                   {MONTHS.map((m,i)=><option key={i} value={i+1}>{m}</option>)}
                 </select>
               </div>
               <div>
                 <label style={{fontSize:11,color:'#64748b',display:'block',marginBottom:4}}>Year</label>
                 <input type="number" value={payrollYear} onChange={e=>setPayrollYear(Number(e.target.value))}
-                  style={{width:'100%',background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:8,color:'#1e293b',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
+                  style={{width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}}/>
               </div>
             </div>
-            <div style={{background:'#f8fafc',borderRadius:8,padding:12,marginBottom:20,fontSize:13,color:'#475569'}}>
-              This will process payroll for <strong style={{color:'#1e293b'}}>{stats?.totalEmployees||0} active employees</strong> for <strong style={{color:'#10b981'}}>{MONTHS[payrollMonth-1]} {payrollYear}</strong>
+            <div style={{background:'#0f172a',borderRadius:8,padding:12,marginBottom:20,fontSize:13,color:'#94a3b8'}}>
+              This will process payroll for <strong style={{color:'#f1f5f9'}}>{stats?.totalEmployees||0} active employees</strong> for <strong style={{color:'#10b981'}}>{MONTHS[payrollMonth-1]} {payrollYear}</strong>
             </div>
             <div style={{display:'flex',gap:12}}>
-              <button onClick={()=>setShowPayroll(false)} style={{flex:1,background:'#e2e8f0',border:'none',borderRadius:8,color:'#475569',padding:'10px',cursor:'pointer'}}>Cancel</button>
+              <button onClick={()=>setShowPayroll(false)} style={{flex:1,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'10px',cursor:'pointer'}}>Cancel</button>
               <button onClick={handleRunPayroll} style={{flex:2,background:'#10b981',border:'none',borderRadius:8,color:'#fff',padding:'10px',cursor:'pointer',fontWeight:600}}><Play size={14}/> Process Payroll</button>
             </div>
           </div>
@@ -358,14 +358,14 @@ export default function PayrollManagement() {
       {/* Payslips Modal */}
       {selectedRun && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setSelectedRun(null)}>
-          <div style={{background:'#ffffff',border:'1px solid #e2e8f0',borderRadius:16,padding:24,width:800,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
+          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:800,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-              <h2 style={{color:'#1e293b',margin:0}}>Payslips — {MONTHS[selectedRun.month-1]} {selectedRun.year}</h2>
-              <button onClick={()=>setSelectedRun(null)} style={{background:'none',border:'none',color:'#475569',cursor:'pointer'}}><X size={20}/></button>
+              <h2 style={{color:'#f1f5f9',margin:0}}>Payslips — {MONTHS[selectedRun.month-1]} {selectedRun.year}</h2>
+              <button onClick={()=>setSelectedRun(null)} style={{background:'none',border:'none',color:'#94a3b8',cursor:'pointer'}}><X size={20}/></button>
             </div>
             <table style={{width:'100%',borderCollapse:'collapse'}}>
               <thead>
-                <tr style={{borderBottom:'1px solid #e2e8f0'}}>
+                <tr style={{borderBottom:'1px solid #334155'}}>
                   {['Employee','Department','Basic','HRA','Gross','Deductions','Net Pay'].map(h=>(
                     <th key={h} style={{color:'#64748b',fontSize:11,padding:'8px',textAlign:'left',textTransform:'uppercase'}}>{h}</th>
                   ))}
@@ -373,14 +373,14 @@ export default function PayrollManagement() {
               </thead>
               <tbody>
                 {payslips.map(p=>(
-                  <tr key={p.payslip_id} style={{borderBottom:'1px solid #f1f5f9'}}>
+                  <tr key={p.payslip_id} style={{borderBottom:'1px solid #0f172a'}}>
                     <td style={{padding:'10px 8px'}}>
-                      <div style={{color:'#1e293b',fontWeight:600,fontSize:13}}>{p.first_name} {p.last_name}</div>
+                      <div style={{color:'#f1f5f9',fontWeight:600,fontSize:13}}>{p.first_name} {p.last_name}</div>
                       <div style={{color:'#64748b',fontSize:11}}>{p.employee_code}</div>
                     </td>
-                    <td style={{padding:'10px 8px',color:'#475569',fontSize:12}}>{p.department}</td>
-                    <td style={{padding:'10px 8px',color:'#475569',fontSize:12}}>₹{Number(p.basic_salary).toLocaleString()}</td>
-                    <td style={{padding:'10px 8px',color:'#475569',fontSize:12}}>₹{Number(p.hra).toLocaleString()}</td>
+                    <td style={{padding:'10px 8px',color:'#94a3b8',fontSize:12}}>{p.department}</td>
+                    <td style={{padding:'10px 8px',color:'#94a3b8',fontSize:12}}>₹{Number(p.basic_salary).toLocaleString()}</td>
+                    <td style={{padding:'10px 8px',color:'#94a3b8',fontSize:12}}>₹{Number(p.hra).toLocaleString()}</td>
                     <td style={{padding:'10px 8px',color:'#10b981',fontWeight:600}}>₹{Number(p.gross_salary).toLocaleString()}</td>
                     <td style={{padding:'10px 8px',color:'#ef4444'}}>₹{Number(p.total_deductions).toLocaleString()}</td>
                     <td style={{padding:'10px 8px',color:'#3b82f6',fontWeight:700,fontSize:14}}>₹{Number(p.net_salary).toLocaleString()}</td>
@@ -388,8 +388,8 @@ export default function PayrollManagement() {
                 ))}
               </tbody>
               <tfoot>
-                <tr style={{borderTop:'2px solid #334155',background:'#f8fafc'}}>
-                  <td colSpan={4} style={{padding:'12px 8px',color:'#1e293b',fontWeight:700}}>TOTAL</td>
+                <tr style={{borderTop:'2px solid #334155',background:'#0f172a'}}>
+                  <td colSpan={4} style={{padding:'12px 8px',color:'#f1f5f9',fontWeight:700}}>TOTAL</td>
                   <td style={{padding:'12px 8px',color:'#10b981',fontWeight:700}}>₹{Number(selectedRun.total_gross).toLocaleString()}</td>
                   <td style={{padding:'12px 8px',color:'#ef4444',fontWeight:700}}>₹{Number(selectedRun.total_deductions).toLocaleString()}</td>
                   <td style={{padding:'12px 8px',color:'#3b82f6',fontWeight:700}}>₹{Number(selectedRun.total_net).toLocaleString()}</td>
@@ -402,4 +402,3 @@ export default function PayrollManagement() {
     </div>
   )
 }
-
