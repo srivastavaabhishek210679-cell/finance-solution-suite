@@ -2,56 +2,59 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { useAuth } from './contexts/AuthContext'
 import CookieBanner from './components/CookieBanner'
-const Login = lazy(() => import('./pages/Login'))
-const Register = lazy(() => import('./pages/Register'))
-const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
-const ResetPassword = lazy(() => import('./pages/ResetPassword'))
-const Onboarding = lazy(() => import('./pages/Onboarding'))
-const Dashboard = lazy(() => import('./pages/Dashboard'))
-const Analytics = lazy(() => import('./pages/Analytics'))
-const MultiTenant = lazy(() => import('./pages/MultiTenant'))
-const CustomerManagement = lazy(() => import('./pages/CustomerManagement'))
-const ChatbotAssistant = lazy(() => import('./pages/ChatbotAssistant'))
-const AIInsights = lazy(() => import('./pages/AIInsights'))
-const Personalization = lazy(() => import('./pages/Personalization'))
-const Collaboration = lazy(() => import('./pages/Collaboration'))
-const ReviewsRatings = lazy(() => import('./pages/ReviewsRatings'))
-const ModuleManager = lazy(() => import('./pages/ModuleManager'))
-const Accessibility = lazy(() => import('./pages/Accessibility'))
-import ProtectedRoute       from './components/ProtectedRoute'
-const PayrollManagement = lazy(() => import('./pages/PayrollManagement'))
-const ResourceManagement = lazy(() => import('./pages/ResourceManagement'))
-const ProjectManagement = lazy(() => import('./pages/ProjectManagement'))
-const BudgetManagement = lazy(() => import('./pages/BudgetManagement'))
-const LeaveManagement = lazy(() => import('./pages/LeaveManagement'))
-const VendorManagement = lazy(() => import('./pages/VendorManagement'))
-const AssetManagement = lazy(() => import('./pages/AssetManagement'))
-const ContractManagement = lazy(() => import('./pages/ContractManagement'))
-const InventoryManagement = lazy(() => import('./pages/InventoryManagement'))
-const DocumentManagement = lazy(() => import('./pages/DocumentManagement'))
-const RiskManagement = lazy(() => import('./pages/RiskManagement'))
-const ExpenseManagement = lazy(() => import('./pages/ExpenseManagement'))
-const PerformanceManagement = lazy(() => import('./pages/PerformanceManagement'))
-const RecruitmentManagement = lazy(() => import('./pages/RecruitmentManagement'))
-const InvoiceManagement = lazy(() => import('./pages/InvoiceManagement'))
-const TrainingManagement = lazy(() => import('./pages/TrainingManagement'))
-const TravelManagement = lazy(() => import('./pages/TravelManagement'))
+import ProtectedRoute from './components/ProtectedRoute'
+import ErrorBoundary from './components/ErrorBoundary'
+
+const Login                = lazy(() => import('./pages/Login'))
+const Register             = lazy(() => import('./pages/Register'))
+const ForgotPassword       = lazy(() => import('./pages/ForgotPassword'))
+const ResetPassword        = lazy(() => import('./pages/ResetPassword'))
+const Onboarding           = lazy(() => import('./pages/Onboarding'))
+const Workspace            = lazy(() => import('./pages/Workspace'))
+const Dashboard            = lazy(() => import('./pages/Dashboard'))
+const Analytics            = lazy(() => import('./pages/Analytics'))
+const MultiTenant          = lazy(() => import('./pages/MultiTenant'))
+const CustomerManagement   = lazy(() => import('./pages/CustomerManagement'))
+const ChatbotAssistant     = lazy(() => import('./pages/ChatbotAssistant'))
+const AIInsights           = lazy(() => import('./pages/AIInsights'))
+const Personalization      = lazy(() => import('./pages/Personalization'))
+const Collaboration        = lazy(() => import('./pages/Collaboration'))
+const ReviewsRatings       = lazy(() => import('./pages/ReviewsRatings'))
+const ModuleManager        = lazy(() => import('./pages/ModuleManager'))
+const Accessibility        = lazy(() => import('./pages/Accessibility'))
+const PayrollManagement    = lazy(() => import('./pages/PayrollManagement'))
+const ResourceManagement   = lazy(() => import('./pages/ResourceManagement'))
+const ProjectManagement    = lazy(() => import('./pages/ProjectManagement'))
+const BudgetManagement     = lazy(() => import('./pages/BudgetManagement'))
+const LeaveManagement      = lazy(() => import('./pages/LeaveManagement'))
+const VendorManagement     = lazy(() => import('./pages/VendorManagement'))
+const AssetManagement      = lazy(() => import('./pages/AssetManagement'))
+const ContractManagement   = lazy(() => import('./pages/ContractManagement'))
+const InventoryManagement  = lazy(() => import('./pages/InventoryManagement'))
+const DocumentManagement   = lazy(() => import('./pages/DocumentManagement'))
+const RiskManagement       = lazy(() => import('./pages/RiskManagement'))
+const ExpenseManagement    = lazy(() => import('./pages/ExpenseManagement'))
+const PerformanceManagement= lazy(() => import('./pages/PerformanceManagement'))
+const RecruitmentManagement= lazy(() => import('./pages/RecruitmentManagement'))
+const InvoiceManagement    = lazy(() => import('./pages/InvoiceManagement'))
+const TrainingManagement   = lazy(() => import('./pages/TrainingManagement'))
+const TravelManagement     = lazy(() => import('./pages/TravelManagement'))
 const AttendanceManagement = lazy(() => import('./pages/AttendanceManagement'))
-const SalesPipeline = lazy(() => import('./pages/SalesPipeline'))
-const HelpdeskManagement = lazy(() => import('./pages/HelpdeskManagement'))
+const SalesPipeline        = lazy(() => import('./pages/SalesPipeline'))
+const HelpdeskManagement   = lazy(() => import('./pages/HelpdeskManagement'))
 const ComplianceManagement = lazy(() => import('./pages/ComplianceManagement'))
-const WorkflowAutomation = lazy(() => import('./pages/WorkflowAutomation'))
-const AICopilot = lazy(() => import('./pages/AICopilot'))
-const PredictiveAnalytics = lazy(() => import('./pages/PredictiveAnalytics'))
-import IntegrationEcosystem from './pages/IntegrationEcosystem'
-import Monetization         from './pages/Monetization'
-import ErrorBoundary        from './components/ErrorBoundary'
 const AdvancedKPIDashboard = lazy(() => import('./pages/AdvancedKPIDashboard'))
-const DataUpload = lazy(() => import('./pages/DataUpload'))
-const MFASettings = lazy(() => import('./pages/MFASettings'))
-const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
-const AuditLog = lazy(() => import('./pages/AuditLog'))
-const GDPRPrivacyCenter = lazy(() => import('./pages/GDPRPrivacyCenter'))
+const DataUpload           = lazy(() => import('./pages/DataUpload'))
+const MFASettings          = lazy(() => import('./pages/MFASettings'))
+const VerifyEmail          = lazy(() => import('./pages/VerifyEmail'))
+const AuditLog             = lazy(() => import('./pages/AuditLog'))
+const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
+const ExecutiveReporting   = lazy(() => import('./pages/ExecutiveReporting'))
+const AICopilot            = lazy(() => import('./pages/AICopilot'))
+const PredictiveAnalytics  = lazy(() => import('./pages/PredictiveAnalytics'))
+const WorkflowAutomation   = lazy(() => import('./pages/WorkflowAutomation'))
+const Monetization         = lazy(() => import('./pages/Monetization'))
+const IntegrationEcosystem = lazy(() => import('./pages/IntegrationEcosystem'))
 
 function Protected({ children, pageName }) {
   return (
@@ -62,86 +65,70 @@ function Protected({ children, pageName }) {
     </ProtectedRoute>
   )
 }
+
 function App() {
   const { user } = useAuth()
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={user ? <Navigate to="/onboarding" replace /> : <Register />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-
-      <Route path="/onboarding" element={
-        <ProtectedRoute>
-          <ErrorBoundary pageName="Onboarding"><Onboarding /></ErrorBoundary>
-        </ProtectedRoute>
-      } />
-
-      <Route path="/dashboard"             element={<Protected pageName="Dashboard">            <Dashboard />            </Protected>} />
-      <Route path="/analytics"             element={<Protected pageName="Analytics">            <Analytics />            </Protected>} />
-      <Route path="/tenants"               element={<Protected pageName="Multi-Tenant">         <MultiTenant />          </Protected>} />
-      <Route path="/customers"             element={<Protected pageName="Customer Management">  <CustomerManagement />   </Protected>} />
-      <Route path="/chatbot"               element={<Protected pageName="AI Assistant">         <ChatbotAssistant />     </Protected>} />
-      <Route path="/ai-insights"           element={<Protected pageName="AI Insights">          <AIInsights />           </Protected>} />
-      <Route path="/ai-insights"           element={<Protected pageName="AI Insights">          <AIInsights />           </Protected>} />
-      <Route path="/ai-copilot"            element={<Protected pageName="AI Copilot">           <AICopilot />            </Protected>} />
-      <Route path="/predictive-analytics"  element={<Protected pageName="Predictive Analytics"> <PredictiveAnalytics />  </Protected>} />
-      <Route path="/workflow-automation"   element={<Protected pageName="Workflow Automation">  <WorkflowAutomation />   </Protected>} />
-      <Route path="/kpi-dashboard"         element={<Protected pageName="KPI Dashboard">        <AdvancedKPIDashboard /> </Protected>} />
-      <Route path="/collaboration"         element={<Protected pageName="Collaboration">        <Collaboration />        </Protected>} />
-      <Route path="/reviews"               element={<Protected pageName="Reviews">              <ReviewsRatings />       </Protected>} />
-      <Route path="/modules"               element={<Protected pageName="Module Manager">       <ModuleManager />        </Protected>} />
-      <Route path="/accessibility"         element={<Protected pageName="Accessibility">        <Accessibility />        </Protected>} />
-      <Route path="/payroll" element={<Protected pageName="Payroll Management"><PayrollManagement /></Protected>} />
-      <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
-      <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
-      <Route path="/project-mgmt" element={<Protected pageName="Project Management"><ProjectManagement /></Protected>} />
-      <Route path="/project-mgmt" element={<Protected pageName="Project Management"><ProjectManagement /></Protected>} />
-      <Route path="/budget-mgmt" element={<Protected pageName="Budget Management"><BudgetManagement /></Protected>} />
-      <Route path="/leave-mgmt" element={<Protected pageName="Leave Management"><LeaveManagement /></Protected>} />
-      <Route path="/vendor-mgmt" element={<Protected pageName="Vendor Management"><VendorManagement /></Protected>} />
-      <Route path="/asset-mgmt" element={<Protected pageName="Asset Management"><AssetManagement /></Protected>} />
-      <Route path="/contract-mgmt" element={<Protected pageName="Contract Management"><ContractManagement /></Protected>} />
-      <Route path="/contract-mgmt" element={<Protected pageName="Contract Management"><ContractManagement /></Protected>} />
-      <Route path="/inventory-mgmt" element={<Protected pageName="Inventory Management"><InventoryManagement /></Protected>} />
-      <Route path="/crm-mgmt" element={<Protected pageName="Customer Management"><CustomerManagement /></Protected>} />
-      <Route path="/document-mgmt" element={<Protected pageName="Document Management"><DocumentManagement /></Protected>} />
-      <Route path="/risk-mgmt" element={<Protected pageName="Risk Management"><RiskManagement /></Protected>} />
-      <Route path="/expense-mgmt" element={<Protected pageName="Expense Management"><ExpenseManagement /></Protected>} />
-      <Route path="/performance-mgmt" element={<Protected pageName="Performance Management"><PerformanceManagement /></Protected>} />
-      <Route path="/recruitment-mgmt" element={<Protected pageName="Recruitment Management"><RecruitmentManagement /></Protected>} />
-      <Route path="/recruitment-mgmt" element={<Protected pageName="Recruitment Management"><RecruitmentManagement /></Protected>} />
-      <Route path="/invoices" element={<Protected pageName="Invoice Management"><InvoiceManagement /></Protected>} />
-      <Route path="/training" element={<Protected pageName="Training Management"><TrainingManagement /></Protected>} />
-      <Route path="/travel" element={<Protected pageName="Travel Management"><TravelManagement /></Protected>} />
-      <Route path="/attendance" element={<Protected pageName="Attendance Management"><AttendanceManagement /></Protected>} />
-      <Route path="/sales-pipeline" element={<Protected pageName="Sales Pipeline"><SalesPipeline /></Protected>} />
-      <Route path="/helpdesk" element={<Protected pageName="IT Helpdesk"><HelpdeskManagement /></Protected>} />
-      <Route path="/compliance" element={<Protected pageName="Compliance Management"><ComplianceManagement /></Protected>} />
-      <Route path="/compliance" element={<Protected pageName="Compliance Management"><ComplianceManagement /></Protected>} />
-      <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
-      <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
-      <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
-      <Route path="/workspace" element={<Protected pageName="My Workspace"><Workspace /></Protected>} />
-      <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
-      <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
-      <Route path="/verify-email" element={<VerifyEmail />} />
-      <Route path="/verify-email" element={<VerifyEmail />} />
-      <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
-      <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
-      <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
-      <Route path="/" element={<Navigate to="/workspace" replace />} />
-      <Route path="/" element={<Navigate to="/workspace" replace />} />
-      <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
-    </Routes>
-    <CookieBanner />
-  )
+    <>
+      <Suspense fallback={<div style={{minHeight:'100vh',background:'#0f172a',display:'flex',alignItems:'center',justifyContent:'center',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}><div style={{textAlign:'center'}}><div style={{width:40,height:40,border:'3px solid #334155',borderTop:'3px solid #10b981',borderRadius:'50%',margin:'0 auto 12px',animation:'spin 1s linear infinite'}}></div><p>Loading...</p></div></div>}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={user ? <Navigate to="/workspace" replace /> : <Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/onboarding" element={<Protected pageName="Onboarding"><Onboarding /></Protected>} />
+          <Route path="/workspace" element={<Protected pageName="My Workspace"><Workspace /></Protected>} />
+          <Route path="/dashboard" element={<Protected pageName="Dashboard"><Dashboard /></Protected>} />
+          <Route path="/analytics" element={<Protected pageName="Analytics"><Analytics /></Protected>} />
+          <Route path="/multi-tenant" element={<Protected pageName="Multi Tenant"><MultiTenant /></Protected>} />
+          <Route path="/customer-management" element={<Protected pageName="Customer Management"><CustomerManagement /></Protected>} />
+          <Route path="/chatbot" element={<Protected pageName="AI Chatbot"><ChatbotAssistant /></Protected>} />
+          <Route path="/ai-insights" element={<Protected pageName="AI Insights"><AIInsights /></Protected>} />
+          <Route path="/ai-copilot" element={<Protected pageName="AI Copilot"><AICopilot /></Protected>} />
+          <Route path="/predictive-analytics" element={<Protected pageName="Predictive Analytics"><PredictiveAnalytics /></Protected>} />
+          <Route path="/workflow-automation" element={<Protected pageName="Workflow Automation"><WorkflowAutomation /></Protected>} />
+          <Route path="/executive-reporting" element={<Protected pageName="Executive Reporting"><ExecutiveReporting /></Protected>} />
+          <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
+          <Route path="/collaboration" element={<Protected pageName="Collaboration"><Collaboration /></Protected>} />
+          <Route path="/reviews" element={<Protected pageName="Reviews"><ReviewsRatings /></Protected>} />
+          <Route path="/module-manager" element={<Protected pageName="Module Manager"><ModuleManager /></Protected>} />
+          <Route path="/accessibility" element={<Protected pageName="Accessibility"><Accessibility /></Protected>} />
+          <Route path="/monetization" element={<Protected pageName="Monetization"><Monetization /></Protected>} />
+          <Route path="/integrations" element={<Protected pageName="Integrations"><IntegrationEcosystem /></Protected>} />
+          <Route path="/payroll" element={<Protected pageName="Payroll Management"><PayrollManagement /></Protected>} />
+          <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
+          <Route path="/project-mgmt" element={<Protected pageName="Project Management"><ProjectManagement /></Protected>} />
+          <Route path="/budget-mgmt" element={<Protected pageName="Budget Management"><BudgetManagement /></Protected>} />
+          <Route path="/leave-mgmt" element={<Protected pageName="Leave Management"><LeaveManagement /></Protected>} />
+          <Route path="/vendor-mgmt" element={<Protected pageName="Vendor Management"><VendorManagement /></Protected>} />
+          <Route path="/asset-mgmt" element={<Protected pageName="Asset Management"><AssetManagement /></Protected>} />
+          <Route path="/contract-mgmt" element={<Protected pageName="Contract Management"><ContractManagement /></Protected>} />
+          <Route path="/inventory-mgmt" element={<Protected pageName="Inventory Management"><InventoryManagement /></Protected>} />
+          <Route path="/document-mgmt" element={<Protected pageName="Document Management"><DocumentManagement /></Protected>} />
+          <Route path="/risk-mgmt" element={<Protected pageName="Risk Management"><RiskManagement /></Protected>} />
+          <Route path="/expense-mgmt" element={<Protected pageName="Expense Management"><ExpenseManagement /></Protected>} />
+          <Route path="/performance-mgmt" element={<Protected pageName="Performance Management"><PerformanceManagement /></Protected>} />
+          <Route path="/recruitment-mgmt" element={<Protected pageName="Recruitment Management"><RecruitmentManagement /></Protected>} />
+          <Route path="/invoices" element={<Protected pageName="Invoice Management"><InvoiceManagement /></Protected>} />
+          <Route path="/training" element={<Protected pageName="Training Management"><TrainingManagement /></Protected>} />
+          <Route path="/travel" element={<Protected pageName="Travel Management"><TravelManagement /></Protected>} />
+          <Route path="/attendance" element={<Protected pageName="Attendance Management"><AttendanceManagement /></Protected>} />
+          <Route path="/sales-pipeline" element={<Protected pageName="Sales Pipeline"><SalesPipeline /></Protected>} />
+          <Route path="/helpdesk" element={<Protected pageName="IT Helpdesk"><HelpdeskManagement /></Protected>} />
+          <Route path="/compliance" element={<Protected pageName="Compliance Management"><ComplianceManagement /></Protected>} />
+          <Route path="/kpi-dashboard" element={<Protected pageName="KPI Dashboard"><AdvancedKPIDashboard /></Protected>} />
+          <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
+          <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
+          <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
+          <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
+          <Route path="/" element={<Navigate to="/workspace" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Suspense>
+      <CookieBanner />
+    </>
   )
 }
 
 export default App
-
-
-
-
-// Build: 06/04/2026 17:50:38
