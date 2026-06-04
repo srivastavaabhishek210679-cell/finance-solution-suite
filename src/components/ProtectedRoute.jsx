@@ -52,7 +52,9 @@ function ProtectedRoute({ children }) {
       try {
         const ws = JSON.parse(workspace)
         const selectedModules = ws.selected_modules || []
-        if (selectedModules.length > 0 && !selectedModules.includes(location.pathname)) {
+        const hasPath = selectedModules.some(m => m === location.pathname)
+        const hasDomainOnly = selectedModules.every(m => m.startsWith('domain:'))
+        if (selectedModules.length > 0 && !hasPath && !hasDomainOnly) {
           return (
             <div style={{minHeight:'100vh',background:'#0f172a',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Inter,sans-serif'}}>
               <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:40,maxWidth:480,textAlign:'center'}}>
