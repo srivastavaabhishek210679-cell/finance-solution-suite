@@ -47,7 +47,6 @@ import ErrorBoundary        from './components/ErrorBoundary'
 import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
 import DataUpload           from './pages/DataUpload'
 import MFASettings          from './pages/MFASettings'
-import MFASettings          from './pages/MFASettings'
 import VerifyEmail          from './pages/VerifyEmail'
 
 function Protected({ children, pageName }) {
