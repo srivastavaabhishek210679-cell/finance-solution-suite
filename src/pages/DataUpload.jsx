@@ -157,6 +157,20 @@ const DataUpload = () => {
       };
 
       setGeneratedReport(report);
+      const token = localStorage.getItem('token');
+      fetch('https://finance-backend-so86.onrender.com/api/v1/workspace/save-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+        body: JSON.stringify({
+          report_name: report.name,
+          domain_name: report.templateName,
+          template_id: report.template,
+          total_records: report.totalRecords,
+          file_name: report.dataSource,
+          report_data: { summary: report.summary, data: report.data.slice(0, 100) },
+          notes: 'Generated from ' + report.dataSource
+        })
+      }).then(r => r.json()).then(d => console.log('Report saved:', d?.data?.history_id));
       setProcessing(false);
       setStep(5);
     }, 2000);
@@ -747,3 +761,4 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
+

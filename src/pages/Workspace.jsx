@@ -27,6 +27,7 @@ export default function Workspace() {
   const [showSearch, setShowSearch] = useState(false)
   const [searchResults, setSearchResults] = useState([])
   const [searching, setSearching] = useState(false)
+  const [previewReport, setPreviewReport] = useState(null)
 
   useEffect(()=>{
     loadWorkspace()
@@ -53,6 +54,14 @@ export default function Workspace() {
       setReportHistory(histData.data||[])
     } catch(e) { console.error(e) }
     setLoading(false)
+  }
+
+  const loadReport = async (historyId) => {
+    try {
+      const res = await fetch(API+'/workspace/report/'+historyId, {headers:getHeaders()})
+      const data = await res.json()
+      if(data.status==='success') setPreviewReport(data.data)
+    } catch(e) { console.error(e) }
   }
 
   const handleSearch = async () => {
@@ -163,6 +172,7 @@ export default function Workspace() {
                         <td style={{padding:'10px 8px'}}><span style={{background:'#3b82f620',color:'#3b82f6',padding:'2px 8px',borderRadius:20,fontSize:11}}>{r.domain_name}</span></td>
                         <td style={{padding:'10px 8px',color:'#64748b',fontSize:12}}>{new Date(r.run_at).toLocaleDateString()}</td>
                         <td style={{padding:'10px 8px'}}><span style={{background:'#10b98120',color:'#10b981',padding:'2px 8px',borderRadius:20,fontSize:11}}>{r.status}</span></td>
+                      <td style={{padding:'10px 8px'}}><button onClick={()=>loadReport(r.history_id)} style={{background:'#3b82f620',border:'none',borderRadius:6,color:'#3b82f6',padding:'4px 10px',cursor:'pointer',fontSize:12}}>?? View</button></td>
                       </tr>
                     ))}
                   </tbody>
@@ -232,5 +242,6 @@ export default function Workspace() {
     </div>
   )
 }
+
 
 
