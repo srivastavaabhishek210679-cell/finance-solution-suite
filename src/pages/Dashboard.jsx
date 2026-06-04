@@ -708,11 +708,15 @@ function Dashboard() {
           </main>
         </div>
       </div>
+      {showSearch && <GlobalSearch onClose={()=>setShowSearch(false)} />}
     </>
   )
 }
 
 export default Dashboard
+
+
+
 
 
 
