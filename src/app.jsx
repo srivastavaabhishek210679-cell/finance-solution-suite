@@ -49,7 +49,6 @@ const AdvancedKPIDashboard = lazy(() => import('./pages/AdvancedKPIDashboard'))
 const DataUpload = lazy(() => import('./pages/DataUpload'))
 const MFASettings = lazy(() => import('./pages/MFASettings'))
 const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
-const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
 const AuditLog = lazy(() => import('./pages/AuditLog'))
 function Protected({ children, pageName }) {
   return (
