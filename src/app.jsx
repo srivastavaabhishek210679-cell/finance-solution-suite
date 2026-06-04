@@ -64,7 +64,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={user ? <Navigate to="/workspace" replace /> : <Register />} />
+      <Route path="/register" element={user ? <Navigate to="/onboarding" replace /> : <Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
 

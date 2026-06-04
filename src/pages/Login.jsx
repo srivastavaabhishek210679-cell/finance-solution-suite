@@ -19,7 +19,7 @@ function Login() {
     setLoading(true)
     try {
       await login(email, password)
-      navigate('/workspace')
+      navigate('/onboarding')
     } catch (err) {
       setError(err.message || 'Invalid credentials')
     } finally {
@@ -32,7 +32,7 @@ function Login() {
     setLoading(true)
     try {
       await login('alice.smith@demo.com', 'password123')
-      navigate('/workspace')
+      navigate('/onboarding')
     } catch (err) {
       setError(err.message)
     } finally {
@@ -92,3 +92,4 @@ function Login() {
 }
 
 export default Login
+
