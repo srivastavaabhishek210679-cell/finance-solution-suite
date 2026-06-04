@@ -168,6 +168,7 @@ function Sidebar() {
     { path: '/attendance',               icon: Clock,         label: 'Attendance',           badge: 'NEW', badgeColor: '#f59e0b' },
     { path: '/sales-pipeline',           icon: TrendingUp,    label: 'Sales Pipeline',       badge: 'NEW', badgeColor: '#10b981' },
     { path: '/helpdesk',                 icon: Headphones,    label: 'IT Helpdesk',          badge: 'NEW', badgeColor: '#3b82f6' },
+    { path: '/audit-log',                icon: Shield,        label: 'Audit Log',            badge: 'NEW', badgeColor: '#10b981' },
     { path: '/compliance',               icon: Shield,        label: 'Compliance',           badge: 'NEW', badgeColor: '#10b981' },
     { path: '/recruitment-mgmt',          icon: UserPlus,      label: 'Recruitment',          badge: 'NEW', badgeColor: '#8b5cf6' },
     { path: '/contract-mgmt',           icon: FileText,      label: 'Contract Management', badge: 'NEW', badgeColor: '#6366f1' },
@@ -371,6 +372,7 @@ function Sidebar() {
 }
 
 export default Sidebar
+
 
 
 

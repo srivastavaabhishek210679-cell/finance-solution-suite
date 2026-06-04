@@ -49,7 +49,8 @@ const AdvancedKPIDashboard = lazy(() => import('./pages/AdvancedKPIDashboard'))
 const DataUpload = lazy(() => import('./pages/DataUpload'))
 const MFASettings = lazy(() => import('./pages/MFASettings'))
 const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
-
+const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
+const AuditLog = lazy(() => import('./pages/AuditLog'))
 function Protected({ children, pageName }) {
   return (
     <ProtectedRoute>
@@ -124,7 +125,8 @@ function App() {
       <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
       <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
       <Route path="/verify-email" element={<VerifyEmail />} />
-      <Route path="/monetization"          element={<Protected pageName="Billing & Plans">      <Monetization />         </Protected>} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
+      <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
 
       <Route path="/" element={<Navigate to="/workspace" replace />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
