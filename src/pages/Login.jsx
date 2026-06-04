@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
@@ -7,6 +7,11 @@ function Login() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [verifyNotice, setVerifyNotice] = useState(false)
+  useEffect(()=>{
+    const params = new URLSearchParams(window.location.search)
+    if(params.get('verify')==='true') setVerifyNotice(true)
+  },[])
   const { login } = useAuth()
   const navigate = useNavigate()
 
@@ -51,6 +56,7 @@ function Login() {
 
         <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:32}}>
           <h2 style={{color:'#f1f5f9',fontSize:20,fontWeight:700,margin:'0 0 24px'}}>Sign In</h2>
+          {verifyNotice && <div style={{background:'#f59e0b20',border:'1px solid #f59e0b40',borderRadius:8,padding:'10px 14px',color:'#f59e0b',fontSize:13,marginBottom:16}}>?? Please check your email to verify your account before logging in.</div>}
           {error && <div style={{background:'#ef444420',border:'1px solid #ef444440',borderRadius:8,padding:'10px 14px',color:'#ef4444',fontSize:13,marginBottom:16}}>{error}</div>}
           <div style={{display:'grid',gap:14}}>
             <div>
@@ -92,3 +98,5 @@ function Login() {
 }
 
 export default Login
+
+
