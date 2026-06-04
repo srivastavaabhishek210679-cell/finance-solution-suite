@@ -51,7 +51,6 @@ const DataUpload = lazy(() => import('./pages/DataUpload'))
 const MFASettings = lazy(() => import('./pages/MFASettings'))
 const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
 const AuditLog = lazy(() => import('./pages/AuditLog'))
-const AuditLog = lazy(() => import('./pages/AuditLog'))
 const GDPRPrivacyCenter = lazy(() => import('./pages/GDPRPrivacyCenter'))
 
 function Protected({ children, pageName }) {
