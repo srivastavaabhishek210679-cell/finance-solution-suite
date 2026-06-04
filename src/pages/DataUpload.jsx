@@ -600,7 +600,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
               </button>
               <button 
                 className="button-primary"
-                disabled={Object.keys(columnMapping).length !== reportTemplates.find(t => t.id === selectedTemplate).fields.length}
+                disabled={processing}
                 onClick={handleGenerateReport}
               >
                 {processing ? 'Generating...' : 'Generate Report'}
@@ -747,6 +747,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
+
 
 
 
