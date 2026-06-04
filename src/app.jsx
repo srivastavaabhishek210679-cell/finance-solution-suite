@@ -1,53 +1,53 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, Suspense, lazy } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
-import Login                from './pages/Login'
-import Register             from './pages/Register'
-import ForgotPassword       from './pages/ForgotPassword'
-import ResetPassword        from './pages/ResetPassword'
-import Onboarding           from './pages/Onboarding'
-import Dashboard            from './pages/Dashboard'
-import Analytics            from './pages/Analytics'
-import MultiTenant          from './pages/MultiTenant'
-import CustomerManagement   from './pages/CustomerManagement'
-import ChatbotAssistant     from './pages/ChatbotAssistant'
-import AIInsights           from './pages/AIInsights'
-import Personalization      from './pages/Personalization'
-import Collaboration        from './pages/Collaboration'
-import ReviewsRatings       from './pages/ReviewsRatings'
-import ModuleManager        from './pages/ModuleManager'
-import Accessibility        from './pages/Accessibility'
+const Login = lazy(() => import('./pages/Login'))
+const Register = lazy(() => import('./pages/Register'))
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
+const ResetPassword = lazy(() => import('./pages/ResetPassword'))
+const Onboarding = lazy(() => import('./pages/Onboarding'))
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Analytics = lazy(() => import('./pages/Analytics'))
+const MultiTenant = lazy(() => import('./pages/MultiTenant'))
+const CustomerManagement = lazy(() => import('./pages/CustomerManagement'))
+const ChatbotAssistant = lazy(() => import('./pages/ChatbotAssistant'))
+const AIInsights = lazy(() => import('./pages/AIInsights'))
+const Personalization = lazy(() => import('./pages/Personalization'))
+const Collaboration = lazy(() => import('./pages/Collaboration'))
+const ReviewsRatings = lazy(() => import('./pages/ReviewsRatings'))
+const ModuleManager = lazy(() => import('./pages/ModuleManager'))
+const Accessibility = lazy(() => import('./pages/Accessibility'))
 import ProtectedRoute       from './components/ProtectedRoute'
-import PayrollManagement from './pages/PayrollManagement'
-import ResourceManagement from './pages/ResourceManagement'
-import ProjectManagement  from './pages/ProjectManagement'
-import BudgetManagement  from './pages/BudgetManagement'
-import LeaveManagement   from './pages/LeaveManagement'
-import VendorManagement  from './pages/VendorManagement'
-import AssetManagement   from './pages/AssetManagement'
-import ContractManagement from './pages/ContractManagement'
-import InventoryManagement  from './pages/InventoryManagement'
-import DocumentManagement   from './pages/DocumentManagement'
-import RiskManagement       from './pages/RiskManagement'
-import ExpenseManagement    from './pages/ExpenseManagement'
-import PerformanceManagement from './pages/PerformanceManagement'
-import RecruitmentManagement from './pages/RecruitmentManagement'
-import InvoiceManagement    from './pages/InvoiceManagement'
-import TrainingManagement   from './pages/TrainingManagement'
-import TravelManagement     from './pages/TravelManagement'
-import AttendanceManagement from './pages/AttendanceManagement'
-import SalesPipeline        from './pages/SalesPipeline'
-import HelpdeskManagement   from './pages/HelpdeskManagement'
-import ComplianceManagement from './pages/ComplianceManagement'
-import WorkflowAutomation   from './pages/WorkflowAutomation'
-import AICopilot            from './pages/AICopilot'
-import PredictiveAnalytics  from './pages/PredictiveAnalytics'
+const PayrollManagement = lazy(() => import('./pages/PayrollManagement'))
+const ResourceManagement = lazy(() => import('./pages/ResourceManagement'))
+const ProjectManagement = lazy(() => import('./pages/ProjectManagement'))
+const BudgetManagement = lazy(() => import('./pages/BudgetManagement'))
+const LeaveManagement = lazy(() => import('./pages/LeaveManagement'))
+const VendorManagement = lazy(() => import('./pages/VendorManagement'))
+const AssetManagement = lazy(() => import('./pages/AssetManagement'))
+const ContractManagement = lazy(() => import('./pages/ContractManagement'))
+const InventoryManagement = lazy(() => import('./pages/InventoryManagement'))
+const DocumentManagement = lazy(() => import('./pages/DocumentManagement'))
+const RiskManagement = lazy(() => import('./pages/RiskManagement'))
+const ExpenseManagement = lazy(() => import('./pages/ExpenseManagement'))
+const PerformanceManagement = lazy(() => import('./pages/PerformanceManagement'))
+const RecruitmentManagement = lazy(() => import('./pages/RecruitmentManagement'))
+const InvoiceManagement = lazy(() => import('./pages/InvoiceManagement'))
+const TrainingManagement = lazy(() => import('./pages/TrainingManagement'))
+const TravelManagement = lazy(() => import('./pages/TravelManagement'))
+const AttendanceManagement = lazy(() => import('./pages/AttendanceManagement'))
+const SalesPipeline = lazy(() => import('./pages/SalesPipeline'))
+const HelpdeskManagement = lazy(() => import('./pages/HelpdeskManagement'))
+const ComplianceManagement = lazy(() => import('./pages/ComplianceManagement'))
+const WorkflowAutomation = lazy(() => import('./pages/WorkflowAutomation'))
+const AICopilot = lazy(() => import('./pages/AICopilot'))
+const PredictiveAnalytics = lazy(() => import('./pages/PredictiveAnalytics'))
 import IntegrationEcosystem from './pages/IntegrationEcosystem'
 import Monetization         from './pages/Monetization'
 import ErrorBoundary        from './components/ErrorBoundary'
-import AdvancedKPIDashboard from './pages/AdvancedKPIDashboard'
-import DataUpload           from './pages/DataUpload'
-import MFASettings          from './pages/MFASettings'
-import VerifyEmail          from './pages/VerifyEmail'
+const AdvancedKPIDashboard = lazy(() => import('./pages/AdvancedKPIDashboard'))
+const DataUpload = lazy(() => import('./pages/DataUpload'))
+const MFASettings = lazy(() => import('./pages/MFASettings'))
+const VerifyEmail = lazy(() => import('./pages/VerifyEmail'))
 
 function Protected({ children, pageName }) {
   return (
@@ -132,4 +132,6 @@ function App() {
 }
 
 export default App
+
+
 
