@@ -1,16 +1,15 @@
+  const navigate = useNavigate()
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Settings, Layout, Bell, Palette, Save, RotateCcw, Download, Upload, Check } from 'lucide-react'
 import { preferencesAPI } from '../services/api'
 import './Personalization.css'
 
 function Personalization() {
-  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('layout')
-  const navigate = useNavigate()
   const [savedMessage, setSavedMessage] = useState('')
 
   // Layout preferences
-  const navigate = useNavigate()
   const [layoutPrefs, setLayoutPrefs] = useState({
     defaultView: 'dashboard',
     sidebarPosition: 'left',
@@ -20,7 +19,6 @@ function Personalization() {
   })
 
   // Favorite reports
-  const navigate = useNavigate()
   const [favoriteReports, setFavoriteReports] = useState([
     { id: 1, name: 'Monthly P&L', domain: 'Finance', pinned: true },
     { id: 2, name: 'Cash Flow Statement', domain: 'Finance', pinned: true },
@@ -29,7 +27,6 @@ function Personalization() {
   ])
 
   // Notification preferences
-  const navigate = useNavigate()
   const [notificationPrefs, setNotificationPrefs] = useState({
     email: {
       newReports: true,
@@ -50,7 +47,6 @@ function Personalization() {
   })
 
   // Theme preferences
-  const navigate = useNavigate()
   const [themePrefs, setThemePrefs] = useState({
     theme: 'dark',
     accentColor: '#3b82f6',
@@ -59,7 +55,6 @@ function Personalization() {
   })
 
   // Dashboard widgets
-  const navigate = useNavigate()
   const [selectedWidgets, setSelectedWidgets] = useState([
     { id: 'kpi-overview', name: 'KPI Overview', enabled: true },
     { id: 'recent-reports', name: 'Recent Reports', enabled: true },
@@ -156,10 +151,6 @@ function Personalization() {
   }
 
   return (
-    <>
-      <div style={{position:'fixed',top:16,left:16,zIndex:999}}>
-        <button onClick={()=>navigate(-1)} style={{display:'flex',alignItems:'center',gap:6,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13,fontWeight:500,boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>? Back</button>
-      </div>
     <div className="personalization-page">
       {/* Header */}
       <div className="personalization-header">
@@ -546,10 +537,7 @@ function Personalization() {
         )}
       </div>
     </div>
-    </>
   )
 }
+
 export default Personalization
-
-
-

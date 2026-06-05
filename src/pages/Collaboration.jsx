@@ -1,32 +1,23 @@
+  const navigate = useNavigate()
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Users, Share2, MessageCircle, UserPlus, Clock, Eye, Edit, Shield, Send, Paperclip, Search } from 'lucide-react'
 import './Collaboration.css'
 import { collaborationAPI } from '../services/api'
 
 function Collaboration() {
-  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('shared')
-  const navigate = useNavigate()
   const [selectedDashboard, setSelectedDashboard] = useState(null)
-  const navigate = useNavigate()
   const [newComment, setNewComment] = useState('')
-  const navigate = useNavigate()
   const [showInvite, setShowInvite] = useState(false)
-  const navigate = useNavigate()
   const [inviteEmail, setInviteEmail] = useState('')
-  const navigate = useNavigate()
   const [inviteRole, setInviteRole] = useState('viewer')
-  const navigate = useNavigate()
   const [selectedMember, setSelectedMember] = useState(null)
   // Shared dashboards
-  const navigate = useNavigate()
   const [sharedDashboards, setSharedDashboards] = useState([])
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
   const [comments, setComments] = useState([])
   // Team members
-  const navigate = useNavigate()
   const [teamMembers, setTeamMembers] = useState([
     {
       id: 1,
@@ -67,7 +58,6 @@ function Collaboration() {
   ])
 
   // Activity feed
-  const navigate = useNavigate()
   const [activities, setActivities] = useState([
     {
       id: 1,
@@ -442,10 +432,6 @@ function Collaboration() {
         </div>
       )}
     </>
-    </>
   )
 }
 export default Collaboration
-
-
-
