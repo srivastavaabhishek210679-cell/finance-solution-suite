@@ -6,6 +6,8 @@ import './DataUpload.css';
 
 const DataUpload = () => {
   const navigate = useNavigate();
+  const workspace = JSON.parse(localStorage.getItem('userWorkspace') || '{}')
+  const selectedDomains = workspace.selected_domains || []
   const [uploadedFile, setUploadedFile] = useState(null);
   const [previewData, setPreviewData] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState('');
@@ -16,7 +18,7 @@ const DataUpload = () => {
   const [showReportViewer, setShowReportViewer] = useState(false);
 
   // Available report templates
-  const reportTemplates = [
+  const ALL_TEMPLATES = [
     { id: 'financial', name: 'Financial Report', fields: ['revenue', 'expenses', 'profit', 'date'] },
     { id: 'sales', name: 'Sales Performance Report', fields: ['product', 'quantity', 'amount', 'date', 'region'] },
     { id: 'operations', name: 'Operations Report', fields: ['department', 'tasks_completed', 'efficiency', 'date'] },
@@ -764,6 +766,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
+
 
 
 

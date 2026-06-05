@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { exportToPDF } from '../utils/pdfExport'
 import { X, Download, BarChart3, TrendingUp, DollarSign, FileText } from 'lucide-react'
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
@@ -38,6 +39,9 @@ export default function ReportViewerModal({ report, onClose }) {
             <h2 style={{margin:0,fontSize:16,fontWeight:700,color:'#f1f5f9'}}>{report.report_name}</h2>
             <p style={{margin:0,fontSize:11,color:'#64748b'}}>{report.domain_name} • {new Date(report.run_at).toLocaleString()} • {report.total_records} records</p>
           </div>
+          <button onClick={()=>exportToPDF(report)} style={{display:'flex',alignItems:'center',gap:6,background:'#ef4444',border:'none',borderRadius:8,color:'#fff',padding:'8px 14px',cursor:'pointer',fontSize:13,fontWeight:600,marginRight:8}}>
+            <Download size={14}/> Export PDF
+          </button>
           <button onClick={onClose} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',width:32,height:32,cursor:'pointer',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center'}}>×</button>
         </div>
 
