@@ -447,8 +447,8 @@ function Dashboard() {
                 <button onClick={showDashboard} style={btnStyle(currentView==='dashboard'?'#1d4ed8':'#1e293b')}>
                 <BarChart3 size={12}/><span>View</span>
               </button>
-              <button onClick={()=>navigate('/upload-data')} style={btnStyle('#0f766e')}>
-                <Upload size={12}/><span>Upload</span>
+              <button onClick={()=>navigate('/onboarding')} style={btnStyle('#0f766e')}>
+                <span style={{fontSize:11}}>??</span><span>Workspace</span>
               </button>
               <button onClick={()=>navigate('/kpi-dashboard')} style={btnStyle('#0e7490')}>
                 <BarChart3 size={12}/><span>KPI</span>
@@ -715,6 +715,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
