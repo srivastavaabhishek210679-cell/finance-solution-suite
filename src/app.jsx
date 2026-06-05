@@ -81,8 +81,8 @@ function App() {
           <Route path="/workspace" element={<Protected pageName="My Workspace"><Workspace /></Protected>} />
           <Route path="/dashboard" element={<Protected pageName="Dashboard"><Dashboard /></Protected>} />
           <Route path="/analytics" element={<Protected pageName="Analytics"><Analytics /></Protected>} />
-          <Route path="/multi-tenant" element={<Protected pageName="Multi Tenant"><MultiTenant /></Protected>} />
-          <Route path="/customer-management" element={<Protected pageName="Customer Management"><CustomerManagement /></Protected>} />
+          <Route path="/tenants" element={<Protected pageName="Multi Tenant"><MultiTenant /></Protected>} />
+          <Route path="/customers" element={<Protected pageName="Customer Management"><CustomerManagement /></Protected>} />
           <Route path="/chatbot" element={<Protected pageName="AI Chatbot"><ChatbotAssistant /></Protected>} />
           <Route path="/ai-insights" element={<Protected pageName="AI Insights"><AIInsights /></Protected>} />
           <Route path="/ai-copilot" element={<Protected pageName="AI Copilot"><AICopilot /></Protected>} />
@@ -91,8 +91,8 @@ function App() {
           <Route path="/executive-reporting" element={<Protected pageName="Executive Reporting"><ExecutiveReporting /></Protected>} />
           <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
           <Route path="/collaboration" element={<Protected pageName="Collaboration"><Collaboration /></Protected>} />
-          <Route path="/reviews" element={<Protected pageName="Reviews"><ReviewsRatings /></Protected>} />
-          <Route path="/module-manager" element={<Protected pageName="Module Manager"><ModuleManager /></Protected>} />
+          <Route path="/reviews-ratings" element={<Protected pageName="Reviews"><ReviewsRatings /></Protected>} />
+          <Route path="/modules" element={<Protected pageName="Module Manager"><ModuleManager /></Protected>} />
           <Route path="/accessibility" element={<Protected pageName="Accessibility"><Accessibility /></Protected>} />
           <Route path="/monetization" element={<Protected pageName="Monetization"><Monetization /></Protected>} />
           <Route path="/integration-ecosystem" element={<Protected pageName="Integrations"><IntegrationEcosystem /></Protected>} />
@@ -122,6 +122,8 @@ function App() {
           <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
           <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
           <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
+                <Route path="/reviews" element={<Protected pageName="Reviews"><ReviewsRatings /></Protected>} />
+          <Route path="/crm-mgmt" element={<Protected pageName="CRM"><CustomerManagement /></Protected>} />
           <Route path="/" element={<Navigate to="/workspace" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
@@ -132,3 +134,6 @@ function App() {
 }
 
 export default App
+
+
+
