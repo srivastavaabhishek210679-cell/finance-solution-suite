@@ -208,9 +208,9 @@ export default function Onboarding() {
                   </div>
                   <div style={{padding:12,display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
                     {data.modules.map(mod=>{
-                      const isSelected = !!selectedModules.find(m=>m.module_path===mod.module_path)
+                      const isSelected = !!selectedModules.find(m=>m.module_name===mod.module_name && m.domain_id===mod.domain_id)
                       return (
-                        <button key={mod.module_path} onClick={()=>toggleModule(mod)} style={{background:isSelected?data.color+'20':'#0f172a',border:`1px solid ${isSelected?data.color:'#334155'}`,borderRadius:8,padding:'10px 14px',cursor:'pointer',display:'flex',alignItems:'center',gap:8,transition:'all 0.2s'}}>
+                        <button key={mod.module_name+'_'+mod.domain_id} onClick={()=>toggleModule(mod)} style={{background:isSelected?data.color+'20':'#0f172a',border:`1px solid `,borderRadius:8,padding:'10px 14px',cursor:'pointer',display:'flex',alignItems:'center',gap:8,transition:'all 0.2s'}}>
                           <div style={{width:20,height:20,borderRadius:4,border:`2px solid ${isSelected?data.color:'#334155'}`,background:isSelected?data.color:'transparent',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
                             {isSelected && <span style={{color:'#fff',fontSize:12}}>✓</span>}
                           </div>
