@@ -237,117 +237,6 @@ function Sidebar() {
           </div>
         </div>
 
-        {/* Reports Section with Tiles */}
-        <div className="menu-section reports-section">
-          <div className="menu-section-header">
-            <span>All Reports ({reports.length})</span>
-          </div>
-
-          {/* Search Box */}
-          <div className="sidebar-search">
-            <Search className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search reports..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
-            />
-            {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="search-clear">
-                <X size={14} />
-              </button>
-            )}
-          </div>
-
-          {/* Expand/Collapse All */}
-          <div className="expand-collapse-buttons">
-            <button onClick={expandAll} className="expand-btn">Expand All</button>
-            <button onClick={collapseAll} className="collapse-btn">Collapse All</button>
-          </div>
-
-          {/* Domain List with Report Tiles */}
-          {loading ? (
-            <div className="loading-state">Loading reports...</div>
-          ) : (
-            <div className="domains-list">
-              {DOMAINS.map((domain) => {
-                const domainReports = getReportsByDomain(domain.name)
-                const isExpanded = expandedDomains[domain.name]
-
-                if (searchQuery && domainReports.length === 0) {
-                  return null
-                }
-
-                return (
-                  <div key={domain.name} className="domain-group">
-                    {/* Domain Header */}
-                    <button
-                      onClick={() => toggleDomain(domain.name)}
-                      className="domain-header"
-                      style={{ borderLeftColor: domain.color }}
-                    >
-                      <div className="domain-header-left">
-                        {isExpanded ? (
-                          <ChevronDown className="domain-chevron" />
-                        ) : (
-                          <ChevronRight className="domain-chevron" />
-                        )}
-                        <span className="domain-icon">{domain.icon}</span>
-                        <span className="domain-name">{domain.name}</span>
-                      </div>
-                      <span className="domain-count" style={{ background: `${domain.color}20`, color: domain.color }}>
-                        {domainReports.length}
-                      </span>
-                    </button>
-
-                    {/* Domain Reports as Tiles */}
-                    {isExpanded && (
-                      <div className="reports-tiles">
-                        {domainReports.map((report) => (
-                          <div
-                            key={report.id}
-                            onClick={() => navigate(`/reports/${report.id}`)}
-                            className={`report-tile ${location.pathname === `/reports/${report.id}` ? 'active' : ''}`}
-                            style={{ borderLeftColor: domain.color }}
-                          >
-                            <div className="report-tile-header">
-                              <FileText className="report-tile-icon" size={16} />
-                              <span className="report-tile-name">{report.name}</span>
-                            </div>
-                            <div className="report-tile-meta">
-                              <span className="report-frequency">{report.frequency}</span>
-                              {report.complianceStatus === 'Required' && (
-                                <span className="report-badge required">
-                                  <CheckCircle size={10} />
-                                  Required
-                                </span>
-                              )}
-                              {report.complianceStatus === 'Optional' && (
-                                <span className="report-badge optional">
-                                  <AlertCircle size={10} />
-                                  Optional
-                                </span>
-                              )}
-                            </div>
-                            <p className="report-tile-description">{report.description}</p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          )}
-
-          {/* No Results */}
-          {searchQuery && reports.filter(r => r.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
-            <div className="no-results">
-              No reports found for "{searchQuery}"
-            </div>
-          )}
-        </div>
       </nav>
 
       {/* Footer */}
@@ -365,6 +254,7 @@ function Sidebar() {
 }
 
 export default Sidebar
+
 
 
 
