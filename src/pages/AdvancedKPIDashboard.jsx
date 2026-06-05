@@ -214,7 +214,7 @@ const AdvancedKPIDashboard = () => {
           </div>
         </div>
         <div className="header-actions">
-          <button className="btn-back" onClick={() => navigate('/')}>
+          <button className="btn-back" onClick={() => navigate('/dashboard', {state:{from:'workspace'}})}>
             <ArrowLeft size={18} />
             Back to Dashboard
           </button>
@@ -436,3 +436,4 @@ const AdvancedKPIDashboard = () => {
 };
 
 export default AdvancedKPIDashboard;
+
