@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { CheckCircle, ChevronDown, ChevronUp, Search, ArrowRight, Briefcase } from 'lucide-react'
 
@@ -8,6 +9,7 @@ const getHeaders = () => ({ 'Content-Type': 'application/json', Authorization: '
 
 export default function Onboarding() {
   const navigate = useNavigate()
+  
   const { user } = useAuth()
   const [step, setStep] = useState(1)
   const [modules, setModules] = useState([])
@@ -361,3 +363,4 @@ export default function Onboarding() {
     </div>
   )
 }
+
