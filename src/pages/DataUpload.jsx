@@ -18,7 +18,7 @@ const DataUpload = () => {
   const [showReportViewer, setShowReportViewer] = useState(false);
 
   // Available report templates
-  const ALL_TEMPLATES = [
+  const reportTemplates = [
     { id: 'financial', name: 'Financial Report', fields: ['revenue', 'expenses', 'profit', 'date'] },
     { id: 'sales', name: 'Sales Performance Report', fields: ['product', 'quantity', 'amount', 'date', 'region'] },
     { id: 'operations', name: 'Operations Report', fields: ['department', 'tasks_completed', 'efficiency', 'date'] },
@@ -766,6 +766,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
+
 
 
 
