@@ -85,18 +85,18 @@ export default function GlobalSearch({ onClose }) {
   }
 
   return (
-    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:9999,display:'flex',alignItems:'flex-start',justifyContent:'center',paddingTop:80}} onClick={onClose}>
-      <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,width:'100%',maxWidth:600,maxHeight:'70vh',display:'flex',flexDirection:'column',overflow:'hidden'}} onClick={e=>e.stopPropagation()}>
+    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.6)',zIndex:9999,display:'flex',alignItems:'flex-start',justifyContent:'center',paddingTop:80}} onClick={onClose}>
+      <div style={{background:'#0f172a',border:'2px solid #10b981',borderRadius:16,width:'100%',maxWidth:600,maxHeight:'70vh',display:'flex',flexDirection:'column',overflow:'hidden'}} onClick={e=>e.stopPropagation()}>
         
         {/* Search Input */}
-        <div style={{display:'flex',alignItems:'center',gap:12,padding:'16px 20px',borderBottom:'1px solid #334155'}}>
+        <div style={{display:'flex',alignItems:'center',gap:12,padding:'18px 22px',borderBottom:'2px solid #10b981',background:'#0d1f2d'}}>
           <Search size={20} style={{color:'#64748b',flexShrink:0}}/>
           <input
             ref={inputRef}
             value={query}
             onChange={e=>setQuery(e.target.value)}
             placeholder="Search modules, reports, documents..."
-            style={{flex:1,background:'none',border:'none',color:'#f1f5f9',fontSize:16,outline:'none'}}
+            style={{flex:1,background:'none',border:'none',color:'#ffffff',fontSize:18,fontWeight:500,outline:'none'}}
             onKeyDown={e=>e.key==='Escape'&&onClose()}
           />
           {loading && <div style={{width:16,height:16,border:'2px solid #334155',borderTop:'2px solid #10b981',borderRadius:'50%',animation:'spin 1s linear infinite'}}></div>}
@@ -122,7 +122,7 @@ export default function GlobalSearch({ onClose }) {
               <div style={{fontSize:11,color:'#64748b',marginBottom:10,textTransform:'uppercase',fontWeight:600}}>Quick Access</div>
               <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
                 {Object.entries(MODULE_MAP).map(([key,val])=>(
-                  <div key={key} onClick={()=>handleSelect({...val,name:key.charAt(0).toUpperCase()+key.slice(1)})} style={{background:'#0f172a',borderRadius:8,padding:'10px',cursor:'pointer',display:'flex',alignItems:'center',gap:8,border:'1px solid #334155'}} onMouseEnter={e=>e.currentTarget.style.borderColor=val.color} onMouseLeave={e=>e.currentTarget.style.borderColor='#334155'}>
+                  <div key={key} onClick={()=>handleSelect({...val,name:key.charAt(0).toUpperCase()+key.slice(1)})} style={{background:'#0d1a26',borderRadius:8,padding:'12px',cursor:'pointer',display:'flex',alignItems:'center',gap:8,border:'1px solid #1e3a4a',boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}} onMouseEnter={e=>e.currentTarget.style.borderColor=val.color} onMouseLeave={e=>e.currentTarget.style.borderColor='#334155'}>
                     <span style={{fontSize:16}}>{val.icon}</span>
                     <span style={{color:'#94a3b8',fontSize:12,textTransform:'capitalize'}}>{key}</span>
                   </div>
@@ -146,9 +146,9 @@ export default function GlobalSearch({ onClose }) {
                 const labels = {module:'Modules',report:'Reports',history:'Recent Reports'}
                 return (
                   <div key={type}>
-                    <div style={{padding:'8px 20px',fontSize:11,color:'#64748b',textTransform:'uppercase',fontWeight:600}}>{labels[type]}</div>
+                    <div style={{padding:'8px 20px',fontSize:11,color:'#10b981',textTransform:'uppercase',fontWeight:700,letterSpacing:'1px'}}>{labels[type]}</div>
                     {typeResults.map((r,i)=>(
-                      <div key={i} onClick={()=>handleSelect(r)} style={{display:'flex',alignItems:'center',gap:12,padding:'10px 20px',cursor:'pointer',transition:'background 0.15s'}} onMouseEnter={e=>e.currentTarget.style.background='#0f172a'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                      <div key={i} onClick={()=>handleSelect(r)} style={{display:'flex',alignItems:'center',gap:12,padding:'10px 20px',cursor:'pointer',transition:'background 0.15s'}} onMouseEnter={e=>e.currentTarget.style.background='#10b98120'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                         <div style={{width:32,height:32,borderRadius:8,background:r.color+'20',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,flexShrink:0}}>{r.icon}</div>
                         <div style={{flex:1}}>
                           <div style={{color:'#f1f5f9',fontSize:13,fontWeight:500}}>{r.name}</div>
@@ -164,7 +164,7 @@ export default function GlobalSearch({ onClose }) {
           )}
         </div>
 
-        <div style={{padding:'10px 20px',borderTop:'1px solid #334155',fontSize:11,color:'#64748b',display:'flex',gap:16}}>
+        <div style={{padding:'12px 20px',borderTop:'1px solid #1e3a4a',fontSize:11,color:'#94a3b8',background:'#0d1a26',display:'flex',gap:16}}>
           <span>↑↓ Navigate</span>
           <span>↵ Select</span>
           <span>ESC Close</span>
@@ -173,6 +173,7 @@ export default function GlobalSearch({ onClose }) {
     </div>
   )
 }
+
 
 
 
