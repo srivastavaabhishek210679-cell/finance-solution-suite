@@ -112,7 +112,7 @@ function Sidebar() {
 
   // Get reports by domain with search filter
   const getReportsByDomain = (domainName) => {
-    let domainReports = reports.filter(r => r.domain === domainName)
+    let domainReports = reports.filter(r => (r.domain_name || r.domain) === domainName)
     
     if (searchQuery) {
       domainReports = domainReports.filter(r => 
@@ -365,6 +365,7 @@ function Sidebar() {
 }
 
 export default Sidebar
+
 
 
 
