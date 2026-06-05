@@ -164,8 +164,11 @@ export default function Onboarding() {
           <div style={{width:40,height:40,background:'linear-gradient(135deg,#10b981,#3b82f6)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20}}>💼</div>
           <div>
             <h1 style={{margin:0,fontSize:18,fontWeight:700}}>Workspace Setup</h1>
-            <p style={{margin:0,fontSize:12,color:'#64748b'}}>Welcome {user?.firstName||''}! Set up your personalized workspace</p>
+            <h1 style={{margin:0,fontSize:18,fontWeight:700}}>Workspace Setup</h1>
+            <p style={{margin:0,fontSize:12,color:'#64748b'}}>Welcome! Set up your personalized workspace</p>
           </div>
+          <button onClick={()=>navigate(-1)} style={{marginLeft:'auto',background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 16px',cursor:'pointer',fontSize:13}}>? Cancel</button>
+
         </div>
         <div style={{display:'flex',gap:8}}>
           {[1,2,3].map(s=>(
