@@ -85,10 +85,6 @@ function Sidebar() {
       setLoading(false)
     }
   }
-    }
-  }
-    }
-  }
 
   const isActive = (path) => location.pathname === path
 
