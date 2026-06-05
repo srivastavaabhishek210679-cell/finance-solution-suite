@@ -42,7 +42,7 @@ export default function GlobalSearch({ onClose }) {
   useEffect(() => {
     inputRef.current?.focus()
     const saved = localStorage.getItem('searchHistory')
-    if(saved) setRecent(JSON.parse(saved).slice(0,5))
+    if(saved) setRecent(JSON.parse(saved).slice(0,2))
   }, [])
 
   const search = async (q) => {
@@ -62,7 +62,7 @@ export default function GlobalSearch({ onClose }) {
         .filter(([key, val]) => key.includes(q.toLowerCase()) || val.path.includes(q.toLowerCase()))
         .map(([key, val]) => ({ type:'module', name:key.charAt(0).toUpperCase()+key.slice(1)+' Management', ...val }))
 
-      const reportResults = (reportData.data||[]).slice(0,5).map(r=>({ type:'report', name:r.name, domain:r.domain_name, icon:'📊', color:'#8b5cf6', path:'/upload-data' }))
+      const reportResults = (reportData.data||[]).slice(0,2).map(r=>({ type:'report', name:r.name, domain:r.domain_name, icon:'📊', color:'#8b5cf6', path:'/upload-data' }))
       const histResults = (histData.data||[]).slice(0,3).map(r=>({ type:'history', name:r.report_name, domain:r.domain_name, icon:'🕐', color:'#64748b', path:'/workspace', historyId:r.history_id }))
 
       setResults([...moduleResults, ...reportResults, ...histResults])
@@ -78,7 +78,7 @@ export default function GlobalSearch({ onClose }) {
   const handleSelect = (result) => {
     // Save to recent
     const history = JSON.parse(localStorage.getItem('searchHistory')||'[]')
-    const newHistory = [result.name, ...history.filter(h=>h!==result.name)].slice(0,10)
+    const newHistory = [result.name, ...history.filter(h=>h!==result.name)].slice(0,2)
     localStorage.setItem('searchHistory', JSON.stringify(newHistory))
     navigate(result.path)
     onClose()
@@ -173,5 +173,6 @@ export default function GlobalSearch({ onClose }) {
     </div>
   )
 }
+
 
 
