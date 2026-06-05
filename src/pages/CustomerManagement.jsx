@@ -23,6 +23,11 @@ export default function CustomerManagement() {
   const [form, setForm] = useState({company_name:'',contact_name:'',email:'',phone:'',industry:'IT Services',country:'India',status:'Active',customer_type:'B2B',assigned_to:'',notes:''})
   const [intForm, setIntForm] = useState({type:'Call',subject:'',notes:''})
 
+  const filtered = customers.filter(c => {
+    const matchSearch = !search || c.company_name?.toLowerCase().includes(search.toLowerCase()) || c.contact_name?.toLowerCase().includes(search.toLowerCase())
+    const matchStatus = filterStatus === 'All' || c.status === filterStatus
+    return matchSearch && matchStatus
+  })
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
 
   const load = async () => {
