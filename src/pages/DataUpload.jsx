@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Upload, FileText, CheckCircle, AlertCircle, Eye, Download, Sparkles, ArrowRight, X, Table } from 'lucide-react';
 import ReportViewer from '../components/ReportViewer';
 import './DataUpload.css';
 
 const DataUpload = () => {
+  const navigate = useNavigate();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [previewData, setPreviewData] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState('');
@@ -341,6 +343,7 @@ ${JSON.stringify(generatedReport.data, null, 2)}
   };
 
   const resetWorkflow = () => {
+    navigate(-1);
     setUploadedFile(null);
     setPreviewData(null);
     setSelectedTemplate('');
@@ -761,4 +764,6 @@ ${JSON.stringify(generatedReport.data, null, 2)}
 };
 
 export default DataUpload;
+
+
 
