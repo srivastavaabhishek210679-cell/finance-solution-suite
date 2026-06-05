@@ -565,7 +565,7 @@ const Analytics = () => {
           <p>Upload Data & Generation Performance Dashboard</p>
         </div>
         <div className="header-right">
-          <button className="btn-back-analytics" onClick={() => navigate('/')}>
+          <button className="btn-back-analytics" onClick={() => navigate('/dashboard', {state:{from:'workspace'}})}>
             <ArrowLeft size={18} />
             Back to Dashboard
           </button>
@@ -886,3 +886,4 @@ const Analytics = () => {
 };
 
 export default Analytics;
+
