@@ -343,11 +343,7 @@ function Dashboard() {
 
             {/* LEFT */}
             <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
-              <button onClick={()=>setShowSearch(true)} style={{display:'flex',alignItems:'center',gap:8,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#64748b',padding:'6px 14px',cursor:'pointer',fontSize:12,minWidth:180}}>
-                  <svg width='14' height='14' fill='none' stroke='currentColor' viewBox='0 0 24 24'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.35-4.35'/></svg>
-                  <span>Search...</span>
-                  <span style={{marginLeft:'auto',background:'#334155',borderRadius:4,padding:'1px 6px',fontSize:10}}>Ctrl+K</span>
-                </button>
+              
                 <button onClick={showDashboard} style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
                 <span style={{fontSize:15,fontWeight:700,color:'#60a5fa',letterSpacing:'-0.3px'}}>Enterprise Finance Platform</span>
               </button>
@@ -715,6 +711,7 @@ function Dashboard() {
 }
 
 export default Dashboard
+
 
 
 
