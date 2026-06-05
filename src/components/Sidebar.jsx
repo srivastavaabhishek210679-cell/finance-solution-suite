@@ -70,26 +70,21 @@ function Sidebar() {
   const fetchReports = async () => {
     setLoading(true)
     try {
-      // TODO: Replace with actual API call
-      const mockReports = []
-      DOMAINS.forEach((domain, domainIndex) => {
-        const reportsPerDomain = Math.floor(500 / 13) + (domainIndex < 500 % 13 ? 1 : 0)
-        for (let i = 0; i < reportsPerDomain; i++) {
-          mockReports.push({
-            id: mockReports.length + 1,
-            name: `${domain.name} Report ${i + 1}`,
-            domain: domain.name,
-            frequency: ['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Annual'][i % 5],
-            complianceStatus: i % 3 === 0 ? 'Required' : 'Optional',
-            description: `Detailed ${domain.name.toLowerCase()} report for ${['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Annual'][i % 5].toLowerCase()} analysis`
-          })
-        }
+      const token = localStorage.getItem('token')
+      const workspace = JSON.parse(localStorage.getItem('userWorkspace') || '{}')
+      const domains = workspace.selected_domains || []
+      const domainParam = domains.length ? domains.join(',') : '1,2,3,4,5,6,7,8,9,10,11,12,13'
+      const res = await fetch('https://finance-backend-so86.onrender.com/api/v1/workspace/reports-by-domains?domains=' + domainParam, {
+        headers: { Authorization: 'Bearer ' + token }
       })
-      setReports(mockReports)
+      const data = await res.json()
+      setReports(data.data || [])
     } catch (error) {
       console.error('Error fetching reports:', error)
     } finally {
       setLoading(false)
+    }
+  }
     }
   }
 
