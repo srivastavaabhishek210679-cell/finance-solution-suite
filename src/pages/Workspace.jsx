@@ -242,71 +242,76 @@ export default function Workspace() {
         </div>
       </div>
 
-      {previewReport && <ReportViewerModal report={previewReport} onClose={()=>setPreviewReport(null)} />}>
-          <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:'90%',maxWidth:900,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-              <div>
-                <h2 style={{margin:0,fontSize:18,fontWeight:700,color:'#f1f5f9'}}>{previewReport.report_name}</h2>
-                <p style={{margin:0,fontSize:12,color:'#64748b'}}>{previewReport.domain_name} • {new Date(previewReport.run_at).toLocaleString()} • {previewReport.total_records} records</p>
-              </div>
-              <button onClick={()=>setPreviewReport(null)} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 12px',cursor:'pointer',fontSize:18}}>×</button>
-            </div>
-            {previewReport.report_data?.summary && typeof previewReport.report_data.summary === 'object' && (
-              <div style={{background:'#0f172a',borderRadius:10,padding:16,marginBottom:16}}>
-                <h3 style={{margin:'0 0 12px',fontSize:14,color:'#f1f5f9'}}>Report Summary</h3>
-                <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12}}>
-                  {Object.entries(previewReport.report_data.summary).map(([key,val])=>(
-                    <div key={key} style={{background:'#1e293b',borderRadius:8,padding:12,border:'1px solid #334155'}}>
-                      <div style={{fontSize:11,color:'#64748b',marginBottom:4,textTransform:'uppercase'}}>{key.replace(/_/g,' ')}</div>
-                      <div style={{fontSize:16,fontWeight:700,color:'#f1f5f9'}}>{typeof val==='number'?val.toLocaleString():String(val)}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {previewReport.report_data?.data && Array.isArray(previewReport.report_data.data) && previewReport.report_data.data.length > 0 && (
-              <div>
-                <h3 style={{margin:'0 0 12px',fontSize:14,color:'#f1f5f9'}}>Report Data ({previewReport.report_data.data.length} records)</h3>
-                <div style={{overflowX:'auto'}}>
-                  <table style={{width:'100%',borderCollapse:'collapse',fontSize:12}}>
-                    <thead>
-                      <tr style={{borderBottom:'1px solid #334155'}}>
-                        {Object.keys(previewReport.report_data.data[0]).map(h=>(
-                          <th key={h} style={{padding:'8px 12px',textAlign:'left',color:'#64748b',fontWeight:600,textTransform:'uppercase',fontSize:10}}>{h.replace(/_/g,' ')}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {previewReport.report_data.data.map((row,i)=>(
-                        <tr key={i} style={{borderBottom:'1px solid #0f172a'}}>
-                          {Object.values(row).map((val,j)=>(
-                            <td key={j} style={{padding:'8px 12px',color:'#f1f5f9'}}>{String(val)}</td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-            {(!previewReport.report_data?.data || !Array.isArray(previewReport.report_data.data)) && (
-              <div style={{textAlign:'center',padding:40,color:'#64748b'}}>
-                <div style={{fontSize:32,marginBottom:8}}>??</div>
-                <p>Report data preview not available. Download the report to view full data.</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      {previewReport && <ReportViewerModal report={previewReport} onClose={()=>setPreviewReport(null)} />}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
   )
 }
-
-
-
-
-
-
-
-
 
