@@ -166,7 +166,8 @@ export default function Onboarding() {
             <h1 style={{margin:0,fontSize:18,fontWeight:700}}>Workspace Setup</h1>
             <p style={{margin:0,fontSize:12,color:'#64748b'}}>Welcome! Set up your personalized workspace</p>
           </div>
-          <button onClick={()=>navigate(-1)} style={{marginLeft:'auto',background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 16px',cursor:'pointer',fontSize:13}}>? Cancel</button>
+          <button onClick={()=>navigate('/dashboard', {state:{from:'workspace'}})} style={{background:'#10b981',border:'none',borderRadius:8,color:'#fff',padding:'8px 16px',cursor:'pointer',fontSize:13,fontWeight:600}}>?? Go to Dashboard</button>
+          <button onClick={()=>navigate(-1)} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 16px',cursor:'pointer',fontSize:13}}>? Cancel</button>
 
         </div>
         <div style={{display:'flex',gap:8}}>
