@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { Eye, Type, Contrast, Focus, Keyboard, Volume2, Save, RotateCcw, Check } from 'lucide-react'
 import './Accessibility.css'
+import { useNavigate } from 'react-router-dom'
 
 function Accessibility() {
+  const navigate = useNavigate()
   const [savedMessage, setSavedMessage] = useState('')
 
   // Accessibility settings
@@ -115,6 +117,7 @@ function Accessibility() {
 
   return (
     <div className="accessibility-page">
+      <button onClick={()=>navigate(-1)} style={{position:"fixed",top:16,left:16,zIndex:9999,display:"flex",alignItems:"center",gap:6,background:"#1e293b",border:"1px solid #334155",borderRadius:8,color:"#94a3b8",padding:"8px 14px",cursor:"pointer",fontSize:13,fontWeight:500,boxShadow:"0 2px 8px rgba(0,0,0,0.3)"}}>&#8592; Back</button>
       {/* Header */}
       <div className="accessibility-header">
         <div className="header-content">
@@ -449,3 +452,5 @@ function Accessibility() {
 }
 
 export default Accessibility
+
+
