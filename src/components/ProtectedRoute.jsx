@@ -38,11 +38,7 @@ function ProtectedRoute({ children }) {
     )
   }
 
-  // Dashboard only via workspace button
-  if (location.pathname === '/dashboard') {
-    const fromWorkspace = location.state?.from === 'workspace'
-    if (!fromWorkspace) return <Navigate to="/login" replace />
-  }
+  // Dashboard accessible when logged in
 
   // Module restriction - check if user has selected this module
   if (MODULE_PATHS.includes(location.pathname)) {
@@ -79,3 +75,4 @@ function ProtectedRoute({ children }) {
 }
 
 export default ProtectedRoute
+
