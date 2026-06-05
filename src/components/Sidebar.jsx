@@ -87,6 +87,8 @@ function Sidebar() {
   }
     }
   }
+    }
+  }
 
   const isActive = (path) => location.pathname === path
 
