@@ -95,7 +95,7 @@ function App() {
           <Route path="/module-manager" element={<Protected pageName="Module Manager"><ModuleManager /></Protected>} />
           <Route path="/accessibility" element={<Protected pageName="Accessibility"><Accessibility /></Protected>} />
           <Route path="/monetization" element={<Protected pageName="Monetization"><Monetization /></Protected>} />
-          <Route path="/integrations" element={<Protected pageName="Integrations"><IntegrationEcosystem /></Protected>} />
+          <Route path="/integration-ecosystem" element={<Protected pageName="Integrations"><IntegrationEcosystem /></Protected>} />
           <Route path="/payroll" element={<Protected pageName="Payroll Management"><PayrollManagement /></Protected>} />
           <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
           <Route path="/project-mgmt" element={<Protected pageName="Project Management"><ProjectManagement /></Protected>} />
