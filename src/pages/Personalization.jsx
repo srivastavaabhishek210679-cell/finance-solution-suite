@@ -1,4 +1,3 @@
-  const navigate = useNavigate()
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Settings, Layout, Bell, Palette, Save, RotateCcw, Download, Upload, Check } from 'lucide-react'
@@ -6,6 +5,7 @@ import { preferencesAPI } from '../services/api'
 import './Personalization.css'
 
 function Personalization() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('layout')
   const [savedMessage, setSavedMessage] = useState('')
 
@@ -151,6 +151,7 @@ function Personalization() {
   }
 
   return (
+      <button onClick={()=>navigate(-1)} style={{position:'fixed',top:16,left:16,zIndex:999,display:'flex',alignItems:'center',gap:6,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13,boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>? Back</button>
     <div className="personalization-page">
       {/* Header */}
       <div className="personalization-header">

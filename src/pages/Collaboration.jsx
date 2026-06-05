@@ -1,4 +1,3 @@
-  const navigate = useNavigate()
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Users, Share2, MessageCircle, UserPlus, Clock, Eye, Edit, Shield, Send, Paperclip, Search } from 'lucide-react'
@@ -6,6 +5,7 @@ import './Collaboration.css'
 import { collaborationAPI } from '../services/api'
 
 function Collaboration() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('shared')
   const [selectedDashboard, setSelectedDashboard] = useState(null)
   const [newComment, setNewComment] = useState('')
@@ -127,6 +127,7 @@ function Collaboration() {
   }
 
   return (<>
+      <button onClick={()=>navigate(-1)} style={{position:'fixed',top:16,left:16,zIndex:999,display:'flex',alignItems:'center',gap:6,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13,boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>? Back</button>
       {/* Header */}
       <div className="collaboration-header">
         <div className="header-content">
