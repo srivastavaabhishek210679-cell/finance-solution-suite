@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useBeforeUnload } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import ReportViewerModal from '../components/ReportViewerModal'
 import { Search, LayoutDashboard, Clock, FileText, ChevronRight, Settings, LogOut, RefreshCw } from 'lucide-react'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1'
@@ -241,8 +242,7 @@ export default function Workspace() {
         </div>
       </div>
 
-      {previewReport && (
-        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setPreviewReport(null)}>
+      {previewReport && <ReportViewerModal report={previewReport} onClose={()=>setPreviewReport(null)} />}>
           <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:'90%',maxWidth:900,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
               <div>
@@ -301,6 +301,7 @@ export default function Workspace() {
     </div>
   )
 }
+
 
 
 
