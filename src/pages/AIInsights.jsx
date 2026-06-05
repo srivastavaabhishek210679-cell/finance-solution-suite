@@ -3,7 +3,9 @@ import { Brain, TrendingUp, AlertTriangle, Lightbulb, BarChart3, Target, Zap, Re
 import './AIInsights.css'
 
 function AIInsights() {
+  const navigate = useNavigate()
   const [selectedInsightType, setSelectedInsightType] = useState('all')
+  const navigate = useNavigate()
   const [refreshing, setRefreshing] = useState(false)
 
   // Sample AI insights data
@@ -113,6 +115,10 @@ function AIInsights() {
   }
 
   return (
+    <>
+      <div style={{position:'fixed',top:16,left:16,zIndex:999}}>
+        <button onClick={()=>navigate(-1)} style={{display:'flex',alignItems:'center',gap:6,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13,fontWeight:500,boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>? Back</button>
+      </div>
     <div className="ai-insights-page">
       {/* Header */}
       <div className="insights-header">
@@ -203,7 +209,11 @@ function AIInsights() {
         {filteredInsights.map(insight => {
           const Icon = typeIcons[insight.type]
           return (
-            <div key={insight.id} className="insight-card">
+    <>
+      <div style={{position:'fixed',top:16,left:16,zIndex:999}}>
+        <button onClick={()=>navigate(-1)} style={{display:'flex',alignItems:'center',gap:6,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13,fontWeight:500,boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>? Back</button>
+      </div>
+    <div key={insight.id} className="insight-card">
               <div className="insight-header">
                 <div className="insight-type">
                   <div 
@@ -261,7 +271,10 @@ function AIInsights() {
         })}
       </div>
     </div>
+    </>
   )
 }
-
 export default AIInsights
+
+
+

@@ -3,10 +3,13 @@ import { Star, ThumbsUp, Flag, TrendingUp, Filter, Download } from 'lucide-react
 import './ReviewsRatings.css'
 
 function ReviewsRatings() {
+  const navigate = useNavigate()
   const [selectedFilter, setSelectedFilter] = useState('all')
+  const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState('all')
 
   // Reviews data
+  const navigate = useNavigate()
   const [reviews, setReviews] = useState([
     {
       id: 1,
@@ -113,6 +116,10 @@ function ReviewsRatings() {
   }
 
   return (
+    <>
+      <div style={{position:'fixed',top:16,left:16,zIndex:999}}>
+        <button onClick={()=>navigate(-1)} style={{display:'flex',alignItems:'center',gap:6,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13,fontWeight:500,boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>? Back</button>
+      </div>
     <div className="reviews-page">
       {/* Header */}
       <div className="reviews-header">
@@ -146,7 +153,11 @@ function ReviewsRatings() {
             const count = stats[`${['five', 'four', 'three', 'two', 'one'][5 - stars]}Stars`]
             const percentage = (count / stats.totalReviews) * 100
             return (
-              <div key={stars} className="rating-bar-row">
+    <>
+      <div style={{position:'fixed',top:16,left:16,zIndex:999}}>
+        <button onClick={()=>navigate(-1)} style={{display:'flex',alignItems:'center',gap:6,background:'#1e293b',border:'1px solid #334155',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13,fontWeight:500,boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>? Back</button>
+      </div>
+    <div key={stars} className="rating-bar-row">
                 <span className="star-label">{stars} stars</span>
                 <div className="rating-bar">
                   <div className="rating-bar-fill" style={{ width: `${percentage}%` }}></div>
@@ -232,7 +243,10 @@ function ReviewsRatings() {
         ))}
       </div>
     </div>
+    </>
   )
 }
-
 export default ReviewsRatings
+
+
+
