@@ -17,11 +17,17 @@ const MultiTenant          = lazy(() => import('./pages/MultiTenant'))
 const CustomerManagement   = lazy(() => import('./pages/CustomerManagement'))
 const ChatbotAssistant     = lazy(() => import('./pages/ChatbotAssistant'))
 const AIInsights           = lazy(() => import('./pages/AIInsights'))
+const AICopilot            = lazy(() => import('./pages/AICopilot'))
+const PredictiveAnalytics  = lazy(() => import('./pages/PredictiveAnalytics'))
+const WorkflowAutomation   = lazy(() => import('./pages/WorkflowAutomation'))
+const ExecutiveReporting   = lazy(() => import('./pages/ExecutiveReporting'))
 const Personalization      = lazy(() => import('./pages/Personalization'))
 const Collaboration        = lazy(() => import('./pages/Collaboration'))
 const ReviewsRatings       = lazy(() => import('./pages/ReviewsRatings'))
 const ModuleManager        = lazy(() => import('./pages/ModuleManager'))
 const Accessibility        = lazy(() => import('./pages/Accessibility'))
+const Monetization         = lazy(() => import('./pages/Monetization'))
+const IntegrationEcosystem = lazy(() => import('./pages/IntegrationEcosystem'))
 const PayrollManagement    = lazy(() => import('./pages/PayrollManagement'))
 const ResourceManagement   = lazy(() => import('./pages/ResourceManagement'))
 const ProjectManagement    = lazy(() => import('./pages/ProjectManagement'))
@@ -50,11 +56,6 @@ const VerifyEmail          = lazy(() => import('./pages/VerifyEmail'))
 const AuditLog             = lazy(() => import('./pages/AuditLog'))
 const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
 const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
-const ExecutiveReporting   = lazy(() => import('./pages/ExecutiveReporting'))
-const AICopilot            = lazy(() => import('./pages/AICopilot'))
-const WorkflowAutomation   = lazy(() => import('./pages/WorkflowAutomation'))
-const Monetization         = lazy(() => import('./pages/Monetization'))
-const IntegrationEcosystem = lazy(() => import('./pages/IntegrationEcosystem'))
 
 function Protected({ children, pageName }) {
   return (
@@ -81,8 +82,10 @@ function App() {
           <Route path="/workspace" element={<Protected pageName="My Workspace"><Workspace /></Protected>} />
           <Route path="/dashboard" element={<Protected pageName="Dashboard"><Dashboard /></Protected>} />
           <Route path="/analytics" element={<Protected pageName="Analytics"><Analytics /></Protected>} />
+          <Route path="/multi-tenant" element={<Protected pageName="Multi Tenant"><MultiTenant /></Protected>} />
           <Route path="/tenants" element={<Protected pageName="Multi Tenant"><MultiTenant /></Protected>} />
           <Route path="/customers" element={<Protected pageName="Customer Management"><CustomerManagement /></Protected>} />
+          <Route path="/customer-management" element={<Protected pageName="Customer Management"><CustomerManagement /></Protected>} />
           <Route path="/chatbot" element={<Protected pageName="AI Chatbot"><ChatbotAssistant /></Protected>} />
           <Route path="/ai-insights" element={<Protected pageName="AI Insights"><AIInsights /></Protected>} />
           <Route path="/ai-copilot" element={<Protected pageName="AI Copilot"><AICopilot /></Protected>} />
@@ -91,11 +94,13 @@ function App() {
           <Route path="/executive-reporting" element={<Protected pageName="Executive Reporting"><ExecutiveReporting /></Protected>} />
           <Route path="/personalization" element={<Protected pageName="Personalization"><Personalization /></Protected>} />
           <Route path="/collaboration" element={<Protected pageName="Collaboration"><Collaboration /></Protected>} />
-          <Route path="/reviews-ratings" element={<Protected pageName="Reviews"><ReviewsRatings /></Protected>} />
+          <Route path="/reviews" element={<Protected pageName="Reviews"><ReviewsRatings /></Protected>} />
           <Route path="/modules" element={<Protected pageName="Module Manager"><ModuleManager /></Protected>} />
+          <Route path="/module-manager" element={<Protected pageName="Module Manager"><ModuleManager /></Protected>} />
           <Route path="/accessibility" element={<Protected pageName="Accessibility"><Accessibility /></Protected>} />
           <Route path="/monetization" element={<Protected pageName="Monetization"><Monetization /></Protected>} />
           <Route path="/integration-ecosystem" element={<Protected pageName="Integrations"><IntegrationEcosystem /></Protected>} />
+          <Route path="/integrations" element={<Protected pageName="Integrations"><IntegrationEcosystem /></Protected>} />
           <Route path="/payroll" element={<Protected pageName="Payroll Management"><PayrollManagement /></Protected>} />
           <Route path="/resources-mgmt" element={<Protected pageName="Resource Management"><ResourceManagement /></Protected>} />
           <Route path="/project-mgmt" element={<Protected pageName="Project Management"><ProjectManagement /></Protected>} />
@@ -117,14 +122,13 @@ function App() {
           <Route path="/sales-pipeline" element={<Protected pageName="Sales Pipeline"><SalesPipeline /></Protected>} />
           <Route path="/helpdesk" element={<Protected pageName="IT Helpdesk"><HelpdeskManagement /></Protected>} />
           <Route path="/compliance" element={<Protected pageName="Compliance Management"><ComplianceManagement /></Protected>} />
+          <Route path="/crm-mgmt" element={<Protected pageName="CRM"><CustomerManagement /></Protected>} />
           <Route path="/kpi-dashboard" element={<Protected pageName="KPI Dashboard"><AdvancedKPIDashboard /></Protected>} />
           <Route path="/upload-data" element={<Protected pageName="Data Upload"><DataUpload /></Protected>} />
           <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
           <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
           <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
-          <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
           <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
-          <Route path="/crm-mgmt" element={<Protected pageName="CRM"><CustomerManagement /></Protected>} />
           <Route path="/" element={<Navigate to="/workspace" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
@@ -135,6 +139,3 @@ function App() {
 }
 
 export default App
-
-
-
