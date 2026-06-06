@@ -41,13 +41,16 @@ export default function Onboarding() {
     setLoading(false)
   }
 
-  const loadReports = async (domainIds) => {
+  const loadReports = async (domainIds, modulePaths = []) => {
     if(!domainIds.length) { setReports([]); return }
     try {
-      const res = await fetch(API+'/workspace/reports-by-domains?domains='+domainIds.join(','), {headers:getHeaders()})
+      let url = API+'/workspace/reports-by-domains?domains='+domainIds.join(',')
+      if(modulePaths.length > 0) url += '&modules='+modulePaths.map(encodeURIComponent).join(',')
+      const res = await fetch(url, {headers:getHeaders()})
       const data = await res.json()
       setReports(data.data||[])
     } catch(e) { console.error(e) }
+  } catch(e) { console.error(e) }
   }
 
   const toggleModule = (mod) => {
@@ -62,7 +65,8 @@ export default function Onboarding() {
     // Update domains based on selected modules
     const domainIds = [...new Set(newModules.map(m => m.domain_id))]
     setSelectedDomains(domainIds)
-    loadReports(domainIds)
+    const modPaths = newModules.map(m => m.module_path).filter(p => p && p !== '/upload-data')
+    loadReports(domainIds, modPaths)
   }
 
   const toggleReport = (report) => {
@@ -365,6 +369,8 @@ export default function Onboarding() {
     </div>
   )
 }
+
+
 
 
 
