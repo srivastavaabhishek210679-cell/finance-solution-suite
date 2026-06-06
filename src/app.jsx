@@ -49,7 +49,8 @@ const MFASettings          = lazy(() => import('./pages/MFASettings'))
 const VerifyEmail          = lazy(() => import('./pages/VerifyEmail'))
 const AuditLog             = lazy(() => import('./pages/AuditLog'))
 const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
-const ExecutiveReporting   = lazy(() => import('./pages/ExecutiveReporting'))
+const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
+const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
 const AICopilot            = lazy(() => import('./pages/AICopilot'))
 const PredictiveAnalytics  = lazy(() => import('./pages/PredictiveAnalytics'))
 const WorkflowAutomation   = lazy(() => import('./pages/WorkflowAutomation'))
@@ -122,7 +123,8 @@ function App() {
           <Route path="/mfa-settings" element={<Protected pageName="MFA Settings"><MFASettings /></Protected>} />
           <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
           <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
-                <Route path="/reviews" element={<Protected pageName="Reviews"><ReviewsRatings /></Protected>} />
+          <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
+          <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
           <Route path="/crm-mgmt" element={<Protected pageName="CRM"><CustomerManagement /></Protected>} />
           <Route path="/" element={<Navigate to="/workspace" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
