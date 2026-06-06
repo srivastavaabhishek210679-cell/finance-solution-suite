@@ -56,7 +56,8 @@ const VerifyEmail          = lazy(() => import('./pages/VerifyEmail'))
 const AuditLog             = lazy(() => import('./pages/AuditLog'))
 const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
 const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
-
+const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
+const FTPWatcher           = lazy(() => import('./pages/FTPWatcher'))
 function Protected({ children, pageName }) {
   return (
     <ProtectedRoute>
@@ -129,7 +130,8 @@ function App() {
           <Route path="/audit-log" element={<Protected pageName="Audit Log"><AuditLog /></Protected>} />
           <Route path="/privacy" element={<Protected pageName="Privacy Center"><GDPRPrivacyCenter /></Protected>} />
           <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
-          <Route path="/" element={<Navigate to="/workspace" replace />} />
+          <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
+          <Route path="/ftp-watcher" element={<Protected pageName="FTP Watcher"><FTPWatcher /></Protected>} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Suspense>
