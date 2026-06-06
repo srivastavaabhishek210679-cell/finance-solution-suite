@@ -51,10 +51,10 @@ export default function Onboarding() {
   }
 
   const toggleModule = (mod) => {
-    const exists = selectedModules.find(m => m.module_path === mod.module_path)
+    const exists = selectedModules.find(m => m.module_name === mod.module_name && m.domain_id === mod.domain_id)
     let newModules, newDomains
     if(exists) {
-      newModules = selectedModules.filter(m => m.module_path !== mod.module_path)
+      newModules = selectedModules.filter(m => !(m.module_name === mod.module_name && m.domain_id === mod.domain_id))
     } else {
       newModules = [...selectedModules, mod]
     }
@@ -365,6 +365,7 @@ export default function Onboarding() {
     </div>
   )
 }
+
 
 
 
