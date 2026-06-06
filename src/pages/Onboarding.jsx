@@ -50,7 +50,6 @@ export default function Onboarding() {
       const data = await res.json()
       setReports(data.data||[])
     } catch(e) { console.error(e) }
-  } catch(e) { console.error(e) }
   }
 
   const toggleModule = (mod) => {
