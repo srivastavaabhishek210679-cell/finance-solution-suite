@@ -107,7 +107,6 @@ export default function Workspace() {
         </div>
         <div style={{marginLeft:'auto',display:'flex',gap:10,alignItems:'center'}}>
           <button onClick={()=>navigate('/dashboard', {state:{from:'workspace'}})} style={{display:'flex',alignItems:'center',gap:6,background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',fontWeight:600,fontSize:13}}>Go to Dashboard</button>
-          <button onClick={()=>navigate('/dashboard', {state:{from:'workspace'}})} style={{display:'flex',alignItems:'center',gap:6,background:'#10b981',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',fontWeight:600,fontSize:13}}><LayoutDashboard size={14}/> Go to Dashboard</button>
           <button onClick={handleLogout} style={{display:'flex',alignItems:'center',gap:6,background:'#ef444420',border:'none',borderRadius:8,color:'#ef4444',padding:'8px 14px',cursor:'pointer',fontSize:13}}><LogOut size={14}/> Logout</button>
         </div>
       </div>
