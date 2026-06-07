@@ -224,14 +224,13 @@ export default function Workspace() {
               <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:15,fontWeight:600}}>Quick Actions</h3>
               <div style={{display:'grid',gap:8}}>
                 {[
-                  {label:'FTP File Watcher', icon:'??', path:'/ftp-watcher', color:'#f59e0b'},
-                  {label:'Reports Database', icon:'???', path:'/reports-db', color:'#10b981'},
-                  {label:'Upload Data & Generate Report', icon:'📤', path:'/upload-data', color:'#10b981'},
-                  {label:'View Full Dashboard', icon:'📊', path:'/dashboard', color:'#3b82f6'},
-                  {label:'AI Copilot', icon:'🤖', path:'/ai-copilot', color:'#8b5cf6'},
-                  {label:'KPI Dashboard', icon:'📈', path:'/kpi-dashboard', color:'#f59e0b'},
-                  {label:'Edit Workspace Settings', icon:'⚙️', path:'/onboarding', color:'#64748b'},
-                ].map((a,i)=>(
+                  {label:'FTP File Watcher', icon:'FTP', path:'/ftp-watcher', color:'#f59e0b'},
+                  {label:'Reports Database', icon:'DB', path:'/reports-db', color:'#10b981'},
+                  {label:'Upload Data & Generate Report', icon:'UP', path:'/upload-data', color:'#10b981'},
+                  {label:'View Full Dashboard', icon:'DS', path:'/dashboard', color:'#3b82f6'},
+                  {label:'AI Copilot', icon:'AI', path:'/ai-copilot', color:'#8b5cf6'},
+                  {label:'KPI Dashboard', icon:'KP', path:'/kpi-dashboard', color:'#f59e0b'},
+                  {label:'Edit Workspace Settings', icon:'WS', path:'/onboarding', color:'#64748b'},].map((a,i)=>(
                   <button key={i} onClick={()=>navigate(a.path)} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:8,padding:'10px 14px',cursor:'pointer',display:'flex',alignItems:'center',gap:10,width:'100%',textAlign:'left'}} onMouseEnter={e=>e.currentTarget.style.borderColor=a.color} onMouseLeave={e=>e.currentTarget.style.borderColor='#334155'}>
                     <span style={{fontSize:16}}>{a.icon}</span>
                     <span style={{color:'#f1f5f9',fontSize:13}}>{a.label}</span>
@@ -316,6 +315,7 @@ export default function Workspace() {
     </div>
   )
 }
+
 
 
 
