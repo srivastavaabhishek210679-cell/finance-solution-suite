@@ -167,6 +167,8 @@ function Sidebar() {
     { path: '/contract-mgmt',           icon: FileText,      label: 'Contract Management', badge: 'NEW', badgeColor: '#6366f1' },
     { path: '/payroll',              icon: DollarSign,    label: 'Payroll Management',   badge: 'NEW', badgeColor: '#10b981' },
     { path: '/accessibility',        icon: Eye,           label: 'Accessibility' },
+    { path: '/order-mgmt',           icon: Package,       label: 'Order Management',     badge: 'NEW', badgeColor: '#3b82f6' },
+    { path: '/supply-mgmt',          icon: Truck,         label: 'Supply Management',    badge: 'NEW', badgeColor: '#14b8a6' },
   ]
 
   const getDomainData = (domainName) => {
