@@ -224,6 +224,8 @@ export default function Workspace() {
               <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:15,fontWeight:600}}>Quick Actions</h3>
               <div style={{display:'grid',gap:8}}>
                 {[
+                  {label:'FTP File Watcher', icon:'??', path:'/ftp-watcher', color:'#f59e0b'},
+                  {label:'Reports Database', icon:'???', path:'/reports-db', color:'#10b981'},
                   {label:'Upload Data & Generate Report', icon:'📤', path:'/upload-data', color:'#10b981'},
                   {label:'View Full Dashboard', icon:'📊', path:'/dashboard', color:'#3b82f6'},
                   {label:'AI Copilot', icon:'🤖', path:'/ai-copilot', color:'#8b5cf6'},
@@ -314,6 +316,8 @@ export default function Workspace() {
     </div>
   )
 }
+
+
 
 
 
