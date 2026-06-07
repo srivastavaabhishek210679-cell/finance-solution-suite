@@ -107,7 +107,7 @@ export default function Workspace() {
         </div>
         <div style={{marginLeft:'auto',display:'flex',gap:10,alignItems:'center'}}>
           <button onClick={()=>navigate('/dashboard', {state:{from:'workspace'}})} style={{display:'flex',alignItems:'center',gap:6,background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',fontWeight:600,fontSize:13}}>Go to Dashboard</button>
-          <button onClick={()=>navigate('/onboarding')} style={{display:'flex',alignItems:'center',gap:6,background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 14px',cursor:'pointer',fontSize:13}}><Settings size={14}/> Edit Workspace</button>
+                  {label:'Edit Workspace Settings', icon:'WS', path:'/onboarding', color:'#64748b'},
           <button onClick={()=>navigate('/dashboard', {state:{from:'workspace'}})} style={{display:'flex',alignItems:'center',gap:6,background:'#10b981',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',fontWeight:600,fontSize:13}}><LayoutDashboard size={14}/> Go to Dashboard</button>
           <button onClick={handleLogout} style={{display:'flex',alignItems:'center',gap:6,background:'#ef444420',border:'none',borderRadius:8,color:'#ef4444',padding:'8px 14px',cursor:'pointer',fontSize:13}}><LogOut size={14}/> Logout</button>
         </div>
@@ -161,8 +161,8 @@ export default function Workspace() {
               {reportHistory.length===0 ? (
                 <div style={{textAlign:'center',padding:40,color:'#64748b'}}>
                   <div style={{fontSize:32,marginBottom:8}}>📊</div>
-                  <p>No reports generated yet. Upload data to generate your first report!</p>
-                  <button onClick={()=>navigate('/upload-data')} style={{background:'#10b981',border:'none',borderRadius:8,color:'#fff',padding:'8px 20px',cursor:'pointer',marginTop:8,fontSize:13}}>Upload Data</button>
+                  {label:'Upload Data & Generate Report', icon:'UP', path:'/upload-data', color:'#10b981'},
+                  {label:'Upload Data & Generate Report', icon:'UP', path:'/upload-data', color:'#10b981'},
                 </div>
               ) : (
                 <table style={{width:'100%',borderCollapse:'collapse'}}>
@@ -224,13 +224,13 @@ export default function Workspace() {
               <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:15,fontWeight:600}}>Quick Actions</h3>
               <div style={{display:'grid',gap:8}}>
                 {[
-                  {label:'FTP File Watcher', icon:'??', path:'/ftp-watcher', color:'#f59e0b'},
-                  {label:'Reports Database', icon:'??', path:'/reports-db', color:'#10b981'},
-                  {label:'Upload Data & Generate Report', icon:'?', path:'/upload-data', color:'#10b981'},
-                  {label:'View Full Dashboard', icon:'?', path:'/dashboard', color:'#3b82f6'},
-                  {label:'AI Copilot', icon:'?', path:'/ai-copilot', color:'#8b5cf6'},
-                  {label:'KPI Dashboard', icon:'?', path:'/kpi-dashboard', color:'#f59e0b'},
-                  {label:'Edit Workspace Settings', icon:'?', path:'/onboarding', color:'#64748b'},].map((a,i)=>(
+                  {label:'FTP File Watcher', icon:'FTP', path:'/ftp-watcher', color:'#f59e0b'},
+                  {label:'Reports Database', icon:'DB', path:'/reports-db', color:'#10b981'},
+                  {label:'Upload Data & Generate Report', icon:'UP', path:'/upload-data', color:'#10b981'},
+                  {label:'View Full Dashboard', icon:'DS', path:'/dashboard', color:'#3b82f6'},
+                  {label:'AI Copilot', icon:'AI', path:'/ai-copilot', color:'#8b5cf6'},
+                  {label:'KPI Dashboard', icon:'KPI', path:'/kpi-dashboard', color:'#f59e0b'},
+                  {label:'Edit Workspace Settings', icon:'WS', path:'/onboarding', color:'#64748b'},
                   <button key={i} onClick={()=>navigate(a.path)} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:8,padding:'10px 14px',cursor:'pointer',display:'flex',alignItems:'center',gap:10,width:'100%',textAlign:'left'}} onMouseEnter={e=>e.currentTarget.style.borderColor=a.color} onMouseLeave={e=>e.currentTarget.style.borderColor='#334155'}>
                     <span style={{fontSize:16}}>{a.icon}</span>
                     <span style={{color:'#f1f5f9',fontSize:13}}>{a.label}</span>
