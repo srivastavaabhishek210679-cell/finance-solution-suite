@@ -230,7 +230,7 @@ export default function Workspace() {
                   {label:'Edit Workspace', icon:'WS', path:'/onboarding', color:'#64748b'},
                 ].map((a,i)=>(
                   <button key={i} onClick={()=>navigate(a.path=='/dashboard'?a.path:a.path, a.path=='/dashboard'?{state:{from:'workspace'}}:{})} style={{background:'#0f172a',border:'1px solid #334155',borderRadius:8,padding:'10px 14px',cursor:'pointer',display:'flex',alignItems:'center',gap:10,width:'100%',textAlign:'left'}} onMouseEnter={e=>e.currentTarget.style.borderColor=a.color} onMouseLeave={e=>e.currentTarget.style.borderColor='#334155'}>
-                    <span style={{fontSize:16}}>{a.icon}</span>
+                    <span style={{background:a.color+'20',color:a.color,padding:'4px 8px',borderRadius:6,fontSize:11,fontWeight:700,minWidth:32,textAlign:'center'}}>{a.icon}</span>
                     <span style={{color:'#f1f5f9',fontSize:13}}>{a.label}</span>
                     <ChevronRight size={14} style={{color:'#64748b',marginLeft:'auto'}}/>
                   </button>
