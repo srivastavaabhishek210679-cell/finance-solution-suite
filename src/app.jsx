@@ -56,7 +56,8 @@ const VerifyEmail          = lazy(() => import('./pages/VerifyEmail'))
 const AuditLog             = lazy(() => import('./pages/AuditLog'))
 const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
 const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
-function Protected({ children, pageName }) {
+const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
+const FTPWatcher           = lazy(() => import('./pages/FTPWatcher'))
   return (
     <ProtectedRoute>
       <ErrorBoundary pageName={pageName}>
