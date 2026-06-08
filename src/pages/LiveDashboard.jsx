@@ -60,8 +60,8 @@ export default function LiveDashboard() {
     }))
   )
 
-  const filteredKPIs = activeCategory === 'all' ? allKPIs : allKPIs.filter(k => k.category === activeCategory)
-  const filteredCharts = activeCategory === 'all' ? charts : charts.filter(c => c.category === activeCategory)
+  const filteredKPIs = (activeCategory === 'all' ? allKPIs : allKPIs.filter(k => k.category === activeCategory)) || []
+  const filteredCharts = (activeCategory === 'all' ? (charts||[]) : (charts||[]).filter(c => c.category === activeCategory)) || []
 
   const renderChart = (chart) => {
     const series = (() => { try { return typeof chart.series_data === 'string' ? JSON.parse(chart.series_data) : chart.series_data } catch(e) { return [] } })()
