@@ -64,9 +64,10 @@ export default function LiveDashboard() {
   const filteredCharts = activeCategory === 'all' ? charts : charts.filter(c => c.category === activeCategory)
 
   const renderChart = (chart) => {
-    const series = typeof chart.series_data === 'string' ? JSON.parse(chart.series_data) : chart.series_data
-    const labels = typeof chart.labels === 'string' ? JSON.parse(chart.labels) : chart.labels
+    const series = (() => { try { return typeof chart.series_data === 'string' ? JSON.parse(chart.series_data) : chart.series_data } catch(e) { return [] } })()
+    const labels = (() => { try { return typeof chart.labels === 'string' ? JSON.parse(chart.labels) : chart.labels } catch(e) { return [] } })()
 
+    if (!series || !labels) return <div style={{color:'#64748b',textAlign:'center',padding:40}}>No data</div>
     if (chart.chart_type === 'pie') {
       return (
         <ResponsiveContainer width="100%" height={250}>
