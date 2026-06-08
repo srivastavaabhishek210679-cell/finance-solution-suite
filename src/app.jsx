@@ -58,6 +58,7 @@ const AuditLog             = lazy(() => import('./pages/AuditLog'))
 const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
 const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
 const FTPWatcher           = lazy(() => import('./pages/FTPWatcher'))
+const LiveDashboard     = lazy(() => import('./pages/LiveDashboard'))
 const OrderManagement      = lazy(() => import('./pages/OrderManagement'))
 const SupplyManagement     = lazy(() => import('./pages/SupplyManagement'))
 function Protected({ children, pageName }) {
@@ -134,6 +135,7 @@ function App() {
           <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
           <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
           <Route path="/ftp-watcher" element={<Protected pageName="FTP Watcher"><FTPWatcher /></Protected>} />
+          <Route path="/live-dashboard" element={<Protected pageName="Live Dashboard"><LiveDashboard /></Protected>} />
           <Route path="/ftp-watcher" element={<Protected pageName="FTP Watcher"><FTPWatcher /></Protected>} />
           <Route path="/order-mgmt" element={<Protected pageName="Order Management"><OrderManagement /></Protected>} />
           <Route path="/supply-mgmt" element={<Protected pageName="Supply Management"><SupplyManagement /></Protected>} />

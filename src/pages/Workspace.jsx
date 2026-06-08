@@ -220,6 +220,7 @@ export default function Workspace() {
               <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:15,fontWeight:600}}>Quick Actions</h3>
               <div style={{display:'grid',gap:8}}>
                 {[
+                  {label:'Live Analytics', icon:'LIVE', path:'/live-dashboard', color:'#10b981'},
                   {label:'FTP File Watcher', icon:'FTP', path:'/ftp-watcher', color:'#f59e0b'},
                   {label:'Reports Database', icon:'DB', path:'/reports-db', color:'#10b981'},
                   {label:'Upload Data', icon:'UP', path:'/upload-data', color:'#10b981'},
