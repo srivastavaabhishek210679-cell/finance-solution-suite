@@ -63,6 +63,10 @@ const POGenerator       = lazy(() => import('./pages/POGenerator'))
 const Approvals         = lazy(() => import('./pages/Approvals'))
 const WebhooksConfig    = lazy(() => import('./pages/WebhooksConfig'))
 const RBACManager       = lazy(() => import('./pages/RBACManager'))
+const CalendarScheduler = lazy(() => import('./pages/CalendarScheduler'))
+const KPITargets        = lazy(() => import('./pages/KPITargets'))
+const ScheduledReports  = lazy(() => import('./pages/ScheduledReports'))
+const BulkImportExport  = lazy(() => import('./pages/BulkImportExport'))
 const BusinessAnalytics  = lazy(() => import('./pages/BusinessAnalytics'))
 const LiveDashboard     = lazy(() => import('./pages/LiveDashboard'))
 const OrderManagement      = lazy(() => import('./pages/OrderManagement'))
@@ -146,6 +150,10 @@ function App() {
           <Route path="/approvals" element={<Protected pageName="Approvals"><Approvals /></Protected>} />
           <Route path="/webhooks" element={<Protected pageName="Webhooks"><WebhooksConfig /></Protected>} />
           <Route path="/rbac" element={<Protected pageName="RBAC"><RBACManager /></Protected>} />
+          <Route path="/calendar" element={<Protected pageName="Calendar"><CalendarScheduler /></Protected>} />
+          <Route path="/kpi-targets" element={<Protected pageName="KPI Targets"><KPITargets /></Protected>} />
+          <Route path="/scheduled-reports" element={<Protected pageName="Scheduled Reports"><ScheduledReports /></Protected>} />
+          <Route path="/bulk-import" element={<Protected pageName="Bulk Import"><BulkImportExport /></Protected>} />
           <Route path="/business-analytics" element={<Protected pageName="Business Analytics"><BusinessAnalytics /></Protected>} />
           <Route path="/live-dashboard" element={<Protected pageName="Live Dashboard"><LiveDashboard /></Protected>} />
           <Route path="/ftp-watcher" element={<Protected pageName="FTP Watcher"><FTPWatcher /></Protected>} />
