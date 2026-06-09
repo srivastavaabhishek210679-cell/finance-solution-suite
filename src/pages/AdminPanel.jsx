@@ -152,14 +152,14 @@ export default function AdminPanel() {
             {/* Stats Grid */}
             <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:20}}>
               {[
-                {label:'Total Users', value:stats.users?.total||0, sub:stats.users?.new_this_week+' new this week', color:'#3b82f6'},
-                {label:'Active Users', value:stats.users?.active||0, sub:'of '+stats.users?.total+' total', color:'#10b981'},
-                {label:'Total Orders', value:stats.orders?.total||0, sub:'Rs.'+Number(stats.orders?.revenue||0).toLocaleString()+' revenue', color:'#f59e0b'},
-                {label:'Reports Generated', value:stats.reports?.total||0, sub:'all time', color:'#8b5cf6'},
-                {label:'Invoices', value:stats.invoices?.total||0, sub:stats.invoices?.paid+' paid', color:'#10b981'},
-                {label:'Notifications', value:stats.notifications?.total||0, sub:stats.notifications?.unread+' unread', color:'#f59e0b'},
-                {label:'Approvals', value:stats.approvals?.total||0, sub:stats.approvals?.pending+' pending', color:'#ef4444'},
-                {label:'Webhooks', value:stats.webhooks?.total||0, sub:stats.webhooks?.active+' active', color:'#14b8a6'},
+                {label:'Total Users', value:parseInt(stats.users?.total||0), sub:(stats.users?.new_this_week||0)+' new this week', color:'#3b82f6'},
+                {label:'Active Users', value:parseInt(stats.users?.active||0), sub:'of '+(stats.users?.total||0)+' total', color:'#10b981'},
+                {label:'Total Orders', value:parseInt(stats.orders?.total||0), sub:'Rs.'+Number(stats.orders?.revenue||0).toLocaleString()+' revenue', color:'#f59e0b'},
+                {label:'Reports Generated', value:parseInt(stats.reports?.total||0), sub:'all time', color:'#8b5cf6'},
+                {label:'Invoices', value:parseInt(stats.invoices?.total||0), sub:(stats.invoices?.paid||0)+' paid', color:'#10b981'},
+                {label:'Notifications', value:parseInt(stats.notifications?.total||0), sub:(stats.notifications?.unread||0)+' unread', color:'#f59e0b'},
+                {label:'Approvals', value:parseInt(stats.approvals?.total||0), sub:(stats.approvals?.pending||0)+' pending', color:'#ef4444'},
+                {label:'Webhooks', value:parseInt(stats.webhooks?.total||0), sub:(stats.webhooks?.active||0)+' active', color:'#14b8a6'},
               ].map((s,i)=>(
                 <div key={i} style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:16,borderLeft:`3px solid ${s.color}`}}>
                   <div style={{fontSize:11,color:'#64748b',marginBottom:4}}>{s.label}</div>
@@ -214,7 +214,7 @@ export default function AdminPanel() {
                         <span style={{color:'#f1f5f9',fontSize:13}}>{u.first_name||''} {u.last_name||''}</span>
                       </td>
                       <td style={{padding:'12px 16px',color:'#64748b',fontSize:13}}>{u.email}</td>
-                      <td style={{padding:'12px 16px',color:'#94a3b8',fontSize:12}}>{u.tenant_name||'N/A'}</td>
+                      <td style={{padding:'12px 16px',color:'#94a3b8',fontSize:12}}>{String(u.tenant_name||'N/A')}</td>
                       <td style={{padding:'12px 16px'}}>
                         <div style={{display:'flex',gap:4,flexWrap:'wrap'}}>
                           {(u.roles||[]).filter(r=>r).map((r,i)=><span key={i} style={{background:'#8b5cf620',color:'#8b5cf6',padding:'1px 6px',borderRadius:20,fontSize:10}}>{r}</span>)}
