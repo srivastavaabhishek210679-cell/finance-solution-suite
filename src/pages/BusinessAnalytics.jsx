@@ -12,8 +12,8 @@ const PERIODS = [['day','Today'],['week','This Week'],['month','This Month'],['q
 
 export default function BusinessAnalytics() {
   const navigate = useNavigate()
-  const [period, setPeriod] = useState('month')
-  const [orderPeriod, setOrderPeriod] = useState('month')
+  const [period, setPeriod] = useState('annual')
+  const [orderPeriod, setOrderPeriod] = useState('annual')
   const [customerData, setCustomerData] = useState(null)
   const [orderData, setOrderData] = useState(null)
   const [tiers, setTiers] = useState([])
