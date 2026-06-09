@@ -58,6 +58,11 @@ const AuditLog             = lazy(() => import('./pages/AuditLog'))
 const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
 const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
 const FTPWatcher           = lazy(() => import('./pages/FTPWatcher'))
+const InvoiceGenerator  = lazy(() => import('./pages/InvoiceGenerator'))
+const POGenerator       = lazy(() => import('./pages/POGenerator'))
+const Approvals         = lazy(() => import('./pages/Approvals'))
+const WebhooksConfig    = lazy(() => import('./pages/WebhooksConfig'))
+const RBACManager       = lazy(() => import('./pages/RBACManager'))
 const BusinessAnalytics  = lazy(() => import('./pages/BusinessAnalytics'))
 const LiveDashboard     = lazy(() => import('./pages/LiveDashboard'))
 const OrderManagement      = lazy(() => import('./pages/OrderManagement'))
@@ -136,6 +141,11 @@ function App() {
           <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
           <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
           <Route path="/ftp-watcher" element={<Protected pageName="FTP Watcher"><FTPWatcher /></Protected>} />
+          <Route path="/invoice-gen" element={<Protected pageName="Invoice Generator"><InvoiceGenerator /></Protected>} />
+          <Route path="/po-gen" element={<Protected pageName="PO Generator"><POGenerator /></Protected>} />
+          <Route path="/approvals" element={<Protected pageName="Approvals"><Approvals /></Protected>} />
+          <Route path="/webhooks" element={<Protected pageName="Webhooks"><WebhooksConfig /></Protected>} />
+          <Route path="/rbac" element={<Protected pageName="RBAC"><RBACManager /></Protected>} />
           <Route path="/business-analytics" element={<Protected pageName="Business Analytics"><BusinessAnalytics /></Protected>} />
           <Route path="/live-dashboard" element={<Protected pageName="Live Dashboard"><LiveDashboard /></Protected>} />
           <Route path="/ftp-watcher" element={<Protected pageName="FTP Watcher"><FTPWatcher /></Protected>} />

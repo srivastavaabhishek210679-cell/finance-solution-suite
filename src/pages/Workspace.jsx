@@ -3,6 +3,7 @@ import { useBeforeUnload } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import ReportViewerModal from '../components/ReportViewerModal'
+import NotificationCenter from '../components/NotificationCenter'
 import { Search, LayoutDashboard, Clock, FileText, ChevronRight, Settings, LogOut, RefreshCw } from 'lucide-react'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1'
@@ -106,6 +107,7 @@ export default function Workspace() {
           <p style={{margin:0,fontSize:12,color:'#64748b'}}>Welcome back, {user?.firstName||user?.email}!</p>
         </div>
         <div style={{marginLeft:'auto',display:'flex',gap:10,alignItems:'center'}}>
+          <NotificationCenter />
           <button onClick={()=>navigate('/dashboard', {state:{from:'workspace'}})} style={{display:'flex',alignItems:'center',gap:6,background:'#3b82f6',border:'none',borderRadius:8,color:'#fff',padding:'10px 20px',cursor:'pointer',fontWeight:600,fontSize:13}}>Go to Dashboard</button>
           <button onClick={handleLogout} style={{display:'flex',alignItems:'center',gap:6,background:'#ef444420',border:'none',borderRadius:8,color:'#ef4444',padding:'8px 14px',cursor:'pointer',fontSize:13}}><LogOut size={14}/> Logout</button>
         </div>
@@ -222,6 +224,11 @@ export default function Workspace() {
                 {[
                   {label:'Live Analytics', icon:'LIVE', path:'/live-dashboard', color:'#10b981'},
                   {label:'Business Analytics', icon:'BIZ', path:'/business-analytics', color:'#10b981'},
+                  {label:'Invoice Generator', icon:'INV', path:'/invoice-gen', color:'#3b82f6'},
+                  {label:'PO Generator', icon:'PO', path:'/po-gen', color:'#14b8a6'},
+                  {label:'Approvals', icon:'APR', path:'/approvals', color:'#10b981'},
+                  {label:'Webhooks', icon:'WHK', path:'/webhooks', color:'#f59e0b'},
+                  {label:'RBAC', icon:'RBAC', path:'/rbac', color:'#8b5cf6'},
                   {label:'FTP File Watcher', icon:'FTP', path:'/ftp-watcher', color:'#f59e0b'},
                   {label:'Reports Database', icon:'DB', path:'/reports-db', color:'#10b981'},
                   {label:'Upload Data', icon:'UP', path:'/upload-data', color:'#10b981'},
