@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useBeforeUnload } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
@@ -221,6 +221,7 @@ export default function Workspace() {
               <div style={{display:'grid',gap:8}}>
                 {[
                   {label:'Live Analytics', icon:'LIVE', path:'/live-dashboard', color:'#10b981'},
+                  {label:'Business Analytics', icon:'BIZ', path:'/business-analytics', color:'#10b981'},
                   {label:'FTP File Watcher', icon:'FTP', path:'/ftp-watcher', color:'#f59e0b'},
                   {label:'Reports Database', icon:'DB', path:'/reports-db', color:'#10b981'},
                   {label:'Upload Data', icon:'UP', path:'/upload-data', color:'#10b981'},

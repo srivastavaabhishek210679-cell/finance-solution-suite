@@ -1,4 +1,4 @@
-// Build: 2026-06-08 16:11:08
+﻿// Build: 2026-06-08 16:11:08
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { useAuth } from './contexts/AuthContext'
@@ -58,6 +58,7 @@ const AuditLog             = lazy(() => import('./pages/AuditLog'))
 const GDPRPrivacyCenter    = lazy(() => import('./pages/GDPRPrivacyCenter'))
 const ReportsDatabase      = lazy(() => import('./pages/ReportsDatabase'))
 const FTPWatcher           = lazy(() => import('./pages/FTPWatcher'))
+const BusinessAnalytics  = lazy(() => import('./pages/BusinessAnalytics'))
 const LiveDashboard     = lazy(() => import('./pages/LiveDashboard'))
 const OrderManagement      = lazy(() => import('./pages/OrderManagement'))
 const SupplyManagement     = lazy(() => import('./pages/SupplyManagement'))
@@ -135,6 +136,7 @@ function App() {
           <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
           <Route path="/reports-db" element={<Protected pageName="Reports Database"><ReportsDatabase /></Protected>} />
           <Route path="/ftp-watcher" element={<Protected pageName="FTP Watcher"><FTPWatcher /></Protected>} />
+          <Route path="/business-analytics" element={<Protected pageName="Business Analytics"><BusinessAnalytics /></Protected>} />
           <Route path="/live-dashboard" element={<Protected pageName="Live Dashboard"><LiveDashboard /></Protected>} />
           <Route path="/ftp-watcher" element={<Protected pageName="FTP Watcher"><FTPWatcher /></Protected>} />
           <Route path="/order-mgmt" element={<Protected pageName="Order Management"><OrderManagement /></Protected>} />
