@@ -233,6 +233,7 @@ export default function Workspace() {
                   {label:'Scheduled Reports', icon:'SCH', path:'/scheduled-reports', color:'#8b5cf6'},
                   {label:'Bulk Import', icon:'BULK', path:'/bulk-import', color:'#f59e0b'},
                   {label:'Admin Panel', icon:'ADM', path:'/admin', color:'#8b5cf6'},
+                  {label:'Admin Panel', icon:'ADM', path:'/admin', color:'#8b5cf6'},
                   {label:'RBAC', icon:'RBAC', path:'/rbac', color:'#8b5cf6'},
                   {label:'FTP File Watcher', icon:'FTP', path:'/ftp-watcher', color:'#f59e0b'},
                   {label:'Reports Database', icon:'DB', path:'/reports-db', color:'#10b981'},

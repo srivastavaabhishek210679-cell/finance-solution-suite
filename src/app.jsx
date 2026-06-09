@@ -68,6 +68,7 @@ const KPITargets        = lazy(() => import('./pages/KPITargets'))
 const ScheduledReports  = lazy(() => import('./pages/ScheduledReports'))
 const BulkImportExport  = lazy(() => import('./pages/BulkImportExport'))
 const AdminPanel        = lazy(() => import('./pages/AdminPanel'))
+const AdminPanel        = lazy(() => import('./pages/AdminPanel'))
 const BusinessAnalytics  = lazy(() => import('./pages/BusinessAnalytics'))
 const LiveDashboard     = lazy(() => import('./pages/LiveDashboard'))
 const OrderManagement      = lazy(() => import('./pages/OrderManagement'))
@@ -155,6 +156,7 @@ function App() {
           <Route path="/kpi-targets" element={<Protected pageName="KPI Targets"><KPITargets /></Protected>} />
           <Route path="/scheduled-reports" element={<Protected pageName="Scheduled Reports"><ScheduledReports /></Protected>} />
           <Route path="/bulk-import" element={<Protected pageName="Bulk Import"><BulkImportExport /></Protected>} />
+          <Route path="/admin" element={<Protected pageName="Admin Panel"><AdminPanel /></Protected>} />
           <Route path="/admin" element={<Protected pageName="Admin Panel"><AdminPanel /></Protected>} />
           <Route path="/business-analytics" element={<Protected pageName="Business Analytics"><BusinessAnalytics /></Protected>} />
           <Route path="/live-dashboard" element={<Protected pageName="Live Dashboard"><LiveDashboard /></Protected>} />
