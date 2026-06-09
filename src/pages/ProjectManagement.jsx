@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+ï»¿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Briefcase, ArrowLeft, Plus, Search, Edit, X, CheckCircle, Clock, AlertCircle, BarChart3, Flag, Users, Calendar, DollarSign, Trash2 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
@@ -516,7 +516,7 @@ export default function ProjectManagement() {
                         <div style={{fontSize:11,color:"#64748b"}}>{m.role}</div>
                         <div style={{fontSize:10,color:"#94a3b8"}}>{m.email}</div>
                       </div>
-                      <button onClick={()=>handleRemoveTeamMember(m.member_id)} style={{background:"#ef444420",border:"none",borderRadius:6,color:"#ef4444",padding:"4px 6px",cursor:"pointer",fontSize:10}}>×</button>
+                      <button onClick={()=>handleRemoveTeamMember(m.member_id)} style={{background:"#ef444420",border:"none",borderRadius:6,color:"#ef4444",padding:"4px 6px",cursor:"pointer",fontSize:10}}>ï¿½</button>
                     </div>
                   ))}
                 </div>
@@ -584,7 +584,7 @@ export default function ProjectManagement() {
                         </div>
                         <p style={{color:"#94a3b8",fontSize:13,margin:0}}>{c.content}</p>
                       </div>
-                      <button onClick={()=>handleDeleteComment(c.comment_id)} style={{background:"none",border:"none",color:"#64748b",cursor:"pointer",fontSize:16,padding:0}}>×</button>
+                      <button onClick={()=>handleDeleteComment(c.comment_id)} style={{background:"none",border:"none",color:"#64748b",cursor:"pointer",fontSize:16,padding:0}}>ï¿½</button>
                     </div>
                   ))}
                   {comments.length===0 && <div style={{textAlign:"center",padding:40,color:"#64748b"}}>No comments yet. Add the first comment!</div>}
@@ -612,7 +612,7 @@ export default function ProjectManagement() {
                         <div style={{width:36,height:36,borderRadius:8,background:"#334155",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:"#94a3b8"}}>{a.file_type||"FILE"}</div>
                         <div style={{flex:1}}>
                           <div style={{fontSize:13,color:"#f1f5f9",fontWeight:600}}>{a.file_name}</div>
-                          <div style={{fontSize:11,color:"#64748b"}}>{a.file_size} • Uploaded by {a.uploaded_by} • {new Date(a.created_at).toLocaleDateString()}</div>
+                          <div style={{fontSize:11,color:"#64748b"}}>{a.file_size} ï¿½ Uploaded by {a.uploaded_by} ï¿½ {new Date(a.created_at).toLocaleDateString()}</div>
                         </div>
                         <button onClick={()=>fetch(API+"/attachments/"+a.attachment_id,{method:"DELETE",headers:getHeaders()}).then(()=>{showToast("File deleted","warning");loadProjectDetail(selectedProject)})} style={{background:"#ef444420",border:"none",borderRadius:6,color:"#ef4444",padding:"4px 8px",cursor:"pointer",fontSize:11}}>Delete</button>
                       </div>

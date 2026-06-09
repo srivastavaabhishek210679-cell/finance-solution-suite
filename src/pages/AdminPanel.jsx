@@ -363,7 +363,7 @@ export default function AdminPanel() {
                       <td style={{padding:'10px 16px',color:'#94a3b8',fontSize:12}}>{log.email||'System'}</td>
                       <td style={{padding:'10px 16px'}}><span style={{background:'#3b82f620',color:'#3b82f6',padding:'2px 8px',borderRadius:20,fontSize:11}}>{log.action}</span></td>
                       <td style={{padding:'10px 16px',color:'#64748b',fontSize:12}}>{log.module||'N/A'}</td>
-                      <td style={{padding:'10px 16px',color:'#64748b',fontSize:11',maxWidth:200,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{log.details||'-'}</td>
+                      <td style={{padding:'10px 16px',color:'#64748b',fontSize:11,maxWidth:200,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{log.details||'-'}</td>
                       <td style={{padding:'10px 16px',color:'#475569',fontSize:11}}>{log.ip_address||'-'}</td>
                     </tr>
                   ))}
