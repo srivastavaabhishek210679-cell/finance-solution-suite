@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, AreaChart, Area } from 'recharts'
 import { ArrowLeft, Plus, Search, RefreshCw, X, Package, Filter, Download, ChevronDown, ChevronUp, Eye, CheckCircle, XCircle, Truck } from 'lucide-react'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/orders'
@@ -25,6 +26,7 @@ export default function OrderManagement() {
   const [sortBy, setSortBy] = useState('created_at')
   const [sortDir, setSortDir] = useState('desc')
   const [showFilters, setShowFilters] = useState(false)
+  const [activeTab, setActiveTab] = useState('orders')
   const [form, setForm] = useState({customer_name:'',customer_email:'',customer_phone:'',delivery_date:'',payment_method:'Bank Transfer',shipping_address:'',notes:''})
   const [items, setItems] = useState([{product_name:'',sku:'',quantity:1,unit_price:0}])
 
@@ -142,7 +144,10 @@ export default function OrderManagement() {
         </div>
       </div>
 
-      <div style={{padding:24}}>
+
+      <div style={{background:'#1e293b',borderBottom:'1px solid #334155',padding:'0 24px',display:'flex'}}>{[['orders','Orders'],['analytics','Analytics']].map(([id,label])=>(<button key={id} onClick={()=>setActiveTab(id)} style={{padding:'12px 20px',border:'none',borderBottom:activeTab===id?'2px solid #3b82f6':'2px solid transparent',background:'transparent',color:activeTab===id?'#3b82f6':'#64748b',cursor:'pointer',fontSize:13,fontWeight:activeTab===id?600:400}}>{label}</button>))}</div>
+      {activeTab==='analytics' && (<div style={{padding:24}}><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20,marginBottom:20}}><div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20,gridColumn:'span 2'}}><h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:14}}>Revenue Trend</h3><ResponsiveContainer width='100%' height={250}><BarChart data={Object.values(orders.reduce((acc,o)=>{const m=new Date(o.order_date||Date.now()).toLocaleString('en',{month:'short'});if(!acc[m])acc[m]={name:m,revenue:0,count:0};acc[m].revenue+=parseFloat(o.total_amount||0);acc[m].count++;return acc},{})).slice(-6)}><CartesianGrid strokeDasharray='3 3' stroke='#334155'/><XAxis dataKey='name' tick={{fill:'#64748b',fontSize:11}}/><YAxis tick={{fill:'#64748b',fontSize:10}}/><Tooltip contentStyle={{background:'#1e293b',border:'1px solid #334155',color:'#f1f5f9'}}/><Legend/><Bar dataKey='revenue' name='Revenue' fill='#3b82f6' radius={[4,4,0,0]}/></BarChart></ResponsiveContainer></div><div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}><h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:14}}>Order Status</h3><ResponsiveContainer width='100%' height={250}><PieChart><Pie data={Object.entries(orders.reduce((acc,o)=>{acc[o.status]=(acc[o.status]||0)+1;return acc},{})).map(([name,value])=>({name,value}))} dataKey='value' nameKey='name' cx='50%' cy='50%' outerRadius={90}>{['#f59e0b','#3b82f6','#8b5cf6','#10b981','#ef4444'].map((c,i)=><Cell key={i} fill={c}/>)}</Pie><Tooltip contentStyle={{background:'#1e293b',border:'1px solid #334155',color:'#f1f5f9'}}/><Legend/></PieChart></ResponsiveContainer></div><div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}><h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:14}}>Top Customers</h3><div style={{display:'grid',gap:8}}>{Object.entries(orders.reduce((acc,o)=>{acc[o.customer_name]=(acc[o.customer_name]||0)+parseFloat(o.total_amount||0);return acc},{})).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([name,val],i)=>(<div key={i} style={{display:'flex',justifyContent:'space-between',padding:'8px 10px',background:'#0f172a',borderRadius:6}}><span style={{color:'#94a3b8',fontSize:12}}>{name}</span><span style={{color:'#10b981',fontSize:12,fontWeight:600}}>Rs.{Number(val).toLocaleString()}</span></div>))}</div></div></div></div>)}
+      {activeTab==='orders' && <div style={{padding:24}}>
         {/* Main Stats Row */}
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:16}}>
           {[
@@ -298,6 +303,8 @@ export default function OrderManagement() {
           </div>
         </div>
       </div>
+
+      }
 
       {/* Order Detail Modal */}
       {selectedOrder && (

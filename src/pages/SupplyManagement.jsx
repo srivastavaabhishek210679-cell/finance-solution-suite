@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { ArrowLeft, Plus, Search, RefreshCw, X, Truck, Star } from 'lucide-react'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/supply'
@@ -19,6 +20,7 @@ export default function SupplyManagement() {
   const [showSupplierForm, setShowSupplierForm] = useState(false)
   const [showPOForm, setShowPOForm] = useState(false)
   const [editSupplier, setEditSupplier] = useState(null)
+  const [activeTab, setActiveTab] = useState('list')
   const [toast, setToast] = useState(null)
   const [supplierForm, setSupplierForm] = useState({supplier_name:'',contact_person:'',email:'',phone:'',address:'',city:'',country:'India',category:'',payment_terms:'Net 30',lead_time_days:7})
   const [poForm, setPOForm] = useState({supplier_id:'',expected_delivery:'',notes:''})
@@ -107,7 +109,13 @@ export default function SupplyManagement() {
         </div>
       </div>
 
-      <div style={{padding:24}}>
+
+      <div style={{background:'#1e293b',borderBottom:'1px solid #334155',padding:'0 24px',display:'flex'}}>
+        {[['list','Supply Overview'],['analytics','Analytics']].map(([id,label])=>(
+          <button key={id} onClick={()=>setActiveTab(id)} style={{padding:'12px 20px',border:'none',borderBottom:activeTab===id?'2px solid #14b8a6':'2px solid transparent',background:'transparent',color:activeTab===id?'#14b8a6':'#64748b',cursor:'pointer',fontSize:13,fontWeight:activeTab===id?600:400}}>{label}</button>
+        ))}
+      </div>
+      {activeTab==='list' && <div style={{padding:24}}>
         {/* Stats */}
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:20}}>
           {[
@@ -208,6 +216,7 @@ export default function SupplyManagement() {
           </div>
         )}
       </div>
+      }
 
       {/* Supplier Form Modal */}
       {showSupplierForm && (

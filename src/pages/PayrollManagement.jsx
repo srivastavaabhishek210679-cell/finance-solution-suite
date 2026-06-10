@@ -358,6 +358,7 @@ export default function PayrollManagement() {
       )}
 
       {/* Payslips Modal */}
+
       {selectedRun && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setSelectedRun(null)}>
           <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:800,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>

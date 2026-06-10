@@ -1,6 +1,6 @@
 ﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Plus, X, RefreshCw, Search, Download, DollarSign, TrendingUp, Filter } from 'lucide-react'
+import { ArrowLeft, Plus, X, RefreshCw, Search, Download, DollarSign, TrendingUp, Filter, CreditCard, CheckCircle, AlertTriangle } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/expense-mgmt'
