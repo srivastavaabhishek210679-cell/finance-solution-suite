@@ -6,6 +6,7 @@ import CookieBanner from './components/CookieBanner'
 import ProtectedRoute from './components/ProtectedRoute'
 import ErrorBoundary from './components/ErrorBoundary'
 
+const LandingPage          = lazy(() => import('./pages/LandingPage'))
 const Login                = lazy(() => import('./pages/Login'))
 const Register             = lazy(() => import('./pages/Register'))
 const ForgotPassword       = lazy(() => import('./pages/ForgotPassword'))
@@ -88,6 +89,7 @@ function App() {
     <>
       <Suspense fallback={<div style={{minHeight:'100vh',background:'#0f172a',display:'flex',alignItems:'center',justifyContent:'center',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}><div style={{textAlign:'center'}}><div style={{width:40,height:40,border:'3px solid #334155',borderTop:'3px solid #10b981',borderRadius:'50%',margin:'0 auto 12px',animation:'spin 1s linear infinite'}}></div><p>Loading...</p></div></div>}>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={user ? <Navigate to="/workspace" replace /> : <Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
