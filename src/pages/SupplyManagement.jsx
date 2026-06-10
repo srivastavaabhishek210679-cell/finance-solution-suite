@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import { ArrowLeft, Plus, Search, RefreshCw, X, Truck, Star } from 'lucide-react'
+import { ArrowLeft, Plus, Search, RefreshCw, X, Truck, Star, Download } from 'lucide-react'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/supply'
 const getHeaders = () => ({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.getItem('token') })
@@ -94,6 +94,11 @@ export default function SupplyManagement() {
 
   const inputStyle = {width:'100%',background:'#0f172a',border:'1px solid #334155',borderRadius:8,color:'#f1f5f9',padding:'8px 12px',fontSize:13,boxSizing:'border-box'}
 
+  const exportCSV = () => {
+    const rows = [['Supplier','Category','Rating','Status','Contact','Email'],
+      ...(suppliers||[]).map(s=>[s.supplier_name||'',s.category||'',s.rating||0,s.status||'',s.contact_person||'',s.email||''])]
+    const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='suppliers.csv'; el.click()
+  }
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}
@@ -103,6 +108,7 @@ export default function SupplyManagement() {
         <Truck size={24} style={{color:'#14b8a6'}}/>
         <div><h1 style={{margin:0,fontSize:20,fontWeight:700}}>Supply Management</h1><p style={{margin:0,fontSize:12,color:'#64748b'}}>Manage suppliers and purchase orders</p></div>
         <div style={{marginLeft:'auto',display:'flex',gap:10}}>
+          <button onClick={exportCSV} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 12px',cursor:'pointer',fontSize:12,display:'flex',alignItems:'center',gap:6}}><Download size={14}/> Export</button>
           <button onClick={load} style={{background:'#334155',border:'none',borderRadius:8,color:'#94a3b8',padding:'8px 12px',cursor:'pointer'}}><RefreshCw size={14}/></button>
           {tab==='suppliers' && <button onClick={()=>{setShowSupplierForm(true);setEditSupplier(null);setSupplierForm({supplier_name:'',contact_person:'',email:'',phone:'',address:'',city:'',country:'India',category:'',payment_terms:'Net 30',lead_time_days:7})}} style={{background:'#14b8a6',border:'none',borderRadius:8,color:'#fff',padding:'8px 16px',cursor:'pointer',fontWeight:600,fontSize:13,display:'flex',alignItems:'center',gap:6}}><Plus size={14}/> Add Supplier</button>}
           {tab==='pos' && <button onClick={()=>{setShowPOForm(true);setPOForm({supplier_id:'',expected_delivery:'',notes:''});setPOItems([{product_name:'',sku:'',quantity:1,unit_price:0}])}} style={{background:'#14b8a6',border:'none',borderRadius:8,color:'#fff',padding:'8px 16px',cursor:'pointer',fontWeight:600,fontSize:13,display:'flex',alignItems:'center',gap:6}}><Plus size={14}/> Create PO</button>}

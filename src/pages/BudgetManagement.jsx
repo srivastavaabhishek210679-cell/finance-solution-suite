@@ -63,7 +63,7 @@ export default function BudgetManagement() {
     const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='budgets.csv'; el.click()
   }
 
-  const filteredBudgets = budgets.filter(b=>!search||b.budget_name?.toLowerCase().includes(search.toLowerCase())||b.department?.toLowerCase().includes(search.toLowerCase())||b.category?.toLowerCase().includes(search.toLowerCase()))
+  const filteredBudgets = budgets.filter(b => !search || b.budget_name?.toLowerCase().includes(search.toLowerCase())||b.department?.toLowerCase().includes(search.toLowerCase())||b.category?.toLowerCase().includes(search.toLowerCase()))
 
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
@@ -81,7 +81,8 @@ export default function BudgetManagement() {
       <div style={{padding:24}}>
         {tab==='overview' && stats && (
           <div>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,marginBottom:24}}>
+              {tab==='overview' && <div style={{padding:'12px 24px 0',display:'flex',gap:10}}><div style={{display:'flex',alignItems:'center',gap:8,background:'#0f172a',border:'1px solid #334155',borderRadius:8,padding:'8px 12px',flex:1}}><Search size={13} style={{color:'#64748b'}}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder='Search budgets...' style={{background:'none',border:'none',color:'#f1f5f9',fontSize:13,outline:'none',flex:1}}/></div></div>}
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,marginBottom:24}}>
               {[
                 {label:'Total Budget', value:'₹'+Number(stats.total_budget||0).toLocaleString(), color:'#3b82f6', icon:DollarSign},
                 {label:'Total Spent', value:'₹'+Number(stats.total_spent||0).toLocaleString(), color:'#ef4444', icon:TrendingDown},
@@ -137,7 +138,7 @@ export default function BudgetManagement() {
     const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='budgets.csv'; el.click()
   }
 
-  const filteredBudgets = budgets.filter(b=>!search||b.budget_name?.toLowerCase().includes(search.toLowerCase())||b.department?.toLowerCase().includes(search.toLowerCase())||b.category?.toLowerCase().includes(search.toLowerCase()))
+  const filteredBudgets = budgets.filter(b => !search || b.budget_name?.toLowerCase().includes(search.toLowerCase())||b.department?.toLowerCase().includes(search.toLowerCase())||b.category?.toLowerCase().includes(search.toLowerCase()))
 
   return (
                       <tr key={b.budget_id} style={{borderBottom:'1px solid #0f172a'}}>
