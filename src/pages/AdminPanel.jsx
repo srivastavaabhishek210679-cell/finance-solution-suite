@@ -487,11 +487,11 @@ export default function AdminPanel() {
                   {auditLog.map((log,i)=>(
                     <tr key={i} style={{borderBottom:'1px solid #0f172a'}} onMouseEnter={e=>e.currentTarget.style.background='#0f172a'} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                       <td style={{padding:'10px 16px',color:'#64748b',fontSize:11,whiteSpace:'nowrap'}}>{new Date(log.created_at).toLocaleString('en-IN')}</td>
-                      <td style={{padding:'10px 16px',color:'#94a3b8',fontSize:12}}>{log.email||'System'}</td>
-                      <td style={{padding:'10px 16px'}}><span style={{background:'#3b82f620',color:'#3b82f6',padding:'2px 8px',borderRadius:20,fontSize:11}}>{log.action}</span></td>
-                      <td style={{padding:'10px 16px',color:'#64748b',fontSize:12}}>{log.module||'N/A'}</td>
-                      <td style={{padding:'10px 16px',color:'#64748b',fontSize:11,maxWidth:200,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{log.details||'-'}</td>
-                      <td style={{padding:'10px 16px',color:'#475569',fontSize:11}}>{log.ip_address||'-'}</td>
+                      <td style={{padding:'10px 16px',color:'#94a3b8',fontSize:12}}>{String(log.email||'System')}</td>
+                      <td style={{padding:'10px 16px'}}><span style={{background:'#3b82f620',color:'#3b82f6',padding:'2px 8px',borderRadius:20,fontSize:11}}>{String(log.action||'')}</span></td>
+                      <td style={{padding:'10px 16px',color:'#64748b',fontSize:12}}>{String(log.module||'N/A')}</td>
+                      <td style={{padding:'10px 16px',color:'#64748b',fontSize:11,maxWidth:200,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{String(log.details||'-')}</td>
+                      <td style={{padding:'10px 16px',color:'#475569',fontSize:11}}>{String(log.ip_address||'-')}</td>
                     </tr>
                   ))}
                 </tbody>
