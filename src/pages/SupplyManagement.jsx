@@ -225,6 +225,37 @@ export default function SupplyManagement() {
       }
 
       {/* Supplier Form Modal */}
+      
+      {activeTab==='analytics' && (
+        <div style={{padding:24}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
+            <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
+              <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:14,fontWeight:600}}>Suppliers by Category</h3>
+              <ResponsiveContainer width='100%' height={250}>
+                <BarChart data={suppliers.reduce((acc,s)=>{const k=s.category||'Other';const ex=acc.find(a=>a.name===k);if(ex)ex.value++;else acc.push({name:k,value:1});return acc},[])}>
+                  <CartesianGrid strokeDasharray='3 3' stroke='#334155'/>
+                  <XAxis dataKey='name' tick={{fill:'#64748b',fontSize:10}}/>
+                  <YAxis tick={{fill:'#64748b',fontSize:10}}/>
+                  <Tooltip contentStyle={{background:'#1e293b',border:'1px solid #334155',color:'#f1f5f9'}}/>
+                  <Bar dataKey='value' fill='#14b8a6' radius={[6,6,0,0]}/>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:12,padding:20}}>
+              <h3 style={{color:'#f1f5f9',margin:'0 0 16px',fontSize:14,fontWeight:600}}>PO Status Distribution</h3>
+              <ResponsiveContainer width='100%' height={250}>
+                <PieChart>
+                  <Pie data={purchaseOrders.reduce((acc,p)=>{const k=p.status||'Unknown';const ex=acc.find(a=>a.name===k);if(ex)ex.value++;else acc.push({name:k,value:1});return acc},[])} dataKey='value' nameKey='name' cx='50%' cy='50%' outerRadius={90}>
+                    {['#10b981','#3b82f6','#f59e0b','#ef4444','#8b5cf6'].map((col,i)=><Cell key={i} fill={col}/>)}
+                  </Pie>
+                  <Tooltip contentStyle={{background:'#1e293b',border:'1px solid #334155',color:'#f1f5f9'}}/>
+                  <Legend/>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
       {showSupplierForm && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setShowSupplierForm(false)}>
           <div style={{background:'#1e293b',border:'1px solid #334155',borderRadius:16,padding:24,width:560,maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>

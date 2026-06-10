@@ -72,6 +72,7 @@ export default function SalesPipeline() {
       </div>
 
       <div style={{padding:24}}>
+        <div style={{display:'flex',alignItems:'center',gap:8,background:'#1e293b',border:'1px solid #334155',borderRadius:8,padding:'8px 12px',marginBottom:16}}><Search size={13} style={{color:'#64748b'}}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder='Search deals, customers, reps...' style={{background:'none',border:'none',color:'#f1f5f9',fontSize:13,outline:'none',flex:1}}/></div>
         {stats && (
           <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,marginBottom:24}}>
             {[
