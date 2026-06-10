@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { DollarSign, ArrowLeft, Plus, TrendingUp, TrendingDown, AlertCircle, X } from 'lucide-react'
+import { DollarSign, ArrowLeft, Plus, TrendingUp, TrendingDown, AlertCircle, X, Search, Download, RefreshCw } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/budget-mgmt'
@@ -18,6 +18,7 @@ export default function BudgetManagement() {
   const [showForm, setShowForm] = useState(false)
   const [showTxForm, setShowTxForm] = useState(false)
   const [toast, setToast] = useState(null)
+  const [search, setSearch] = useState('')
   const [form, setForm] = useState({department:'Finance',fiscal_year:2026,fiscal_quarter:'Q1',category:'Operations',allocated_amount:0})
   const [txForm, setTxForm] = useState({description:'',amount:0,transaction_type:'Expense',created_by:'Admin'})
 
@@ -54,6 +55,14 @@ export default function BudgetManagement() {
     if(data.status==='success') { showToast('Transaction added!'); setShowTxForm(false); loadTransactions(selectedBudget) }
     else showToast(data.message,'error')
   }
+
+  const exportCSV = () => {
+    const rows = [['Budget Name','Department','Category','Allocated','Spent','Remaining','Status','FY','Quarter'],
+      ...budgets.map(b=>[b.budget_name||'',b.department,b.category||'',b.allocated_amount,b.spent_amount||0,(b.allocated_amount-(b.spent_amount||0)),b.status,b.fiscal_year||'',b.fiscal_quarter||''])]
+    const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='budgets.csv'; el.click()
+  }
+
+  const filteredBudgets = budgets.filter(b=>!search||b.budget_name?.toLowerCase().includes(search.toLowerCase())||b.department?.toLowerCase().includes(search.toLowerCase())||b.category?.toLowerCase().includes(search.toLowerCase()))
 
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
@@ -121,7 +130,15 @@ export default function BudgetManagement() {
                 <tbody>
                   {budgets.map(b=>{
                     const util = Math.round((Number(b.spent_amount)/Number(b.allocated_amount))*100)
-                    return (
+                    const exportCSV = () => {
+    const rows = [['Budget Name','Department','Category','Allocated','Spent','Remaining','Status','FY','Quarter'],
+      ...budgets.map(b=>[b.budget_name||'',b.department,b.category||'',b.allocated_amount,b.spent_amount||0,(b.allocated_amount-(b.spent_amount||0)),b.status,b.fiscal_year||'',b.fiscal_quarter||''])]
+    const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='budgets.csv'; el.click()
+  }
+
+  const filteredBudgets = budgets.filter(b=>!search||b.budget_name?.toLowerCase().includes(search.toLowerCase())||b.department?.toLowerCase().includes(search.toLowerCase())||b.category?.toLowerCase().includes(search.toLowerCase()))
+
+  return (
                       <tr key={b.budget_id} style={{borderBottom:'1px solid #0f172a'}}>
                         <td style={{padding:'10px 8px',color:'#f1f5f9',fontWeight:600}}>{b.department}</td>
                         <td style={{padding:'10px 8px',color:'#94a3b8'}}>{b.fiscal_year}</td>

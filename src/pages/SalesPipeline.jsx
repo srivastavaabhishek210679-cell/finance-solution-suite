@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { TrendingUp, ArrowLeft, Plus, X, Edit, DollarSign } from 'lucide-react'
+import { ArrowLeft, Plus, X, RefreshCw, Search, Download, TrendingUp, DollarSign, Target } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/sales-pipeline'
@@ -17,6 +17,8 @@ export default function SalesPipeline() {
   const [showForm, setShowForm] = useState(false)
   const [editDeal, setEditDeal] = useState(null)
   const [toast, setToast] = useState(null)
+  const [search, setSearch] = useState('')
+  const [activeTab, setActiveTab] = useState('list')
   const [form, setForm] = useState({deal_name:'',company_name:'',contact_name:'',deal_value:0,stage:'Prospecting',probability:20,expected_close:'',assigned_to:'',source:'Website',notes:''})
 
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
@@ -46,6 +48,14 @@ export default function SalesPipeline() {
     load()
   }
 
+  const exportCSV = () => {
+    const rows = [['Deal Name','Customer','Stage','Value','Probability','Sales Rep','Close Date','Status'],
+      ...(deals||[]).map(d=>[d.deal_name||'',d.customer_name||'',d.stage||'',d.deal_value||0,d.probability||0,d.sales_rep||'',d.expected_close||'',d.status||''])]
+    const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='sales.csv'; el.click()
+  }
+  const COLORS = ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#14b8a6']
+  const stageData = [...new Set((deals||[]).map(d=>d.stage))].map(s=>({name:s,value:(deals||[]).filter(d=>d.stage===s).length,revenue:(deals||[]).filter(d=>d.stage===s).reduce((sum,d)=>sum+parseFloat(d.deal_value||0),0)})).filter(d=>d.value>0)
+  const filtered = (deals||[]).filter(d=>!search||d.deal_name?.toLowerCase().includes(search.toLowerCase())||d.customer_name?.toLowerCase().includes(search.toLowerCase())||d.sales_rep?.toLowerCase().includes(search.toLowerCase()))
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}

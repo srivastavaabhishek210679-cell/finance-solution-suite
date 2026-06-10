@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CreditCard, ArrowLeft, Plus, X, CheckCircle, XCircle } from 'lucide-react'
+import { ArrowLeft, Plus, X, RefreshCw, Search, Download, DollarSign, TrendingUp, Filter } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/expense-mgmt'
@@ -19,6 +19,7 @@ export default function ExpenseManagement() {
   const [filterCat, setFilterCat] = useState('All')
   const [showForm, setShowForm] = useState(false)
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('list')
   const [form, setForm] = useState({title:'',category:'Travel',department:'Finance',amount:0,expense_date:'',submitted_by:'',payment_method:'Credit Card',notes:''})
 
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
@@ -51,6 +52,14 @@ export default function ExpenseManagement() {
     (filterCat==='All' || e.category===filterCat)
   )
 
+  const exportCSV = () => {
+    const rows = [['Description','Category','Amount','Date','Status','Employee','Notes'],
+      ...expenses.map(e=>[e.description||'',e.category||'',e.amount||0,e.expense_date||'',e.status,e.employee_name||'',e.notes||''])]
+    const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='expenses.csv'; el.click()
+  }
+  const COLORS = ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#14b8a6']
+  const catData = [...new Set(expenses.map(e=>e.category))].map(c=>({name:c,value:expenses.filter(e=>e.category===c).reduce((s,e)=>s+parseFloat(e.amount||0),0)})).filter(d=>d.value>0)
+  const statusData = [{name:'Approved',value:expenses.filter(e=>e.status==='Approved').length},{name:'Pending',value:expenses.filter(e=>e.status==='Pending').length},{name:'Rejected',value:expenses.filter(e=>e.status==='Rejected').length}].filter(d=>d.value>0)
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}
