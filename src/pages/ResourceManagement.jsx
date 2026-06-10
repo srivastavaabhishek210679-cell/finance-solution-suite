@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Users, Briefcase, ArrowLeft, Plus, Search, Edit, X, CheckCircle, AlertCircle, Link, BarChart3 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
@@ -28,6 +28,7 @@ export default function ResourceManagement() {
   const [prjForm, setPrjForm] = useState(EMPTY_PRJ)
   const [allocForm, setAllocForm] = useState({ resource_id:'', project_id:'', allocation_percent:100, start_date:'', end_date:'', role_in_project:'' })
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('list')
   const [skillInput, setSkillInput] = useState('')
 
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
@@ -93,6 +94,7 @@ export default function ResourceManagement() {
 
   const filtered = resources.filter(r => (r.name+r.role+r.department).toLowerCase().includes(search.toLowerCase()))
 
+  const exportCSV = () => { const rows = [['Name','Role','Dept','Skills','Availability','Rate'],...(resources||[]).map(r=>[r.resource_name||r.name||'',r.role||r.designation||'',r.department||'',r.skills||'',r.availability||'',r.hourly_rate||0])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='resources.csv'; el.click() }
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}

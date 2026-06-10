@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { UserPlus, ArrowLeft, Plus, X, Briefcase, Users, ChevronRight } from 'lucide-react'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/recruitment-mgmt'
@@ -20,6 +21,7 @@ export default function RecruitmentManagement() {
   const [showJobForm, setShowJobForm] = useState(false)
   const [showAppForm, setShowAppForm] = useState(false)
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('list')
   const [jobForm, setJobForm] = useState({job_title:'',department:'IT',location:'',job_type:'Full-Time',experience:'',salary_range:'',openings:1,closing_date:'',description:''})
   const [appForm, setAppForm] = useState({job_id:'',candidate_name:'',email:'',phone:'',experience_years:0,current_company:'',notes:''})
 
@@ -62,6 +64,7 @@ export default function RecruitmentManagement() {
   const jobApps = selectedJob ? applications.filter(a => a.job_id === selectedJob.job_id) : []
   const pipeline = APP_STAGES.map(stage => ({ stage, count: applications.filter(a => a.status === stage).length })).filter(s => s.count > 0)
 
+  const exportCSV = () => { const rows = [['Candidate','Position','Dept','Stage','Applied','Status'],...(candidates||[]).map(c=>[c.candidate_name||'',c.position||'',c.department||'',c.stage||'',c.applied_date||'',c.status||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='recruitment.csv'; el.click() }
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}
@@ -184,7 +187,8 @@ export default function RecruitmentManagement() {
             <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8,marginBottom:20}}>
               {APP_STAGES.map(stage=>{
                 const count = jobApps.filter(a=>a.status===stage).length
-                return (
+                const exportCSV = () => { const rows = [['Candidate','Position','Dept','Stage','Applied','Status'],...(candidates||[]).map(c=>[c.candidate_name||'',c.position||'',c.department||'',c.stage||'',c.applied_date||'',c.status||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='recruitment.csv'; el.click() }
+  return (
                   <div key={stage} style={{background:'#1e293b',borderRadius:8,padding:10,textAlign:'center',border:`1px solid ${count>0?STAGE_COLORS[stage]+'40':'#334155'}`}}>
                     <div style={{fontSize:18,fontWeight:700,color:count>0?STAGE_COLORS[stage]:'#334155'}}>{count}</div>
                     <div style={{fontSize:10,color:'#64748b',marginTop:2}}>{stage}</div>

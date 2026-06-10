@@ -18,6 +18,7 @@ export default function BudgetManagement() {
   const [showForm, setShowForm] = useState(false)
   const [showTxForm, setShowTxForm] = useState(false)
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('overview')
   const [search, setSearch] = useState('')
   const [form, setForm] = useState({department:'Finance',fiscal_year:2026,fiscal_quarter:'Q1',category:'Operations',allocated_amount:0})
   const [txForm, setTxForm] = useState({description:'',amount:0,transaction_type:'Expense',created_by:'Admin'})

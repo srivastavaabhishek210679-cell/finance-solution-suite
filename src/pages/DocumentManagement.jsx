@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { FileText, ArrowLeft, Plus, X, Edit, Trash2, Search, Tag } from 'lucide-react'
 
 const API = 'https://finance-backend-so86.onrender.com/api/v1/document-mgmt'
@@ -19,6 +20,7 @@ export default function DocumentManagement() {
   const [showForm, setShowForm] = useState(false)
   const [editDoc, setEditDoc] = useState(null)
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('list')
   const [form, setForm] = useState({title:'',category:'Policy',department:'HR',file_type:'PDF',file_size:'',version:'v1.0',author:'',description:'',tags:[]})
   const [tagInput, setTagInput] = useState('')
 
@@ -57,6 +59,7 @@ export default function DocumentManagement() {
     (filterDept==='All' || d.department===filterDept)
   )
 
+  const exportCSV = () => { const rows = [['Title','Category','Type','Size','Owner','Status'],...(documents||[]).map(d=>[d.title||d.document_name||'',d.category||'',d.file_type||'',d.file_size||0,d.owner||d.uploaded_by||'',d.status||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='documents.csv'; el.click() }
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}

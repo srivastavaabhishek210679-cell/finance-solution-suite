@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TrendingUp, ArrowLeft, Plus, X, Star, Target } from 'lucide-react'
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
@@ -18,7 +18,9 @@ export default function PerformanceManagement() {
   const [showGoalForm, setShowGoalForm] = useState(false)
   const [editReview, setEditReview] = useState(null)
   const [selectedReview, setSelectedReview] = useState(null)
+  const [search, setSearch] = useState('')
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('list')
   const [reviewForm, setReviewForm] = useState({employee_name:'',department:'Finance',reviewer:'',review_period:'Q1 2026',overall_rating:0,goals_score:0,skills_score:0,attitude_score:0,leadership_score:0,status:'Draft',comments:''})
   const [goalForm, setGoalForm] = useState({employee_name:'',department:'Finance',goal_title:'',description:'',target_date:''})
 
@@ -67,6 +69,7 @@ export default function PerformanceManagement() {
     {subject:'Leadership', score:review.leadership_score},
   ]
 
+  const exportCSV = () => { const rows = [['Employee','Dept','Rating','Period','Goals','Status'],...(reviews||[]).map(r=>[r.employee_name||'',r.department||'',r.overall_rating||0,r.review_period||'',r.goals_met||0,r.status||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='performance.csv'; el.click() }
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}

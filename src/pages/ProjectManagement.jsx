@@ -31,6 +31,7 @@ export default function ProjectManagement() {
   const [prjForm, setPrjForm] = useState(EMPTY_PRJ)
   const [taskForm, setTaskForm] = useState(EMPTY_TASK)
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('kanban')
   const [detailTab, setDetailTab] = useState('kanban')
   const [teamMembers, setTeamMembers] = useState([])
   const [comments, setComments] = useState([])
@@ -237,6 +238,7 @@ export default function ProjectManagement() {
 
   const budgetData = projects.slice(0,6).map(p=>({ name:p.project_name.slice(0,12), budget:Number(p.budget)/100000, spent:Number(p.spent)/100000 }))
 
+  const exportCSV = () => { const rows = [['Project','Status','Start','End','Budget','Team Lead'],...(projects||[]).map(p=>[p.project_name||'',p.status||'',p.start_date||'',p.end_date||'',p.budget||0,p.team_lead||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='projects.csv'; el.click() }
   return (
     <div style={{minHeight:'100vh',background:'#0f172a',color:'#f1f5f9',fontFamily:'Inter,sans-serif'}}>
       {toast && <div style={{position:'fixed',top:20,right:20,background:toast.type==='success'?'#10b981':'#ef4444',color:'#fff',padding:'12px 20px',borderRadius:10,zIndex:9999,fontWeight:600}}>{toast.msg}</div>}
@@ -436,7 +438,8 @@ export default function ProjectManagement() {
                       const width = Math.max(8, 100/12)
                       const left = (month/12)*100
                       const color = task.status==="Done"?"#10b981":task.status==="In Progress"?"#3b82f6":task.status==="Review"?"#f59e0b":"#64748b"
-                      return (
+                      const exportCSV = () => { const rows = [['Project','Status','Start','End','Budget','Team Lead'],...(projects||[]).map(p=>[p.project_name||'',p.status||'',p.start_date||'',p.end_date||'',p.budget||0,p.team_lead||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='projects.csv'; el.click() }
+  return (
                         <div key={i} style={{display:"grid",gridTemplateColumns:"200px 1fr",gap:0,marginBottom:4,alignItems:"center"}}>
                           <div style={{fontSize:12,color:"#f1f5f9",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",paddingRight:8}}>{task.task_name}</div>
                           <div style={{position:"relative",height:20,background:"#0f172a",borderRadius:4}}>
@@ -470,7 +473,8 @@ export default function ProjectManagement() {
                     {tasks.map((task,i)=>{
                       const month = task.due_date ? new Date(task.due_date).getMonth() : 0;
                       const color = task.status==="Done"?"#10b981":task.status==="In Progress"?"#3b82f6":task.status==="Review"?"#f59e0b":"#64748b";
-                      return (
+                      const exportCSV = () => { const rows = [['Project','Status','Start','End','Budget','Team Lead'],...(projects||[]).map(p=>[p.project_name||'',p.status||'',p.start_date||'',p.end_date||'',p.budget||0,p.team_lead||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='projects.csv'; el.click() }
+  return (
                         <div key={i} style={{display:"grid",gridTemplateColumns:"200px 1fr",gap:0,marginBottom:4,alignItems:"center"}}>
                           <div style={{fontSize:12,color:"#f1f5f9",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",paddingRight:8}}>{task.task_name}</div>
                           <div style={{position:"relative",height:20,background:"#0f172a",borderRadius:4}}>

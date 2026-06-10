@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Users, DollarSign, ArrowLeft, Plus, Play, Eye, Search, Edit, Trash2, X, CheckCircle, AlertCircle } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
@@ -29,6 +29,7 @@ export default function PayrollManagement() {
   const [payslips, setPayslips] = useState([])
   const [reportsData, setReportsData] = useState(null)
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('list')
 
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000) }
 
@@ -96,6 +97,7 @@ export default function PayrollManagement() {
 
   const s = { container:{ minHeight:'100vh', background:'#0f172a', color:'#f1f5f9', fontFamily:'Inter,sans-serif' }, header:{ background:'#1e293b', borderBottom:'1px solid #334155', padding:'16px 24px', display:'flex', alignItems:'center', gap:16 }, content:{ padding:24 }, card:{ background:'#1e293b', border:'1px solid #334155', borderRadius:12, padding:20 } }
 
+  const exportCSV = () => { const rows = [['Employee','Dept','Gross','Net','Deductions','Status','Month','Year'],...(payrolls||[]).map(p=>[p.employee_name||'',p.department||'',p.gross_pay||0,p.net_pay||0,p.total_deductions||0,p.status||'',p.month||'',p.year||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='payroll.csv'; el.click() }
   return (
     <div style={s.container}>
       {/* Toast */}
@@ -180,7 +182,8 @@ export default function PayrollManagement() {
               <tbody>
                 {filteredEmployees.map(emp => {
                   const gross = Number(emp.basic_salary)+Number(emp.hra)+Number(emp.transport_allowance)+Number(emp.medical_allowance)+Number(emp.other_allowance)
-                  return (
+                  const exportCSV = () => { const rows = [['Employee','Dept','Gross','Net','Deductions','Status','Month','Year'],...(payrolls||[]).map(p=>[p.employee_name||'',p.department||'',p.gross_pay||0,p.net_pay||0,p.total_deductions||0,p.status||'',p.month||'',p.year||''])]; const el=document.createElement('a'); el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); el.download='payroll.csv'; el.click() }
+  return (
                     <tr key={emp.employee_id} style={{borderBottom:'1px solid #1e293b'}}>
                       <td style={{padding:'12px 8px',color:'#94a3b8',fontSize:12}}>{emp.employee_code}</td>
                       <td style={{padding:'12px 8px',color:'#f1f5f9',fontWeight:600,fontSize:13}}>{emp.first_name} {emp.last_name}</td>
