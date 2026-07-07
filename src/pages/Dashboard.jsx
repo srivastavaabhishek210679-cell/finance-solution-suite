@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+﻿import { useState, useEffect, useRef, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Navigation from '../components/Navigation'
@@ -116,9 +116,9 @@ function Dashboard() {
   } = useReports()
   const { stats: analyticsStats } = useAnalytics()
 
-  const reports = useBackend && !loading && !error ? backendReports : REPORTS_DATA
+  const reports = useBackend && !loading && !error ? (backendReports || []) : (REPORTS_DATA || [])
 
-  const transformedReports = reports.map(report => ({
+  const transformedReports = (reports || []).map(report => ({
     ...report,
     domain: report.domain || (report.domain_id ? DOMAIN_ID_MAP[report.domain_id] : null),
       complianceStatus: report.complianceStatus || report.compliance_status || 'Optional',
@@ -299,7 +299,7 @@ function Dashboard() {
     : domainCounts.filter(d => d.domain === selectedCategory)
 
 
-  // ── Shared button style helpers ─────────────────────────────
+  // â”€â”€ Shared button style helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const btnStyle = (bg) => ({
     display: 'inline-flex', alignItems: 'center', gap: 4,
     height: 28, padding: '0 8px',
@@ -338,7 +338,7 @@ function Dashboard() {
         <ReportModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} onSave={handleSaveReport} report={reportToEdit} mode={modalMode}/>
         <DeleteConfirmModal isOpen={isDeleteModalOpen} onClose={()=>setIsDeleteModalOpen(false)} onConfirm={handleDeleteReport} report={reportToDelete}/>
 
-        {/* ── HEADER ─────────────────────────────────────────────── */}        <header style={{background:'#1e293b',borderBottom:'1px solid #334155',flexShrink:0}}>
+        {/* â”€â”€ HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}        <header style={{background:'#1e293b',borderBottom:'1px solid #334155',flexShrink:0}}>
           <div style={{padding:'0 16px',height:52,display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,overflow:'hidden'}}>
 
             {/* LEFT */}
@@ -347,7 +347,7 @@ function Dashboard() {
                 <button onClick={showDashboard} style={{background:'none',border:'none',cursor:'pointer',padding:0}}>
                 <span style={{fontSize:15,fontWeight:700,color:'#60a5fa',letterSpacing:'-0.3px'}}>Enterprise Finance Platform</span>
               </button>
-              <span style={{fontSize:11,color:'#475569',whiteSpace:'nowrap'}}>{reports.length} Reports · {DOMAINS.length} Domains</span>
+              <span style={{fontSize:11,color:'#475569',whiteSpace:'nowrap'}}>{reports.length} Reports Â· {DOMAINS.length} Domains</span>
               {isUsingBackend&&<span style={{fontSize:10,background:'#14532d',color:'#86efac',padding:'2px 7px',borderRadius:4,fontWeight:600,letterSpacing:'0.3px'}}>LIVE</span>}
             </div>
 
@@ -356,7 +356,7 @@ function Dashboard() {
               <RealTimeIndicator isConnected={realtime.isActive} connectionType="polling" lastUpdate={realtime.lastUpdate} updateCount={realtime.updateCount} onRefresh={realtime.refresh} showDetails={false} compact={true}/>
               <div style={{width:1,height:18,background:'#334155',margin:'0 3px'}}/>
 
-              {/* ── Hamburger Menu ──────────────────────────── */}
+              {/* â”€â”€ Hamburger Menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
               <div style={{position:'relative'}}>
                 <button
                   onClick={()=>setShowHamburger(!showHamburger)}
@@ -498,14 +498,14 @@ function Dashboard() {
             ) : (
               <div className="dm-page">
 
-                {/* ── PAGE HEADER */}
+                {/* â”€â”€ PAGE HEADER */}
                 <div className="dm-page-header">
                   <div className="dm-page-header-left">
                     <div className="dm-page-icon"><BarChart3 size={20} /></div>
                     <div>
                       <h1 className="dm-page-title">Dashboard Overview</h1>
                       <p className="dm-page-subtitle">
-                        Real-Time Intelligence Platform &nbsp;·&nbsp;
+                        Real-Time Intelligence Platform &nbsp;Â·&nbsp;
                         <span className="dm-highlight">{reports.length} reports</span> across&nbsp;
                         <span className="dm-highlight">{activeDomains} domains</span>
                       </p>
@@ -526,7 +526,7 @@ function Dashboard() {
                   </div>
                 </div>
 
-                {/* ── PLATFORM STATS */}
+                {/* â”€â”€ PLATFORM STATS */}
                 <div className="dm-stats-grid">
                   <div className="dm-stat-card" style={{'--ac':'#3b82f6'}}>
                     <div className="dm-stat-top">
@@ -570,7 +570,7 @@ function Dashboard() {
                   </div>
                 </div>
 
-                {/* ── FILTERS */}
+                {/* â”€â”€ FILTERS */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Advanced Filters</span><span className="dm-section-line"/></div>
                   <FilterPanel activeFilters={activeFilters} onFilterChange={handleFilterChange} onReset={handleResetFilters} />
@@ -579,29 +579,29 @@ function Dashboard() {
                 <div className="dm-section">
                 </div>
 
-                {/* ── CHARTS */}
+                {/* â”€â”€ CHARTS */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Analytics &amp; Charts</span><span className="dm-section-line"/></div>
                 </div>
 
-                {/* ── TABLE */}
+                {/* â”€â”€ TABLE */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Report Explorer</span><span className="dm-section-line"/></div>
                 </div>
 
-                {/* ── EXPORT */}
+                {/* â”€â”€ EXPORT */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Export &amp; Import</span><span className="dm-section-line"/></div>
                   <ExportImport reports={displayReports} />
                 </div>
 
-                {/* ── COMPLIANCE CALENDAR */}
+                {/* â”€â”€ COMPLIANCE CALENDAR */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Compliance Calendar</span><span className="dm-section-line"/></div>
                   <ComplianceCalendar />
                 </div>
 
-                {/* ── INDUSTRY DASHBOARDS */}
+                {/* â”€â”€ INDUSTRY DASHBOARDS */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Industry Dashboards</span><span className="dm-section-line"/></div>
                   <DomainDashboard domain="Healthcare"    reports={reports} />
@@ -610,7 +610,7 @@ function Dashboard() {
                   <DomainDashboard domain="Manufacturing" reports={reports} />
                 </div>
 
-                {/* ── DOMAIN EXPLORER */}
+                {/* â”€â”€ DOMAIN EXPLORER */}
                 <div className="dm-section">
                   <div className="dm-section-label"><span className="dm-section-line"/><span>Domain Explorer</span><span className="dm-section-line"/></div>
 
@@ -631,9 +631,9 @@ function Dashboard() {
                   <div className="dm-domain-grid">
                     {filteredDomains.map(({domain,count,percentage})=>{
                       const DCOLORS={Finance:'#14b8a6',HR:'#3b82f6',Operations:'#f59e0b',Sales:'#8b5cf6',IT:'#06b6d4',Healthcare:'#ec4899',Telecom:'#14b8a6',Retail:'#f97316',Energy:'#eab308',Manufacturing:'#6366f1',Banking:'#22c55e',Education:'#a855f7',General:'#64748b'}
-                      const DEMOJI={Finance:'💰',HR:'👥',Operations:'⚙️',Sales:'📊',IT:'💻',Healthcare:'🏥',Telecom:'📡',Retail:'🛒',Energy:'⚡',Manufacturing:'🏭',Banking:'🏦',Education:'🎓',General:'📋'}
+                      const DEMOJI={Finance:'ðŸ’°',HR:'ðŸ‘¥',Operations:'âš™ï¸',Sales:'ðŸ“Š',IT:'ðŸ’»',Healthcare:'ðŸ¥',Telecom:'ðŸ“¡',Retail:'ðŸ›’',Energy:'âš¡',Manufacturing:'ðŸ­',Banking:'ðŸ¦',Education:'ðŸŽ“',General:'ðŸ“‹'}
                       const color=DCOLORS[domain]||'#64748b'
-                      const emoji=DEMOJI[domain]||'📋'
+                      const emoji=DEMOJI[domain]||'ðŸ“‹'
                       const domainReports=displayReports.filter(r=>r.domain===domain)
                       return(
                           <div key={domain} className='dm-domain-card' style={{'--dc':color}} onClick={()=>setSelectedCategory(domain)} >
@@ -672,7 +672,7 @@ function Dashboard() {
                               {count>5&&(
                                 <button type="button" className="dm-dc-view-all" style={{color}}
                                 onClick={e=>{e.stopPropagation();setSelectedCategory(domain);setTimeout(()=>document.getElementById('report-explorer')?.scrollIntoView({behavior:'smooth'}),100)}}>
-                                  View all {count} {domain} reports →
+                                  View all {count} {domain} reports â†’
                                 </button>
                               )}
                             </div>
