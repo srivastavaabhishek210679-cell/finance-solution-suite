@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { reportsAPI } from '../services/api'
 
-const DOMAIN_ID_MAP = {1:'Finance',2:'HR',3:'Operations',4:'Sales',5:'IT',6:'Healthcare',7:'Telecom',8:'Retail',9:'Energy',10:'Manufacturing',11:'Banking',12:'Education',13:'General'}
+const DOMAIN_ID_MAP = {1:'Finance',2:'HR',3:'Operations',4:'Sales',5:'IT',6:'Healthcare',7:'Banking',8:'Retail',9:'Manufacturing',10:'Education',11:'General',12:'Telecom',13:'Energy'}
 
 export function useReports() {
   const [reports, setReports] = useState([])
@@ -21,7 +21,7 @@ export function useReports() {
       if (response && response.data) {
         console.log('📊 Reports Count:', response.data.length)
         console.log('📊 Pagination:', response.pagination)
-        setReports((Array.isArray(response.data.data) ? response.data.data : Array.isArray(response.data) ? response.data : []).map(r => ({ ...r, domain: r.domain || DOMAIN_ID_MAP[r.domain_id] || 'General' })))
+        setReports((Array.isArray(response.data.data) ? response.data.data : Array.isArray(response.data) ? response.data : []).map(r => ({ ...r, id: r.id || r.report_id, domain: r.domain || DOMAIN_ID_MAP[r.domain_id] || 'General', stakeholders: r.stakeholders || [], complianceStatus: r.compliance_status || 'Optional' })))
         setPagination(response.data.pagination || response.pagination || null)
       } 
       // Handle direct array response (no pagination)
